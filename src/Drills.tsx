@@ -376,7 +376,6 @@ export const DrillEngine = ({
 }) => {
   const [queue, setQueue] = useState<{vocab: Vocabulary, mode: string}[]>([]);
   const [currentIndex, setCurrentIndex] = useState(0);
-  const [mistakes, setMistakes] = useState<{vocab: Vocabulary, mode: string}[]>([]);
   const [isFinished, setIsFinished] = useState(false);
 
   useEffect(() => {
@@ -412,17 +411,9 @@ export const DrillEngine = ({
   const handleComplete = (correct: boolean) => {
     const currentItem = queue[currentIndex];
     onUpdateStats(currentItem.vocab.id, correct);
-
-    if (!correct) {
-      setMistakes(prev => [...prev, currentItem]);
-    }
     
     if (currentIndex < queue.length - 1) {
       setCurrentIndex(prev => prev + 1);
-    } else if (mistakes.length > 0) {
-      setQueue(shuffle(mistakes));
-      setMistakes([]);
-      setCurrentIndex(0);
     } else {
       setIsFinished(true);
     }
@@ -450,7 +441,7 @@ export const DrillEngine = ({
 
   return (
     <div className="w-full h-full flex flex-col">
-      <div className="flex items-center justify-between mb-12">
+      <div className="flex items-center justify-between mb-12 select-none touch-none">
         <button onClick={onExit} className="text-sm text-slate-400 hover:text-slate-600">Cancel Drill</button>
         <div className="flex gap-1">
           {queue.map((_, i) => (

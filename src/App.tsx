@@ -180,24 +180,23 @@ export default function App() {
               </div>
             )}
 
-            <div className="bg-white rounded-3xl p-5 shadow-sm border border-slate-100 mb-6">
-           <h2 className="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-4">Settings</h2>
-           
-           {activeTab === 'meaning' && (
-             <button 
-                onClick={() => setStrictPitch(!strictPitch)}
-                className="w-full text-left flex items-center justify-between p-2 cursor-pointer mb-4 hover:bg-slate-50 rounded-xl transition-colors"
-              >
-               <div className="pointer-events-none">
-                  <div className="font-medium text-slate-700">Strict Pitch Accent</div>
-                  <div className="text-xs text-slate-400">Require pitch selection before next question</div>
-               </div>
-               <div className={`w-12 h-6 rounded-full transition-colors relative pointer-events-none ${strictPitch ? 'bg-slate-800' : 'bg-slate-200'}`}>
-                  <div className={`w-5 h-5 bg-white rounded-full absolute top-0.5 transition-transform ${strictPitch ? 'translate-x-6' : 'translate-x-0.5'}`} />
-               </div>
-             </button>
-           )}
-            </div>
+            {activeTab === 'meaning' && (
+              <div className="bg-white rounded-3xl p-5 shadow-sm border border-slate-100 mb-6">
+                <h2 className="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-4">Settings</h2>
+                <button 
+                  onClick={() => setStrictPitch(!strictPitch)}
+                  className="w-full text-left flex items-center justify-between p-2 cursor-pointer mb-4 hover:bg-slate-50 rounded-xl transition-colors"
+                >
+                  <div className="pointer-events-none">
+                    <div className="font-medium text-slate-700">Strict Pitch Accent</div>
+                    <div className="text-xs text-slate-400">Require pitch selection before next question</div>
+                  </div>
+                  <div className={`w-12 h-6 rounded-full transition-colors relative pointer-events-none ${strictPitch ? 'bg-slate-800' : 'bg-slate-200'}`}>
+                    <div className={`w-5 h-5 bg-white rounded-full absolute top-0.5 transition-transform ${strictPitch ? 'translate-x-6' : 'translate-x-0.5'}`} />
+                  </div>
+                </button>
+              </div>
+            )}
           </div>
 
           {/* Right Column: Modes Selection */}
