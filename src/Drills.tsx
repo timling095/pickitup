@@ -245,6 +245,16 @@ export const ProductionDrill = ({
   onComplete: (correct: boolean) => void 
 }) => {
   const [revealed, setRevealed] = useState(false);
+  const [canEvaluate, setCanEvaluate] = useState(false);
+
+  useEffect(() => {
+    if (revealed) {
+      const timer = setTimeout(() => setCanEvaluate(true), 400);
+      return () => clearTimeout(timer);
+    } else {
+      setCanEvaluate(false);
+    }
+  }, [revealed]);
 
   const prompt = mode === 'romaji-reading' ? vocab.romaji : vocab.definition;
   const target = mode === 'meaning-term' ? vocab.term : vocab.reading;
@@ -317,14 +327,22 @@ export const ProductionDrill = ({
 
           <div className="grid grid-cols-2 gap-4">
             <button
-              onClick={() => onComplete(false)}
-              className="flex items-center justify-center gap-2 py-4 bg-white border-2 border-red-100 text-red-600 rounded-xl hover:bg-red-50 transition-colors font-medium"
+              onPointerDown={(e) => {
+                if (!canEvaluate) return;
+                if (e.pointerType === 'pen' || allowMouse) onComplete(false);
+              }}
+              disabled={!canEvaluate}
+              className="flex items-center justify-center gap-2 py-4 bg-white border-2 border-red-100 text-red-600 rounded-xl hover:bg-red-50 transition-colors font-medium select-none touch-none disabled:opacity-50 disabled:cursor-not-allowed"
             >
               <X size={20} /> Incorrect
             </button>
             <button
-              onClick={() => onComplete(true)}
-              className="flex items-center justify-center gap-2 py-4 bg-white border-2 border-green-100 text-green-600 rounded-xl hover:bg-green-50 transition-colors font-medium"
+              onPointerDown={(e) => {
+                if (!canEvaluate) return;
+                if (e.pointerType === 'pen' || allowMouse) onComplete(true);
+              }}
+              disabled={!canEvaluate}
+              className="flex items-center justify-center gap-2 py-4 bg-white border-2 border-green-100 text-green-600 rounded-xl hover:bg-green-50 transition-colors font-medium select-none touch-none disabled:opacity-50 disabled:cursor-not-allowed"
             >
               <Check size={20} /> Correct
             </button>
