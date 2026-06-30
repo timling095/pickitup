@@ -234,10 +234,21 @@ export const ProductionDrill = ({
 
   return (
     <div className="flex flex-col items-center w-full max-w-none">
-      <div className="text-3xl font-light text-slate-800 mb-12 tracking-wide text-center">
-        {mode === 'romaji-reading' ? prompt : (
-          <span style={{ fontFamily: '"Songti TC", serif' }}>{prompt}</span>
-        )}
+      <div className="text-3xl font-light text-slate-800 mb-12 tracking-wide text-center flex flex-col items-center gap-4">
+        <div className="relative inline-flex items-center justify-center">
+          {mode === 'romaji-reading' ? prompt : (
+            <span style={{ fontFamily: '"Songti TC", serif' }}>{prompt}</span>
+          )}
+          {revealed && vocab.term !== vocab.reading && mode !== 'romaji-reading' && (
+            <div className="absolute left-full ml-6 text-2xl text-slate-400 whitespace-nowrap flex items-center h-full pt-1">
+              {mode === 'meaning-term' ? (
+                <AnnotatedReading reading={vocab.reading} pitch={vocab.pitch_accent} affixType={vocab.affix_type} />
+              ) : (
+                <AffixWrapper term={vocab.term} affixType={vocab.affix_type} mode="inline" />
+              )}
+            </div>
+          )}
+        </div>
       </div>
 
       <div className="flex items-center justify-center w-full mb-8 relative">
@@ -246,21 +257,10 @@ export const ProductionDrill = ({
         {vocab.affix_type === 'suffix' && <AffixWrapper term={vocab.term} affixType="suffix" mode="framing" />}
         
         {revealed && (
-          <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex items-center justify-center pointer-events-none bg-white px-5 py-2 border border-slate-200">
-            <div className="relative inline-flex items-center justify-center">
-              <span className="text-5xl font-light text-slate-800">
-                 {mode === 'meaning-term' || mode === 'romaji-reading' ? target : <AnnotatedReading reading={vocab.reading} pitch={vocab.pitch_accent} affixType={vocab.affix_type} />}
-              </span>
-              {vocab.term !== vocab.reading && mode !== 'romaji-reading' && (
-                <div className="absolute left-full ml-4 text-xl text-slate-400 whitespace-nowrap flex items-center h-full pt-1">
-                  {mode === 'meaning-term' ? (
-                    <AnnotatedReading reading={vocab.reading} pitch={vocab.pitch_accent} affixType={vocab.affix_type} />
-                  ) : (
-                    <AffixWrapper term={vocab.term} affixType={vocab.affix_type} mode="inline" />
-                  )}
-                </div>
-              )}
-            </div>
+          <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex items-center justify-center pointer-events-none bg-white px-5 py-2">
+            <span className="text-4xl font-light text-slate-800">
+               {mode === 'meaning-term' ? target : <AnnotatedReading reading={vocab.reading} pitch={vocab.pitch_accent} affixType={vocab.affix_type} />}
+            </span>
           </div>
         )}
       </div>

@@ -32,7 +32,7 @@ export default function App() {
   
   // Persisted Settings
   const [strictPitch, setStrictPitch] = useLocalStorage('nd_strictPitch', false);
-  const [allowMouse, setAllowMouse] = useLocalStorage('nd_allowMouse', true); // Default debug option to true
+  const [allowMouse, setAllowMouse] = useLocalStorage('nd_allowMouse', false); // Default debug option to true
   const [selectedLesson, setSelectedLesson] = useLocalStorage<string>('nd_selectedLesson', 'all');
   
   const [selectedModes, setSelectedModes] = useLocalStorage<Record<string, boolean>>('nd_selectedModes', {
@@ -94,10 +94,10 @@ export default function App() {
     <main className="h-[100dvh] overflow-y-auto bg-slate-50 p-6 md:p-12 font-sans text-slate-900 flex justify-center items-center">
       <div className="w-full max-w-5xl flex flex-col justify-center h-full">
         
-        <div className="mb-12 text-center md:text-left flex flex-col md:flex-row md:items-end justify-between">
+        <div className="mb-6 text-center md:text-left flex flex-col md:flex-row md:items-end justify-between">
           <div>
-            <h1 className="text-5xl font-light tracking-tight text-slate-800 mb-2">Pick It Up</h1>
-            <p className="text-slate-500 font-medium">
+            <h1 className="text-4xl font-light tracking-tight text-slate-800 mb-2">Pick It Up</h1>
+            <p className="text-sm text-slate-500 font-medium">
               {selectedLesson === 'all' ? 'All Lessons' : `Lesson ${selectedLesson}`} • {filteredVocab.length} terms loaded
             </p>
           </div>
@@ -113,9 +113,9 @@ export default function App() {
         <div className="grid grid-cols-1 md:grid-cols-12 gap-8">
           
           {/* Left Column: Lesson Select & Settings */}
-          <div className="md:col-span-7 space-y-8">
+          <div className="md:col-span-7 space-y-4">
             {/* Lesson Selection UI */}
-            <div className="bg-white rounded-3xl p-6 shadow-sm border border-slate-100">
+            <div className="bg-white rounded-3xl p-5 shadow-sm border border-slate-100">
               <h2 className="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-4">Select Lesson</h2>
               <div className="grid grid-cols-4 sm:grid-cols-5 gap-2">
                 <button
@@ -144,7 +144,7 @@ export default function App() {
               </div>
             </div>
 
-            <div className="bg-white rounded-3xl p-6 shadow-sm border border-slate-100 mb-8">
+            <div className="bg-white rounded-3xl p-5 shadow-sm border border-slate-100 mb-6">
            <h2 className="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-4">Settings</h2>
            
            <label className="flex items-center justify-between p-2 cursor-pointer mb-4 hover:bg-slate-50 rounded-xl transition-colors">
@@ -177,20 +177,20 @@ export default function App() {
 
           {/* Right Column: Modes Selection */}
           <div className="md:col-span-5">
-            <div className="bg-white rounded-3xl p-6 shadow-sm border border-slate-100 h-full">
-              <h2 className="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-4">Select Modes</h2>
-              <div className="space-y-1">
+            <div className="bg-white rounded-3xl p-5 shadow-sm border border-slate-100 h-full">
+              <h2 className="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-2">Select Modes</h2>
+              <div className="space-y-0">
                 {availableModes.map(mode => (
-                  <label key={mode.id} className="flex items-center p-3 rounded-xl hover:bg-slate-50 cursor-pointer transition-colors border border-transparent hover:border-slate-100">
+                  <label key={mode.id} className="flex items-center p-2 rounded-xl hover:bg-slate-50 cursor-pointer transition-colors border border-transparent hover:border-slate-100">
                     <button 
-                      className={`w-5 h-5 rounded-md flex items-center justify-center mr-4 transition-colors ${selectedModes[mode.id] ? 'bg-slate-800 text-white' : 'bg-slate-100 text-slate-300'}`}
+                      className={`w-4 h-4 rounded-md flex items-center justify-center mr-3 transition-colors ${selectedModes[mode.id] ? 'bg-slate-800 text-white' : 'bg-slate-100 text-slate-300'}`}
                       onClick={() => setSelectedModes(prev => ({ ...prev, [mode.id]: !prev[mode.id] }))}
                     >
-                      {selectedModes[mode.id] && <Check size={14} strokeWidth={3} />}
+                      {selectedModes[mode.id] && <Check size={12} strokeWidth={3} />}
                     </button>
-                    <div className="flex-1">
-                      <div className="font-medium text-slate-700">{mode.label}</div>
-                      <div className="text-xs text-slate-400">{mode.type}</div>
+                    <div className="flex-1 flex items-center justify-between">
+                      <div className="text-sm font-medium text-slate-700">{mode.label}</div>
+                      <div className="text-[10px] uppercase font-semibold text-slate-400">{mode.type}</div>
                     </div>
                   </label>
                 ))}
