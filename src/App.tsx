@@ -35,7 +35,7 @@ export default function App() {
   // Persisted Settings
   const [strictPitch, setStrictPitch] = useLocalStorage('nd_strictPitch', false);
   const [allowMouse] = useLocalStorage('nd_allowMouse', false); // Default debug option to true
-  const [selectedLesson, setSelectedLesson] = useLocalStorage<string>('nd_selectedLesson', 'all');
+  const [selectedLessons, setSelectedLessons] = useLocalStorage<Record<string, boolean>>('nd_selectedLessons_v2', { '1': true });
   
   const [selectedAlphabetSystem, setSelectedAlphabetSystem] = useLocalStorage<'hiragana' | 'katakana'>('nd_alphabetSystem_v2', 'hiragana');
 
@@ -66,7 +66,7 @@ export default function App() {
   }, []);
 
   // Filter vocabulary by selected lesson using the query hook
-  const baseFilteredVocab = useVocabulary(selectedLesson);
+  const baseFilteredVocab = useVocabulary(selectedLessons);
   const alphabetsVocab = useMemo(() => {
     return DICTIONARY.filter(v => v.system === selectedAlphabetSystem);
   }, [selectedAlphabetSystem]);
@@ -133,7 +133,7 @@ export default function App() {
         </div>
 
         <div className="mb-6 text-center md:text-left text-sm text-slate-500 font-medium">
-          {activeTab === 'meaning' ? (selectedLesson === 'all' ? 'All Lessons' : `Lesson ${selectedLesson}`) : 'All Lessons (Glyphs)'} • {activeVocab.length} terms loaded
+          {activeTab === 'meaning' ? `${Object.values(selectedLessons).filter(Boolean).length} Lessons Selected` : 'All Lessons (Glyphs)'} • {activeVocab.length} terms loaded
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-12 gap-8">
@@ -145,22 +145,12 @@ export default function App() {
               <div className="bg-white rounded-3xl p-5 shadow-sm border border-slate-100 mb-4">
                 <h2 className="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-4">Select Lesson</h2>
                 <div className="grid grid-cols-4 sm:grid-cols-5 gap-2">
-                  <button
-                    onClick={() => setSelectedLesson('all')}
-                    className={`py-2 rounded-xl text-xs font-medium transition-colors ${
-                      selectedLesson === 'all'
-                        ? 'bg-slate-800 text-white shadow-sm'
-                        : 'bg-slate-100 text-slate-600 hover:bg-slate-200'
-                    }`}
-                  >
-                    All
-                  </button>
                   {lessons.map(lessonId => (
                     <button
                       key={lessonId}
-                      onClick={() => setSelectedLesson(lessonId)}
+                      onClick={() => setSelectedLessons(prev => ({ ...prev, [lessonId]: !prev[lessonId] }))}
                       className={`py-2 rounded-xl text-xs font-medium transition-colors ${
-                        selectedLesson === lessonId
+                        selectedLessons[lessonId]
                           ? 'bg-slate-800 text-white shadow-sm'
                           : 'bg-slate-100 text-slate-600 hover:bg-slate-200'
                       }`}

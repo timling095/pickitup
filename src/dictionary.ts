@@ -18,9 +18,8 @@ export interface Vocabulary {
 
 export const DICTIONARY = vocabData as Vocabulary[];
 
-export function useVocabulary(lessonId?: string) {
+export function useVocabulary(selectedLessons: Record<string, boolean>) {
   return useMemo(() => {
-    if (!lessonId || lessonId === 'all') return DICTIONARY;
-    return DICTIONARY.filter(v => v.lesson_id === lessonId);
-  }, [lessonId]);
+    return DICTIONARY.filter(v => selectedLessons[v.lesson_id]);
+  }, [selectedLessons]);
 }

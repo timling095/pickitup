@@ -31,11 +31,24 @@ export const AffixWrapper = ({ term, affixType, mode = 'inline' }: { term: strin
 // === AnnotatedReading ===
 // ==========================================
 
+export const getMorae = (word: string): string[] => {
+  const morae = [];
+  for (const char of word) {
+    if (/[ゃゅょぁぃぅぇぉャュョァィゥェォヮ]/.test(char) && morae.length > 0) {
+      morae[morae.length - 1] += char;
+    } else {
+      morae.push(char);
+    }
+  }
+  return morae;
+};
+
 export const AnnotatedReading = ({ reading, pitch, affixType = 'none' }: { reading: string, pitch: number, affixType?: AffixType }) => {
   const renderReading = () => {
-    if (pitch <= 0 || pitch > reading.length) return <span>{reading}</span>;
-    const overlined = reading.slice(0, pitch);
-    const rest = reading.slice(pitch);
+    const morae = getMorae(reading);
+    if (pitch <= 0 || pitch > morae.length) return <span>{reading}</span>;
+    const overlined = morae.slice(0, pitch).join('');
+    const rest = morae.slice(pitch).join('');
     return (
       <span>
         <span style={{ textDecoration: 'overline', textDecorationThickness: '2px', textDecorationColor: 'currentColor' }}>{overlined}</span>
@@ -100,9 +113,13 @@ export const RecognitionDrill = ({
       <div className={`text-5xl font-light text-slate-800 mb-12 tracking-wide text-center flex flex-col items-center gap-4 ${!isPromptJapanese && 'text-3xl'}`}>
         <div className="relative inline-flex items-center justify-center">
           {isPromptJapanese ? (
-            <AffixWrapper term={prompt} affixType={vocab.affix_type} mode="inline" />
+            (isEvaluated && mode === 'reading-meaning') ? (
+              <AnnotatedReading reading={vocab.reading} pitch={vocab.pitch_accent} affixType={vocab.affix_type} />
+            ) : (
+              <AffixWrapper term={prompt} affixType={vocab.affix_type} mode="inline" />
+            )
           ) : (
-            <span style={{ fontFamily: '"Songti TC", serif' }}>{prompt}</span>
+            <span style={{ fontFamily: '"Noto Serif TC", serif' }}>{prompt}</span>
           )}
           {isEvaluated && vocab.term !== vocab.reading && (
             <div className="absolute left-full ml-6 text-2xl text-slate-400 whitespace-nowrap animate-in fade-in flex items-center h-full pt-1">
@@ -150,7 +167,7 @@ export const RecognitionDrill = ({
                   <AffixWrapper term={getOptionText(opt)} affixType={opt.affix_type} mode="inline" />
                 )
               ) : (
-                <span style={{ fontFamily: '"Songti TC", serif' }}>{getOptionText(opt)}</span>
+                <span style={{ fontFamily: '"Noto Serif TC", serif' }}>{getOptionText(opt)}</span>
               )}
             </button>
           );
@@ -163,8 +180,8 @@ export const RecognitionDrill = ({
             <p className="text-sm text-slate-400 mb-3 text-center uppercase tracking-widest font-medium">
               {vocab.pitch_accent === -1 ? 'Pitch Accent N/A' : 'Select Pitch Accent'}
             </p>
-            <div className="flex justify-center gap-2">
-              {[0, 1, 2, 3, 4, 5, 6].map(num => {
+            <div className="flex justify-center flex-wrap gap-2">
+              {Array.from({length: getMorae(vocab.reading).length + 1}, (_, i) => i).map(num => {
                 let btnClass = "w-10 h-10 rounded-full flex items-center justify-center text-sm font-medium transition-all ";
                 if (!isEvaluated) {
                   if (selectedPitch === num) {
@@ -173,10 +190,12 @@ export const RecognitionDrill = ({
                     btnClass += "bg-slate-100 text-slate-500 hover:bg-slate-200";
                   }
                 } else {
-                  if (num === vocab.pitch_accent) {
-                    btnClass += "bg-green-50 border border-green-500 text-green-700 shadow-sm scale-110";
-                  } else if (num === selectedPitch) {
-                    btnClass += "bg-red-50 border border-red-500 text-red-700";
+                  if (num === selectedPitch) {
+                    if (num === vocab.pitch_accent) {
+                      btnClass += "bg-green-50 border border-green-500 text-green-700 shadow-sm scale-110";
+                    } else {
+                      btnClass += "bg-red-50 border border-red-500 text-red-700 scale-110";
+                    }
                   } else {
                     btnClass += "bg-slate-50 text-slate-300";
                   }
@@ -242,10 +261,10 @@ export const ProductionDrill = ({
 
   return (
     <div className="flex flex-col items-center w-full max-w-none">
-      <div className="text-3xl font-light text-slate-800 mb-12 tracking-wide text-center flex flex-col items-center gap-4">
+      <div className="text-3xl font-light text-slate-800 mb-12 tracking-wide text-center flex flex-col items-center gap-4 select-none touch-none">
         <div className="relative inline-flex items-center justify-center">
           {mode === 'romaji-reading' ? prompt : (
-            <span style={{ fontFamily: '"Songti TC", serif' }}>{prompt}</span>
+            <span style={{ fontFamily: '"Noto Serif TC", serif' }}>{prompt}</span>
           )}
           {revealed && vocab.term !== vocab.reading && mode !== 'romaji-reading' && (
             <div className="absolute left-full ml-6 text-2xl text-slate-400 whitespace-nowrap flex items-center h-full pt-1">
