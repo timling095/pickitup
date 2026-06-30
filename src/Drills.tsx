@@ -289,7 +289,7 @@ export const ProductionDrill = ({
               setRevealed(true);
             }
           }}
-          className="w-full py-4 bg-slate-800 text-white rounded-xl font-medium tracking-wide hover:bg-slate-700 transition-colors shadow-sm"
+          className="w-full py-4 bg-slate-800 text-white rounded-xl font-medium tracking-wide hover:bg-slate-700 transition-colors shadow-sm select-none touch-none"
         >
           Reveal Answer
         </button>

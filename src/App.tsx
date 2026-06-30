@@ -37,11 +37,7 @@ export default function App() {
   const [allowMouse] = useLocalStorage('nd_allowMouse', false); // Default debug option to true
   const [selectedLesson, setSelectedLesson] = useLocalStorage<string>('nd_selectedLesson', 'all');
   
-  const [selectedAlphabetSystems, setSelectedAlphabetSystems] = useLocalStorage<Record<string, boolean>>('nd_alphabetSystems', {
-    'hiragana': true,
-    'katakana': true,
-    'mixed': true,
-  });
+  const [selectedAlphabetSystem, setSelectedAlphabetSystem] = useLocalStorage<'hiragana' | 'katakana'>('nd_alphabetSystem_v2', 'hiragana');
 
   const [selectedModes, setSelectedModes] = useLocalStorage<Record<string, boolean>>('nd_selectedModes', {
     'term-meaning': true,
@@ -59,7 +55,9 @@ export default function App() {
     { id: 'meaning-reading', label: 'Meaning → Reading', type: 'Production (Write)' },
   ];
 
-  const activeModes = Object.entries(selectedModes).filter(([_, active]) => active).map(([id]) => id);
+  const activeModes = Object.entries(selectedModes)
+    .filter(([id, active]) => active && availableModes.some(m => m.id === id))
+    .map(([id]) => id);
 
   // Extract unique lesson IDs from DICTIONARY dynamically
   const lessons = useMemo(() => {
@@ -70,12 +68,8 @@ export default function App() {
   // Filter vocabulary by selected lesson using the query hook
   const baseFilteredVocab = useVocabulary(selectedLesson);
   const alphabetsVocab = useMemo(() => {
-    return DICTIONARY.filter(v => {
-      if (v.system === 'mixed') return false; // Ditch actually mixed terms
-      if (selectedAlphabetSystems['mixed']) return true; // 'Mixed' mode includes both pure systems
-      return selectedAlphabetSystems[v.system];
-    });
-  }, [selectedAlphabetSystems]);
+    return DICTIONARY.filter(v => v.system === selectedAlphabetSystem);
+  }, [selectedAlphabetSystem]);
 
   const activeVocab = activeTab === 'meaning' ? baseFilteredVocab : alphabetsVocab;
   const computedActiveModes = activeTab === 'meaning' ? activeModes : ['romaji-reading'];
@@ -180,14 +174,14 @@ export default function App() {
               <div className="bg-white rounded-3xl p-5 shadow-sm border border-slate-100 mb-4">
                 <h2 className="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-2">Select Systems</h2>
                 <div className="space-y-0">
-                  {['hiragana', 'katakana', 'mixed'].map(sys => (
+                  {['hiragana', 'katakana'].map(sys => (
                     <button 
                       key={sys}
-                      onClick={() => setSelectedAlphabetSystems(prev => ({ ...prev, [sys]: !prev[sys] }))}
+                      onClick={() => setSelectedAlphabetSystem(sys as any)}
                       className="w-full text-left flex items-center p-2 rounded-xl hover:bg-slate-50 cursor-pointer transition-colors border border-transparent hover:border-slate-100"
                     >
-                      <div className={`w-4 h-4 rounded-md flex items-center justify-center mr-3 transition-colors ${selectedAlphabetSystems[sys] ? 'bg-slate-800 text-white' : 'bg-slate-100 text-slate-300'}`}>
-                        {selectedAlphabetSystems[sys] && <Check size={12} strokeWidth={3} />}
+                      <div className={`w-4 h-4 rounded-full flex items-center justify-center mr-3 transition-colors border ${selectedAlphabetSystem === sys ? 'border-slate-800 bg-slate-800' : 'border-slate-300 bg-transparent'}`}>
+                        {selectedAlphabetSystem === sys && <div className="w-1.5 h-1.5 bg-white rounded-full" />}
                       </div>
                       <div className="text-sm font-medium text-slate-700 capitalize pointer-events-none">{sys}</div>
                     </button>
