@@ -230,9 +230,10 @@ export const ProductionDrill = ({
   const prompt = mode === 'romaji-reading' ? vocab.romaji : vocab.definition;
   const target = mode === 'meaning-term' ? vocab.term : vocab.reading;
   
-  let canvasPrompt = "Write the Term";
-  if (mode === 'meaning-reading') canvasPrompt = "Write the Reading";
-  if (mode === 'romaji-reading') canvasPrompt = "Write the Hiragana / Katakana";
+  let canvasPrompt = "";
+  if (mode === 'romaji-reading') {
+    canvasPrompt = vocab.system === 'katakana' ? 'Write Katakana' : 'Write Hiragana';
+  }
 
   useEffect(() => {
     setRevealed(false);
@@ -283,7 +284,11 @@ export const ProductionDrill = ({
 
       {!revealed ? (
         <button
-          onClick={() => setRevealed(true)}
+          onPointerDown={(e) => {
+            if (e.pointerType === 'pen' || allowMouse) {
+              setRevealed(true);
+            }
+          }}
           className="w-full py-4 bg-slate-800 text-white rounded-xl font-medium tracking-wide hover:bg-slate-700 transition-colors shadow-sm"
         >
           Reveal Answer

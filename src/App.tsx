@@ -34,7 +34,7 @@ export default function App() {
   
   // Persisted Settings
   const [strictPitch, setStrictPitch] = useLocalStorage('nd_strictPitch', false);
-  const [allowMouse, setAllowMouse] = useLocalStorage('nd_allowMouse', false); // Default debug option to true
+  const [allowMouse] = useLocalStorage('nd_allowMouse', false); // Default debug option to true
   const [selectedLesson, setSelectedLesson] = useLocalStorage<string>('nd_selectedLesson', 'all');
   
   const [selectedAlphabetSystems, setSelectedAlphabetSystems] = useLocalStorage<Record<string, boolean>>('nd_alphabetSystems', {
@@ -70,7 +70,11 @@ export default function App() {
   // Filter vocabulary by selected lesson using the query hook
   const baseFilteredVocab = useVocabulary(selectedLesson);
   const alphabetsVocab = useMemo(() => {
-    return DICTIONARY.filter(v => selectedAlphabetSystems[v.system]);
+    return DICTIONARY.filter(v => {
+      if (v.system === 'mixed') return false; // Ditch actually mixed terms
+      if (selectedAlphabetSystems['mixed']) return true; // 'Mixed' mode includes both pure systems
+      return selectedAlphabetSystems[v.system];
+    });
   }, [selectedAlphabetSystems]);
 
   const activeVocab = activeTab === 'meaning' ? baseFilteredVocab : alphabetsVocab;
@@ -177,15 +181,16 @@ export default function App() {
                 <h2 className="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-2">Select Systems</h2>
                 <div className="space-y-0">
                   {['hiragana', 'katakana', 'mixed'].map(sys => (
-                    <label key={sys} className="flex items-center p-2 rounded-xl hover:bg-slate-50 cursor-pointer transition-colors border border-transparent hover:border-slate-100">
-                      <button 
-                        className={`w-4 h-4 rounded-md flex items-center justify-center mr-3 transition-colors ${selectedAlphabetSystems[sys] ? 'bg-slate-800 text-white' : 'bg-slate-100 text-slate-300'}`}
-                        onClick={() => setSelectedAlphabetSystems(prev => ({ ...prev, [sys]: !prev[sys] }))}
-                      >
+                    <button 
+                      key={sys}
+                      onClick={() => setSelectedAlphabetSystems(prev => ({ ...prev, [sys]: !prev[sys] }))}
+                      className="w-full text-left flex items-center p-2 rounded-xl hover:bg-slate-50 cursor-pointer transition-colors border border-transparent hover:border-slate-100"
+                    >
+                      <div className={`w-4 h-4 rounded-md flex items-center justify-center mr-3 transition-colors ${selectedAlphabetSystems[sys] ? 'bg-slate-800 text-white' : 'bg-slate-100 text-slate-300'}`}>
                         {selectedAlphabetSystems[sys] && <Check size={12} strokeWidth={3} />}
-                      </button>
-                      <div className="text-sm font-medium text-slate-700 capitalize">{sys}</div>
-                    </label>
+                      </div>
+                      <div className="text-sm font-medium text-slate-700 capitalize pointer-events-none">{sys}</div>
+                    </button>
                   ))}
                 </div>
               </div>
@@ -195,32 +200,19 @@ export default function App() {
            <h2 className="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-4">Settings</h2>
            
            {activeTab === 'meaning' && (
-             <label className="flex items-center justify-between p-2 cursor-pointer mb-4 hover:bg-slate-50 rounded-xl transition-colors">
-               <div>
+             <button 
+                onClick={() => setStrictPitch(!strictPitch)}
+                className="w-full text-left flex items-center justify-between p-2 cursor-pointer mb-4 hover:bg-slate-50 rounded-xl transition-colors"
+              >
+               <div className="pointer-events-none">
                   <div className="font-medium text-slate-700">Strict Pitch Accent</div>
                   <div className="text-xs text-slate-400">Require pitch selection before next question</div>
                </div>
-               <button 
-                  className={`w-12 h-6 rounded-full transition-colors relative ${strictPitch ? 'bg-slate-800' : 'bg-slate-200'}`}
-                  onClick={() => setStrictPitch(!strictPitch)}
-                >
+               <div className={`w-12 h-6 rounded-full transition-colors relative pointer-events-none ${strictPitch ? 'bg-slate-800' : 'bg-slate-200'}`}>
                   <div className={`w-5 h-5 bg-white rounded-full absolute top-0.5 transition-transform ${strictPitch ? 'translate-x-6' : 'translate-x-0.5'}`} />
-               </button>
-             </label>
+               </div>
+             </button>
            )}
-
-           <label className="flex items-center justify-between p-2 cursor-pointer hover:bg-slate-50 rounded-xl transition-colors">
-                 <div>
-                    <div className="font-medium text-slate-700">Debug: Allow Mouse</div>
-                    <div className="text-xs text-slate-400">Draw with trackpad/mouse (for desktop testing)</div>
-                 </div>
-                 <button 
-                    className={`w-12 h-6 rounded-full transition-colors relative ${allowMouse ? 'bg-orange-500' : 'bg-slate-200'}`}
-                    onClick={() => setAllowMouse(!allowMouse)}
-                  >
-                    <div className={`w-5 h-5 bg-white rounded-full absolute top-0.5 transition-transform ${allowMouse ? 'translate-x-6' : 'translate-x-0.5'}`} />
-                 </button>
-               </label>
             </div>
           </div>
 
@@ -231,18 +223,19 @@ export default function App() {
                 <h2 className="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-2">Select Modes</h2>
                 <div className="space-y-0">
                   {availableModes.map(mode => (
-                    <label key={mode.id} className="flex items-center p-2 rounded-xl hover:bg-slate-50 cursor-pointer transition-colors border border-transparent hover:border-slate-100">
-                      <button 
-                        className={`w-4 h-4 rounded-md flex items-center justify-center mr-3 transition-colors ${selectedModes[mode.id] ? 'bg-slate-800 text-white' : 'bg-slate-100 text-slate-300'}`}
-                        onClick={() => setSelectedModes(prev => ({ ...prev, [mode.id]: !prev[mode.id] }))}
-                      >
+                    <button 
+                      key={mode.id}
+                      onClick={() => setSelectedModes(prev => ({ ...prev, [mode.id]: !prev[mode.id] }))}
+                      className="w-full text-left flex items-center p-2 rounded-xl hover:bg-slate-50 cursor-pointer transition-colors border border-transparent hover:border-slate-100"
+                    >
+                      <div className={`w-4 h-4 rounded-md flex items-center justify-center mr-3 transition-colors ${selectedModes[mode.id] ? 'bg-slate-800 text-white' : 'bg-slate-100 text-slate-300'}`}>
                         {selectedModes[mode.id] && <Check size={12} strokeWidth={3} />}
-                      </button>
-                      <div className="flex-1 flex items-center justify-between">
+                      </div>
+                      <div className="flex-1 flex items-center justify-between pointer-events-none">
                         <div className="text-sm font-medium text-slate-700">{mode.label}</div>
                         <div className="text-[10px] uppercase font-semibold text-slate-400">{mode.type}</div>
                       </div>
-                    </label>
+                    </button>
                   ))}
                 </div>
               </div>
