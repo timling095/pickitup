@@ -8,7 +8,8 @@
     "definition": "例子",
     "pitch_accent": 1,
     "affix_type": "none",
-    "lesson_id": "1"
+    "lesson_id": "1",
+    "system": "hiragana"
   },
   {
     "id": "ad477058-36c6-4ada-b20b-a4f808abf7a7",
@@ -19,7 +20,8 @@
     "definition": "～先生；小姐(敬稱)",
     "pitch_accent": -1,
     "affix_type": "suffix",
-    "lesson_id": "1"
+    "lesson_id": "1",
+    "system": "hiragana"
   },
   {
     "id": "caa4680f-902e-4d49-bf01-462d0acfee17",
@@ -30,7 +32,8 @@
     "definition": "越南",
     "pitch_accent": 0,
     "affix_type": "none",
-    "lesson_id": "1"
+    "lesson_id": "1",
+    "system": "katakana"
   },
   {
     "id": "f71e8990-3288-4008-b9a7-92f6faa07c2f",
@@ -41,7 +44,8 @@
     "definition": "學生",
     "pitch_accent": 0,
     "affix_type": "none",
-    "lesson_id": "1"
+    "lesson_id": "1",
+    "system": "hiragana"
   },
   {
     "id": "727acec9-bf36-40a4-afd0-0a17d0f0dd4f",
@@ -52,7 +56,8 @@
     "definition": "印尼",
     "pitch_accent": 4,
     "affix_type": "none",
-    "lesson_id": "1"
+    "lesson_id": "1",
+    "system": "katakana"
   },
   {
     "id": "b298b1ee-9eaa-436c-a469-6ae3e3f14fd9",
@@ -63,7 +68,8 @@
     "definition": "中國",
     "pitch_accent": 1,
     "affix_type": "none",
-    "lesson_id": "1"
+    "lesson_id": "1",
+    "system": "hiragana"
   },
   {
     "id": "cdfb6dc3-44f8-4c42-9fa0-bf217805bf12",
@@ -74,7 +80,8 @@
     "definition": "美國",
     "pitch_accent": 0,
     "affix_type": "none",
-    "lesson_id": "1"
+    "lesson_id": "1",
+    "system": "katakana"
   },
   {
     "id": "bad3a81a-568a-49f0-bd12-18428937d975",
@@ -85,7 +92,8 @@
     "definition": "韓國",
     "pitch_accent": 1,
     "affix_type": "none",
-    "lesson_id": "1"
+    "lesson_id": "1",
+    "system": "hiragana"
   },
   {
     "id": "73b09164-c7d4-4fe9-9e0d-f85512d09e74",
@@ -96,7 +104,8 @@
     "definition": "澳洲",
     "pitch_accent": 5,
     "affix_type": "none",
-    "lesson_id": "1"
+    "lesson_id": "1",
+    "system": "katakana"
   },
   {
     "id": "0393cfc5-b6ea-412d-8f54-c0c517654236",
@@ -107,7 +116,8 @@
     "definition": "巴西",
     "pitch_accent": 0,
     "affix_type": "none",
-    "lesson_id": "1"
+    "lesson_id": "1",
+    "system": "katakana"
   },
   {
     "id": "998da8f6-f7e3-4573-9704-4656968a1690",
@@ -118,7 +128,8 @@
     "definition": "坦尚尼亞",
     "pitch_accent": 0,
     "affix_type": "none",
-    "lesson_id": "1"
+    "lesson_id": "1",
+    "system": "katakana"
   },
   {
     "id": "6b5a2f8f-495a-45fa-adb1-4c6cb714c1ef",
@@ -129,7 +140,8 @@
     "definition": "對；好；是",
     "pitch_accent": 1,
     "affix_type": "none",
-    "lesson_id": "1"
+    "lesson_id": "1",
+    "system": "hiragana"
   },
   {
     "id": "a70deb62-2376-496b-80f4-0d494b854fa6",
@@ -140,7 +152,8 @@
     "definition": "就是那樣",
     "pitch_accent": 1,
     "affix_type": "none",
-    "lesson_id": "1"
+    "lesson_id": "1",
+    "system": "hiragana"
   },
   {
     "id": "3c1767c5-f151-4e18-8e79-0b2475b5b036",
@@ -151,7 +164,8 @@
     "definition": "不對；不是",
     "pitch_accent": 0,
     "affix_type": "none",
-    "lesson_id": "1"
+    "lesson_id": "1",
+    "system": "hiragana"
   },
   {
     "id": "ed33b43c-30d9-4321-9212-bb1e6f516171",
@@ -162,7 +176,8 @@
     "definition": "泰國",
     "pitch_accent": 1,
     "affix_type": "none",
-    "lesson_id": "1"
+    "lesson_id": "1",
+    "system": "katakana"
   },
   {
     "id": "127a37bc-53f0-4e7f-9154-6e2ce0985ddf",
@@ -173,7 +188,8 @@
     "definition": "班級",
     "pitch_accent": 1,
     "affix_type": "none",
-    "lesson_id": "1"
+    "lesson_id": "1",
+    "system": "katakana"
   },
   {
     "id": "d109927c-7275-40e0-8363-7f8c4de5f8b8",
@@ -184,7 +200,8 @@
     "definition": "初次見面",
     "pitch_accent": 4,
     "affix_type": "none",
-    "lesson_id": "1"
+    "lesson_id": "1",
+    "system": "hiragana"
   },
   {
     "id": "2ddb4292-fb7e-44a7-920a-b6a2987d9130",
@@ -195,7 +212,8 @@
     "definition": "請多指教",
     "pitch_accent": -1,
     "affix_type": "none",
-    "lesson_id": "1"
+    "lesson_id": "1",
+    "system": "hiragana"
   },
   {
     "id": "f856de6b-dcc6-45bb-91b5-99405512292b",
@@ -206,7 +224,8 @@
     "definition": "這個",
     "pitch_accent": 0,
     "affix_type": "none",
-    "lesson_id": "1"
+    "lesson_id": "1",
+    "system": "hiragana"
   },
   {
     "id": "6b438b40-4091-4b3a-aff1-3714b016aba3",
@@ -217,7 +236,8 @@
     "definition": "(你)那個",
     "pitch_accent": 0,
     "affix_type": "none",
-    "lesson_id": "1"
+    "lesson_id": "1",
+    "system": "hiragana"
   },
   {
     "id": "1893a34c-e323-470a-b92f-8b136a74ae74",
@@ -228,7 +248,8 @@
     "definition": "那個",
     "pitch_accent": 0,
     "affix_type": "none",
-    "lesson_id": "1"
+    "lesson_id": "1",
+    "system": "hiragana"
   },
   {
     "id": "60109fad-f9a9-485d-912a-8fb7a7849ae7",
@@ -239,7 +260,8 @@
     "definition": "書",
     "pitch_accent": 1,
     "affix_type": "none",
-    "lesson_id": "1"
+    "lesson_id": "1",
+    "system": "hiragana"
   },
   {
     "id": "90d5abc7-8dfa-4a5c-b5be-d3960772a41e",
@@ -250,7 +272,8 @@
     "definition": "筆記本",
     "pitch_accent": 1,
     "affix_type": "none",
-    "lesson_id": "1"
+    "lesson_id": "1",
+    "system": "katakana"
   },
   {
     "id": "9ef460b3-9e7f-49b8-b5db-78e71b848752",
@@ -261,7 +284,8 @@
     "definition": "字典",
     "pitch_accent": 1,
     "affix_type": "none",
-    "lesson_id": "1"
+    "lesson_id": "1",
+    "system": "hiragana"
   },
   {
     "id": "910e00d1-a5a1-4bfd-9cce-71ce993baac9",
@@ -272,7 +296,8 @@
     "definition": "報紙",
     "pitch_accent": 0,
     "affix_type": "none",
-    "lesson_id": "1"
+    "lesson_id": "1",
+    "system": "hiragana"
   },
   {
     "id": "c0134ad1-4b97-43c9-8ebb-6d27f2c92262",
@@ -283,7 +308,8 @@
     "definition": "雜誌",
     "pitch_accent": 0,
     "affix_type": "none",
-    "lesson_id": "1"
+    "lesson_id": "1",
+    "system": "hiragana"
   },
   {
     "id": "4f825a29-3ed0-4310-a3b1-a66ecc0a9dea",
@@ -294,7 +320,8 @@
     "definition": "鑰匙",
     "pitch_accent": 2,
     "affix_type": "none",
-    "lesson_id": "1"
+    "lesson_id": "1",
+    "system": "hiragana"
   },
   {
     "id": "2c56a439-925b-4d5b-ac2c-45adb9936770",
@@ -305,7 +332,8 @@
     "definition": "傘",
     "pitch_accent": 1,
     "affix_type": "none",
-    "lesson_id": "1"
+    "lesson_id": "1",
+    "system": "hiragana"
   },
   {
     "id": "9abe3b91-8c18-4645-b016-1d361c2032e4",
@@ -316,7 +344,8 @@
     "definition": "包包",
     "pitch_accent": 0,
     "affix_type": "none",
-    "lesson_id": "1"
+    "lesson_id": "1",
+    "system": "hiragana"
   },
   {
     "id": "14364ab1-56d2-490a-8be5-6bcbcc6cc714",
@@ -327,7 +356,8 @@
     "definition": "時鐘；錶",
     "pitch_accent": 0,
     "affix_type": "none",
-    "lesson_id": "1"
+    "lesson_id": "1",
+    "system": "hiragana"
   },
   {
     "id": "49bc3045-d48c-4596-8611-d5f19044960a",
@@ -338,7 +368,8 @@
     "definition": "橡皮擦",
     "pitch_accent": 0,
     "affix_type": "none",
-    "lesson_id": "1"
+    "lesson_id": "1",
+    "system": "hiragana"
   },
   {
     "id": "9a6db2c3-e823-465c-b524-01ac416800f1",
@@ -349,7 +380,8 @@
     "definition": "原子筆",
     "pitch_accent": 0,
     "affix_type": "none",
-    "lesson_id": "1"
+    "lesson_id": "1",
+    "system": "katakana"
   },
   {
     "id": "5a27235d-d472-4dd5-886c-7caa2ab52568",
@@ -360,7 +392,8 @@
     "definition": "電視",
     "pitch_accent": 1,
     "affix_type": "none",
-    "lesson_id": "1"
+    "lesson_id": "1",
+    "system": "katakana"
   },
   {
     "id": "ee82aece-63a1-40cd-abfb-999eb4bfa50d",
@@ -371,7 +404,8 @@
     "definition": "電腦",
     "pitch_accent": 3,
     "affix_type": "none",
-    "lesson_id": "1"
+    "lesson_id": "1",
+    "system": "katakana"
   },
   {
     "id": "9ae650d2-15eb-41b4-8864-39b2e1884d07",
@@ -382,7 +416,8 @@
     "definition": "汽車",
     "pitch_accent": 0,
     "affix_type": "none",
-    "lesson_id": "1"
+    "lesson_id": "1",
+    "system": "hiragana"
   },
   {
     "id": "6d722c85-9221-4a9c-ad17-1ae5448cda5a",
@@ -393,7 +428,8 @@
     "definition": "相機",
     "pitch_accent": 1,
     "affix_type": "none",
-    "lesson_id": "1"
+    "lesson_id": "1",
+    "system": "katakana"
   },
   {
     "id": "e3284ba9-1bfe-4bdf-a940-f33cbbeac6d0",
@@ -404,7 +440,8 @@
     "definition": "英文",
     "pitch_accent": 0,
     "affix_type": "none",
-    "lesson_id": "1"
+    "lesson_id": "1",
+    "system": "hiragana"
   },
   {
     "id": "04dd3971-d561-4722-9a89-f6692e7a0f2c",
@@ -415,7 +452,8 @@
     "definition": "日文",
     "pitch_accent": 0,
     "affix_type": "none",
-    "lesson_id": "1"
+    "lesson_id": "1",
+    "system": "hiragana"
   },
   {
     "id": "e587a720-d7ac-4421-8d35-e24300cd9d90",
@@ -426,7 +464,8 @@
     "definition": "～文",
     "pitch_accent": -1,
     "affix_type": "suffix",
-    "lesson_id": "1"
+    "lesson_id": "1",
+    "system": "hiragana"
   },
   {
     "id": "97a07ebc-9ec9-4bd8-8c48-ff6cd0f241ab",
@@ -437,7 +476,8 @@
     "definition": "作業",
     "pitch_accent": 0,
     "affix_type": "none",
-    "lesson_id": "1"
+    "lesson_id": "1",
+    "system": "hiragana"
   },
   {
     "id": "5fa2bee7-3fb8-4743-8803-55f444765aaf",
@@ -448,7 +488,8 @@
     "definition": "筆",
     "pitch_accent": 1,
     "affix_type": "none",
-    "lesson_id": "1"
+    "lesson_id": "1",
+    "system": "katakana"
   },
   {
     "id": "f1a9af30-b954-4b68-b21a-640d60764f0e",
@@ -459,7 +500,8 @@
     "definition": "老師(敬稱)",
     "pitch_accent": 3,
     "affix_type": "none",
-    "lesson_id": "1"
+    "lesson_id": "1",
+    "system": "hiragana"
   },
   {
     "id": "8e7312c3-f887-4172-865f-7e89dad6930c",
@@ -470,7 +512,8 @@
     "definition": "房間",
     "pitch_accent": 2,
     "affix_type": "none",
-    "lesson_id": "1"
+    "lesson_id": "1",
+    "system": "hiragana"
   },
   {
     "id": "6c261697-135b-4150-8332-a87cd681fc2a",
@@ -481,7 +524,8 @@
     "definition": "男人",
     "pitch_accent": 3,
     "affix_type": "none",
-    "lesson_id": "1"
+    "lesson_id": "1",
+    "system": "hiragana"
   },
   {
     "id": "1bccc488-8edc-423d-98dc-1f437ef8d43d",
@@ -492,7 +536,8 @@
     "definition": "女人",
     "pitch_accent": 3,
     "affix_type": "none",
-    "lesson_id": "1"
+    "lesson_id": "1",
+    "system": "hiragana"
   },
   {
     "id": "617bdb30-3734-4ade-9ce6-74cf5ca6f93d",
@@ -503,7 +548,8 @@
     "definition": "日本",
     "pitch_accent": 2,
     "affix_type": "none",
-    "lesson_id": "1"
+    "lesson_id": "1",
+    "system": "hiragana"
   },
   {
     "id": "46ed4845-de8c-49be-9072-9ea74faf28fb",
@@ -514,7 +560,8 @@
     "definition": "義大利",
     "pitch_accent": 0,
     "affix_type": "none",
-    "lesson_id": "1"
+    "lesson_id": "1",
+    "system": "katakana"
   },
   {
     "id": "1c1decbe-d993-492e-b280-e05bba6f4b80",
@@ -525,7 +572,8 @@
     "definition": "不好意思；抱歉",
     "pitch_accent": 4,
     "affix_type": "none",
-    "lesson_id": "1"
+    "lesson_id": "1",
+    "system": "hiragana"
   },
   {
     "id": "9cea0638-f56d-4942-a25b-2c4809bfae8b",
@@ -536,7 +584,8 @@
     "definition": "謝謝",
     "pitch_accent": -1,
     "affix_type": "none",
-    "lesson_id": "1"
+    "lesson_id": "1",
+    "system": "hiragana"
   },
   {
     "id": "7dbf37fe-8106-4963-b3bb-c5217253cebb",
@@ -547,7 +596,8 @@
     "definition": "德國",
     "pitch_accent": 1,
     "affix_type": "none",
-    "lesson_id": "1"
+    "lesson_id": "1",
+    "system": "katakana"
   },
   {
     "id": "cae63196-9f1a-4a54-9d30-b730177b6057",
@@ -558,7 +608,8 @@
     "definition": "點心",
     "pitch_accent": 2,
     "affix_type": "none",
-    "lesson_id": "1"
+    "lesson_id": "1",
+    "system": "hiragana"
   },
   {
     "id": "6300f51e-b8eb-4aaf-9594-0073e7c30bab",
@@ -569,7 +620,8 @@
     "definition": "(美化語，表客氣、尊敬)",
     "pitch_accent": -1,
     "affix_type": "prefix",
-    "lesson_id": "1"
+    "lesson_id": "1",
+    "system": "hiragana"
   },
   {
     "id": "2de24fd9-a81f-4fbc-a917-e330fba0d5db",
@@ -580,7 +632,8 @@
     "definition": "什麼",
     "pitch_accent": 1,
     "affix_type": "none",
-    "lesson_id": "1"
+    "lesson_id": "1",
+    "system": "hiragana"
   },
   {
     "id": "a381d1a8-05db-4bea-a8f4-a8dd80b268f6",
@@ -591,7 +644,8 @@
     "definition": "郵筒；信箱",
     "pitch_accent": 1,
     "affix_type": "none",
-    "lesson_id": "1"
+    "lesson_id": "1",
+    "system": "katakana"
   },
   {
     "id": "063fd737-e323-4bb8-86be-b5bb94d3d899",
@@ -602,7 +656,8 @@
     "definition": "飯糰",
     "pitch_accent": 2,
     "affix_type": "none",
-    "lesson_id": "1"
+    "lesson_id": "1",
+    "system": "hiragana"
   },
   {
     "id": "6232a471-9c17-48e1-860e-97b336f543ac",
@@ -613,7 +668,8 @@
     "definition": "茶",
     "pitch_accent": 0,
     "affix_type": "none",
-    "lesson_id": "1"
+    "lesson_id": "1",
+    "system": "hiragana"
   },
   {
     "id": "ec204db8-242a-4ac9-8c3e-e2799d4bfdaf",
@@ -624,7 +680,8 @@
     "definition": "便當",
     "pitch_accent": 0,
     "affix_type": "none",
-    "lesson_id": "1"
+    "lesson_id": "1",
+    "system": "hiragana"
   },
   {
     "id": "6d018b0c-5f31-4fc3-b4be-50464afad930",
@@ -635,7 +692,8 @@
     "definition": "這個～",
     "pitch_accent": 0,
     "affix_type": "prefix",
-    "lesson_id": "1"
+    "lesson_id": "1",
+    "system": "hiragana"
   },
   {
     "id": "9715e141-1df1-4035-a158-d1c0eafefb0b",
@@ -646,7 +704,8 @@
     "definition": "(你)那個～",
     "pitch_accent": 0,
     "affix_type": "prefix",
-    "lesson_id": "1"
+    "lesson_id": "1",
+    "system": "hiragana"
   },
   {
     "id": "9e190b71-d8f1-4803-ae4d-bf66f6c74530",
@@ -657,7 +716,8 @@
     "definition": "那個～",
     "pitch_accent": 0,
     "affix_type": "prefix",
-    "lesson_id": "1"
+    "lesson_id": "1",
+    "system": "hiragana"
   },
   {
     "id": "df62ffd8-a66b-4281-8294-7532b3c1d348",
@@ -668,7 +728,8 @@
     "definition": "誰",
     "pitch_accent": 1,
     "affix_type": "none",
-    "lesson_id": "1"
+    "lesson_id": "1",
+    "system": "hiragana"
   },
   {
     "id": "17ad97bd-542e-46f6-b90d-4db17e18c492",
@@ -679,7 +740,8 @@
     "definition": "哪一位(禮貌用語)",
     "pitch_accent": 1,
     "affix_type": "none",
-    "lesson_id": "1"
+    "lesson_id": "1",
+    "system": "hiragana"
   },
   {
     "id": "a836f653-ca95-476a-909b-f88c8a8861c8",
@@ -690,7 +752,8 @@
     "definition": "人",
     "pitch_accent": 0,
     "affix_type": "none",
-    "lesson_id": "1"
+    "lesson_id": "1",
+    "system": "hiragana"
   },
   {
     "id": "beaf05c8-c4ba-4a61-8a4e-7662be3358c9",
@@ -701,7 +764,8 @@
     "definition": "人(敬稱)",
     "pitch_accent": 2,
     "affix_type": "none",
-    "lesson_id": "1"
+    "lesson_id": "1",
+    "system": "hiragana"
   },
   {
     "id": "73d2a778-1185-470d-9ee2-3dd22fda4319",
@@ -712,7 +776,8 @@
     "definition": "愛因斯坦(人名)",
     "pitch_accent": 5,
     "affix_type": "none",
-    "lesson_id": "1"
+    "lesson_id": "1",
+    "system": "katakana"
   },
   {
     "id": "d5959d96-86c0-492c-af50-e026934caa30",
@@ -723,7 +788,8 @@
     "definition": "卓別林(人名)",
     "pitch_accent": 1,
     "affix_type": "none",
-    "lesson_id": "1"
+    "lesson_id": "1",
+    "system": "katakana"
   },
   {
     "id": "ccf3b50c-dce0-49e5-9bdb-4af1bec18615",
@@ -734,7 +800,8 @@
     "definition": "野口英世(人名)",
     "pitch_accent": -1,
     "affix_type": "none",
-    "lesson_id": "1"
+    "lesson_id": "1",
+    "system": "hiragana"
   },
   {
     "id": "8b8a7ce1-71a4-4408-83b8-e320eff1b9a0",
@@ -745,7 +812,8 @@
     "definition": "克麗奧佩脫拉七世(人名)",
     "pitch_accent": 4,
     "affix_type": "none",
-    "lesson_id": "1"
+    "lesson_id": "1",
+    "system": "katakana"
   },
   {
     "id": "b4da4189-274a-42dd-9404-c96d60b1c03b",
@@ -756,7 +824,8 @@
     "definition": "哪個",
     "pitch_accent": 1,
     "affix_type": "none",
-    "lesson_id": "1"
+    "lesson_id": "1",
+    "system": "hiragana"
   },
   {
     "id": "f9c1e8e9-2154-4336-8ed2-e42a4447d6ef",
@@ -767,7 +836,8 @@
     "definition": "哪個～",
     "pitch_accent": 1,
     "affix_type": "prefix",
-    "lesson_id": "1"
+    "lesson_id": "1",
+    "system": "hiragana"
   },
   {
     "id": "4bb6cb84-3d55-49e6-a173-c17502c10834",
@@ -778,7 +848,8 @@
     "definition": "名字",
     "pitch_accent": 0,
     "affix_type": "none",
-    "lesson_id": "1"
+    "lesson_id": "1",
+    "system": "hiragana"
   },
   {
     "id": "d6beb1ed-8222-4598-b25d-3355f3eebec2",
@@ -789,7 +860,8 @@
     "definition": "國家；故鄉；家",
     "pitch_accent": 0,
     "affix_type": "none",
-    "lesson_id": "1"
+    "lesson_id": "1",
+    "system": "hiragana"
   },
   {
     "id": "4723ab49-352c-495a-9463-47b49123c7e2",
@@ -800,7 +872,8 @@
     "definition": "主修；專業",
     "pitch_accent": 0,
     "affix_type": "none",
-    "lesson_id": "1"
+    "lesson_id": "1",
+    "system": "hiragana"
   },
   {
     "id": "23338c76-05b3-47ed-97d4-31b975de9d8e",
@@ -811,7 +884,8 @@
     "definition": "社會學",
     "pitch_accent": 2,
     "affix_type": "none",
-    "lesson_id": "1"
+    "lesson_id": "1",
+    "system": "hiragana"
   },
   {
     "id": "9dadc0ed-9a93-448e-9a63-54bbbc16c129",
@@ -822,7 +896,8 @@
     "definition": "我",
     "pitch_accent": 0,
     "affix_type": "none",
-    "lesson_id": "1"
+    "lesson_id": "1",
+    "system": "hiragana"
   },
   {
     "id": "c94c516d-e7c4-481f-a084-fb641bae076f",
@@ -833,7 +908,8 @@
     "definition": "自我介紹",
     "pitch_accent": 3,
     "affix_type": "none",
-    "lesson_id": "1"
+    "lesson_id": "1",
+    "system": "hiragana"
   },
   {
     "id": "288f19fa-2b4c-4ee1-b5a1-580b96b0b0d2",
@@ -844,7 +920,8 @@
     "definition": "小孩",
     "pitch_accent": 0,
     "affix_type": "none",
-    "lesson_id": "1"
+    "lesson_id": "1",
+    "system": "hiragana"
   },
   {
     "id": "715d3984-ed8a-4d9e-8af4-b07d94896c35",
@@ -855,7 +932,8 @@
     "definition": "外國；國外",
     "pitch_accent": 0,
     "affix_type": "none",
-    "lesson_id": "1"
+    "lesson_id": "1",
+    "system": "hiragana"
   },
   {
     "id": "9552c2ff-c11e-453b-9691-9e99f695fb7e",
@@ -866,7 +944,8 @@
     "definition": "CD",
     "pitch_accent": 3,
     "affix_type": "none",
-    "lesson_id": "1"
+    "lesson_id": "1",
+    "system": "katakana"
   },
   {
     "id": "7eca37e6-5739-4193-bf10-fa46fa5ae692",
@@ -877,7 +956,8 @@
     "definition": "你",
     "pitch_accent": 2,
     "affix_type": "none",
-    "lesson_id": "1"
+    "lesson_id": "1",
+    "system": "hiragana"
   },
   {
     "id": "06119f0c-9962-4bb1-87fc-f673481e9c29",
@@ -888,7 +968,8 @@
     "definition": "(親暱稱呼)",
     "pitch_accent": -1,
     "affix_type": "suffix",
-    "lesson_id": "1"
+    "lesson_id": "1",
+    "system": "hiragana"
   },
   {
     "id": "234b07ec-040e-441a-adc2-8d20a0d51a0f",
@@ -899,7 +980,8 @@
     "definition": "書桌",
     "pitch_accent": 0,
     "affix_type": "none",
-    "lesson_id": "1"
+    "lesson_id": "1",
+    "system": "hiragana"
   },
   {
     "id": "ab565a1d-7f0d-4579-9649-802e96648f5a",
@@ -910,7 +992,8 @@
     "definition": "這裡",
     "pitch_accent": 0,
     "affix_type": "none",
-    "lesson_id": "2"
+    "lesson_id": "2",
+    "system": "hiragana"
   },
   {
     "id": "5d85b3a7-fc39-4770-9f2a-24b1f7fa1b7d",
@@ -921,7 +1004,8 @@
     "definition": "(你)那裡",
     "pitch_accent": 0,
     "affix_type": "none",
-    "lesson_id": "2"
+    "lesson_id": "2",
+    "system": "hiragana"
   },
   {
     "id": "e25c3864-6596-45d4-91ce-52027a35a275",
@@ -932,7 +1016,8 @@
     "definition": "那裡",
     "pitch_accent": 0,
     "affix_type": "none",
-    "lesson_id": "2"
+    "lesson_id": "2",
+    "system": "hiragana"
   },
   {
     "id": "adf79e89-6d3e-4fc6-b1f4-b9fed5067709",
@@ -943,7 +1028,8 @@
     "definition": "圖書館",
     "pitch_accent": 2,
     "affix_type": "none",
-    "lesson_id": "2"
+    "lesson_id": "2",
+    "system": "hiragana"
   },
   {
     "id": "1f97f7ed-d2ad-443f-807a-e0ba6b9550b0",
@@ -954,7 +1040,8 @@
     "definition": "大學",
     "pitch_accent": 0,
     "affix_type": "none",
-    "lesson_id": "2"
+    "lesson_id": "2",
+    "system": "hiragana"
   },
   {
     "id": "2a96cdaa-186e-4672-ba88-92dee6b70b9e",
@@ -965,7 +1052,8 @@
     "definition": "體育館",
     "pitch_accent": 4,
     "affix_type": "none",
-    "lesson_id": "2"
+    "lesson_id": "2",
+    "system": "hiragana"
   },
   {
     "id": "ef02467a-f04e-4f25-8343-0fa5c3eaec8e",
@@ -976,7 +1064,8 @@
     "definition": "宿舍",
     "pitch_accent": 1,
     "affix_type": "none",
-    "lesson_id": "2"
+    "lesson_id": "2",
+    "system": "hiragana"
   },
   {
     "id": "63436c5d-d7f5-40f9-b95c-0e26f3023ffa",
@@ -987,7 +1076,8 @@
     "definition": "教室",
     "pitch_accent": 0,
     "affix_type": "none",
-    "lesson_id": "2"
+    "lesson_id": "2",
+    "system": "hiragana"
   },
   {
     "id": "d1968beb-f797-4ee0-8e96-742dea22f7e9",
@@ -998,7 +1088,8 @@
     "definition": "辦公室",
     "pitch_accent": 2,
     "affix_type": "none",
-    "lesson_id": "2"
+    "lesson_id": "2",
+    "system": "hiragana"
   },
   {
     "id": "b6d2330b-e6ff-491e-a300-1af133d7342a",
@@ -1009,7 +1100,8 @@
     "definition": "研究室",
     "pitch_accent": 3,
     "affix_type": "none",
-    "lesson_id": "2"
+    "lesson_id": "2",
+    "system": "hiragana"
   },
   {
     "id": "c40faf24-6737-4510-a087-011c3fd23e6f",
@@ -1020,7 +1112,8 @@
     "definition": "會議室",
     "pitch_accent": 3,
     "affix_type": "none",
-    "lesson_id": "2"
+    "lesson_id": "2",
+    "system": "hiragana"
   },
   {
     "id": "539fe691-7f18-408c-ac01-3680067cb15b",
@@ -1031,7 +1124,8 @@
     "definition": "食堂",
     "pitch_accent": 0,
     "affix_type": "none",
-    "lesson_id": "2"
+    "lesson_id": "2",
+    "system": "hiragana"
   },
   {
     "id": "0f8fccf9-9587-494c-a0ba-ac7244c691ed",
@@ -1042,7 +1136,8 @@
     "definition": "餐廳",
     "pitch_accent": 1,
     "affix_type": "none",
-    "lesson_id": "2"
+    "lesson_id": "2",
+    "system": "katakana"
   },
   {
     "id": "541e6a91-84af-45ea-b17b-defd9ac8e69d",
@@ -1053,7 +1148,8 @@
     "definition": "學校",
     "pitch_accent": 0,
     "affix_type": "none",
-    "lesson_id": "2"
+    "lesson_id": "2",
+    "system": "hiragana"
   },
   {
     "id": "7d0f3085-8b88-48b7-9d83-1184d709fa31",
@@ -1064,7 +1160,8 @@
     "definition": "公司",
     "pitch_accent": 0,
     "affix_type": "none",
-    "lesson_id": "2"
+    "lesson_id": "2",
+    "system": "hiragana"
   },
   {
     "id": "88ad4bca-d85c-4ea9-8a42-559393d8de28",
@@ -1075,7 +1172,8 @@
     "definition": "建築物",
     "pitch_accent": 2,
     "affix_type": "none",
-    "lesson_id": "2"
+    "lesson_id": "2",
+    "system": "hiragana"
   },
   {
     "id": "30baac0e-7a05-4123-8cd2-c920a810cb9f",
@@ -1086,7 +1184,8 @@
     "definition": "郵局",
     "pitch_accent": 3,
     "affix_type": "none",
-    "lesson_id": "2"
+    "lesson_id": "2",
+    "system": "hiragana"
   },
   {
     "id": "630dd592-1d8d-4581-932a-b2ad5da8795b",
@@ -1097,7 +1196,8 @@
     "definition": "銀行",
     "pitch_accent": 0,
     "affix_type": "none",
-    "lesson_id": "2"
+    "lesson_id": "2",
+    "system": "hiragana"
   },
   {
     "id": "cdb92648-496f-4d75-bb67-aa67347bba28",
@@ -1108,7 +1208,8 @@
     "definition": "醫院",
     "pitch_accent": 0,
     "affix_type": "none",
-    "lesson_id": "2"
+    "lesson_id": "2",
+    "system": "hiragana"
   },
   {
     "id": "844aabfa-2e93-4fbe-9e50-17e47d27e612",
@@ -1119,7 +1220,8 @@
     "definition": "家；房子",
     "pitch_accent": 2,
     "affix_type": "none",
-    "lesson_id": "2"
+    "lesson_id": "2",
+    "system": "hiragana"
   },
   {
     "id": "00ad1e4c-5d4e-4176-93d9-eb931c39f4c4",
@@ -1130,7 +1232,8 @@
     "definition": "廚房",
     "pitch_accent": 1,
     "affix_type": "none",
-    "lesson_id": "2"
+    "lesson_id": "2",
+    "system": "katakana"
   },
   {
     "id": "6b377824-d3a8-4a2b-9559-2588b6af7d52",
@@ -1141,7 +1244,8 @@
     "definition": "廁所",
     "pitch_accent": 1,
     "affix_type": "none",
-    "lesson_id": "2"
+    "lesson_id": "2",
+    "system": "katakana"
   },
   {
     "id": "363b3651-e2e6-4301-808b-6e8718421060",
@@ -1152,7 +1256,8 @@
     "definition": "淋浴室",
     "pitch_accent": 2,
     "affix_type": "none",
-    "lesson_id": "2"
+    "lesson_id": "2",
+    "system": "mixed"
   },
   {
     "id": "f523696f-0bd7-426e-b9a6-43b5c6e35357",
@@ -1163,7 +1268,8 @@
     "definition": "電腦室",
     "pitch_accent": 5,
     "affix_type": "none",
-    "lesson_id": "2"
+    "lesson_id": "2",
+    "system": "mixed"
   },
   {
     "id": "e49c1ad7-e7c8-46b5-a93e-9d257e4a9cd7",
@@ -1174,7 +1280,8 @@
     "definition": "哪裡",
     "pitch_accent": 1,
     "affix_type": "none",
-    "lesson_id": "2"
+    "lesson_id": "2",
+    "system": "hiragana"
   },
   {
     "id": "973b7864-d769-4663-94f5-1838848bc361",
@@ -1185,7 +1292,8 @@
     "definition": "謝謝",
     "pitch_accent": 1,
     "affix_type": "none",
-    "lesson_id": "2"
+    "lesson_id": "2",
+    "system": "hiragana"
   },
   {
     "id": "61ca5de1-4f13-49b8-af4d-336731249c6a",
@@ -1196,7 +1304,8 @@
     "definition": "櫻花",
     "pitch_accent": 0,
     "affix_type": "none",
-    "lesson_id": "2"
+    "lesson_id": "2",
+    "system": "hiragana"
   },
   {
     "id": "dbb59d0d-dd67-4a44-a5b8-3407508ce598",
@@ -1207,7 +1316,8 @@
     "definition": "大廳",
     "pitch_accent": 1,
     "affix_type": "none",
-    "lesson_id": "2"
+    "lesson_id": "2",
+    "system": "katakana"
   },
   {
     "id": "b27b6feb-5264-4df1-a09b-423310a7af89",
@@ -1218,7 +1328,8 @@
     "definition": "車站",
     "pitch_accent": 1,
     "affix_type": "none",
-    "lesson_id": "2"
+    "lesson_id": "2",
+    "system": "hiragana"
   },
   {
     "id": "25f3c6c6-535c-4b8a-8410-da6c986b218b",
@@ -1229,7 +1340,8 @@
     "definition": "公園",
     "pitch_accent": 0,
     "affix_type": "none",
-    "lesson_id": "2"
+    "lesson_id": "2",
+    "system": "hiragana"
   },
   {
     "id": "36e19ed5-8bae-4ea2-8395-9ec22ddf551c",
@@ -1240,7 +1352,8 @@
     "definition": "體育場",
     "pitch_accent": 2,
     "affix_type": "none",
-    "lesson_id": "2"
+    "lesson_id": "2",
+    "system": "katakana"
   },
   {
     "id": "0069c08a-32dd-433c-a6d9-c108c07552ae",
@@ -1251,7 +1364,8 @@
     "definition": "飛機場",
     "pitch_accent": 0,
     "affix_type": "none",
-    "lesson_id": "2"
+    "lesson_id": "2",
+    "system": "hiragana"
   },
   {
     "id": "ff8da6dd-0b3e-4dea-a18c-d898ee5084a2",
@@ -1262,7 +1376,8 @@
     "definition": "日語教育中心",
     "pitch_accent": 5,
     "affix_type": "none",
-    "lesson_id": "2"
+    "lesson_id": "2",
+    "system": "katakana"
   },
   {
     "id": "5b1a9848-d1bb-4992-82ed-467d9fea84e1",
@@ -1273,7 +1388,8 @@
     "definition": "自動提款機",
     "pitch_accent": 5,
     "affix_type": "none",
-    "lesson_id": "2"
+    "lesson_id": "2",
+    "system": "katakana"
   },
   {
     "id": "bb08cd61-2d23-4c06-9a65-dfd03811525c",
@@ -1284,7 +1400,8 @@
     "definition": "警察",
     "pitch_accent": 0,
     "affix_type": "none",
-    "lesson_id": "2"
+    "lesson_id": "2",
+    "system": "hiragana"
   },
   {
     "id": "ddacb114-74b6-4d17-ad14-36775383cab2",
@@ -1295,7 +1412,8 @@
     "definition": "多摩(地名)",
     "pitch_accent": 1,
     "affix_type": "none",
-    "lesson_id": "2"
+    "lesson_id": "2",
+    "system": "hiragana"
   },
   {
     "id": "c5c1e473-8b17-400a-87d5-efd7a5d5dfe4",
@@ -1306,7 +1424,8 @@
     "definition": "飛田給(地名)",
     "pitch_accent": 3,
     "affix_type": "none",
-    "lesson_id": "2"
+    "lesson_id": "2",
+    "system": "hiragana"
   },
   {
     "id": "c799d8f9-1bc6-4da5-8488-ae1fd9c0c372",
@@ -1317,7 +1436,8 @@
     "definition": "操場",
     "pitch_accent": 0,
     "affix_type": "none",
-    "lesson_id": "2"
+    "lesson_id": "2",
+    "system": "katakana"
   },
   {
     "id": "0738b540-860a-4d76-b8c4-2ca5f6ec812d",
@@ -1328,7 +1448,8 @@
     "definition": "教學研究大樓",
     "pitch_accent": 0,
     "affix_type": "none",
-    "lesson_id": "2"
+    "lesson_id": "2",
+    "system": "hiragana"
   },
   {
     "id": "9ab6478b-c629-44aa-9827-22be8fe6579c",
@@ -1339,7 +1460,8 @@
     "definition": "行政大樓",
     "pitch_accent": 0,
     "affix_type": "none",
-    "lesson_id": "2"
+    "lesson_id": "2",
+    "system": "hiragana"
   },
   {
     "id": "501d7ce8-e06e-48b8-b478-80a3d69509bf",
@@ -1350,7 +1472,8 @@
     "definition": "保健中心",
     "pitch_accent": 4,
     "affix_type": "none",
-    "lesson_id": "2"
+    "lesson_id": "2",
+    "system": "mixed"
   },
   {
     "id": "6a5a0208-1ebc-4ae1-a3c3-e9b650e0a9fe",
@@ -1361,7 +1484,8 @@
     "definition": "多少錢",
     "pitch_accent": 1,
     "affix_type": "none",
-    "lesson_id": "2"
+    "lesson_id": "2",
+    "system": "hiragana"
   },
   {
     "id": "96572e96-71f4-46e0-ac7a-4f8f8f9ce868",
@@ -1372,7 +1496,8 @@
     "definition": "～日圓",
     "pitch_accent": -1,
     "affix_type": "suffix",
-    "lesson_id": "2"
+    "lesson_id": "2",
+    "system": "hiragana"
   },
   {
     "id": "93b45c10-8ed4-400a-8857-cb1e1970d9e5",
@@ -1383,7 +1508,8 @@
     "definition": "電話號碼",
     "pitch_accent": 4,
     "affix_type": "none",
-    "lesson_id": "2"
+    "lesson_id": "2",
+    "system": "hiragana"
   },
   {
     "id": "192309bd-f249-48b0-a2a3-a437b567eee1",
@@ -1394,7 +1520,8 @@
     "definition": "幾號",
     "pitch_accent": 1,
     "affix_type": "none",
-    "lesson_id": "2"
+    "lesson_id": "2",
+    "system": "hiragana"
   },
   {
     "id": "e4176efc-ae43-487a-a6bf-f37644d705ae",
@@ -1405,7 +1532,8 @@
     "definition": "果汁",
     "pitch_accent": 1,
     "affix_type": "none",
-    "lesson_id": "2"
+    "lesson_id": "2",
+    "system": "katakana"
   },
   {
     "id": "e6edb978-ffde-41e8-818d-26c2e91f13fc",
@@ -1416,7 +1544,8 @@
     "definition": "牛奶",
     "pitch_accent": 0,
     "affix_type": "none",
-    "lesson_id": "2"
+    "lesson_id": "2",
+    "system": "hiragana"
   },
   {
     "id": "a2517bbe-1e82-40ac-8c64-492ecac8a693",
@@ -1427,7 +1556,8 @@
     "definition": "蛋糕",
     "pitch_accent": 1,
     "affix_type": "none",
-    "lesson_id": "2"
+    "lesson_id": "2",
+    "system": "katakana"
   },
   {
     "id": "dec06cca-8b01-4ef9-9137-096b82cfe312",
@@ -1438,7 +1568,8 @@
     "definition": "麵包",
     "pitch_accent": 1,
     "affix_type": "none",
-    "lesson_id": "2"
+    "lesson_id": "2",
+    "system": "katakana"
   },
   {
     "id": "8e9ab73d-2aec-4a27-a13d-dcea635b4751",
@@ -1449,7 +1580,8 @@
     "definition": "那麼",
     "pitch_accent": 1,
     "affix_type": "none",
-    "lesson_id": "2"
+    "lesson_id": "2",
+    "system": "hiragana"
   },
   {
     "id": "7ced88d8-e41e-433b-9727-91d5d071cb6f",
@@ -1460,7 +1592,8 @@
     "definition": "麻煩你",
     "pitch_accent": 6,
     "affix_type": "none",
-    "lesson_id": "2"
+    "lesson_id": "2",
+    "system": "hiragana"
   },
   {
     "id": "46d5aae1-55a5-4d16-8162-89cc24e8955c",
@@ -1471,7 +1604,8 @@
     "definition": "菜單；選單",
     "pitch_accent": 1,
     "affix_type": "none",
-    "lesson_id": "2"
+    "lesson_id": "2",
+    "system": "katakana"
   },
   {
     "id": "225ca67e-9a82-451f-8b90-668ce6a868f7",
@@ -1482,7 +1616,8 @@
     "definition": "咖哩飯",
     "pitch_accent": 4,
     "affix_type": "none",
-    "lesson_id": "2"
+    "lesson_id": "2",
+    "system": "katakana"
   },
   {
     "id": "15977640-8372-40e2-93c6-13923a42f0d0",
@@ -1493,7 +1628,8 @@
     "definition": "義大利麵",
     "pitch_accent": 3,
     "affix_type": "none",
-    "lesson_id": "2"
+    "lesson_id": "2",
+    "system": "katakana"
   },
   {
     "id": "728cdc14-1514-4cd6-9c7d-4726ff62d9f6",
@@ -1504,7 +1640,8 @@
     "definition": "烏龍麵",
     "pitch_accent": 0,
     "affix_type": "none",
-    "lesson_id": "2"
+    "lesson_id": "2",
+    "system": "hiragana"
   },
   {
     "id": "8e5ff35f-2e75-4b8e-b3b0-2f9120eb6014",
@@ -1515,7 +1652,8 @@
     "definition": "蕎麥麵",
     "pitch_accent": 1,
     "affix_type": "none",
-    "lesson_id": "2"
+    "lesson_id": "2",
+    "system": "hiragana"
   },
   {
     "id": "16647414-7dd1-4929-b145-68d6759043c2",
@@ -1526,7 +1664,8 @@
     "definition": "定食；套餐",
     "pitch_accent": 0,
     "affix_type": "none",
-    "lesson_id": "2"
+    "lesson_id": "2",
+    "system": "hiragana"
   },
   {
     "id": "2316bfc9-e609-49be-be8c-305e992c2981",
@@ -1537,7 +1676,8 @@
     "definition": "漢堡",
     "pitch_accent": 3,
     "affix_type": "none",
-    "lesson_id": "2"
+    "lesson_id": "2",
+    "system": "katakana"
   },
   {
     "id": "bfde9e67-8c1c-4bab-a810-ab5807b94107",
@@ -1548,7 +1688,8 @@
     "definition": "三明治",
     "pitch_accent": 4,
     "affix_type": "none",
-    "lesson_id": "2"
+    "lesson_id": "2",
+    "system": "katakana"
   },
   {
     "id": "00f82673-7b4c-438a-bd3d-60f2d87899d7",
@@ -1559,7 +1700,8 @@
     "definition": "拉麵",
     "pitch_accent": 1,
     "affix_type": "none",
-    "lesson_id": "2"
+    "lesson_id": "2",
+    "system": "katakana"
   },
   {
     "id": "61a7630a-0040-466f-a28c-248418ef8896",
@@ -1570,7 +1712,8 @@
     "definition": "咖啡",
     "pitch_accent": 3,
     "affix_type": "none",
-    "lesson_id": "2"
+    "lesson_id": "2",
+    "system": "katakana"
   },
   {
     "id": "851221b3-ce4b-4614-be6d-5051891c7ce8",
@@ -1581,7 +1724,8 @@
     "definition": "紅茶",
     "pitch_accent": 0,
     "affix_type": "none",
-    "lesson_id": "2"
+    "lesson_id": "2",
+    "system": "hiragana"
   },
   {
     "id": "8ec3dee5-4885-4989-9048-1a78c3b0a7e6",
@@ -1592,7 +1736,8 @@
     "definition": "沙拉",
     "pitch_accent": 1,
     "affix_type": "none",
-    "lesson_id": "2"
+    "lesson_id": "2",
+    "system": "katakana"
   },
   {
     "id": "2c0da072-2806-4c67-9da0-0e91885e6605",
@@ -1603,7 +1748,8 @@
     "definition": "白色的",
     "pitch_accent": 2,
     "affix_type": "none",
-    "lesson_id": "2"
+    "lesson_id": "2",
+    "system": "hiragana"
   },
   {
     "id": "09483fb7-8a09-4904-b421-4cb01c988c7f",
@@ -1614,7 +1760,8 @@
     "definition": "黑色的",
     "pitch_accent": 2,
     "affix_type": "none",
-    "lesson_id": "2"
+    "lesson_id": "2",
+    "system": "hiragana"
   },
   {
     "id": "ee9ef495-9ac1-4348-a7cc-6a57248dfb8f",
@@ -1625,7 +1772,8 @@
     "definition": "藍色的",
     "pitch_accent": 2,
     "affix_type": "none",
-    "lesson_id": "2"
+    "lesson_id": "2",
+    "system": "hiragana"
   },
   {
     "id": "87ad6872-fcc8-4928-b1b4-71603638384d",
@@ -1636,7 +1784,8 @@
     "definition": "紅色的",
     "pitch_accent": 0,
     "affix_type": "none",
-    "lesson_id": "2"
+    "lesson_id": "2",
+    "system": "hiragana"
   },
   {
     "id": "628550f6-d00d-417a-a8d6-47a4f53b4178",
@@ -1647,7 +1796,8 @@
     "definition": "黃色的",
     "pitch_accent": 0,
     "affix_type": "none",
-    "lesson_id": "2"
+    "lesson_id": "2",
+    "system": "hiragana"
   },
   {
     "id": "6d563137-2d13-4e03-95f0-36c2cb51f2bc",
@@ -1658,7 +1808,8 @@
     "definition": "大的",
     "pitch_accent": 3,
     "affix_type": "none",
-    "lesson_id": "2"
+    "lesson_id": "2",
+    "system": "hiragana"
   },
   {
     "id": "e1388e7a-86f9-47a6-b541-1ecba7307f6e",
@@ -1669,7 +1820,8 @@
     "definition": "小的",
     "pitch_accent": 3,
     "affix_type": "none",
-    "lesson_id": "2"
+    "lesson_id": "2",
+    "system": "hiragana"
   },
   {
     "id": "4096a75e-83e4-4ab2-8f54-b5ae573e22c5",
@@ -1680,7 +1832,8 @@
     "definition": "高的；貴的",
     "pitch_accent": 2,
     "affix_type": "none",
-    "lesson_id": "2"
+    "lesson_id": "2",
+    "system": "hiragana"
   },
   {
     "id": "2549e19f-2fd1-4dee-8d9c-4b26173fd5f7",
@@ -1691,7 +1844,8 @@
     "definition": "低的",
     "pitch_accent": 2,
     "affix_type": "none",
-    "lesson_id": "2"
+    "lesson_id": "2",
+    "system": "hiragana"
   },
   {
     "id": "0e0321dd-96ba-42b6-8bcf-47405a7acfaa",
@@ -1702,7 +1856,8 @@
     "definition": "新的；新鮮的",
     "pitch_accent": 4,
     "affix_type": "none",
-    "lesson_id": "2"
+    "lesson_id": "2",
+    "system": "hiragana"
   },
   {
     "id": "6148f47e-106d-4919-891f-40e6cbbea934",
@@ -1713,7 +1868,8 @@
     "definition": "舊的；不新鮮的",
     "pitch_accent": 2,
     "affix_type": "none",
-    "lesson_id": "2"
+    "lesson_id": "2",
+    "system": "hiragana"
   },
   {
     "id": "3b0b7977-5fbe-4ea8-b680-a3b7012d8b92",
@@ -1724,7 +1880,8 @@
     "definition": "好吃的",
     "pitch_accent": 3,
     "affix_type": "none",
-    "lesson_id": "2"
+    "lesson_id": "2",
+    "system": "hiragana"
   },
   {
     "id": "65c808a6-1c5a-498b-a500-1669446e2f37",
@@ -1735,7 +1892,8 @@
     "definition": "難吃的",
     "pitch_accent": 2,
     "affix_type": "none",
-    "lesson_id": "2"
+    "lesson_id": "2",
+    "system": "hiragana"
   },
   {
     "id": "91358121-2f34-4342-a490-b053f3d03995",
@@ -1746,7 +1904,8 @@
     "definition": "明亮的；明朗的",
     "pitch_accent": 3,
     "affix_type": "none",
-    "lesson_id": "2"
+    "lesson_id": "2",
+    "system": "hiragana"
   },
   {
     "id": "6879f4f0-7f3f-4cf3-82b7-fb85efba37f9",
@@ -1757,7 +1916,8 @@
     "definition": "暗的",
     "pitch_accent": 0,
     "affix_type": "none",
-    "lesson_id": "2"
+    "lesson_id": "2",
+    "system": "hiragana"
   },
   {
     "id": "0ee3b911-54a4-4db7-919a-c5173e300fe0",
@@ -1768,7 +1928,8 @@
     "definition": "便宜的",
     "pitch_accent": 2,
     "affix_type": "none",
-    "lesson_id": "2"
+    "lesson_id": "2",
+    "system": "hiragana"
   },
   {
     "id": "87efd330-96ae-4a75-942b-d73b72c16f3a",
@@ -1779,7 +1940,8 @@
     "definition": "山",
     "pitch_accent": 2,
     "affix_type": "none",
-    "lesson_id": "2"
+    "lesson_id": "2",
+    "system": "hiragana"
   },
   {
     "id": "59a8b2e7-1083-48a0-844e-0df256bf61f6",
@@ -1790,7 +1952,8 @@
     "definition": "漢字",
     "pitch_accent": 0,
     "affix_type": "none",
-    "lesson_id": "2"
+    "lesson_id": "2",
+    "system": "hiragana"
   },
   {
     "id": "b77466e2-1f61-438a-99e1-5c9143f2008b",
@@ -1801,7 +1964,8 @@
     "definition": "什麼樣的～",
     "pitch_accent": 1,
     "affix_type": "prefix",
-    "lesson_id": "2"
+    "lesson_id": "2",
+    "system": "hiragana"
   },
   {
     "id": "26e2bb46-ba96-41c6-be03-4335fe8b7cc0",
@@ -1812,7 +1976,8 @@
     "definition": "現在；剛才；等一下",
     "pitch_accent": 1,
     "affix_type": "none",
-    "lesson_id": "2"
+    "lesson_id": "2",
+    "system": "hiragana"
   },
   {
     "id": "5f210ff6-3e12-4257-b89b-fc1ec1f3a650",
@@ -1823,7 +1988,8 @@
     "definition": "幾點",
     "pitch_accent": 1,
     "affix_type": "none",
-    "lesson_id": "2"
+    "lesson_id": "2",
+    "system": "hiragana"
   },
   {
     "id": "032a1bcd-3a73-4f2f-b7b8-8a3a2e9ae5a6",
@@ -1834,7 +2000,8 @@
     "definition": "～點",
     "pitch_accent": -1,
     "affix_type": "suffix",
-    "lesson_id": "2"
+    "lesson_id": "2",
+    "system": "hiragana"
   },
   {
     "id": "03e4aa20-2f11-40df-bfff-0e86bf8b6918",
@@ -1845,7 +2012,8 @@
     "definition": "～分",
     "pitch_accent": -1,
     "affix_type": "suffix",
-    "lesson_id": "2"
+    "lesson_id": "2",
+    "system": "hiragana"
   },
   {
     "id": "10b8037b-3397-491d-bcdd-54e5c863a570",
@@ -1856,7 +2024,8 @@
     "definition": "～半",
     "pitch_accent": -1,
     "affix_type": "suffix",
-    "lesson_id": "2"
+    "lesson_id": "2",
+    "system": "hiragana"
   },
   {
     "id": "4ec2e9b1-58b7-40e4-84ac-09f09c377e46",
@@ -1867,7 +2036,8 @@
     "definition": "有一點；稍微",
     "pitch_accent": 1,
     "affix_type": "none",
-    "lesson_id": "2"
+    "lesson_id": "2",
+    "system": "hiragana"
   },
   {
     "id": "01d177d8-8a3a-447a-8813-de2b658c6f56",
@@ -1878,7 +2048,8 @@
     "definition": "購物；採買",
     "pitch_accent": 0,
     "affix_type": "none",
-    "lesson_id": "2"
+    "lesson_id": "2",
+    "system": "hiragana"
   },
   {
     "id": "df6a6183-110b-4bb1-a093-2d6577b9d72d",
@@ -1889,7 +2060,8 @@
     "definition": "富士山",
     "pitch_accent": 1,
     "affix_type": "none",
-    "lesson_id": "2"
+    "lesson_id": "2",
+    "system": "hiragana"
   },
   {
     "id": "7c147a67-05f8-4a06-944a-78278eb56945",
@@ -1900,7 +2072,8 @@
     "definition": "城鎮；城市",
     "pitch_accent": 2,
     "affix_type": "none",
-    "lesson_id": "2"
+    "lesson_id": "2",
+    "system": "hiragana"
   },
   {
     "id": "ba2d8c2a-d15c-4c4c-b551-4392cd919b7d",
@@ -1911,7 +2084,8 @@
     "definition": "京都(地名)",
     "pitch_accent": 1,
     "affix_type": "none",
-    "lesson_id": "2"
+    "lesson_id": "2",
+    "system": "hiragana"
   },
   {
     "id": "4a6b75e3-2da5-4962-a939-e1dc8b4e6b5f",
@@ -1922,7 +2096,8 @@
     "definition": "今天",
     "pitch_accent": 1,
     "affix_type": "none",
-    "lesson_id": "2"
+    "lesson_id": "2",
+    "system": "hiragana"
   },
   {
     "id": "47166926-202f-41ac-86a9-7f5cb9699d2d",
@@ -1933,7 +2108,8 @@
     "definition": "(天氣)寒冷的",
     "pitch_accent": 2,
     "affix_type": "none",
-    "lesson_id": "2"
+    "lesson_id": "2",
+    "system": "hiragana"
   },
   {
     "id": "4b488b7a-583f-458b-8495-938cada1bf38",
@@ -1944,7 +2120,8 @@
     "definition": "每天",
     "pitch_accent": 1,
     "affix_type": "none",
-    "lesson_id": "3"
+    "lesson_id": "3",
+    "system": "hiragana"
   },
   {
     "id": "8826c6ce-13f7-43c3-bb53-68e395a8e36f",
@@ -1955,7 +2132,8 @@
     "definition": "星期幾",
     "pitch_accent": 3,
     "affix_type": "none",
-    "lesson_id": "3"
+    "lesson_id": "3",
+    "system": "hiragana"
   },
   {
     "id": "694ce659-b8ba-4bfb-a473-8f17d5c4ce30",
@@ -1966,7 +2144,8 @@
     "definition": "星期一",
     "pitch_accent": 3,
     "affix_type": "none",
-    "lesson_id": "3"
+    "lesson_id": "3",
+    "system": "hiragana"
   },
   {
     "id": "a1d5c5e7-9211-4b2c-a21f-98d047a1d076",
@@ -1977,7 +2156,8 @@
     "definition": "星期二",
     "pitch_accent": 2,
     "affix_type": "none",
-    "lesson_id": "3"
+    "lesson_id": "3",
+    "system": "hiragana"
   },
   {
     "id": "3a55bf9c-7b6f-4597-ada5-567bfccf1b09",
@@ -1988,7 +2168,8 @@
     "definition": "星期三",
     "pitch_accent": 3,
     "affix_type": "none",
-    "lesson_id": "3"
+    "lesson_id": "3",
+    "system": "hiragana"
   },
   {
     "id": "065d7ac2-187e-484f-8b1c-f99aaf94937d",
@@ -1999,7 +2180,8 @@
     "definition": "星期四",
     "pitch_accent": 3,
     "affix_type": "none",
-    "lesson_id": "3"
+    "lesson_id": "3",
+    "system": "hiragana"
   },
   {
     "id": "799d2e10-306b-4eb1-b1d5-a755164f8070",
@@ -2010,7 +2192,8 @@
     "definition": "星期五",
     "pitch_accent": 3,
     "affix_type": "none",
-    "lesson_id": "3"
+    "lesson_id": "3",
+    "system": "hiragana"
   },
   {
     "id": "b17a8ceb-32dc-42c3-a53b-21bc65848a69",
@@ -2021,7 +2204,8 @@
     "definition": "星期六",
     "pitch_accent": 2,
     "affix_type": "none",
-    "lesson_id": "3"
+    "lesson_id": "3",
+    "system": "hiragana"
   },
   {
     "id": "31a0e6d8-a969-46ac-b0e6-c9a6d99475a6",
@@ -2032,7 +2216,8 @@
     "definition": "星期天",
     "pitch_accent": 3,
     "affix_type": "none",
-    "lesson_id": "3"
+    "lesson_id": "3",
+    "system": "hiragana"
   },
   {
     "id": "7c4a56a3-3a3a-4858-867c-35b3263c26f9",
@@ -2043,7 +2228,8 @@
     "definition": "明天",
     "pitch_accent": 3,
     "affix_type": "none",
-    "lesson_id": "3"
+    "lesson_id": "3",
+    "system": "hiragana"
   },
   {
     "id": "d9c228ed-9e25-4a8b-9675-c90637bce197",
@@ -2054,7 +2240,8 @@
     "definition": "昨天",
     "pitch_accent": 2,
     "affix_type": "none",
-    "lesson_id": "3"
+    "lesson_id": "3",
+    "system": "hiragana"
   },
   {
     "id": "92afa523-9e9c-467e-804d-e355912fa45a",
@@ -2065,7 +2252,8 @@
     "definition": "這週",
     "pitch_accent": 0,
     "affix_type": "none",
-    "lesson_id": "3"
+    "lesson_id": "3",
+    "system": "hiragana"
   },
   {
     "id": "2125b5a6-2615-4081-8d5b-65405b6807ec",
@@ -2076,7 +2264,8 @@
     "definition": "下週",
     "pitch_accent": 0,
     "affix_type": "none",
-    "lesson_id": "3"
+    "lesson_id": "3",
+    "system": "hiragana"
   },
   {
     "id": "b3ef8b74-25a9-4387-bf01-4b4ec5a1364a",
@@ -2087,7 +2276,8 @@
     "definition": "上週",
     "pitch_accent": 0,
     "affix_type": "none",
-    "lesson_id": "3"
+    "lesson_id": "3",
+    "system": "hiragana"
   },
   {
     "id": "76b1bda5-e21b-4a30-a614-0a7315660bbc",
@@ -2098,7 +2288,8 @@
     "definition": "早上",
     "pitch_accent": 1,
     "affix_type": "none",
-    "lesson_id": "3"
+    "lesson_id": "3",
+    "system": "hiragana"
   },
   {
     "id": "7ed968c5-c8b3-41c9-b657-7ebe171aa536",
@@ -2109,7 +2300,8 @@
     "definition": "中午；白天",
     "pitch_accent": 2,
     "affix_type": "none",
-    "lesson_id": "3"
+    "lesson_id": "3",
+    "system": "hiragana"
   },
   {
     "id": "90b55fba-d2ed-435e-8c31-e29a5e1af838",
@@ -2120,7 +2312,8 @@
     "definition": "傍晚",
     "pitch_accent": 0,
     "affix_type": "none",
-    "lesson_id": "3"
+    "lesson_id": "3",
+    "system": "hiragana"
   },
   {
     "id": "830b0b31-e67d-41a7-bdf7-0cc7026ebea9",
@@ -2131,7 +2324,8 @@
     "definition": "晚上",
     "pitch_accent": 1,
     "affix_type": "none",
-    "lesson_id": "3"
+    "lesson_id": "3",
+    "system": "hiragana"
   },
   {
     "id": "41c545d5-5fbf-4b32-ac86-42efc93315d2",
@@ -2142,7 +2336,8 @@
     "definition": "上午；上半天",
     "pitch_accent": 1,
     "affix_type": "none",
-    "lesson_id": "3"
+    "lesson_id": "3",
+    "system": "hiragana"
   },
   {
     "id": "4c331a36-9d15-45f9-bcf2-d29700a05867",
@@ -2153,7 +2348,8 @@
     "definition": "下午；下半天",
     "pitch_accent": 1,
     "affix_type": "none",
-    "lesson_id": "3"
+    "lesson_id": "3",
+    "system": "hiragana"
   },
   {
     "id": "4e709dd7-36b5-45a0-9990-87d81991c0df",
@@ -2164,7 +2360,8 @@
     "definition": "起床",
     "pitch_accent": 3,
     "affix_type": "none",
-    "lesson_id": "3"
+    "lesson_id": "3",
+    "system": "hiragana"
   },
   {
     "id": "42d0bdcc-670a-4a71-b2e2-db0db49e04be",
@@ -2175,7 +2372,8 @@
     "definition": "大約(～時間)；(～時間)左右",
     "pitch_accent": -1,
     "affix_type": "suffix",
-    "lesson_id": "3"
+    "lesson_id": "3",
+    "system": "hiragana"
   },
   {
     "id": "e1268214-7dd8-4a87-972e-06db4f6d809c",
@@ -2186,7 +2384,8 @@
     "definition": "接著；然後",
     "pitch_accent": 0,
     "affix_type": "none",
-    "lesson_id": "3"
+    "lesson_id": "3",
+    "system": "hiragana"
   },
   {
     "id": "b4886acd-68c5-4782-9f30-613f5b0ab48c",
@@ -2197,7 +2396,8 @@
     "definition": "睡覺",
     "pitch_accent": 2,
     "affix_type": "none",
-    "lesson_id": "3"
+    "lesson_id": "3",
+    "system": "hiragana"
   },
   {
     "id": "4b6b0321-2e01-4f75-8baa-ea7cb70ae342",
@@ -2208,7 +2408,8 @@
     "definition": "上課；授課；課程",
     "pitch_accent": 1,
     "affix_type": "none",
-    "lesson_id": "3"
+    "lesson_id": "3",
+    "system": "hiragana"
   },
   {
     "id": "04aa79ed-42fe-4f6a-a3e9-35597ac28cb0",
@@ -2219,7 +2420,8 @@
     "definition": "開始",
     "pitch_accent": 5,
     "affix_type": "none",
-    "lesson_id": "3"
+    "lesson_id": "3",
+    "system": "hiragana"
   },
   {
     "id": "f59791cc-1343-421b-9bd2-40b2b931bd89",
@@ -2230,7 +2432,8 @@
     "definition": "第~堂課",
     "pitch_accent": -1,
     "affix_type": "suffix",
-    "lesson_id": "3"
+    "lesson_id": "3",
+    "system": "hiragana"
   },
   {
     "id": "ccba4358-b88a-48fb-a974-bb7902ffb3b6",
@@ -2241,7 +2444,8 @@
     "definition": "結束",
     "pitch_accent": 4,
     "affix_type": "none",
-    "lesson_id": "3"
+    "lesson_id": "3",
+    "system": "hiragana"
   },
   {
     "id": "18a4e5d5-4fd3-4e72-a5c8-1d8b0e8644a7",
@@ -2252,7 +2456,8 @@
     "definition": "午休",
     "pitch_accent": 3,
     "affix_type": "none",
-    "lesson_id": "3"
+    "lesson_id": "3",
+    "system": "hiragana"
   },
   {
     "id": "2b8ddc9c-c341-4fc5-ae1b-c5bcac1586f3",
@@ -2263,7 +2468,8 @@
     "definition": "電影",
     "pitch_accent": 1,
     "affix_type": "none",
-    "lesson_id": "3"
+    "lesson_id": "3",
+    "system": "hiragana"
   },
   {
     "id": "5f022748-2b49-4f02-9479-59683a50c5a8",
@@ -2274,7 +2480,8 @@
     "definition": "這樣啊",
     "pitch_accent": 1,
     "affix_type": "none",
-    "lesson_id": "3"
+    "lesson_id": "3",
+    "system": "hiragana"
   },
   {
     "id": "fe66ecd6-5b3a-42d8-a1ce-6ee22e137bc1",
@@ -2285,7 +2492,8 @@
     "definition": "是那樣嗎",
     "pitch_accent": 1,
     "affix_type": "none",
-    "lesson_id": "3"
+    "lesson_id": "3",
+    "system": "hiragana"
   },
   {
     "id": "23c09ba4-6a83-46c3-b28e-1fe57c894c70",
@@ -2296,7 +2504,8 @@
     "definition": "考試；測驗",
     "pitch_accent": 1,
     "affix_type": "none",
-    "lesson_id": "3"
+    "lesson_id": "3",
+    "system": "hiragana"
   },
   {
     "id": "330dd6ed-cd79-4f1d-a8fc-9abcf746f88d",
@@ -2307,7 +2516,8 @@
     "definition": "工作",
     "pitch_accent": 0,
     "affix_type": "none",
-    "lesson_id": "3"
+    "lesson_id": "3",
+    "system": "hiragana"
   },
   {
     "id": "ad87cc79-fd9d-4a5b-9375-0d2a86f7b9cd",
@@ -2318,7 +2528,8 @@
     "definition": "打工",
     "pitch_accent": 3,
     "affix_type": "none",
-    "lesson_id": "3"
+    "lesson_id": "3",
+    "system": "katakana"
   },
   {
     "id": "ceb3a43b-cd2a-4022-9df7-fecfeeec47d4",
@@ -2329,7 +2540,8 @@
     "definition": "每天早上",
     "pitch_accent": 1,
     "affix_type": "none",
-    "lesson_id": "3"
+    "lesson_id": "3",
+    "system": "hiragana"
   },
   {
     "id": "2fd9048a-e1f4-4958-a452-134add60a539",
@@ -2340,7 +2552,8 @@
     "definition": "每天晚上",
     "pitch_accent": 1,
     "affix_type": "none",
-    "lesson_id": "3"
+    "lesson_id": "3",
+    "system": "hiragana"
   },
   {
     "id": "3c89e9b9-3e1d-40f2-9251-433265a4accd",
@@ -2351,7 +2564,8 @@
     "definition": "晚上",
     "pitch_accent": 0,
     "affix_type": "none",
-    "lesson_id": "3"
+    "lesson_id": "3",
+    "system": "hiragana"
   },
   {
     "id": "7ca0c830-c41d-44c6-a11b-51e5cc9bff81",
@@ -2362,7 +2576,8 @@
     "definition": "吃",
     "pitch_accent": 3,
     "affix_type": "none",
-    "lesson_id": "3"
+    "lesson_id": "3",
+    "system": "hiragana"
   },
   {
     "id": "9f1dd3dc-f5fb-4334-9086-acc7fc011eb8",
@@ -2373,7 +2588,8 @@
     "definition": "飯；白飯",
     "pitch_accent": 1,
     "affix_type": "none",
-    "lesson_id": "3"
+    "lesson_id": "3",
+    "system": "hiragana"
   },
   {
     "id": "43df0a70-b90e-405b-aee2-d54fa9b12727",
@@ -2384,7 +2600,8 @@
     "definition": "酒",
     "pitch_accent": 0,
     "affix_type": "none",
-    "lesson_id": "3"
+    "lesson_id": "3",
+    "system": "hiragana"
   },
   {
     "id": "06d2d58a-6709-4425-a557-cbf0cffb29b7",
@@ -2395,7 +2612,8 @@
     "definition": "喝",
     "pitch_accent": 3,
     "affix_type": "none",
-    "lesson_id": "3"
+    "lesson_id": "3",
+    "system": "hiragana"
   },
   {
     "id": "4ba678ea-82b4-49d5-b003-b240244068d1",
@@ -2406,7 +2624,8 @@
     "definition": "信；書信",
     "pitch_accent": 0,
     "affix_type": "none",
-    "lesson_id": "3"
+    "lesson_id": "3",
+    "system": "hiragana"
   },
   {
     "id": "2203718c-a9d4-4668-841f-6bb06be008ed",
@@ -2417,7 +2636,8 @@
     "definition": "報告",
     "pitch_accent": 2,
     "affix_type": "none",
-    "lesson_id": "3"
+    "lesson_id": "3",
+    "system": "katakana"
   },
   {
     "id": "41739654-23bd-439a-b47e-9c1a81d9d153",
@@ -2428,7 +2648,8 @@
     "definition": "寫",
     "pitch_accent": 3,
     "affix_type": "none",
-    "lesson_id": "3"
+    "lesson_id": "3",
+    "system": "hiragana"
   },
   {
     "id": "acd71334-5443-4bb1-9274-28109a98c006",
@@ -2439,7 +2660,8 @@
     "definition": "讀；閱讀；看；唸",
     "pitch_accent": 3,
     "affix_type": "none",
-    "lesson_id": "3"
+    "lesson_id": "3",
+    "system": "hiragana"
   },
   {
     "id": "4118cda1-7727-4ea2-b267-9c2bcbacb391",
@@ -2450,7 +2672,8 @@
     "definition": "歌",
     "pitch_accent": 2,
     "affix_type": "none",
-    "lesson_id": "3"
+    "lesson_id": "3",
+    "system": "hiragana"
   },
   {
     "id": "dde8a0fa-2408-4851-9d77-174c2cce0d8c",
@@ -2461,7 +2684,8 @@
     "definition": "音樂",
     "pitch_accent": 1,
     "affix_type": "none",
-    "lesson_id": "3"
+    "lesson_id": "3",
+    "system": "hiragana"
   },
   {
     "id": "c52c75ea-4316-48a1-bceb-b408d488a9d7",
@@ -2472,7 +2696,8 @@
     "definition": "聽；問",
     "pitch_accent": 3,
     "affix_type": "none",
-    "lesson_id": "3"
+    "lesson_id": "3",
+    "system": "hiragana"
   },
   {
     "id": "a12bd4a3-492e-461e-ad16-c8490c6a3f64",
@@ -2483,7 +2708,8 @@
     "definition": "新聞",
     "pitch_accent": 1,
     "affix_type": "none",
-    "lesson_id": "3"
+    "lesson_id": "3",
+    "system": "katakana"
   },
   {
     "id": "a4f38ef7-af30-4acd-bd19-3f5fd0284bd3",
@@ -2494,7 +2720,8 @@
     "definition": "看",
     "pitch_accent": 2,
     "affix_type": "none",
-    "lesson_id": "3"
+    "lesson_id": "3",
+    "system": "hiragana"
   },
   {
     "id": "278f529b-6ca6-46d1-a65c-d310ed03b4fa",
@@ -2505,7 +2732,8 @@
     "definition": "讀書；學習",
     "pitch_accent": 6,
     "affix_type": "none",
-    "lesson_id": "3"
+    "lesson_id": "3",
+    "system": "hiragana"
   },
   {
     "id": "024a39ae-6910-4664-9bcf-d5a0fca0b8e5",
@@ -2516,7 +2744,8 @@
     "definition": "買",
     "pitch_accent": 3,
     "affix_type": "none",
-    "lesson_id": "3"
+    "lesson_id": "3",
+    "system": "hiragana"
   },
   {
     "id": "2af8ff5d-6da7-4d9e-811f-d5ae1c467d1c",
@@ -2527,7 +2756,8 @@
     "definition": "午餐",
     "pitch_accent": 3,
     "affix_type": "none",
-    "lesson_id": "3"
+    "lesson_id": "3",
+    "system": "hiragana"
   },
   {
     "id": "1bbff917-afc9-40f8-8343-20525fe68753",
@@ -2538,7 +2768,8 @@
     "definition": "晚餐",
     "pitch_accent": 3,
     "affix_type": "none",
-    "lesson_id": "3"
+    "lesson_id": "3",
+    "system": "hiragana"
   },
   {
     "id": "0d89962b-b715-4edd-abf1-77e43786661a",
@@ -2549,7 +2780,8 @@
     "definition": "吃飯",
     "pitch_accent": 5,
     "affix_type": "none",
-    "lesson_id": "3"
+    "lesson_id": "3",
+    "system": "hiragana"
   },
   {
     "id": "c165ddba-fac6-498a-91c6-150899a7aac9",
@@ -2560,7 +2792,8 @@
     "definition": "料理",
     "pitch_accent": 1,
     "affix_type": "none",
-    "lesson_id": "3"
+    "lesson_id": "3",
+    "system": "hiragana"
   },
   {
     "id": "e2cb1a97-3294-4725-9845-33a6417f6891",
@@ -2571,7 +2804,8 @@
     "definition": "做；製作；建立；創造",
     "pitch_accent": 4,
     "affix_type": "none",
-    "lesson_id": "3"
+    "lesson_id": "3",
+    "system": "hiragana"
   },
   {
     "id": "fadb75c2-9e1b-4b26-9a84-64b00f70ccb0",
@@ -2582,7 +2816,8 @@
     "definition": "網球",
     "pitch_accent": 1,
     "affix_type": "none",
-    "lesson_id": "3"
+    "lesson_id": "3",
+    "system": "katakana"
   },
   {
     "id": "05126934-acd3-4515-8726-6143b81dd1b1",
@@ -2593,7 +2828,8 @@
     "definition": "足球",
     "pitch_accent": 1,
     "affix_type": "none",
-    "lesson_id": "3"
+    "lesson_id": "3",
+    "system": "katakana"
   },
   {
     "id": "b83f1751-496c-492e-8e11-8e390d7e7185",
@@ -2604,7 +2840,8 @@
     "definition": "運動",
     "pitch_accent": 2,
     "affix_type": "none",
-    "lesson_id": "3"
+    "lesson_id": "3",
+    "system": "katakana"
   },
   {
     "id": "dcc4fbc5-ef0b-45be-9297-80315eb2e115",
@@ -2615,7 +2852,8 @@
     "definition": "做；配戴",
     "pitch_accent": 2,
     "affix_type": "none",
-    "lesson_id": "3"
+    "lesson_id": "3",
+    "system": "hiragana"
   },
   {
     "id": "d9f450c3-5763-430e-a7b6-99c624be967b",
@@ -2626,7 +2864,8 @@
     "definition": "購物；採買",
     "pitch_accent": 6,
     "affix_type": "none",
-    "lesson_id": "3"
+    "lesson_id": "3",
+    "system": "hiragana"
   },
   {
     "id": "1fcff6f7-26d8-4689-932e-8d0c261be333",
@@ -2637,7 +2876,8 @@
     "definition": "散步",
     "pitch_accent": 5,
     "affix_type": "none",
-    "lesson_id": "3"
+    "lesson_id": "3",
+    "system": "hiragana"
   },
   {
     "id": "d8fd301f-4ee0-4939-abf5-538ea87cdf08",
@@ -2648,7 +2888,8 @@
     "definition": "說；聊天",
     "pitch_accent": 4,
     "affix_type": "none",
-    "lesson_id": "3"
+    "lesson_id": "3",
+    "system": "hiragana"
   },
   {
     "id": "95335a99-6021-450f-b0ae-0657797552d0",
@@ -2659,7 +2900,8 @@
     "definition": "食物",
     "pitch_accent": 2,
     "affix_type": "none",
-    "lesson_id": "3"
+    "lesson_id": "3",
+    "system": "hiragana"
   },
   {
     "id": "66c5d01e-ce80-413b-8db9-03cbc123533a",
@@ -2670,7 +2912,8 @@
     "definition": "肉",
     "pitch_accent": 2,
     "affix_type": "none",
-    "lesson_id": "3"
+    "lesson_id": "3",
+    "system": "hiragana"
   },
   {
     "id": "7d5c0072-a5ee-4e34-ad68-9d2751ec63de",
@@ -2681,7 +2924,8 @@
     "definition": "豬肉",
     "pitch_accent": 0,
     "affix_type": "none",
-    "lesson_id": "3"
+    "lesson_id": "3",
+    "system": "hiragana"
   },
   {
     "id": "7e015697-ce17-40b0-8dfe-adcae8112201",
@@ -2692,7 +2936,8 @@
     "definition": "牛肉",
     "pitch_accent": 0,
     "affix_type": "none",
-    "lesson_id": "3"
+    "lesson_id": "3",
+    "system": "hiragana"
   },
   {
     "id": "897b43ee-9313-4374-9f5d-1b7cc27d0dfa",
@@ -2703,7 +2948,8 @@
     "definition": "雞肉",
     "pitch_accent": 0,
     "affix_type": "none",
-    "lesson_id": "3"
+    "lesson_id": "3",
+    "system": "hiragana"
   },
   {
     "id": "944d3199-0518-43e2-b732-18f552aa56b0",
@@ -2714,7 +2960,8 @@
     "definition": "魚；魚肉",
     "pitch_accent": 0,
     "affix_type": "none",
-    "lesson_id": "3"
+    "lesson_id": "3",
+    "system": "hiragana"
   },
   {
     "id": "8ede1fe9-46e9-4a35-8156-3c8a2c8ea019",
@@ -2725,7 +2972,8 @@
     "definition": "蔬菜",
     "pitch_accent": 0,
     "affix_type": "none",
-    "lesson_id": "3"
+    "lesson_id": "3",
+    "system": "hiragana"
   },
   {
     "id": "7d5d6a01-1c86-49bc-ae5d-34c5d908e4da",
@@ -2736,7 +2984,8 @@
     "definition": "蛋",
     "pitch_accent": 2,
     "affix_type": "none",
-    "lesson_id": "3"
+    "lesson_id": "3",
+    "system": "hiragana"
   },
   {
     "id": "9224b0d5-9786-46c1-bb19-5e640059b263",
@@ -2747,7 +2996,8 @@
     "definition": "水果",
     "pitch_accent": 2,
     "affix_type": "none",
-    "lesson_id": "3"
+    "lesson_id": "3",
+    "system": "hiragana"
   },
   {
     "id": "d84a61aa-0d17-4d73-a452-e3bee4655435",
@@ -2758,7 +3008,8 @@
     "definition": "蘋果",
     "pitch_accent": 0,
     "affix_type": "none",
-    "lesson_id": "3"
+    "lesson_id": "3",
+    "system": "hiragana"
   },
   {
     "id": "cc2d9b2e-df04-494e-95f2-949d2fb27c1d",
@@ -2769,7 +3020,8 @@
     "definition": "香蕉",
     "pitch_accent": 1,
     "affix_type": "none",
-    "lesson_id": "3"
+    "lesson_id": "3",
+    "system": "katakana"
   },
   {
     "id": "535a552f-0ff9-413b-b472-f48575358861",
@@ -2780,7 +3032,8 @@
     "definition": "飲料；喝的",
     "pitch_accent": 2,
     "affix_type": "none",
-    "lesson_id": "3"
+    "lesson_id": "3",
+    "system": "hiragana"
   },
   {
     "id": "68b53dd6-d683-47ce-9867-89c6f076c428",
@@ -2791,7 +3044,8 @@
     "definition": "水；冰水",
     "pitch_accent": 0,
     "affix_type": "none",
-    "lesson_id": "3"
+    "lesson_id": "3",
+    "system": "hiragana"
   },
   {
     "id": "3729ebe9-bbb5-400d-8118-36c2b4e74bec",
@@ -2802,7 +3056,8 @@
     "definition": "啤酒",
     "pitch_accent": 1,
     "affix_type": "none",
-    "lesson_id": "3"
+    "lesson_id": "3",
+    "system": "katakana"
   },
   {
     "id": "4a61f056-afdc-4949-80c7-692f6b6cb34b",
@@ -2813,7 +3068,8 @@
     "definition": "有時",
     "pitch_accent": 0,
     "affix_type": "none",
-    "lesson_id": "3"
+    "lesson_id": "3",
+    "system": "hiragana"
   },
   {
     "id": "3412761e-a3ad-4473-ac8d-626a4d2ff0da",
@@ -2824,7 +3080,8 @@
     "definition": "每週",
     "pitch_accent": 0,
     "affix_type": "none",
-    "lesson_id": "3"
+    "lesson_id": "3",
+    "system": "hiragana"
   },
   {
     "id": "770d9916-ddd8-4d54-8c19-f17eae1fa92a",
@@ -2835,7 +3092,8 @@
     "definition": "週末",
     "pitch_accent": 0,
     "affix_type": "none",
-    "lesson_id": "3"
+    "lesson_id": "3",
+    "system": "hiragana"
   },
   {
     "id": "f63b30c8-ffe2-4138-8c40-6d1cbe0ad72d",
@@ -2846,7 +3104,8 @@
     "definition": "超市",
     "pitch_accent": 1,
     "affix_type": "none",
-    "lesson_id": "3"
+    "lesson_id": "3",
+    "system": "katakana"
   },
   {
     "id": "b9e00fd6-a4b4-4c5a-9876-b217248277b0",
@@ -2857,7 +3116,8 @@
     "definition": "百貨公司",
     "pitch_accent": 2,
     "affix_type": "none",
-    "lesson_id": "3"
+    "lesson_id": "3",
+    "system": "katakana"
   },
   {
     "id": "ecc151a8-756e-4dce-876c-b0d7190e2c3a",
@@ -2868,7 +3128,8 @@
     "definition": "書店",
     "pitch_accent": 1,
     "affix_type": "none",
-    "lesson_id": "3"
+    "lesson_id": "3",
+    "system": "hiragana"
   },
   {
     "id": "dde9fd59-e77c-4c6d-a2ec-d4ec960f4f1e",
@@ -2879,7 +3140,8 @@
     "definition": "電子郵件",
     "pitch_accent": 0,
     "affix_type": "none",
-    "lesson_id": "3"
+    "lesson_id": "3",
+    "system": "katakana"
   },
   {
     "id": "d796663f-e6fc-489a-b691-e5e6b6147d39",
@@ -2890,7 +3152,8 @@
     "definition": "乒乓球；桌球",
     "pitch_accent": 1,
     "affix_type": "none",
-    "lesson_id": "3"
+    "lesson_id": "3",
+    "system": "katakana"
   },
   {
     "id": "1581bbd9-f4df-4a42-a3e4-09820606c091",
@@ -2901,7 +3164,8 @@
     "definition": "電影院",
     "pitch_accent": 3,
     "affix_type": "none",
-    "lesson_id": "3"
+    "lesson_id": "3",
+    "system": "hiragana"
   },
   {
     "id": "dc7ead5d-f540-4384-b306-20105deef01d",
@@ -2912,7 +3176,8 @@
     "definition": "演講；致詞",
     "pitch_accent": 2,
     "affix_type": "none",
-    "lesson_id": "3"
+    "lesson_id": "3",
+    "system": "katakana"
   },
   {
     "id": "b8b100a5-59aa-4b42-b3c5-a7636893803f",
@@ -2923,7 +3188,8 @@
     "definition": "後天",
     "pitch_accent": 2,
     "affix_type": "none",
-    "lesson_id": "3"
+    "lesson_id": "3",
+    "system": "hiragana"
   },
   {
     "id": "97f5eed0-874a-4e0b-b256-c1baf25023f8",
@@ -2934,7 +3200,8 @@
     "definition": "作文",
     "pitch_accent": 0,
     "affix_type": "none",
-    "lesson_id": "3"
+    "lesson_id": "3",
+    "system": "hiragana"
   },
   {
     "id": "23af6fcf-d516-4d13-9228-0254f094c059",
@@ -2945,7 +3212,8 @@
     "definition": "今晚",
     "pitch_accent": 1,
     "affix_type": "none",
-    "lesson_id": "3"
+    "lesson_id": "3",
+    "system": "hiragana"
   },
   {
     "id": "4feb8609-16e3-4f89-a8f1-4c571f61974d",
@@ -2956,7 +3224,8 @@
     "definition": "昨晚",
     "pitch_accent": 3,
     "affix_type": "none",
-    "lesson_id": "3"
+    "lesson_id": "3",
+    "system": "hiragana"
   },
   {
     "id": "bbfbd4f5-415d-4c9a-8fa6-c8b7ac66d39c",
@@ -2967,7 +3236,8 @@
     "definition": "前天",
     "pitch_accent": 3,
     "affix_type": "none",
-    "lesson_id": "3"
+    "lesson_id": "3",
+    "system": "hiragana"
   },
   {
     "id": "c9290541-b8bd-42d3-8832-328b91b093b4",
@@ -2978,7 +3248,8 @@
     "definition": "今早",
     "pitch_accent": 1,
     "affix_type": "none",
-    "lesson_id": "3"
+    "lesson_id": "3",
+    "system": "hiragana"
   },
   {
     "id": "f8f26a1c-fa97-4532-95d7-9d27229de86d",
@@ -2989,7 +3260,8 @@
     "definition": "早餐",
     "pitch_accent": 3,
     "affix_type": "none",
-    "lesson_id": "3"
+    "lesson_id": "3",
+    "system": "hiragana"
   },
   {
     "id": "5a74b02a-ceb3-4bb4-8d35-c75fef13755f",
@@ -3000,7 +3272,8 @@
     "definition": "佈告欄",
     "pitch_accent": 0,
     "affix_type": "none",
-    "lesson_id": "3"
+    "lesson_id": "3",
+    "system": "hiragana"
   },
   {
     "id": "e15c55d9-cbd3-4a1b-abc0-4532a68c2302",
@@ -3011,7 +3284,8 @@
     "definition": "派對；聚會",
     "pitch_accent": 1,
     "affix_type": "none",
-    "lesson_id": "3"
+    "lesson_id": "3",
+    "system": "katakana"
   },
   {
     "id": "19dfc3dc-1924-4e2a-a343-307480abcba5",
@@ -3022,7 +3296,8 @@
     "definition": "文化",
     "pitch_accent": 1,
     "affix_type": "none",
-    "lesson_id": "3"
+    "lesson_id": "3",
+    "system": "hiragana"
   },
   {
     "id": "8f34c5b4-73d8-42dc-a352-5da32543c6ee",
@@ -3033,7 +3308,8 @@
     "definition": "朋友",
     "pitch_accent": 0,
     "affix_type": "none",
-    "lesson_id": "3"
+    "lesson_id": "3",
+    "system": "hiragana"
   },
   {
     "id": "6930c11c-9b4e-42b0-8638-c84eb836f99d",
@@ -3044,7 +3320,8 @@
     "definition": "家",
     "pitch_accent": 0,
     "affix_type": "none",
-    "lesson_id": "3"
+    "lesson_id": "3",
+    "system": "hiragana"
   },
   {
     "id": "d2949a94-20e8-41bb-a81d-56fef565ac5e",
@@ -3055,7 +3332,8 @@
     "definition": "一天",
     "pitch_accent": 4,
     "affix_type": "none",
-    "lesson_id": "3"
+    "lesson_id": "3",
+    "system": "hiragana"
   },
   {
     "id": "ac77d1fe-c730-4e13-b921-5af6343370ef",
@@ -3066,7 +3344,8 @@
     "definition": "籃球",
     "pitch_accent": 6,
     "affix_type": "none",
-    "lesson_id": "3"
+    "lesson_id": "3",
+    "system": "katakana"
   },
   {
     "id": "f28e2d1d-6dec-48e1-90d2-8279307516ba",
@@ -3077,7 +3356,8 @@
     "definition": "問題；疑問",
     "pitch_accent": 0,
     "affix_type": "none",
-    "lesson_id": "3"
+    "lesson_id": "3",
+    "system": "hiragana"
   },
   {
     "id": "80ce50f9-b579-4748-b290-d7ad887ffe87",
@@ -3088,7 +3368,8 @@
     "definition": "醫生",
     "pitch_accent": 0,
     "affix_type": "none",
-    "lesson_id": "3"
+    "lesson_id": "3",
+    "system": "hiragana"
   },
   {
     "id": "7e3647ae-d1be-4db5-90b2-49323b778c77",
@@ -3099,7 +3380,8 @@
     "definition": "羽毛球",
     "pitch_accent": 3,
     "affix_type": "none",
-    "lesson_id": "3"
+    "lesson_id": "3",
+    "system": "katakana"
   },
   {
     "id": "acf92256-85ac-4943-b4e6-a6bd38be2b75",
@@ -3110,7 +3392,8 @@
     "definition": "上上週",
     "pitch_accent": 0,
     "affix_type": "none",
-    "lesson_id": "3"
+    "lesson_id": "3",
+    "system": "hiragana"
   },
   {
     "id": "9bc8a131-7601-46ee-83f4-5a82a06ec307",
@@ -3121,7 +3404,8 @@
     "definition": "下下週",
     "pitch_accent": 0,
     "affix_type": "none",
-    "lesson_id": "3"
+    "lesson_id": "3",
+    "system": "hiragana"
   },
   {
     "id": "7b97b0bf-3227-44a0-b0ed-780b9e217187",
@@ -3132,7 +3416,8 @@
     "definition": "時間",
     "pitch_accent": 0,
     "affix_type": "none",
-    "lesson_id": "3"
+    "lesson_id": "3",
+    "system": "hiragana"
   },
   {
     "id": "9b456d85-26cd-4cea-8b43-6fc468347d3e",
@@ -3143,7 +3428,8 @@
     "definition": "平假名",
     "pitch_accent": 3,
     "affix_type": "none",
-    "lesson_id": "3"
+    "lesson_id": "3",
+    "system": "hiragana"
   },
   {
     "id": "1b0f8265-c71b-44f2-b071-ab39652be893",
@@ -3154,7 +3440,8 @@
     "definition": "場所；地點；地方",
     "pitch_accent": 0,
     "affix_type": "none",
-    "lesson_id": "3"
+    "lesson_id": "3",
+    "system": "hiragana"
   },
   {
     "id": "fc4ef0b9-c7ab-4e64-b755-8abf7a6b40e5",
@@ -3165,7 +3452,8 @@
     "definition": "隨聲附和",
     "pitch_accent": 0,
     "affix_type": "none",
-    "lesson_id": "3"
+    "lesson_id": "3",
+    "system": "hiragana"
   },
   {
     "id": "c9427941-feaf-4426-bf38-09c56e5d2a92",
@@ -3176,7 +3464,8 @@
     "definition": "嗯；是；對(表同意或應允)",
     "pitch_accent": 1,
     "affix_type": "none",
-    "lesson_id": "3"
+    "lesson_id": "3",
+    "system": "hiragana"
   },
   {
     "id": "5dc64801-af3a-4ff3-84e2-bda26f25fdab",
@@ -3187,7 +3476,8 @@
     "definition": "嗯；是；對(表同意或應允)",
     "pitch_accent": 1,
     "affix_type": "none",
-    "lesson_id": "3"
+    "lesson_id": "3",
+    "system": "hiragana"
   },
   {
     "id": "4ba76aa0-bd9f-4b1b-9865-af2cb7656dab",
@@ -3198,7 +3488,8 @@
     "definition": "法國",
     "pitch_accent": 0,
     "affix_type": "none",
-    "lesson_id": "3"
+    "lesson_id": "3",
+    "system": "katakana"
   },
   {
     "id": "84b0ceb6-cef7-4152-b8ba-e3ee19595f52",
@@ -3209,7 +3500,8 @@
     "definition": "幾月",
     "pitch_accent": 1,
     "affix_type": "none",
-    "lesson_id": "4"
+    "lesson_id": "4",
+    "system": "hiragana"
   },
   {
     "id": "7f802182-8cf5-4595-9671-cb428f901dbd",
@@ -3220,7 +3512,8 @@
     "definition": "幾日",
     "pitch_accent": 1,
     "affix_type": "none",
-    "lesson_id": "4"
+    "lesson_id": "4",
+    "system": "hiragana"
   },
   {
     "id": "a990377c-7ae0-499e-849e-608f37842ec8",
@@ -3231,7 +3524,8 @@
     "definition": "～月",
     "pitch_accent": -1,
     "affix_type": "suffix",
-    "lesson_id": "4"
+    "lesson_id": "4",
+    "system": "hiragana"
   },
   {
     "id": "1d6323be-0586-4bdc-937b-4e5d054a7e75",
@@ -3242,7 +3536,8 @@
     "definition": "～日；～號",
     "pitch_accent": -1,
     "affix_type": "suffix",
-    "lesson_id": "4"
+    "lesson_id": "4",
+    "system": "hiragana"
   },
   {
     "id": "60c4b3da-a903-4967-b1cc-f22becd4ce84",
@@ -3253,7 +3548,8 @@
     "definition": "生日",
     "pitch_accent": 3,
     "affix_type": "none",
-    "lesson_id": "4"
+    "lesson_id": "4",
+    "system": "hiragana"
   },
   {
     "id": "d9632874-e01a-48d3-a1ab-cc3b591e5458",
@@ -3264,7 +3560,8 @@
     "definition": "休息；休假日",
     "pitch_accent": 3,
     "affix_type": "none",
-    "lesson_id": "4"
+    "lesson_id": "4",
+    "system": "hiragana"
   },
   {
     "id": "7f1eb80d-ca23-46be-9bab-41b6816b2e76",
@@ -3275,7 +3572,8 @@
     "definition": "超商",
     "pitch_accent": 0,
     "affix_type": "none",
-    "lesson_id": "4"
+    "lesson_id": "4",
+    "system": "katakana"
   },
   {
     "id": "801b3255-6fd6-40f7-a068-bcc983387924",
@@ -3286,7 +3584,8 @@
     "definition": "合作社",
     "pitch_accent": 0,
     "affix_type": "none",
-    "lesson_id": "4"
+    "lesson_id": "4",
+    "system": "hiragana"
   },
   {
     "id": "f4807580-2259-4b3a-9591-75c032027b52",
@@ -3297,7 +3596,8 @@
     "definition": "漂亮的；乾淨的",
     "pitch_accent": 1,
     "affix_type": "none",
-    "lesson_id": "4"
+    "lesson_id": "4",
+    "system": "hiragana"
   },
   {
     "id": "ae18bc49-303d-4200-9c21-e8d23bd17661",
@@ -3308,7 +3608,8 @@
     "definition": "堅固的；耐用的",
     "pitch_accent": 0,
     "affix_type": "none",
-    "lesson_id": "4"
+    "lesson_id": "4",
+    "system": "hiragana"
   },
   {
     "id": "2a44f925-36e1-43c7-a519-e8266f3f06fc",
@@ -3319,7 +3620,8 @@
     "definition": "箱子；盒子",
     "pitch_accent": 0,
     "affix_type": "none",
-    "lesson_id": "4"
+    "lesson_id": "4",
+    "system": "hiragana"
   },
   {
     "id": "3572a870-14fb-41a8-a733-ef9d9f3cda83",
@@ -3330,7 +3632,8 @@
     "definition": "方便的",
     "pitch_accent": 1,
     "affix_type": "none",
-    "lesson_id": "4"
+    "lesson_id": "4",
+    "system": "hiragana"
   },
   {
     "id": "c83a894f-c07f-459d-a24c-a38c8504600e",
@@ -3341,7 +3644,8 @@
     "definition": "安靜的",
     "pitch_accent": 1,
     "affix_type": "none",
-    "lesson_id": "4"
+    "lesson_id": "4",
+    "system": "hiragana"
   },
   {
     "id": "c5f5b8a3-559e-447f-8df4-e33be37c763f",
@@ -3352,7 +3656,8 @@
     "definition": "有空的",
     "pitch_accent": 0,
     "affix_type": "none",
-    "lesson_id": "4"
+    "lesson_id": "4",
+    "system": "hiragana"
   },
   {
     "id": "09a1cde4-be0b-4710-a1db-f495d22548d5",
@@ -3363,7 +3668,8 @@
     "definition": "店",
     "pitch_accent": 2,
     "affix_type": "none",
-    "lesson_id": "4"
+    "lesson_id": "4",
+    "system": "hiragana"
   },
   {
     "id": "f376bab9-0067-4003-8384-803e675f962f",
@@ -3374,7 +3680,8 @@
     "definition": "有精神的；健康的",
     "pitch_accent": 1,
     "affix_type": "none",
-    "lesson_id": "4"
+    "lesson_id": "4",
+    "system": "hiragana"
   },
   {
     "id": "a599e3a2-9b53-41a5-a7e1-92506f6491e7",
@@ -3385,7 +3692,8 @@
     "definition": "親切的",
     "pitch_accent": 1,
     "affix_type": "none",
-    "lesson_id": "4"
+    "lesson_id": "4",
+    "system": "hiragana"
   },
   {
     "id": "8ea87a97-0294-4f04-922a-385f0127a62f",
@@ -3396,7 +3704,8 @@
     "definition": "髒的；(字)難看的",
     "pitch_accent": 3,
     "affix_type": "none",
-    "lesson_id": "4"
+    "lesson_id": "4",
+    "system": "hiragana"
   },
   {
     "id": "acc8f86d-e9ba-4839-b8d6-fd07c3b270af",
@@ -3407,7 +3716,8 @@
     "definition": "花",
     "pitch_accent": 2,
     "affix_type": "none",
-    "lesson_id": "4"
+    "lesson_id": "4",
+    "system": "hiragana"
   },
   {
     "id": "e0a5a9e2-431e-4eb3-91f7-19cabd63faa1",
@@ -3418,7 +3728,8 @@
     "definition": "熱鬧的",
     "pitch_accent": 2,
     "affix_type": "none",
-    "lesson_id": "4"
+    "lesson_id": "4",
+    "system": "hiragana"
   },
   {
     "id": "3d98b037-4fe3-49eb-8b1e-d4d74abfc0dd",
@@ -3429,7 +3740,8 @@
     "definition": "喜歡的",
     "pitch_accent": 2,
     "affix_type": "none",
-    "lesson_id": "4"
+    "lesson_id": "4",
+    "system": "hiragana"
   },
   {
     "id": "e4a96935-82f6-4eed-8412-7041a96461f4",
@@ -3440,7 +3752,8 @@
     "definition": "討厭的",
     "pitch_accent": 0,
     "affix_type": "none",
-    "lesson_id": "4"
+    "lesson_id": "4",
+    "system": "hiragana"
   },
   {
     "id": "2bc109a9-cd98-46e1-a79f-c5bb393c2258",
@@ -3451,7 +3764,8 @@
     "definition": "冰淇淋",
     "pitch_accent": 5,
     "affix_type": "none",
-    "lesson_id": "4"
+    "lesson_id": "4",
+    "system": "katakana"
   },
   {
     "id": "5199f7fc-76ce-4c17-9abe-e9098863eeee",
@@ -3462,7 +3776,8 @@
     "definition": "壽司",
     "pitch_accent": 2,
     "affix_type": "none",
-    "lesson_id": "4"
+    "lesson_id": "4",
+    "system": "hiragana"
   },
   {
     "id": "96ffbecb-a560-4b7b-b768-4e715a8700e2",
@@ -3473,7 +3788,8 @@
     "definition": "壽喜燒",
     "pitch_accent": 0,
     "affix_type": "none",
-    "lesson_id": "4"
+    "lesson_id": "4",
+    "system": "hiragana"
   },
   {
     "id": "1e1f6197-b36b-4465-9670-65781c990b42",
@@ -3484,7 +3800,8 @@
     "definition": "天婦羅",
     "pitch_accent": 0,
     "affix_type": "none",
-    "lesson_id": "4"
+    "lesson_id": "4",
+    "system": "hiragana"
   },
   {
     "id": "a56fce01-508d-47f3-bcaf-57446836aedd",
@@ -3495,7 +3812,8 @@
     "definition": "游泳",
     "pitch_accent": 0,
     "affix_type": "none",
-    "lesson_id": "4"
+    "lesson_id": "4",
+    "system": "hiragana"
   },
   {
     "id": "725e16c9-f67b-4847-853d-56f0ea1c7110",
@@ -3506,7 +3824,8 @@
     "definition": "雙板滑雪",
     "pitch_accent": 2,
     "affix_type": "none",
-    "lesson_id": "4"
+    "lesson_id": "4",
+    "system": "katakana"
   },
   {
     "id": "64ab606a-8c0c-4745-875b-28af20b3a15f",
@@ -3517,7 +3836,8 @@
     "definition": "動物",
     "pitch_accent": 0,
     "affix_type": "none",
-    "lesson_id": "4"
+    "lesson_id": "4",
+    "system": "hiragana"
   },
   {
     "id": "dbc37517-b740-431f-9220-38e7ab7ba894",
@@ -3528,7 +3848,8 @@
     "definition": "大象",
     "pitch_accent": 1,
     "affix_type": "none",
-    "lesson_id": "4"
+    "lesson_id": "4",
+    "system": "hiragana"
   },
   {
     "id": "772b7a53-0024-41d0-8021-9aaaacdc49d2",
@@ -3539,7 +3860,8 @@
     "definition": "貓",
     "pitch_accent": 1,
     "affix_type": "none",
-    "lesson_id": "4"
+    "lesson_id": "4",
+    "system": "hiragana"
   },
   {
     "id": "10545164-239d-43b3-b0d3-2914a133bab1",
@@ -3550,7 +3872,8 @@
     "definition": "狗",
     "pitch_accent": 2,
     "affix_type": "none",
-    "lesson_id": "4"
+    "lesson_id": "4",
+    "system": "hiragana"
   },
   {
     "id": "49615fac-0b8f-49f6-8cdd-ac817b396492",
@@ -3561,7 +3884,8 @@
     "definition": "兔子",
     "pitch_accent": 0,
     "affix_type": "none",
-    "lesson_id": "4"
+    "lesson_id": "4",
+    "system": "hiragana"
   },
   {
     "id": "1dca3a94-9ff5-4042-82f3-075269353ad8",
@@ -3572,7 +3896,8 @@
     "definition": "貓熊",
     "pitch_accent": 1,
     "affix_type": "none",
-    "lesson_id": "4"
+    "lesson_id": "4",
+    "system": "katakana"
   },
   {
     "id": "e87bbb3c-7af5-4f46-b2a6-fcd02803036c",
@@ -3583,7 +3908,8 @@
     "definition": "可樂",
     "pitch_accent": 1,
     "affix_type": "none",
-    "lesson_id": "4"
+    "lesson_id": "4",
+    "system": "katakana"
   },
   {
     "id": "41542300-bb09-4d38-a132-f92fb67cc61e",
@@ -3594,7 +3920,8 @@
     "definition": "考試；測驗",
     "pitch_accent": 1,
     "affix_type": "none",
-    "lesson_id": "4"
+    "lesson_id": "4",
+    "system": "katakana"
   },
   {
     "id": "64dca669-c50e-4d7d-b8df-4bc6455ecfda",
@@ -3605,7 +3932,8 @@
     "definition": "～歲",
     "pitch_accent": -1,
     "affix_type": "suffix",
-    "lesson_id": "4"
+    "lesson_id": "4",
+    "system": "hiragana"
   },
   {
     "id": "82ed9f34-b796-4445-84e3-073fac778d5d",
@@ -3616,7 +3944,8 @@
     "definition": "昭和(年號)",
     "pitch_accent": 0,
     "affix_type": "none",
-    "lesson_id": "4"
+    "lesson_id": "4",
+    "system": "hiragana"
   },
   {
     "id": "355848b3-8b4a-43f9-96f1-e94c5c61b280",
@@ -3627,7 +3956,8 @@
     "definition": "去",
     "pitch_accent": 3,
     "affix_type": "none",
-    "lesson_id": "4"
+    "lesson_id": "4",
+    "system": "hiragana"
   },
   {
     "id": "5ec1b3b4-2f12-4df6-848e-8a7228d132db",
@@ -3638,7 +3968,8 @@
     "definition": "來",
     "pitch_accent": 2,
     "affix_type": "none",
-    "lesson_id": "4"
+    "lesson_id": "4",
+    "system": "hiragana"
   },
   {
     "id": "56a15f1a-8c8f-48c3-a56c-fb9adfd73273",
@@ -3649,7 +3980,8 @@
     "definition": "回",
     "pitch_accent": 4,
     "affix_type": "none",
-    "lesson_id": "4"
+    "lesson_id": "4",
+    "system": "hiragana"
   },
   {
     "id": "0c543929-c443-4d0a-a42b-fc20aed6434a",
@@ -3660,7 +3992,8 @@
     "definition": "日；日子",
     "pitch_accent": 1,
     "affix_type": "none",
-    "lesson_id": "4"
+    "lesson_id": "4",
+    "system": "hiragana"
   },
   {
     "id": "67b3c74c-678d-485f-8733-8aacc27124c8",
@@ -3671,7 +4004,8 @@
     "definition": "照片",
     "pitch_accent": 0,
     "affix_type": "none",
-    "lesson_id": "4"
+    "lesson_id": "4",
+    "system": "hiragana"
   },
   {
     "id": "30db20a7-c6d4-4849-8ff2-b635057a72f5",
@@ -3682,7 +4016,8 @@
     "definition": "拍(照)",
     "pitch_accent": 3,
     "affix_type": "none",
-    "lesson_id": "4"
+    "lesson_id": "4",
+    "system": "hiragana"
   },
   {
     "id": "c0aa41b8-2695-458a-9302-11712b86ce3f",
@@ -3693,7 +4028,8 @@
     "definition": "伴手禮",
     "pitch_accent": 0,
     "affix_type": "none",
-    "lesson_id": "4"
+    "lesson_id": "4",
+    "system": "hiragana"
   },
   {
     "id": "8089f77f-af75-4ce4-beec-e174112658a8",
@@ -3704,7 +4040,8 @@
     "definition": "什麼時候",
     "pitch_accent": 1,
     "affix_type": "none",
-    "lesson_id": "4"
+    "lesson_id": "4",
+    "system": "hiragana"
   },
   {
     "id": "4772a4a2-d599-4193-aa57-f7ff91cbbdfd",
@@ -3715,7 +4052,8 @@
     "definition": "鐮倉(地名)",
     "pitch_accent": 0,
     "affix_type": "none",
-    "lesson_id": "4"
+    "lesson_id": "4",
+    "system": "hiragana"
   },
   {
     "id": "4745944a-c13d-41fd-b33d-ed6c98ffb389",
@@ -3726,7 +4064,8 @@
     "definition": "請收下",
     "pitch_accent": 1,
     "affix_type": "none",
-    "lesson_id": "4"
+    "lesson_id": "4",
+    "system": "hiragana"
   },
   {
     "id": "12364d42-3234-48d0-bc56-2fb0fe5175d6",
@@ -3737,7 +4076,8 @@
     "definition": "寺；寺院",
     "pitch_accent": 0,
     "affix_type": "none",
-    "lesson_id": "4"
+    "lesson_id": "4",
+    "system": "hiragana"
   },
   {
     "id": "381af995-4d97-48b3-9b3d-a175c3380648",
@@ -3748,7 +4088,8 @@
     "definition": "很多",
     "pitch_accent": 0,
     "affix_type": "none",
-    "lesson_id": "4"
+    "lesson_id": "4",
+    "system": "hiragana"
   },
   {
     "id": "192c8cd8-0674-4059-a45e-34ec51dfcd4a",
@@ -3759,7 +4100,8 @@
     "definition": "淺草(地名)",
     "pitch_accent": 0,
     "affix_type": "none",
-    "lesson_id": "4"
+    "lesson_id": "4",
+    "system": "hiragana"
   },
   {
     "id": "84a41e88-759d-425c-bacf-8af87a7c4ee4",
@@ -3770,7 +4112,8 @@
     "definition": "上野(地名)",
     "pitch_accent": 0,
     "affix_type": "none",
-    "lesson_id": "4"
+    "lesson_id": "4",
+    "system": "hiragana"
   },
   {
     "id": "b4ecc588-82d9-437d-84bb-611525d69e02",
@@ -3781,7 +4124,8 @@
     "definition": "動物園",
     "pitch_accent": 4,
     "affix_type": "none",
-    "lesson_id": "4"
+    "lesson_id": "4",
+    "system": "hiragana"
   },
   {
     "id": "d903c3f7-5605-4d8b-9524-f8c993312347",
@@ -3792,7 +4136,8 @@
     "definition": "晴空塔",
     "pitch_accent": 5,
     "affix_type": "none",
-    "lesson_id": "4"
+    "lesson_id": "4",
+    "system": "katakana"
   },
   {
     "id": "e4b25444-b547-4e8e-a012-e77b2d8ecfc5",
@@ -3803,7 +4148,8 @@
     "definition": "經常",
     "pitch_accent": 1,
     "affix_type": "none",
-    "lesson_id": "4"
+    "lesson_id": "4",
+    "system": "hiragana"
   },
   {
     "id": "6d18b839-25eb-490a-b932-6cb7057ad908",
@@ -3814,7 +4160,8 @@
     "definition": "大家",
     "pitch_accent": 2,
     "affix_type": "none",
-    "lesson_id": "4"
+    "lesson_id": "4",
+    "system": "hiragana"
   },
   {
     "id": "7e036a75-bde7-4281-a4d3-dc59d60a4f42",
@@ -3825,7 +4172,8 @@
     "definition": "一起",
     "pitch_accent": 0,
     "affix_type": "none",
-    "lesson_id": "4"
+    "lesson_id": "4",
+    "system": "hiragana"
   },
   {
     "id": "f92eabe2-fa43-4d9f-91a6-089f860ff9ea",
@@ -3836,7 +4184,8 @@
     "definition": "雷門",
     "pitch_accent": 4,
     "affix_type": "none",
-    "lesson_id": "4"
+    "lesson_id": "4",
+    "system": "hiragana"
   },
   {
     "id": "172355c5-0b7d-4636-8d94-5b9e62b6f5b4",
@@ -3847,7 +4196,8 @@
     "definition": "哇(表驚訝)",
     "pitch_accent": 1,
     "affix_type": "none",
-    "lesson_id": "4"
+    "lesson_id": "4",
+    "system": "hiragana"
   },
   {
     "id": "6ce7ecff-7501-41f9-a128-3320e2e372b5",
@@ -3858,7 +4208,8 @@
     "definition": "最喜歡的；很喜歡的",
     "pitch_accent": 1,
     "affix_type": "none",
-    "lesson_id": "4"
+    "lesson_id": "4",
+    "system": "hiragana"
   },
   {
     "id": "815e4138-972b-422e-8532-86c10442825a",
@@ -3869,7 +4220,8 @@
     "definition": "非常感謝",
     "pitch_accent": -1,
     "affix_type": "none",
-    "lesson_id": "4"
+    "lesson_id": "4",
+    "system": "hiragana"
   },
   {
     "id": "95510ea5-0d51-4132-a370-0edafc339d15",
@@ -3880,7 +4232,8 @@
     "definition": "不客氣",
     "pitch_accent": -1,
     "affix_type": "none",
-    "lesson_id": "4"
+    "lesson_id": "4",
+    "system": "hiragana"
   },
   {
     "id": "ef1d744e-8249-42d2-80f1-7732eda62aea",
@@ -3891,7 +4244,8 @@
     "definition": "日曆；月曆；年曆",
     "pitch_accent": 2,
     "affix_type": "none",
-    "lesson_id": "4"
+    "lesson_id": "4",
+    "system": "katakana"
   },
   {
     "id": "ffcd5774-56e2-4b79-8078-183210a1c46f",
@@ -3902,7 +4256,8 @@
     "definition": "～年",
     "pitch_accent": -1,
     "affix_type": "suffix",
-    "lesson_id": "4"
+    "lesson_id": "4",
+    "system": "hiragana"
   },
   {
     "id": "8c3b2c59-3556-41c2-a336-decd5bb49ea6",
@@ -3913,7 +4268,8 @@
     "definition": "幾年",
     "pitch_accent": 1,
     "affix_type": "none",
-    "lesson_id": "4"
+    "lesson_id": "4",
+    "system": "hiragana"
   },
   {
     "id": "70ee7e14-1917-46d7-a519-732715812291",
@@ -3924,7 +4280,8 @@
     "definition": "月亮；月球；月份",
     "pitch_accent": 2,
     "affix_type": "none",
-    "lesson_id": "4"
+    "lesson_id": "4",
+    "system": "hiragana"
   },
   {
     "id": "104b6e5c-edb4-4926-adb9-17ee1c2f6686",
@@ -3935,7 +4292,8 @@
     "definition": "上上個月",
     "pitch_accent": 3,
     "affix_type": "none",
-    "lesson_id": "4"
+    "lesson_id": "4",
+    "system": "hiragana"
   },
   {
     "id": "f577b0d5-9aaf-40b7-bd47-cafaf31a55e8",
@@ -3946,7 +4304,8 @@
     "definition": "上個月",
     "pitch_accent": 1,
     "affix_type": "none",
-    "lesson_id": "4"
+    "lesson_id": "4",
+    "system": "hiragana"
   },
   {
     "id": "3ae33f91-c494-4e89-9409-46b41b7e3d97",
@@ -3957,7 +4316,8 @@
     "definition": "這個月",
     "pitch_accent": 0,
     "affix_type": "none",
-    "lesson_id": "4"
+    "lesson_id": "4",
+    "system": "hiragana"
   },
   {
     "id": "84ed1a33-6670-44f7-986a-3b7d88dc3919",
@@ -3968,7 +4328,8 @@
     "definition": "下個月",
     "pitch_accent": 1,
     "affix_type": "none",
-    "lesson_id": "4"
+    "lesson_id": "4",
+    "system": "hiragana"
   },
   {
     "id": "e506cddd-c4ed-42f7-ac93-77b743db71ba",
@@ -3979,7 +4340,8 @@
     "definition": "下下個月",
     "pitch_accent": 2,
     "affix_type": "none",
-    "lesson_id": "4"
+    "lesson_id": "4",
+    "system": "hiragana"
   },
   {
     "id": "4dda3006-04ef-4274-b3b3-069f21feda1e",
@@ -3990,7 +4352,8 @@
     "definition": "前年",
     "pitch_accent": 2,
     "affix_type": "none",
-    "lesson_id": "4"
+    "lesson_id": "4",
+    "system": "hiragana"
   },
   {
     "id": "d28cf8e9-f485-4551-85a1-fb0a1ade69f1",
@@ -4001,7 +4364,8 @@
     "definition": "去年",
     "pitch_accent": 1,
     "affix_type": "none",
-    "lesson_id": "4"
+    "lesson_id": "4",
+    "system": "hiragana"
   },
   {
     "id": "af6cade2-3df7-4e2e-8b5c-79494617b9c4",
@@ -4012,7 +4376,8 @@
     "definition": "今年",
     "pitch_accent": 0,
     "affix_type": "none",
-    "lesson_id": "4"
+    "lesson_id": "4",
+    "system": "hiragana"
   },
   {
     "id": "812fa312-c7f5-450e-92c7-5ff900e93fb2",
@@ -4023,7 +4388,8 @@
     "definition": "明年",
     "pitch_accent": 0,
     "affix_type": "none",
-    "lesson_id": "4"
+    "lesson_id": "4",
+    "system": "hiragana"
   },
   {
     "id": "a70097fa-b2fe-4bd2-8a7b-ffb3fee17cea",
@@ -4034,7 +4400,8 @@
     "definition": "後年",
     "pitch_accent": 0,
     "affix_type": "none",
-    "lesson_id": "4"
+    "lesson_id": "4",
+    "system": "hiragana"
   },
   {
     "id": "70ccbf3c-2f04-48f8-a2d8-a3920604591f",
@@ -4045,7 +4412,8 @@
     "definition": "幾歲",
     "pitch_accent": 1,
     "affix_type": "none",
-    "lesson_id": "4"
+    "lesson_id": "4",
+    "system": "hiragana"
   },
   {
     "id": "b0939427-af66-4719-8756-d65c5989f453",
@@ -4056,7 +4424,8 @@
     "definition": "新宿(地名)",
     "pitch_accent": 0,
     "affix_type": "none",
-    "lesson_id": "4"
+    "lesson_id": "4",
+    "system": "hiragana"
   },
   {
     "id": "6b1a521e-b36e-48ff-8e3e-3e8e905ba8b5",
@@ -4067,7 +4436,8 @@
     "definition": "年齡",
     "pitch_accent": 0,
     "affix_type": "none",
-    "lesson_id": "4"
+    "lesson_id": "4",
+    "system": "hiragana"
   },
   {
     "id": "1979f202-c75a-4d1f-9bdc-6c0770b10388",
@@ -4078,7 +4448,8 @@
     "definition": "暑假",
     "pitch_accent": 3,
     "affix_type": "none",
-    "lesson_id": "5"
+    "lesson_id": "5",
+    "system": "hiragana"
   },
   {
     "id": "b306fcf4-e72c-4dd8-9bc1-13238cf9f6b6",
@@ -4089,7 +4460,8 @@
     "definition": "寒假",
     "pitch_accent": 3,
     "affix_type": "none",
-    "lesson_id": "5"
+    "lesson_id": "5",
+    "system": "hiragana"
   },
   {
     "id": "b1b6b1a8-fa4e-411f-9d51-a7593463ef16",
@@ -4100,7 +4472,8 @@
     "definition": "～間；～期間",
     "pitch_accent": -1,
     "affix_type": "suffix",
-    "lesson_id": "5"
+    "lesson_id": "5",
+    "system": "hiragana"
   },
   {
     "id": "507e6734-6f75-41f5-a624-2be6115b7d3c",
@@ -4111,7 +4484,8 @@
     "definition": "大約(～量)；(～量)左右",
     "pitch_accent": -1,
     "affix_type": "suffix",
-    "lesson_id": "5"
+    "lesson_id": "5",
+    "system": "hiragana"
   },
   {
     "id": "809380a3-081f-41bf-91d3-e9ca771f4958",
@@ -4122,7 +4496,8 @@
     "definition": "多久；多少",
     "pitch_accent": 0,
     "affix_type": "none",
-    "lesson_id": "5"
+    "lesson_id": "5",
+    "system": "hiragana"
   },
   {
     "id": "73d0b23f-63bd-4d57-ad2a-f595d61602b4",
@@ -4133,7 +4508,8 @@
     "definition": "～小時",
     "pitch_accent": -1,
     "affix_type": "suffix",
-    "lesson_id": "5"
+    "lesson_id": "5",
+    "system": "hiragana"
   },
   {
     "id": "a31d5dad-deba-4699-9f6b-21bea465346a",
@@ -4144,7 +4520,8 @@
     "definition": "～年",
     "pitch_accent": -1,
     "affix_type": "suffix",
-    "lesson_id": "5"
+    "lesson_id": "5",
+    "system": "hiragana"
   },
   {
     "id": "6930d788-b078-4269-b3c2-4a3d62115c71",
@@ -4155,7 +4532,8 @@
     "definition": "旅行",
     "pitch_accent": 5,
     "affix_type": "none",
-    "lesson_id": "5"
+    "lesson_id": "5",
+    "system": "hiragana"
   },
   {
     "id": "e0c8b0b4-4337-4cf4-aea5-379b7756fd84",
@@ -4166,7 +4544,8 @@
     "definition": "～週；～個禮拜",
     "pitch_accent": -1,
     "affix_type": "suffix",
-    "lesson_id": "5"
+    "lesson_id": "5",
+    "system": "hiragana"
   },
   {
     "id": "f63824a2-6985-474f-9dc5-984637cf1824",
@@ -4177,7 +4556,8 @@
     "definition": "練習",
     "pitch_accent": 6,
     "affix_type": "none",
-    "lesson_id": "5"
+    "lesson_id": "5",
+    "system": "hiragana"
   },
   {
     "id": "7d29b90c-0945-478f-92ef-1440b8a98c4e",
@@ -4188,7 +4568,8 @@
     "definition": "～天",
     "pitch_accent": -1,
     "affix_type": "suffix",
-    "lesson_id": "5"
+    "lesson_id": "5",
+    "system": "hiragana"
   },
   {
     "id": "4fce515b-45d5-46ae-8d23-863cb2ec56f2",
@@ -4199,7 +4580,8 @@
     "definition": "公車；客運",
     "pitch_accent": 1,
     "affix_type": "none",
-    "lesson_id": "5"
+    "lesson_id": "5",
+    "system": "katakana"
   },
   {
     "id": "e9fa1750-e732-498d-91bf-19f758468b49",
@@ -4210,7 +4592,8 @@
     "definition": "電車；火車",
     "pitch_accent": 0,
     "affix_type": "none",
-    "lesson_id": "5"
+    "lesson_id": "5",
+    "system": "hiragana"
   },
   {
     "id": "7fddc9c1-3d8a-4d2b-99ac-b31475349ec4",
@@ -4221,7 +4604,8 @@
     "definition": "地鐵",
     "pitch_accent": 0,
     "affix_type": "none",
-    "lesson_id": "5"
+    "lesson_id": "5",
+    "system": "hiragana"
   },
   {
     "id": "1fa62878-c273-43cb-879f-9b4032e2ad8a",
@@ -4232,7 +4616,8 @@
     "definition": "新幹線",
     "pitch_accent": 3,
     "affix_type": "none",
-    "lesson_id": "5"
+    "lesson_id": "5",
+    "system": "hiragana"
   },
   {
     "id": "216e6c6a-f498-4260-9629-43c32de51741",
@@ -4243,7 +4628,8 @@
     "definition": "飛機",
     "pitch_accent": 2,
     "affix_type": "none",
-    "lesson_id": "5"
+    "lesson_id": "5",
+    "system": "hiragana"
   },
   {
     "id": "f8efafbc-6b97-4631-89db-3739b9578019",
@@ -4254,7 +4640,8 @@
     "definition": "船",
     "pitch_accent": 1,
     "affix_type": "none",
-    "lesson_id": "5"
+    "lesson_id": "5",
+    "system": "hiragana"
   },
   {
     "id": "b0483fd7-7d48-416f-a7ee-3fa740e0015d",
@@ -4265,7 +4652,8 @@
     "definition": "計程車",
     "pitch_accent": 1,
     "affix_type": "none",
-    "lesson_id": "5"
+    "lesson_id": "5",
+    "system": "katakana"
   },
   {
     "id": "0147889e-7260-4059-a2f5-85a3db4a0eae",
@@ -4276,7 +4664,8 @@
     "definition": "腳踏車；自行車",
     "pitch_accent": 2,
     "affix_type": "none",
-    "lesson_id": "5"
+    "lesson_id": "5",
+    "system": "hiragana"
   },
   {
     "id": "db602920-0c9e-4baa-9dda-d5d3307c0f8b",
@@ -4287,7 +4676,8 @@
     "definition": "步行；徒步",
     "pitch_accent": 2,
     "affix_type": "none",
-    "lesson_id": "5"
+    "lesson_id": "5",
+    "system": "hiragana"
   },
   {
     "id": "9b5ad64e-a18c-414e-afe2-ded537fd7ba1",
@@ -4298,7 +4688,8 @@
     "definition": "東京(地名)",
     "pitch_accent": 0,
     "affix_type": "none",
-    "lesson_id": "5"
+    "lesson_id": "5",
+    "system": "hiragana"
   },
   {
     "id": "9a39c441-33fe-4c5d-916d-53b6cd475271",
@@ -4309,7 +4700,8 @@
     "definition": "大阪(地名)",
     "pitch_accent": 0,
     "affix_type": "none",
-    "lesson_id": "5"
+    "lesson_id": "5",
+    "system": "hiragana"
   },
   {
     "id": "980e4190-57fd-4f27-9574-af669b13525d",
@@ -4320,7 +4712,8 @@
     "definition": "機場",
     "pitch_accent": 0,
     "affix_type": "none",
-    "lesson_id": "5"
+    "lesson_id": "5",
+    "system": "hiragana"
   },
   {
     "id": "def476c2-e162-45ea-82a7-dd7550a5bd4d",
@@ -4331,7 +4724,8 @@
     "definition": "花費",
     "pitch_accent": 4,
     "affix_type": "none",
-    "lesson_id": "5"
+    "lesson_id": "5",
+    "system": "hiragana"
   },
   {
     "id": "89d01857-c0de-4e76-8ab8-9e2f54609d74",
@@ -4342,7 +4736,8 @@
     "definition": "札幌(地名)",
     "pitch_accent": 0,
     "affix_type": "none",
-    "lesson_id": "5"
+    "lesson_id": "5",
+    "system": "hiragana"
   },
   {
     "id": "826d1e96-fada-4f87-8dbf-d959c58fdbd9",
@@ -4353,7 +4748,8 @@
     "definition": "廣島(地名)",
     "pitch_accent": 0,
     "affix_type": "none",
-    "lesson_id": "5"
+    "lesson_id": "5",
+    "system": "hiragana"
   },
   {
     "id": "7e4ec35e-9b5c-414b-8a1a-e38580b37b34",
@@ -4364,7 +4760,8 @@
     "definition": "倫敦(地名)",
     "pitch_accent": 1,
     "affix_type": "none",
-    "lesson_id": "5"
+    "lesson_id": "5",
+    "system": "katakana"
   },
   {
     "id": "40b020e5-ed50-4b73-9d8c-2e667b3dff7b",
@@ -4375,7 +4772,8 @@
     "definition": "聖保羅(地名)",
     "pitch_accent": 3,
     "affix_type": "none",
-    "lesson_id": "5"
+    "lesson_id": "5",
+    "system": "katakana"
   },
   {
     "id": "110ccf0b-938a-4138-bfa7-34caa7175b80",
@@ -4386,7 +4784,8 @@
     "definition": "欸(表驚訝或懷疑)",
     "pitch_accent": 1,
     "affix_type": "none",
-    "lesson_id": "5"
+    "lesson_id": "5",
+    "system": "hiragana"
   },
   {
     "id": "9e0661ab-3975-4daf-85e6-612023335ffc",
@@ -4397,7 +4796,8 @@
     "definition": "首爾(地名)",
     "pitch_accent": 1,
     "affix_type": "none",
-    "lesson_id": "5"
+    "lesson_id": "5",
+    "system": "katakana"
   },
   {
     "id": "8319a36c-50ae-4be4-b146-e9682d03073c",
@@ -4408,7 +4808,8 @@
     "definition": "如何；怎麼樣",
     "pitch_accent": 1,
     "affix_type": "none",
-    "lesson_id": "5"
+    "lesson_id": "5",
+    "system": "hiragana"
   },
   {
     "id": "5c446bd0-f941-43bc-a5ee-a2bf5666b3df",
@@ -4419,7 +4820,8 @@
     "definition": "好的；可以的",
     "pitch_accent": 1,
     "affix_type": "none",
-    "lesson_id": "5"
+    "lesson_id": "5",
+    "system": "hiragana"
   },
   {
     "id": "0a2b266d-695e-4649-a44f-d30270c9ddcd",
@@ -4430,7 +4832,8 @@
     "definition": "不好的",
     "pitch_accent": 2,
     "affix_type": "none",
-    "lesson_id": "5"
+    "lesson_id": "5",
+    "system": "hiragana"
   },
   {
     "id": "00062647-7e18-43f0-9d08-a8c13338785a",
@@ -4441,7 +4844,8 @@
     "definition": "平易近人的；簡單的",
     "pitch_accent": 0,
     "affix_type": "none",
-    "lesson_id": "5"
+    "lesson_id": "5",
+    "system": "hiragana"
   },
   {
     "id": "b7be4311-42c5-4cbf-b5f7-98f9608c253f",
@@ -4452,7 +4856,8 @@
     "definition": "困難的",
     "pitch_accent": 0,
     "affix_type": "none",
-    "lesson_id": "5"
+    "lesson_id": "5",
+    "system": "hiragana"
   },
   {
     "id": "221ddecd-5d09-426c-b691-2374340d4455",
@@ -4463,7 +4868,8 @@
     "definition": "開心的；有趣的",
     "pitch_accent": 3,
     "affix_type": "none",
-    "lesson_id": "5"
+    "lesson_id": "5",
+    "system": "hiragana"
   },
   {
     "id": "6ee690e6-878b-47c7-b0f5-d29fbfc7a475",
@@ -4474,7 +4880,8 @@
     "definition": "有趣的；逗趣的",
     "pitch_accent": 4,
     "affix_type": "none",
-    "lesson_id": "5"
+    "lesson_id": "5",
+    "system": "hiragana"
   },
   {
     "id": "94e5da2d-e061-47d8-b58c-8c4e10805d6d",
@@ -4485,7 +4892,8 @@
     "definition": "無聊的",
     "pitch_accent": 3,
     "affix_type": "none",
-    "lesson_id": "5"
+    "lesson_id": "5",
+    "system": "hiragana"
   },
   {
     "id": "9675e0e0-73f6-4b59-9f28-970088fa0156",
@@ -4496,7 +4904,8 @@
     "definition": "忙碌的",
     "pitch_accent": 4,
     "affix_type": "none",
-    "lesson_id": "5"
+    "lesson_id": "5",
+    "system": "hiragana"
   },
   {
     "id": "c509f213-80cc-4c9e-b499-0ea3dfdacfb9",
@@ -4507,7 +4916,8 @@
     "definition": "(物體)熱的",
     "pitch_accent": 2,
     "affix_type": "none",
-    "lesson_id": "5"
+    "lesson_id": "5",
+    "system": "hiragana"
   },
   {
     "id": "a7f4cc7e-5f43-4674-a2f5-26ffdb48b14b",
@@ -4518,7 +4928,8 @@
     "definition": "(物體)冰冷的",
     "pitch_accent": 0,
     "affix_type": "none",
-    "lesson_id": "5"
+    "lesson_id": "5",
+    "system": "hiragana"
   },
   {
     "id": "aba91afc-66ba-460b-8e79-8f3d768ba43a",
@@ -4529,7 +4940,8 @@
     "definition": "重的",
     "pitch_accent": 0,
     "affix_type": "none",
-    "lesson_id": "5"
+    "lesson_id": "5",
+    "system": "hiragana"
   },
   {
     "id": "c94ebb46-f59d-4c13-9d91-7dbeb63629ff",
@@ -4540,7 +4952,8 @@
     "definition": "輕的",
     "pitch_accent": 0,
     "affix_type": "none",
-    "lesson_id": "5"
+    "lesson_id": "5",
+    "system": "hiragana"
   },
   {
     "id": "73860ee8-7bc9-4cff-85b8-55bc0bc6cd4d",
@@ -4551,7 +4964,8 @@
     "definition": "長的",
     "pitch_accent": 2,
     "affix_type": "none",
-    "lesson_id": "5"
+    "lesson_id": "5",
+    "system": "hiragana"
   },
   {
     "id": "90ecbdf3-734c-4901-82ca-72be0b53f071",
@@ -4562,7 +4976,8 @@
     "definition": "短的",
     "pitch_accent": 3,
     "affix_type": "none",
-    "lesson_id": "5"
+    "lesson_id": "5",
+    "system": "hiragana"
   },
   {
     "id": "008450f1-1796-4678-be76-a5eaf787af08",
@@ -4573,7 +4988,8 @@
     "definition": "快的",
     "pitch_accent": 2,
     "affix_type": "none",
-    "lesson_id": "5"
+    "lesson_id": "5",
+    "system": "hiragana"
   },
   {
     "id": "e99149e4-6141-4fb4-bad8-f9a93cb303e5",
@@ -4584,7 +5000,8 @@
     "definition": "早的",
     "pitch_accent": 2,
     "affix_type": "none",
-    "lesson_id": "5"
+    "lesson_id": "5",
+    "system": "hiragana"
   },
   {
     "id": "16ee4376-6a40-4117-bc70-1d1a6abfaa78",
@@ -4595,7 +5012,8 @@
     "definition": "晚的；慢的",
     "pitch_accent": 0,
     "affix_type": "none",
-    "lesson_id": "5"
+    "lesson_id": "5",
+    "system": "hiragana"
   },
   {
     "id": "b7977c22-c455-47ad-a04a-aaa5670b07a9",
@@ -4606,7 +5024,8 @@
     "definition": "近的",
     "pitch_accent": 2,
     "affix_type": "none",
-    "lesson_id": "5"
+    "lesson_id": "5",
+    "system": "hiragana"
   },
   {
     "id": "2f11401b-0ea4-48aa-87ee-6ed69c92c84f",
@@ -4617,7 +5036,8 @@
     "definition": "遠的",
     "pitch_accent": 0,
     "affix_type": "none",
-    "lesson_id": "5"
+    "lesson_id": "5",
+    "system": "hiragana"
   },
   {
     "id": "5a5ba1b5-6564-4bdb-93a4-54f6850823d5",
@@ -4628,7 +5048,8 @@
     "definition": "季節",
     "pitch_accent": 1,
     "affix_type": "none",
-    "lesson_id": "5"
+    "lesson_id": "5",
+    "system": "hiragana"
   },
   {
     "id": "5e100db8-0085-4af0-8a94-969e0c09eb1e",
@@ -4639,7 +5060,8 @@
     "definition": "春天",
     "pitch_accent": 1,
     "affix_type": "none",
-    "lesson_id": "5"
+    "lesson_id": "5",
+    "system": "hiragana"
   },
   {
     "id": "b83b207c-6064-4484-9f56-8d40e4e37e6d",
@@ -4650,7 +5072,8 @@
     "definition": "夏天",
     "pitch_accent": 2,
     "affix_type": "none",
-    "lesson_id": "5"
+    "lesson_id": "5",
+    "system": "hiragana"
   },
   {
     "id": "94d2af28-8048-4cb2-bc11-b3e59d44f4f2",
@@ -4661,7 +5084,8 @@
     "definition": "秋天",
     "pitch_accent": 1,
     "affix_type": "none",
-    "lesson_id": "5"
+    "lesson_id": "5",
+    "system": "hiragana"
   },
   {
     "id": "91df2dfe-6d95-4212-900f-3e1fe27e19f9",
@@ -4672,7 +5096,8 @@
     "definition": "冬天",
     "pitch_accent": 2,
     "affix_type": "none",
-    "lesson_id": "5"
+    "lesson_id": "5",
+    "system": "hiragana"
   },
   {
     "id": "fd4137c7-46f0-4836-8819-83497e9a03f3",
@@ -4683,7 +5108,8 @@
     "definition": "(物體)溫暖的",
     "pitch_accent": 4,
     "affix_type": "none",
-    "lesson_id": "5"
+    "lesson_id": "5",
+    "system": "hiragana"
   },
   {
     "id": "fb864f94-dee8-4653-ac90-8e6f91ab5bee",
@@ -4694,7 +5120,8 @@
     "definition": "(天氣)溫暖的",
     "pitch_accent": 4,
     "affix_type": "none",
-    "lesson_id": "5"
+    "lesson_id": "5",
+    "system": "hiragana"
   },
   {
     "id": "82d3e9ef-1275-4368-8437-00312928e337",
@@ -4705,7 +5132,8 @@
     "definition": "(天氣)熱的",
     "pitch_accent": 2,
     "affix_type": "none",
-    "lesson_id": "5"
+    "lesson_id": "5",
+    "system": "hiragana"
   },
   {
     "id": "1ac626cf-6263-4572-9aa1-933ef4fc0bf5",
@@ -4716,7 +5144,8 @@
     "definition": "涼爽的",
     "pitch_accent": 3,
     "affix_type": "none",
-    "lesson_id": "5"
+    "lesson_id": "5",
+    "system": "hiragana"
   },
   {
     "id": "6e0d1818-d91f-4186-a4bf-861e2b6d4253",
@@ -4727,7 +5156,8 @@
     "definition": "(不)太；(不)太常",
     "pitch_accent": 3,
     "affix_type": "none",
-    "lesson_id": "5"
+    "lesson_id": "5",
+    "system": "hiragana"
   },
   {
     "id": "42fc52c5-b788-4c63-8a75-16d6b6c049ad",
@@ -4738,7 +5168,8 @@
     "definition": "生活",
     "pitch_accent": 6,
     "affix_type": "none",
-    "lesson_id": "5"
+    "lesson_id": "5",
+    "system": "hiragana"
   },
   {
     "id": "a1f07ddb-16d5-470c-aa04-d10d76b43502",
@@ -4749,7 +5180,8 @@
     "definition": "北海道(地名)",
     "pitch_accent": 3,
     "affix_type": "none",
-    "lesson_id": "5"
+    "lesson_id": "5",
+    "system": "hiragana"
   },
   {
     "id": "06c9870c-8844-4e8a-8440-75f193393b54",
@@ -4760,7 +5192,8 @@
     "definition": "沖繩(地名)",
     "pitch_accent": 0,
     "affix_type": "none",
-    "lesson_id": "5"
+    "lesson_id": "5",
+    "system": "hiragana"
   },
   {
     "id": "441d28d6-8f41-4fad-9562-422bf75ff32e",
@@ -4771,7 +5204,8 @@
     "definition": "怎麼樣呢(評價)",
     "pitch_accent": 1,
     "affix_type": "none",
-    "lesson_id": "5"
+    "lesson_id": "5",
+    "system": "hiragana"
   },
   {
     "id": "198828d9-65e8-4a67-a15f-44eb7df4d7e6",
@@ -4782,7 +5216,8 @@
     "definition": "有一點；稍微；少許",
     "pitch_accent": 2,
     "affix_type": "none",
-    "lesson_id": "5"
+    "lesson_id": "5",
+    "system": "hiragana"
   },
   {
     "id": "c475f137-a8d5-4aa9-b20c-4076f9781e37",
@@ -4793,7 +5228,8 @@
     "definition": "公寓",
     "pitch_accent": 2,
     "affix_type": "none",
-    "lesson_id": "5"
+    "lesson_id": "5",
+    "system": "katakana"
   },
   {
     "id": "c9713ca3-a2e2-413f-bd25-0924c3ec4651",
@@ -4804,7 +5240,8 @@
     "definition": "吵鬧的；煩的",
     "pitch_accent": 3,
     "affix_type": "none",
-    "lesson_id": "5"
+    "lesson_id": "5",
+    "system": "hiragana"
   },
   {
     "id": "3f9bb65d-52da-4116-bd02-8ef54d7097e9",
@@ -4815,7 +5252,8 @@
     "definition": "非常",
     "pitch_accent": 0,
     "affix_type": "none",
-    "lesson_id": "5"
+    "lesson_id": "5",
+    "system": "hiragana"
   },
   {
     "id": "515d56ca-6325-473d-a6ac-e1d8b448ce0b",
@@ -4826,7 +5264,8 @@
     "definition": "完全(不)",
     "pitch_accent": 0,
     "affix_type": "none",
-    "lesson_id": "5"
+    "lesson_id": "5",
+    "system": "hiragana"
   },
   {
     "id": "87ed6517-76b2-41ad-9f28-f27ab18c19e7",
@@ -4837,7 +5276,8 @@
     "definition": "天氣",
     "pitch_accent": 1,
     "affix_type": "none",
-    "lesson_id": "5"
+    "lesson_id": "5",
+    "system": "hiragana"
   },
   {
     "id": "f3bbaac2-69db-47ce-8f19-b09ab8d14e31",
@@ -4848,7 +5288,8 @@
     "definition": "天氣很好",
     "pitch_accent": -1,
     "affix_type": "none",
-    "lesson_id": "5"
+    "lesson_id": "5",
+    "system": "hiragana"
   },
   {
     "id": "51720573-9406-4d4f-ab5c-a4b82f22add4",
@@ -4859,7 +5300,8 @@
     "definition": "但是；不過",
     "pitch_accent": 2,
     "affix_type": "none",
-    "lesson_id": "5"
+    "lesson_id": "5",
+    "system": "hiragana"
   },
   {
     "id": "1431544f-ffb4-4185-a240-5a21b86c25cd",
@@ -4870,7 +5312,8 @@
     "definition": "然後；接著",
     "pitch_accent": 0,
     "affix_type": "none",
-    "lesson_id": "5"
+    "lesson_id": "5",
+    "system": "hiragana"
   },
   {
     "id": "8341b9f9-3413-44ff-a447-d48aadef2c4d",
@@ -4881,7 +5324,8 @@
     "definition": "問題；題目",
     "pitch_accent": 0,
     "affix_type": "none",
-    "lesson_id": "5"
+    "lesson_id": "5",
+    "system": "hiragana"
   },
   {
     "id": "5a5404b9-ae94-4d04-966b-3539faa749e8",
@@ -4892,7 +5336,8 @@
     "definition": "片假名",
     "pitch_accent": 3,
     "affix_type": "none",
-    "lesson_id": "5"
+    "lesson_id": "5",
+    "system": "hiragana"
   },
   {
     "id": "248c2870-bf34-413a-aefb-98d328b08ef1",
@@ -4903,7 +5348,8 @@
     "definition": "怎麼樣呢(體驗)",
     "pitch_accent": 1,
     "affix_type": "none",
-    "lesson_id": "5"
+    "lesson_id": "5",
+    "system": "hiragana"
   },
   {
     "id": "553a2512-fcd2-434c-9fc6-37c69c4301d5",
@@ -4914,7 +5360,8 @@
     "definition": "海",
     "pitch_accent": 1,
     "affix_type": "none",
-    "lesson_id": "5"
+    "lesson_id": "5",
+    "system": "hiragana"
   },
   {
     "id": "536224e2-c106-4db3-b394-f04607efda98",
@@ -4925,7 +5372,8 @@
     "definition": "首先",
     "pitch_accent": 1,
     "affix_type": "none",
-    "lesson_id": "5"
+    "lesson_id": "5",
+    "system": "hiragana"
   },
   {
     "id": "2c07586b-3721-451b-8cef-478d5f3d38c8",
@@ -4936,7 +5384,8 @@
     "definition": "疲累；疲倦",
     "pitch_accent": 4,
     "affix_type": "none",
-    "lesson_id": "5"
+    "lesson_id": "5",
+    "system": "hiragana"
   },
   {
     "id": "f075d64a-2c71-445a-ac9f-2f9404c36354",
@@ -4947,7 +5396,8 @@
     "definition": "但是",
     "pitch_accent": 1,
     "affix_type": "none",
-    "lesson_id": "5"
+    "lesson_id": "5",
+    "system": "hiragana"
   },
   {
     "id": "9fc477f3-edf4-4536-974c-dc8b5ec56b2c",
@@ -4958,7 +5408,8 @@
     "definition": "～個月",
     "pitch_accent": -1,
     "affix_type": "suffix",
-    "lesson_id": "5"
+    "lesson_id": "5",
+    "system": "hiragana"
   },
   {
     "id": "80517154-4470-4bbb-8828-05f1dd01d041",
@@ -4969,7 +5420,8 @@
     "definition": "～分（鐘）",
     "pitch_accent": -1,
     "affix_type": "suffix",
-    "lesson_id": "5"
+    "lesson_id": "5",
+    "system": "hiragana"
   },
   {
     "id": "26cb76b8-1ed5-4ca1-8062-1d46993a390d",
@@ -4980,7 +5432,8 @@
     "definition": "～秒（鐘）",
     "pitch_accent": -1,
     "affix_type": "suffix",
-    "lesson_id": "5"
+    "lesson_id": "5",
+    "system": "hiragana"
   },
   {
     "id": "d0b60ae6-5501-4d4a-8291-fce32b39ec24",
@@ -4991,7 +5444,8 @@
     "definition": "健行；郊遊",
     "pitch_accent": 1,
     "affix_type": "none",
-    "lesson_id": "5"
+    "lesson_id": "5",
+    "system": "katakana"
   },
   {
     "id": "939c3c01-b537-452e-a4b9-00c1317c8e51",
@@ -5002,7 +5456,8 @@
     "definition": "(植物、物品等)有，在；舉辦",
     "pitch_accent": 3,
     "affix_type": "none",
-    "lesson_id": "6"
+    "lesson_id": "6",
+    "system": "hiragana"
   },
   {
     "id": "08d9c783-3662-4311-8055-fcff1c3ec218",
@@ -5013,7 +5468,8 @@
     "definition": "(人類、動物等)有，在",
     "pitch_accent": 2,
     "affix_type": "none",
-    "lesson_id": "6"
+    "lesson_id": "6",
+    "system": "hiragana"
   },
   {
     "id": "96309c5c-ca22-447d-b7b7-fb4e1e85b42f",
@@ -5024,7 +5480,8 @@
     "definition": "裡面",
     "pitch_accent": 1,
     "affix_type": "none",
-    "lesson_id": "6"
+    "lesson_id": "6",
+    "system": "hiragana"
   },
   {
     "id": "e4b3e69d-6e1f-4710-b940-ee6c3b181f03",
@@ -5035,7 +5492,8 @@
     "definition": "球",
     "pitch_accent": 0,
     "affix_type": "none",
-    "lesson_id": "6"
+    "lesson_id": "6",
+    "system": "katakana"
   },
   {
     "id": "24315cfe-3a8e-42c4-8aec-62033ca0bf5f",
@@ -5046,7 +5504,8 @@
     "definition": "上面",
     "pitch_accent": 0,
     "affix_type": "none",
-    "lesson_id": "6"
+    "lesson_id": "6",
+    "system": "hiragana"
   },
   {
     "id": "e642c4c7-3a70-4273-b089-d658c51aebae",
@@ -5057,7 +5516,8 @@
     "definition": "下面",
     "pitch_accent": 0,
     "affix_type": "none",
-    "lesson_id": "6"
+    "lesson_id": "6",
+    "system": "hiragana"
   },
   {
     "id": "e5583d44-caa6-4b2c-bade-e07a2b6fa5b5",
@@ -5068,7 +5528,8 @@
     "definition": "外面",
     "pitch_accent": 1,
     "affix_type": "none",
-    "lesson_id": "6"
+    "lesson_id": "6",
+    "system": "hiragana"
   },
   {
     "id": "2efd888b-8d1a-4237-96de-8025f7df0a9c",
@@ -5079,7 +5540,8 @@
     "definition": "前面",
     "pitch_accent": 1,
     "affix_type": "none",
-    "lesson_id": "6"
+    "lesson_id": "6",
+    "system": "hiragana"
   },
   {
     "id": "07e26046-c80d-462d-a41c-ef434216234a",
@@ -5090,7 +5552,8 @@
     "definition": "後面",
     "pitch_accent": 0,
     "affix_type": "none",
-    "lesson_id": "6"
+    "lesson_id": "6",
+    "system": "hiragana"
   },
   {
     "id": "26b076a0-97c1-4117-9d81-2a65dd762fad",
@@ -5101,7 +5564,8 @@
     "definition": "旁邊；隔壁",
     "pitch_accent": 0,
     "affix_type": "none",
-    "lesson_id": "6"
+    "lesson_id": "6",
+    "system": "hiragana"
   },
   {
     "id": "15db2afc-c977-46dd-96fa-698b319c95a2",
@@ -5112,7 +5576,8 @@
     "definition": "之間",
     "pitch_accent": 0,
     "affix_type": "none",
-    "lesson_id": "6"
+    "lesson_id": "6",
+    "system": "hiragana"
   },
   {
     "id": "de8fc69d-84da-489c-994e-10b928603996",
@@ -5123,7 +5588,8 @@
     "definition": "椅子",
     "pitch_accent": 0,
     "affix_type": "none",
-    "lesson_id": "6"
+    "lesson_id": "6",
+    "system": "hiragana"
   },
   {
     "id": "e3574ab0-bad1-4b51-af0e-a79c3e068df4",
@@ -5134,7 +5600,8 @@
     "definition": "床",
     "pitch_accent": 1,
     "affix_type": "none",
-    "lesson_id": "6"
+    "lesson_id": "6",
+    "system": "katakana"
   },
   {
     "id": "b085ca9d-1899-44be-a9d4-56ae6eeb9b9f",
@@ -5145,7 +5612,8 @@
     "definition": "桌子；餐桌",
     "pitch_accent": 0,
     "affix_type": "none",
-    "lesson_id": "6"
+    "lesson_id": "6",
+    "system": "katakana"
   },
   {
     "id": "e9069b3e-844d-400b-904f-352708928d9e",
@@ -5156,7 +5624,8 @@
     "definition": "錢包",
     "pitch_accent": 0,
     "affix_type": "none",
-    "lesson_id": "6"
+    "lesson_id": "6",
+    "system": "hiragana"
   },
   {
     "id": "d4a782c6-5848-4a3b-97fe-28fe4e519c47",
@@ -5167,7 +5636,8 @@
     "definition": "垃圾桶",
     "pitch_accent": 0,
     "affix_type": "none",
-    "lesson_id": "6"
+    "lesson_id": "6",
+    "system": "hiragana"
   },
   {
     "id": "39c88d23-0388-4515-8132-d528d482b0b6",
@@ -5178,7 +5648,8 @@
     "definition": "書架；書櫃",
     "pitch_accent": 1,
     "affix_type": "none",
-    "lesson_id": "6"
+    "lesson_id": "6",
+    "system": "hiragana"
   },
   {
     "id": "27a73c97-8981-43c3-90a7-482a3b101bee",
@@ -5189,7 +5660,8 @@
     "definition": "樹木；木頭",
     "pitch_accent": 1,
     "affix_type": "none",
-    "lesson_id": "6"
+    "lesson_id": "6",
+    "system": "hiragana"
   },
   {
     "id": "8b66d110-0365-47e5-9c02-d9b60b700756",
@@ -5200,7 +5672,8 @@
     "definition": "男孩",
     "pitch_accent": 3,
     "affix_type": "none",
-    "lesson_id": "6"
+    "lesson_id": "6",
+    "system": "hiragana"
   },
   {
     "id": "4c17adb4-ef00-4eb2-9fbd-d25a15ea25d8",
@@ -5211,7 +5684,8 @@
     "definition": "魚店",
     "pitch_accent": 0,
     "affix_type": "none",
-    "lesson_id": "6"
+    "lesson_id": "6",
+    "system": "hiragana"
   },
   {
     "id": "18a6b6d7-3fd7-4132-96e7-5e8778487892",
@@ -5222,7 +5696,8 @@
     "definition": "池子",
     "pitch_accent": 2,
     "affix_type": "none",
-    "lesson_id": "6"
+    "lesson_id": "6",
+    "system": "hiragana"
   },
   {
     "id": "11b2bf27-21d1-418d-ac8f-d9ab2882f9f2",
@@ -5233,7 +5708,8 @@
     "definition": "長椅",
     "pitch_accent": 1,
     "affix_type": "none",
-    "lesson_id": "6"
+    "lesson_id": "6",
+    "system": "katakana"
   },
   {
     "id": "452d3801-f3d3-4938-ba54-9028ddeec323",
@@ -5244,7 +5720,8 @@
     "definition": "附近",
     "pitch_accent": 1,
     "affix_type": "none",
-    "lesson_id": "6"
+    "lesson_id": "6",
+    "system": "hiragana"
   },
   {
     "id": "fc004bc3-2db6-4c60-ab7f-6dde7bc8d878",
@@ -5255,7 +5732,8 @@
     "definition": "女人",
     "pitch_accent": 6,
     "affix_type": "none",
-    "lesson_id": "6"
+    "lesson_id": "6",
+    "system": "hiragana"
   },
   {
     "id": "554e4c38-4f99-41c5-b2a8-9f32a94e7bee",
@@ -5266,7 +5744,8 @@
     "definition": "鳥；雞",
     "pitch_accent": 0,
     "affix_type": "none",
-    "lesson_id": "6"
+    "lesson_id": "6",
+    "system": "hiragana"
   },
   {
     "id": "7fa1face-0038-4ba5-8053-549c2e5b38ec",
@@ -5277,7 +5756,8 @@
     "definition": "錢",
     "pitch_accent": 0,
     "affix_type": "none",
-    "lesson_id": "6"
+    "lesson_id": "6",
+    "system": "hiragana"
   },
   {
     "id": "7ce28ce4-2a7a-40c2-b450-8f4d7159d8dc",
@@ -5288,7 +5768,8 @@
     "definition": "手機",
     "pitch_accent": 5,
     "affix_type": "none",
-    "lesson_id": "6"
+    "lesson_id": "6",
+    "system": "hiragana"
   },
   {
     "id": "d9db5302-f075-4b7e-92d9-02c4051532cf",
@@ -5299,7 +5780,8 @@
     "definition": "智慧型手機",
     "pitch_accent": 0,
     "affix_type": "none",
-    "lesson_id": "6"
+    "lesson_id": "6",
+    "system": "katakana"
   },
   {
     "id": "d0aadfc7-a677-473d-8fd1-fb73b57a59f3",
@@ -5310,7 +5792,8 @@
     "definition": "幾個；幾歲",
     "pitch_accent": 1,
     "affix_type": "none",
-    "lesson_id": "6"
+    "lesson_id": "6",
+    "system": "hiragana"
   },
   {
     "id": "a867db0a-550c-4586-b50b-a22cfe035fdb",
@@ -5321,7 +5804,8 @@
     "definition": "幾人",
     "pitch_accent": 1,
     "affix_type": "none",
-    "lesson_id": "6"
+    "lesson_id": "6",
+    "system": "hiragana"
   },
   {
     "id": "3a33ba63-5149-4ce4-a791-1dd2a67b03a1",
@@ -5332,7 +5816,8 @@
     "definition": "～人",
     "pitch_accent": -1,
     "affix_type": "suffix",
-    "lesson_id": "6"
+    "lesson_id": "6",
+    "system": "hiragana"
   },
   {
     "id": "645fff38-a319-462a-8d2c-d930ad17ee21",
@@ -5343,7 +5828,8 @@
     "definition": "～支；～根；～瓶",
     "pitch_accent": -1,
     "affix_type": "suffix",
-    "lesson_id": "6"
+    "lesson_id": "6",
+    "system": "hiragana"
   },
   {
     "id": "0c4acf8d-f2fe-4a5b-b1ef-b29f07995e86",
@@ -5354,7 +5840,8 @@
     "definition": "～張；～枚；～片",
     "pitch_accent": -1,
     "affix_type": "suffix",
-    "lesson_id": "6"
+    "lesson_id": "6",
+    "system": "hiragana"
   },
   {
     "id": "2c2fd28f-8dd1-4eb3-beee-ad42c1b3c577",
@@ -5365,7 +5852,8 @@
     "definition": "～隻",
     "pitch_accent": -1,
     "affix_type": "suffix",
-    "lesson_id": "6"
+    "lesson_id": "6",
+    "system": "hiragana"
   },
   {
     "id": "fa4e236c-1288-4a40-bb78-be3d56798701",
@@ -5376,7 +5864,8 @@
     "definition": "～本",
     "pitch_accent": -1,
     "affix_type": "suffix",
-    "lesson_id": "6"
+    "lesson_id": "6",
+    "system": "hiragana"
   },
   {
     "id": "fb4d3fa3-aed3-4a3f-a231-db860dbbc034",
@@ -5387,7 +5876,8 @@
     "definition": "～台",
     "pitch_accent": -1,
     "affix_type": "suffix",
-    "lesson_id": "6"
+    "lesson_id": "6",
+    "system": "hiragana"
   },
   {
     "id": "962b04f3-dcd7-4cd7-bfb1-c38b49a3d960",
@@ -5398,7 +5888,8 @@
     "definition": "話；談話；話題；事情；故事",
     "pitch_accent": 3,
     "affix_type": "none",
-    "lesson_id": "6"
+    "lesson_id": "6",
+    "system": "hiragana"
   },
   {
     "id": "f86eeba1-dfda-4f56-a461-39162d5567aa",
@@ -5409,7 +5900,8 @@
     "definition": "四季",
     "pitch_accent": 2,
     "affix_type": "none",
-    "lesson_id": "6"
+    "lesson_id": "6",
+    "system": "hiragana"
   },
   {
     "id": "f62a6984-c55c-4e2c-bc85-66a02332f45d",
@@ -5420,7 +5912,8 @@
     "definition": "冰箱",
     "pitch_accent": 3,
     "affix_type": "none",
-    "lesson_id": "6"
+    "lesson_id": "6",
+    "system": "hiragana"
   },
   {
     "id": "5f5bf4ca-95f8-4137-8d23-df065f4800a6",
@@ -5431,7 +5924,8 @@
     "definition": "鉛筆",
     "pitch_accent": 0,
     "affix_type": "none",
-    "lesson_id": "6"
+    "lesson_id": "6",
+    "system": "hiragana"
   },
   {
     "id": "883caf24-eee3-4fd2-a270-dbd1dcd07ebc",
@@ -5442,7 +5936,8 @@
     "definition": "男人",
     "pitch_accent": 6,
     "affix_type": "none",
-    "lesson_id": "6"
+    "lesson_id": "6",
+    "system": "hiragana"
   },
   {
     "id": "ee69e1c1-bf33-4db9-90c3-c308620bae48",
@@ -5453,7 +5948,8 @@
     "definition": "庭院；院子",
     "pitch_accent": 0,
     "affix_type": "none",
-    "lesson_id": "6"
+    "lesson_id": "6",
+    "system": "hiragana"
   },
   {
     "id": "10c463f4-7c36-49b5-af4d-623f42c6dfa2",
@@ -5464,7 +5960,8 @@
     "definition": "大人",
     "pitch_accent": 0,
     "affix_type": "none",
-    "lesson_id": "6"
+    "lesson_id": "6",
+    "system": "hiragana"
   },
   {
     "id": "0c7cf175-580c-4435-b743-ac6e5a6578d0",
@@ -5475,7 +5972,8 @@
     "definition": "大量的(人)",
     "pitch_accent": 0,
     "affix_type": "none",
-    "lesson_id": "6"
+    "lesson_id": "6",
+    "system": "hiragana"
   },
   {
     "id": "a3b3ab99-f9f0-4741-add4-9693a1df649c",
@@ -5486,7 +5984,8 @@
     "definition": "～樓",
     "pitch_accent": -1,
     "affix_type": "suffix",
-    "lesson_id": "6"
+    "lesson_id": "6",
+    "system": "hiragana"
   },
   {
     "id": "b23ae06a-d183-4fe2-b47c-4934a39d6206",
@@ -5497,7 +5996,8 @@
     "definition": "影印室",
     "pitch_accent": 2,
     "affix_type": "none",
-    "lesson_id": "6"
+    "lesson_id": "6",
+    "system": "mixed"
   },
   {
     "id": "ccaafcbe-9910-426d-9072-cecc7c46c94d",
@@ -5508,7 +6008,8 @@
     "definition": "那個(用於引起聽者注意)",
     "pitch_accent": 0,
     "affix_type": "none",
-    "lesson_id": "6"
+    "lesson_id": "6",
+    "system": "hiragana"
   },
   {
     "id": "deb42c38-8563-4da0-9c98-ff8341251be5",
@@ -5519,7 +6020,8 @@
     "definition": "咖啡廳",
     "pitch_accent": 1,
     "affix_type": "none",
-    "lesson_id": "6"
+    "lesson_id": "6",
+    "system": "katakana"
   },
   {
     "id": "0c7a3242-cf19-41e5-9202-175c562d7adb",
@@ -5530,7 +6032,8 @@
     "definition": "賣場；販賣區",
     "pitch_accent": 0,
     "affix_type": "none",
-    "lesson_id": "6"
+    "lesson_id": "6",
+    "system": "hiragana"
   },
   {
     "id": "fac6bd4d-2249-49ab-be68-7c13e3e44d1b",
@@ -5541,7 +6044,8 @@
     "definition": "地下",
     "pitch_accent": 1,
     "affix_type": "none",
-    "lesson_id": "6"
+    "lesson_id": "6",
+    "system": "hiragana"
   },
   {
     "id": "98b96465-66a6-4750-8c9b-2713d1811a81",
@@ -5552,7 +6056,8 @@
     "definition": "郵票",
     "pitch_accent": 0,
     "affix_type": "none",
-    "lesson_id": "6"
+    "lesson_id": "6",
+    "system": "hiragana"
   },
   {
     "id": "cddda462-25b1-4e18-9f91-b1d37de16bf5",
@@ -5563,7 +6068,8 @@
     "definition": "草莓",
     "pitch_accent": 0,
     "affix_type": "none",
-    "lesson_id": "6"
+    "lesson_id": "6",
+    "system": "hiragana"
   },
   {
     "id": "a06fabe1-dc6c-4528-b17e-bc020ad07506",
@@ -5574,7 +6080,8 @@
     "definition": "請給(我)",
     "pitch_accent": 3,
     "affix_type": "none",
-    "lesson_id": "6"
+    "lesson_id": "6",
+    "system": "hiragana"
   },
   {
     "id": "b348a0fd-131a-42e4-85f3-c3f6ee26388c",
@@ -5585,7 +6092,8 @@
     "definition": "明信片",
     "pitch_accent": 0,
     "affix_type": "none",
-    "lesson_id": "6"
+    "lesson_id": "6",
+    "system": "hiragana"
   },
   {
     "id": "9ea11a9e-6127-43cb-98b5-8b4105346162",
@@ -5596,7 +6104,8 @@
     "definition": "T恤",
     "pitch_accent": 0,
     "affix_type": "none",
-    "lesson_id": "6"
+    "lesson_id": "6",
+    "system": "katakana"
   },
   {
     "id": "d87f1592-169f-4657-a14e-73290fc2f2ae",
@@ -5607,7 +6116,8 @@
     "definition": "～個；～顆",
     "pitch_accent": -1,
     "affix_type": "suffix",
-    "lesson_id": "6"
+    "lesson_id": "6",
+    "system": "hiragana"
   },
   {
     "id": "b9f37d60-14c4-41f2-8aa8-1b57e6a65387",
@@ -5618,7 +6128,8 @@
     "definition": "紙",
     "pitch_accent": 2,
     "affix_type": "none",
-    "lesson_id": "6"
+    "lesson_id": "6",
+    "system": "hiragana"
   },
   {
     "id": "0c19be6b-2914-4342-b5c3-64f5153993e9",
@@ -5629,7 +6140,8 @@
     "definition": "巧克力",
     "pitch_accent": 3,
     "affix_type": "none",
-    "lesson_id": "6"
+    "lesson_id": "6",
+    "system": "katakana"
   },
   {
     "id": "7a63b6a6-6486-47dd-a6bc-845dc98921d1",
@@ -5640,7 +6152,8 @@
     "definition": "店員",
     "pitch_accent": 0,
     "affix_type": "none",
-    "lesson_id": "6"
+    "lesson_id": "6",
+    "system": "hiragana"
   },
   {
     "id": "86c7add4-41a6-482e-bd40-23e59e3253f9",
@@ -5651,7 +6164,8 @@
     "definition": "歡迎光臨",
     "pitch_accent": 6,
     "affix_type": "none",
-    "lesson_id": "6"
+    "lesson_id": "6",
+    "system": "hiragana"
   },
   {
     "id": "7c006ac1-6bc4-4ef0-9cd6-3831e13d255b",
@@ -5662,7 +6176,8 @@
     "definition": "客人(敬稱)",
     "pitch_accent": 0,
     "affix_type": "none",
-    "lesson_id": "6"
+    "lesson_id": "6",
+    "system": "hiragana"
   },
   {
     "id": "459d0ef3-f3dd-4180-81ee-53bd33bed892",
@@ -5673,7 +6188,8 @@
     "definition": "總共；合計",
     "pitch_accent": 1,
     "affix_type": "none",
-    "lesson_id": "6"
+    "lesson_id": "6",
+    "system": "hiragana"
   },
   {
     "id": "977cee44-5448-4821-9b63-207b4fb83d65",
@@ -5684,7 +6200,8 @@
     "definition": "空調；冷氣",
     "pitch_accent": 0,
     "affix_type": "none",
-    "lesson_id": "6"
+    "lesson_id": "6",
+    "system": "katakana"
   },
   {
     "id": "eb5ee7d1-db1f-403a-8a0c-b78914090a94",
@@ -5695,7 +6212,8 @@
     "definition": "電腦",
     "pitch_accent": 0,
     "affix_type": "none",
-    "lesson_id": "6"
+    "lesson_id": "6",
+    "system": "katakana"
   },
   {
     "id": "249c3e52-0975-46f7-b446-863652dfccd8",
@@ -5706,7 +6224,8 @@
     "definition": "國土；領土",
     "pitch_accent": 1,
     "affix_type": "none",
-    "lesson_id": "6"
+    "lesson_id": "6",
+    "system": "hiragana"
   },
   {
     "id": "e3d18e0a-f447-466b-bb35-429fc1abb2ef",
@@ -5717,7 +6236,8 @@
     "definition": "東亞",
     "pitch_accent": 4,
     "affix_type": "none",
-    "lesson_id": "6"
+    "lesson_id": "6",
+    "system": "hiragana"
   },
   {
     "id": "98a9bdbb-0899-4446-b348-56e9b8395943",
@@ -5728,7 +6248,8 @@
     "definition": "島",
     "pitch_accent": 2,
     "affix_type": "none",
-    "lesson_id": "6"
+    "lesson_id": "6",
+    "system": "hiragana"
   },
   {
     "id": "70128d98-6b4a-4dd6-a7cc-ba2a59b4d5ce",
@@ -5739,7 +6260,8 @@
     "definition": "本州",
     "pitch_accent": 1,
     "affix_type": "none",
-    "lesson_id": "6"
+    "lesson_id": "6",
+    "system": "hiragana"
   },
   {
     "id": "d81dec7b-327c-4fc5-afe8-53e32ce37d0b",
@@ -5750,7 +6272,8 @@
     "definition": "四國",
     "pitch_accent": 2,
     "affix_type": "none",
-    "lesson_id": "6"
+    "lesson_id": "6",
+    "system": "hiragana"
   },
   {
     "id": "4035ded4-cdc6-49de-b709-640744dbac93",
@@ -5761,7 +6284,8 @@
     "definition": "九州",
     "pitch_accent": 1,
     "affix_type": "none",
-    "lesson_id": "6"
+    "lesson_id": "6",
+    "system": "hiragana"
   },
   {
     "id": "5c495997-59c1-4601-a0b6-8fa8460990cf",
@@ -5772,7 +6296,8 @@
     "definition": "百分之～",
     "pitch_accent": 3,
     "affix_type": "suffix",
-    "lesson_id": "6"
+    "lesson_id": "6",
+    "system": "katakana"
   },
   {
     "id": "6f2c9251-4779-422f-988a-07596cb8ca6f",
@@ -5783,7 +6308,8 @@
     "definition": "平原",
     "pitch_accent": 0,
     "affix_type": "none",
-    "lesson_id": "6"
+    "lesson_id": "6",
+    "system": "hiragana"
   },
   {
     "id": "c01b9fb2-8f3a-400a-b94d-ba29d2ae8060",
@@ -5794,7 +6320,8 @@
     "definition": "人口",
     "pitch_accent": 0,
     "affix_type": "none",
-    "lesson_id": "6"
+    "lesson_id": "6",
+    "system": "hiragana"
   },
   {
     "id": "e4ea9723-5f9b-4486-b2b1-097197af65f7",
@@ -5805,7 +6332,8 @@
     "definition": "首都",
     "pitch_accent": 1,
     "affix_type": "none",
-    "lesson_id": "6"
+    "lesson_id": "6",
+    "system": "hiragana"
   },
   {
     "id": "0d3937f5-2b4e-44e0-8630-9a34c5feba45",
@@ -5816,7 +6344,8 @@
     "definition": "東",
     "pitch_accent": 0,
     "affix_type": "none",
-    "lesson_id": "6"
+    "lesson_id": "6",
+    "system": "hiragana"
   },
   {
     "id": "fd86e1f8-ee77-4ff9-a18e-d11ae295e8dd",
@@ -5827,7 +6356,8 @@
     "definition": "北",
     "pitch_accent": 0,
     "affix_type": "none",
-    "lesson_id": "6"
+    "lesson_id": "6",
+    "system": "hiragana"
   },
   {
     "id": "604cb8f6-e7cf-42ee-aa59-da3fcc9d1df5",
@@ -5838,7 +6368,8 @@
     "definition": "西",
     "pitch_accent": 0,
     "affix_type": "none",
-    "lesson_id": "6"
+    "lesson_id": "6",
+    "system": "hiragana"
   },
   {
     "id": "99188c64-caac-4fe6-bcf0-610aec6d1820",
@@ -5849,7 +6380,8 @@
     "definition": "南",
     "pitch_accent": 0,
     "affix_type": "none",
-    "lesson_id": "6"
+    "lesson_id": "6",
+    "system": "hiragana"
   },
   {
     "id": "90019305-de19-4918-89fe-59724a5ef7dd",
@@ -5860,7 +6392,8 @@
     "definition": "歐洲",
     "pitch_accent": 3,
     "affix_type": "none",
-    "lesson_id": "6"
+    "lesson_id": "6",
+    "system": "katakana"
   },
   {
     "id": "5430db4a-5c0f-4c90-9ead-c7fc3ab36d9c",
@@ -5871,7 +6404,8 @@
     "definition": "非洲",
     "pitch_accent": 0,
     "affix_type": "none",
-    "lesson_id": "6"
+    "lesson_id": "6",
+    "system": "katakana"
   },
   {
     "id": "3ec2786a-5b95-4317-8a19-15fbab9d1344",
@@ -5882,7 +6416,8 @@
     "definition": "亞洲",
     "pitch_accent": 1,
     "affix_type": "none",
-    "lesson_id": "6"
+    "lesson_id": "6",
+    "system": "katakana"
   },
   {
     "id": "7f8c7136-2b55-46f6-8648-d58656a4295c",
@@ -5893,7 +6428,8 @@
     "definition": "大洋洲",
     "pitch_accent": 0,
     "affix_type": "none",
-    "lesson_id": "6"
+    "lesson_id": "6",
+    "system": "katakana"
   },
   {
     "id": "56e75fd9-2b3e-4150-ba5e-0f6f8dfcdc58",
@@ -5904,7 +6440,8 @@
     "definition": "北美洲",
     "pitch_accent": 3,
     "affix_type": "none",
-    "lesson_id": "6"
+    "lesson_id": "6",
+    "system": "hiragana"
   },
   {
     "id": "a3e8dd1b-d09a-4e1a-8fde-175f79f624b7",
@@ -5915,7 +6452,8 @@
     "definition": "南美洲",
     "pitch_accent": 4,
     "affix_type": "none",
-    "lesson_id": "6"
+    "lesson_id": "6",
+    "system": "hiragana"
   },
   {
     "id": "351d1c03-9c0f-43f1-b98c-f487216f12f4",
@@ -5926,7 +6464,8 @@
     "definition": "文具店",
     "pitch_accent": 0,
     "affix_type": "none",
-    "lesson_id": "6"
+    "lesson_id": "6",
+    "system": "hiragana"
   },
   {
     "id": "16c1d2cd-6f9d-4a61-8da1-b807312395e8",
@@ -5937,7 +6476,8 @@
     "definition": "電器店",
     "pitch_accent": 0,
     "affix_type": "none",
-    "lesson_id": "6"
+    "lesson_id": "6",
+    "system": "hiragana"
   },
   {
     "id": "90e43662-0d0a-4666-acb8-e58a2c820564",
@@ -5948,7 +6488,8 @@
     "definition": "麵包店",
     "pitch_accent": 1,
     "affix_type": "none",
-    "lesson_id": "6"
+    "lesson_id": "6",
+    "system": "hiragana"
   },
   {
     "id": "dd2b973c-c737-4035-97bd-cda2995add7a",
@@ -5959,7 +6500,8 @@
     "definition": "熱狗堡麵包",
     "pitch_accent": 0,
     "affix_type": "none",
-    "lesson_id": "6"
+    "lesson_id": "6",
+    "system": "katakana"
   },
   {
     "id": "bbe9a08e-66cf-421b-939b-d1aff950ff27",
@@ -5970,7 +6512,8 @@
     "definition": "吐司",
     "pitch_accent": 0,
     "affix_type": "none",
-    "lesson_id": "6"
+    "lesson_id": "6",
+    "system": "hiragana"
   },
   {
     "id": "c0b4f9bd-a186-4b1b-929f-bf8ff3baea42",
@@ -5981,7 +6524,8 @@
     "definition": "發表；宣布",
     "pitch_accent": 6,
     "affix_type": "none",
-    "lesson_id": "6"
+    "lesson_id": "6",
+    "system": "hiragana"
   },
   {
     "id": "864791f4-7702-481a-becc-20f8193a237a",
@@ -5992,6 +6536,7 @@
     "definition": "～個；～份",
     "pitch_accent": -1,
     "affix_type": "suffix",
-    "lesson_id": "6"
+    "lesson_id": "6",
+    "system": "hiragana"
   }
 ]

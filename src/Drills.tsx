@@ -3,6 +3,15 @@ import { Check, X } from 'lucide-react';
 import type { AffixType, Vocabulary } from './dictionary';
 import { DrawingCanvas } from './Canvas';
 
+function shuffle<T>(array: T[]): T[] {
+  const newArray = [...array];
+  for (let i = newArray.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [newArray[i], newArray[j]] = [newArray[j], newArray[i]];
+  }
+  return newArray;
+}
+
 // ==========================================
 // === AffixWrapper ===
 // ==========================================
@@ -14,11 +23,8 @@ export const AffixWrapper = ({ term, affixType, mode = 'inline' }: { term: strin
     return affixType === 'prefix' ? <span>{term}～</span> : <span>～{term}</span>;
   }
 
-  return affixType === 'prefix' ? (
-    <span className="text-3xl font-light text-slate-400 mr-4">{term}～</span>
-  ) : (
-    <span className="text-3xl font-light text-slate-400 ml-4">～{term}</span>
-  );
+  // mode === 'framing'
+  return <span className="text-4xl font-light text-slate-400">～</span>;
 };
 
 // ==========================================
@@ -67,8 +73,8 @@ export const RecognitionDrill = ({
   const isEvaluated = selectedId !== null && (!requiresPitch || selectedPitch !== null);
 
   const options = useMemo(() => {
-    const distractors = allVocab.filter(v => v.id !== vocab.id).sort(() => 0.5 - Math.random()).slice(0, 5);
-    return [vocab, ...distractors].sort(() => 0.5 - Math.random());
+    const distractors = shuffle(allVocab.filter(v => v.id !== vocab.id)).slice(0, 5);
+    return shuffle([vocab, ...distractors]);
   }, [vocab, allVocab]);
 
   const isPromptJapanese = mode === 'term-meaning' || mode === 'reading-meaning';
@@ -225,7 +231,8 @@ export const ProductionDrill = ({
   const target = mode === 'meaning-term' ? vocab.term : vocab.reading;
   
   let canvasPrompt = "Write the Term";
-  if (mode === 'meaning-reading' || mode === 'romaji-reading') canvasPrompt = "Write the Reading";
+  if (mode === 'meaning-reading') canvasPrompt = "Write the Reading";
+  if (mode === 'romaji-reading') canvasPrompt = "Write the Hiragana / Katakana";
 
   useEffect(() => {
     setRevealed(false);
@@ -252,14 +259,23 @@ export const ProductionDrill = ({
       </div>
 
       <div className="flex items-center justify-center w-full mb-8 relative">
-        {vocab.affix_type === 'prefix' && <AffixWrapper term={vocab.term} affixType="prefix" mode="framing" />}
-        <DrawingCanvas promptText={canvasPrompt} allowMouse={allowMouse} />
-        {vocab.affix_type === 'suffix' && <AffixWrapper term={vocab.term} affixType="suffix" mode="framing" />}
+        <DrawingCanvas promptText={canvasPrompt} allowMouse={allowMouse}>
+          {vocab.affix_type === 'prefix' && (
+            <div className="absolute right-8 top-1/2 -translate-y-1/2 pointer-events-none">
+              <AffixWrapper term={vocab.term} affixType="prefix" mode="framing" />
+            </div>
+          )}
+          {vocab.affix_type === 'suffix' && (
+            <div className="absolute left-8 top-1/2 -translate-y-1/2 pointer-events-none">
+              <AffixWrapper term={vocab.term} affixType="suffix" mode="framing" />
+            </div>
+          )}
+        </DrawingCanvas>
         
         {revealed && (
           <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex items-center justify-center pointer-events-none bg-white px-5 py-2">
             <span className="text-4xl font-light text-slate-800">
-               {mode === 'meaning-term' ? target : <AnnotatedReading reading={vocab.reading} pitch={vocab.pitch_accent} affixType={vocab.affix_type} />}
+               {mode === 'meaning-term' || mode === 'romaji-reading' ? target : <AnnotatedReading reading={vocab.reading} pitch={vocab.pitch_accent} affixType={vocab.affix_type} />}
             </span>
           </div>
         )}
@@ -331,21 +347,22 @@ export const DrillEngine = ({
     const cutoffIndex = Math.floor(scores.length * 0.4);
     const thresholdRate = scores[cutoffIndex] ?? 1;
 
-    const weightedItems = vocabList.flatMap(vocab => {
+    const weightedItems = vocabList.map(vocab => {
       const stat = stats[vocab.id] || { attempts: 0, correct: 0 };
       const rate = (stat.correct + 1) / (stat.attempts + 2);
       const weight = rate <= thresholdRate ? 2 : 1; 
       
-      return modes.map(mode => {
-        const randomScore = Math.random() ** (1 / weight);
-        return { vocab, mode, randomScore };
-      });
+      const randomScore = Math.random() ** (1 / weight);
+      return { vocab, randomScore };
     });
 
     const newQueue = weightedItems
       .sort((a, b) => b.randomScore - a.randomScore)
       .slice(0, 10)
-      .map(({ vocab, mode }) => ({ vocab, mode }));
+      .map(({ vocab }) => {
+        const randomMode = modes[Math.floor(Math.random() * modes.length)];
+        return { vocab, mode: randomMode };
+      });
       
     setQueue(newQueue);
   }, [vocabList, modes]);
@@ -361,7 +378,7 @@ export const DrillEngine = ({
     if (currentIndex < queue.length - 1) {
       setCurrentIndex(prev => prev + 1);
     } else if (mistakes.length > 0) {
-      setQueue(mistakes.sort(() => 0.5 - Math.random()));
+      setQueue(shuffle(mistakes));
       setMistakes([]);
       setCurrentIndex(0);
     } else {

@@ -67,27 +67,25 @@ The application must strictly shield the user from ever having to manually draw 
 
 1. **In Recognition Drills (Multiple Choice):**
    * The affix is rendered inline as part of the text string prompt.
-   * *Prefix example:* `お茶` is rendered as `お～` / `おちゃ`.
    * *Suffix example:* `さん` is rendered as `～さん`.
 
 2. **In Production Drills (Canvas Writing):**
-   * The affix is rendered as a static UI typography element **physically outside** the drawing canvas boundary, providing contextual framing.
-   * *Prefix example:* `[ お～ ] [ CANVAS ]`
-   * *Suffix example:* `[ CANVAS ] [ ～さん ]`
+   * The affix is rendered as a static UI typography element **inside** the drawing canvas, providing contextual framing.
+   * *Prefix example:* `[ CANVAS ～]`
+   * *Suffix example:* `[～ CANVAS ]`
    * The user is *only* expected to draw the core `term` or `reading` inside the canvas itself.
 
 ### B. Pitch Accent Rules & Notation
 
-Pitch accent UI (e.g., number pad 0-6 or options) is integrated into any mode where the `reading` is either the input (prompt) or the output (target), **with the strict exception of `Romaji → Reading`** (which ignores pitch accent entirely).
-*Applicable Modes:* `Reading → Meaning`, `Meaning → Reading`.
+Pitch accent UI (e.g., number pad 0-6) is integrated **only into Recognition Drill modes**. In **Production Drills (Canvas Writing)**, the 0-6 pitch selector pad is explicitly omitted, as the user is expected to manually draw the pitch accent symbols directly onto the canvas alongside their reading.
 
-* **The Test UI is Always Displayed:** The UI allowing the user to select/test the pitch accent is visible for these modes, but the user is completely **unblocked**; they are not forced to answer the pitch accent before submitting their multiple choice or reveal buttons.
+* **The Test UI is Always Displayed:** In Recognition modes, the UI allowing the user to select/test the pitch accent is visible, but the user is completely **unblocked**; they are not forced to answer the pitch accent before submitting.
 * **Unavailable Targets (-1):** When a vocabulary term's `pitch_accent` is strictly equal to `-1`, it dictates that no pitch accent fundamentally applies. In these cases, the entire pitch accent testing interface is visually locked (e.g. `opacity-50`, `pointer-events-none`) and renders a placeholder `"Pitch Accent N/A"`.
-* **Post-Answer Annotation (Upperscore Notation):** For tasks involving terms and readings, the application automatically displays an annotated version of the reading immediately after the user answers or reveals. This annotation uses an **upperscore** (an overline) spanning the exact number of kana characters dictated by the `pitch_accent` value (e.g., if `pitch_accent=3`, the first 3 characters receive an overline).
-  * **0-6 Grading:** When an answer is evaluated, the 0-6 pitch accent selector buttons remain on screen but are color-graded. The correct target pitch button glows green (`bg-green-500`), and if the user selected an incorrect pitch, that button is highlighted red (`bg-red-500`).
-* **Reveal Mechanics:** When the user taps "Reveal Answer", the correct answer is displayed inside an elegant, non-obscuring "result pill" anchored to the bottom center of the canvas area. This layout mimics the "big target, small inline complement" aesthetic of the Recognition Drills, allowing users to clearly compare their handwritten strokes against the correct answer without the canvas being covered up by an overlay.
-  * **Inline Prompt Complements:** When the prompt itself is a Term or Reading (`Term → Meaning`, `Reading → Meaning`), the corresponding compliment is annotated immediately beside the prompt (anchored as an absolute offset) so that the original prompt remains perfectly centered on the screen.
-  * **Exclusion:** The `Romaji → Reading` mode is strictly excluded from receiving any upperscore pitch accent annotations.
+* **Post-Answer Annotation (Upperscore Notation):** The application automatically displays an annotated version of the reading immediately after the user answers or reveals. This annotation uses an **upperscore** (an overline) spanning the exact number of kana characters dictated by the `pitch_accent` value. **All reading targets now receive this upperscore annotation**, including `Romaji → Reading`.
+  * **0-6 Grading:** When a Recognition answer is evaluated, the 0-6 pitch accent selector buttons remain on screen but are color-graded. The correct target pitch button glows translucent green (`bg-green-50 border-green-500 text-green-700`), and if the user selected an incorrect pitch, that button is highlighted translucent red (`bg-red-50 border-red-500 text-red-700`).
+* **Reveal Mechanics (Production):** When the user taps "Reveal Answer", the correct answer is displayed inside a flat, non-obscuring, white rectangular "result box" anchored to the bottom center of the canvas area. This allows users to clearly compare their handwritten strokes against the correct answer without the canvas being covered up by an overlay.
+  * **Inline Prompt Complements:** When a Drill is evaluated or revealed (in both Recognition and Production modes), the corresponding complement (e.g. the Term or Reading) is annotated immediately beside the top screen prompt (anchored as an absolute offset) so that the original prompt remains perfectly centered on the screen.
+* **Typography:** English/non-Japanese prompts and meanings are explicitly rendered using the `Songti TC` typeface to visually decouple them from Japanese characters. Furthermore, prompt texts in Production modes are scaled up (`text-3xl`) to exactly match the sizing aesthetics of Recognition modes.
 
 ### C. Layout Constraints
 * **Viewport Boundaries:** The app's root layout must strictly use `h-[100dvh]` combined with controlled overflow (`overflow-y-auto` or `overflow-hidden`), ensuring the app perfectly locks to the available vertical space of mobile and tablet screens without expanding the body height unnecessarily.

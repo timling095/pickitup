@@ -13,6 +13,7 @@ export interface Vocabulary {
   pitch_accent: number;
   affix_type: AffixType;
   lesson_id: string;
+  system: 'hiragana' | 'katakana' | 'mixed';
 }
 
 export const DICTIONARY = vocabData as Vocabulary[];
