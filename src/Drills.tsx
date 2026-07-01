@@ -82,8 +82,18 @@ export const RecognitionDrill = ({
   const [selectedPitch, setSelectedPitch] = useState<number | null>(null);
 
   const hasPitch = mode === 'reading-meaning' || mode === 'meaning-reading-rec';
-  const requiresPitch = hasPitch && strictPitch && vocab.pitch_accent !== -1;
-  const isEvaluated = selectedId !== null && (!requiresPitch || selectedPitch !== null);
+  const isEvaluated = selectedId !== null && (!strictPitch || !hasPitch || vocab.pitch_accent === -1 || selectedPitch !== null);
+  
+  const [canProceed, setCanProceed] = useState(false);
+
+  useEffect(() => {
+    if (isEvaluated) {
+      const timer = setTimeout(() => setCanProceed(true), 400);
+      return () => clearTimeout(timer);
+    } else {
+      setCanProceed(false);
+    }
+  }, [isEvaluated]);
 
   const options = useMemo(() => {
     const distractors = shuffle(allVocab.filter(v => v.id !== vocab.id)).slice(0, 5);
@@ -121,7 +131,7 @@ export const RecognitionDrill = ({
           ) : (
             <span style={{ fontFamily: '"Noto Serif TC", serif' }}>{prompt}</span>
           )}
-          {isEvaluated && vocab.term !== vocab.reading && (
+          {isEvaluated && (
             <div className="absolute left-full ml-6 text-2xl text-slate-400 whitespace-nowrap animate-in fade-in flex items-center h-full pt-1">
               {(mode === 'term-meaning' || mode === 'meaning-term-rec') ? (
                 <AnnotatedReading reading={vocab.reading} pitch={vocab.pitch_accent} affixType={vocab.affix_type} />
@@ -218,9 +228,11 @@ export const RecognitionDrill = ({
 
       <div className={`w-full mt-8 text-center transition-all duration-300 ${isEvaluated ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-2 pointer-events-none'}`}>
         <button
-          onClick={() => onComplete(selectedId === vocab.id)}
-          disabled={!isEvaluated}
-          className="w-full py-4 bg-slate-800 text-white rounded-xl font-medium tracking-wide hover:bg-slate-700 transition-colors shadow-sm disabled:opacity-50 disabled:cursor-not-allowed"
+          onPointerDown={() => {
+            if (canProceed) onComplete(selectedId === vocab.id);
+          }}
+          disabled={!canProceed}
+          className="w-full py-4 bg-slate-800 text-white rounded-xl font-medium tracking-wide hover:bg-slate-700 transition-colors shadow-sm disabled:opacity-50 disabled:cursor-not-allowed select-none touch-none"
         >
           Next Question
         </button>
@@ -276,7 +288,7 @@ export const ProductionDrill = ({
           {mode === 'romaji-reading' ? prompt : (
             <span style={{ fontFamily: '"Noto Serif TC", serif' }}>{prompt}</span>
           )}
-          {revealed && vocab.term !== vocab.reading && mode !== 'romaji-reading' && (
+          {revealed && mode !== 'romaji-reading' && (
             <div className="absolute left-full ml-6 text-2xl text-slate-400 whitespace-nowrap flex items-center h-full pt-1">
               {mode === 'meaning-term' ? (
                 <AnnotatedReading reading={vocab.reading} pitch={vocab.pitch_accent} affixType={vocab.affix_type} />
@@ -364,6 +376,7 @@ export const DrillEngine = ({
   allowMouse,
   stats,
   onUpdateStats,
+  onSkip,
   onExit 
 }: { 
   vocabList: Vocabulary[], 
@@ -372,6 +385,7 @@ export const DrillEngine = ({
   allowMouse: boolean,
   stats: Record<string, { attempts: number, correct: number }>,
   onUpdateStats: (id: string, correct: boolean) => void,
+  onSkip: (id: string) => void,
   onExit: () => void 
 }) => {
   const [queue, setQueue] = useState<{vocab: Vocabulary, mode: string}[]>([]);
@@ -419,6 +433,15 @@ export const DrillEngine = ({
     }
   };
 
+  const handleSkip = () => {
+    onSkip(queue[currentIndex].vocab.id);
+    if (currentIndex < queue.length - 1) {
+      setCurrentIndex(prev => prev + 1);
+    } else {
+      setIsFinished(true);
+    }
+  };
+
   if (queue.length === 0) return null;
 
   if (isFinished) {
@@ -448,7 +471,10 @@ export const DrillEngine = ({
             <div key={i} className={`h-1.5 rounded-full transition-all ${i < currentIndex ? 'bg-slate-800 w-4' : i === currentIndex ? 'bg-slate-400 w-4' : 'bg-slate-200 w-2'}`} />
           ))}
         </div>
-        <div className="text-sm font-medium text-slate-400">{currentIndex + 1} / {queue.length}</div>
+        <div className="flex items-center gap-4">
+          <div className="text-sm font-medium text-slate-400">{currentIndex + 1} / {queue.length}</div>
+          <button onClick={handleSkip} className="text-sm text-slate-400 hover:text-slate-600">Skip Term</button>
+        </div>
       </div>
 
       <div className="flex-1 flex items-center justify-center">

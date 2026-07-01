@@ -8,6 +8,7 @@ An interactive Japanese vocabulary drill application optimized for modern stylin
 
 The codebase is structured into cohesive, domain-specific "fat files" to limit import fragmentation and optimize clarity.
 
+```
 src/
 ├── assets/
 │   ├── processed_vocabulary.csv   # Raw CSV source dataset.
@@ -19,6 +20,7 @@ src/
 ├── main.tsx                       # React application entry point.
 ├── index.css                      # Global stylesheet importing Tailwind CSS v4.0.
 └── App.css                        # (Unused) Default stylesheet.
+```
 
 ## 2. Domain Specification
 

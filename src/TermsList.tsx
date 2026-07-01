@@ -6,19 +6,31 @@ import { AnnotatedReading, AffixWrapper } from './Drills';
 export const TermsList = ({ 
   vocabList, 
   stats, 
+  skippedTerms,
+  onSkip,
+  onUnskip,
   onBack 
 }: { 
   vocabList: Vocabulary[], 
   stats: Record<string, { attempts: number, correct: number }>,
+  skippedTerms: Record<string, boolean>,
+  onSkip: (id: string) => void,
+  onUnskip: (id: string) => void,
   onBack: () => void 
 }) => {
-  const [sortMode, setSortMode] = useState<'default' | 'errors'>('default');
+  const [sortMode, setSortMode] = useState<'default' | 'errors' | 'skipped'>('default');
 
   const sortedVocab = useMemo(() => {
+    if (sortMode === 'skipped') {
+      return vocabList.filter(v => skippedTerms[v.id]);
+    }
+    
+    const unskipped = vocabList.filter(v => !skippedTerms[v.id]);
+
     if (sortMode === 'default') {
-      return [...vocabList];
+      return [...unskipped];
     } else {
-      return [...vocabList].sort((a, b) => {
+      return [...unskipped].sort((a, b) => {
         const statA = stats[a.id] || { attempts: 0, correct: 0 };
         const statB = stats[b.id] || { attempts: 0, correct: 0 };
         const errRateA = ((statA.attempts - statA.correct) + 1) / (statA.attempts + 2);
@@ -49,6 +61,12 @@ export const TermsList = ({
             >
               Most Frequent Errors
             </button>
+            <button 
+              onClick={() => setSortMode('skipped')}
+              className={`px-4 py-1.5 rounded-lg text-sm font-medium transition-colors ${sortMode === 'skipped' ? 'bg-white shadow-sm text-slate-800' : 'text-slate-500 hover:text-slate-700'}`}
+            >
+              Skipped
+            </button>
           </div>
         </div>
 
@@ -73,9 +91,17 @@ export const TermsList = ({
                   </div>
                   <div className="sm:text-right flex sm:flex-col items-center sm:items-end gap-2 sm:gap-0 bg-slate-50 sm:bg-transparent p-2 sm:p-0 rounded-lg">
                     <div className="text-[10px] font-bold uppercase tracking-wider text-slate-400">Error Rate</div>
-                    <div className={`text-lg font-medium leading-none ${errPercent >= 50 ? 'text-red-500' : 'text-slate-400'}`}>
+                    <div className={`text-lg font-medium leading-none ${errPercent > 50 ? 'text-red-500' : 'text-slate-400'}`}>
                       {errPercent}%
                     </div>
+                  </div>
+                  
+                  <div className="ml-2 flex items-center">
+                    {skippedTerms[vocab.id] ? (
+                      <button onClick={() => onUnskip(vocab.id)} className="text-xs px-3 py-1.5 bg-slate-800 text-white rounded-md font-medium hover:bg-slate-700">Unskip</button>
+                    ) : (
+                      <button onClick={() => onSkip(vocab.id)} className="text-xs px-3 py-1.5 bg-slate-100 text-slate-500 rounded-md font-medium hover:bg-slate-200">Skip</button>
+                    )}
                   </div>
                 </div>
               );

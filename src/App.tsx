@@ -46,6 +46,7 @@ export default function App() {
   });
   
   const [stats, setStats] = useLocalStorage<Record<string, { attempts: number, correct: number }>>('nd_stats', {});
+  const [skippedTerms, setSkippedTerms] = useLocalStorage<Record<string, boolean>>('nd_skippedTerms', {});
 
   const availableModes = [
     { id: 'term-meaning', label: 'Term → Meaning', type: 'Recognition' },
@@ -80,6 +81,9 @@ export default function App() {
       <TermsList 
         vocabList={activeVocab} 
         stats={stats} 
+        skippedTerms={skippedTerms}
+        onSkip={(id) => setSkippedTerms(prev => ({ ...prev, [id]: true }))}
+        onUnskip={(id) => setSkippedTerms(prev => ({ ...prev, [id]: false }))}
         onBack={() => setAppState('menu')} 
       />
     );
@@ -89,7 +93,7 @@ export default function App() {
     return (
       <main className="h-[100dvh] overflow-hidden bg-slate-50 p-4 md:p-8 font-sans text-slate-900 flex flex-col w-full max-w-full">
         <DrillEngine 
-          vocabList={activeVocab} 
+          vocabList={activeVocab.filter(v => !skippedTerms[v.id])} 
           modes={computedActiveModes} 
           strictPitch={strictPitch}
           allowMouse={allowMouse}
@@ -106,6 +110,7 @@ export default function App() {
               };
             });
           }}
+          onSkip={(id) => setSkippedTerms(prev => ({ ...prev, [id]: true }))}
           onExit={() => setAppState('menu')} 
         />
       </main>
