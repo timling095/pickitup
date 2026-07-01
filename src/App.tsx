@@ -2,6 +2,7 @@ import { useState, useMemo } from 'react';
 import { ChevronRight, Check } from 'lucide-react';
 import { DICTIONARY, useVocabulary } from './dictionary';
 import { DrillEngine } from './Drills';
+import { TermsList } from './TermsList';
 
 // Custom hook to persist state in localStorage
 function useLocalStorage<T>(key: string, initialValue: T): [T, (val: T | ((prev: T) => T)) => void] {
@@ -28,7 +29,7 @@ function useLocalStorage<T>(key: string, initialValue: T): [T, (val: T | ((prev:
 }
 
 export default function App() {
-  const [appState, setAppState] = useState<'menu' | 'drill'>('menu');
+  const [appState, setAppState] = useState<'menu' | 'drill' | 'terms'>('menu');
   
   const [activeTab, setActiveTab] = useLocalStorage<'meaning' | 'alphabets'>('nd_activeTab', 'meaning');
   
@@ -74,6 +75,16 @@ export default function App() {
   const activeVocab = activeTab === 'meaning' ? baseFilteredVocab : alphabetsVocab;
   const computedActiveModes = activeTab === 'meaning' ? activeModes : ['romaji-reading'];
 
+  if (appState === 'terms') {
+    return (
+      <TermsList 
+        vocabList={activeVocab} 
+        stats={stats} 
+        onBack={() => setAppState('menu')} 
+      />
+    );
+  }
+
   if (appState === 'drill') {
     return (
       <main className="h-[100dvh] overflow-hidden bg-slate-50 p-4 md:p-8 font-sans text-slate-900 flex flex-col w-full max-w-full">
@@ -113,7 +124,7 @@ export default function App() {
                 onClick={() => setActiveTab('meaning')}
                 className={`px-6 py-2 rounded-lg text-sm font-medium transition-colors ${activeTab === 'meaning' ? 'bg-white shadow-sm text-slate-800' : 'text-slate-500 hover:text-slate-700'}`}
               >
-                Meanings
+                Terms
               </button>
               <button 
                 onClick={() => setActiveTab('alphabets')}
@@ -123,13 +134,24 @@ export default function App() {
               </button>
             </div>
           </div>
-          <button 
-            onClick={() => setAppState('drill')}
-            disabled={computedActiveModes.length === 0 || activeVocab.length === 0}
-            className="hidden md:flex h-11 px-8 mt-6 md:mt-0 bg-slate-800 text-white rounded-xl font-medium tracking-wide items-center justify-center gap-2 hover:bg-slate-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed shadow-sm hover:shadow-md text-sm"
-          >
-            Start Session <ChevronRight size={18} />
-          </button>
+          <div className="hidden md:flex items-center gap-3 mt-6 md:mt-0">
+            {activeTab === 'meaning' && (
+              <button
+                onClick={() => setAppState('terms')}
+                disabled={activeVocab.length === 0}
+                className="h-11 px-6 bg-white border border-slate-200 text-slate-700 rounded-xl font-medium tracking-wide hover:bg-slate-50 transition-colors disabled:opacity-50 disabled:cursor-not-allowed shadow-sm text-sm"
+              >
+                View Terms
+              </button>
+            )}
+            <button 
+              onClick={() => setAppState('drill')}
+              disabled={computedActiveModes.length === 0 || activeVocab.length === 0}
+              className="h-11 px-8 bg-slate-800 text-white rounded-xl font-medium tracking-wide flex items-center justify-center gap-2 hover:bg-slate-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed shadow-sm hover:shadow-md text-sm"
+            >
+              Start Session <ChevronRight size={18} />
+            </button>
+          </div>
         </div>
 
         <div className="mb-6 text-center md:text-left text-sm text-slate-500 font-medium">
@@ -227,13 +249,24 @@ export default function App() {
           
         </div>
 
-        <button 
-          onClick={() => setAppState('drill')}
-          disabled={computedActiveModes.length === 0 || activeVocab.length === 0}
-          className="md:hidden mt-8 w-full py-4 bg-slate-800 text-white rounded-2xl font-medium tracking-wide flex items-center justify-center gap-2 hover:bg-slate-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed shadow-sm hover:shadow-md"
-        >
-          Start Session <ChevronRight size={20} />
-        </button>
+        <div className="md:hidden flex flex-col gap-3 mt-8 w-full">
+          {activeTab === 'meaning' && (
+            <button
+              onClick={() => setAppState('terms')}
+              disabled={activeVocab.length === 0}
+              className="w-full py-4 bg-white border border-slate-200 text-slate-700 rounded-2xl font-medium tracking-wide hover:bg-slate-50 transition-colors disabled:opacity-50 disabled:cursor-not-allowed shadow-sm"
+            >
+              View Terms
+            </button>
+          )}
+          <button 
+            onClick={() => setAppState('drill')}
+            disabled={computedActiveModes.length === 0 || activeVocab.length === 0}
+            className="w-full py-4 bg-slate-800 text-white rounded-2xl font-medium tracking-wide flex items-center justify-center gap-2 hover:bg-slate-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed shadow-sm hover:shadow-md"
+          >
+            Start Session <ChevronRight size={20} />
+          </button>
+        </div>
 
         <div className="mt-auto pt-12 pb-4 text-center text-xs font-medium text-slate-400 tracking-wide uppercase">
           Vocabulary list provided by Tokyo University of Foreign Studies and Kenta Li
