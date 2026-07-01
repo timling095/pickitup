@@ -54,12 +54,12 @@ Bundles drill execution components:
 
 * `<DrillEngine>`: Handles session queues, progress bar tracking, and session routing.
   * **Session Length:** Enforces a strict, unyielding limit of 10 questions per drill session to prevent fatigue. The engine explicitly eliminates recursive "mistakes queues," deferring error tracking entirely to the global stats to be dynamically resolved in future spaced-repetition cycles.
-  * **Weighted Selection:** Implements a naive probability weighting algorithm. When building the 10-question queue, the system calculates the **Laplace smoothed correctness rate** `(correct + 1) / (attempts + 2)` for all available vocabulary in the selected lesson. The items in the lowest 40% tier of these smoothed rates are given a **2x probability multiplier** of being selected over the remaining 60%.
+  * **Weighted Selection:** Implements a naive probability weighting algorithm. When building the 10-question queue, the system calculates the **Laplace smoothed correctness rate** `(correct + 1) / (attempts + 2)` for all available vocabulary in the selected lesson. The items in the lowest 50% tier of these smoothed rates are given a **2x probability multiplier** of being selected over the remaining 50%.
 
 ### 2.4 The Shell (`src/App.tsx`)
 
 Coordinates top-level states and routing between the menu screen and active sessions. It includes controls for Lesson Selection, Active Mode toggles, Pitch Accent Policies, and allow-mouse debugging. 
-* **Terms Viewer (`src/TermsList.tsx`):** Exposes a dedicated UI to view all vocabulary loaded under the active filter configuration, featuring an interactive sorting mode that ranks vocabulary exclusively by its descending **Laplace smoothed error rate**.
+* **Terms Viewer (`src/TermsList.tsx`):** Exposes a dedicated UI to view all vocabulary loaded under the active filter configuration. Features interactive layout modes to rank vocabulary exclusively by descending **Laplace smoothed error rate**, as well as a dedicated **'Skipped'** view to globally re-enable terms manually banished during drill sessions.
 * **Persistence:** All user settings (selected modes, toggles) and global correctness stats must be persisted across sessions/reloads using `localStorage`.
 
 ---
@@ -90,7 +90,7 @@ Pitch accent UI (e.g., number pad 0-6) is integrated **only into Recognition Dri
   * **0-6 Grading:** When a Recognition answer is evaluated, the 0-6 pitch accent selector buttons remain on screen but are color-graded. The correct target pitch button glows translucent green (`bg-green-50 border-green-500 text-green-700`), and if the user selected an incorrect pitch, that button is highlighted translucent red (`bg-red-50 border-red-500 text-red-700`).
 * **Reveal Mechanics (Production):** When the user taps "Reveal Answer", the correct answer is displayed inside a flat, non-obscuring, white rectangular "result box" anchored to the bottom center of the canvas area. This allows users to clearly compare their handwritten strokes against the correct answer without the canvas being covered up by an overlay.
   * **Inline Prompt Complements:** When a Drill is evaluated or revealed (in both Recognition and Production modes), the corresponding complement (e.g. the Term or Reading) is annotated immediately beside the top screen prompt (anchored as an absolute offset) so that the original prompt remains perfectly centered on the screen.
-* **Typography:** English/non-Japanese prompts and meanings are explicitly rendered using the injected `Noto Serif TC` (`NotoSerifTC.ttf`) typeface to visually decouple them from Japanese characters, bypassing unreliable default system fonts like macOS "Songti TC". Furthermore, prompt texts in Production modes are scaled up (`text-3xl`) to exactly match the sizing aesthetics of Recognition modes.
+* **Typography:** English/non-Japanese prompts and meanings are explicitly rendered using the injected `Noto Serif TC` (`NotoSerifTC.ttf`) typeface to visually decouple them from Japanese characters, bypassing unreliable default system fonts like macOS "Songti TC". Furthermore, prompt texts in Production modes are scaled up (`text-3xl`) to exactly match the sizing aesthetics of Recognition modes. The top-level application header enforces `Space Grotesk` at an absolute 700 font-weight for distinct branding.
 
 ### C. Layout Constraints
 * **Viewport Boundaries:** The app's root layout must strictly use `h-[100dvh]` combined with controlled overflow (`overflow-y-auto` or `overflow-hidden`), ensuring the app perfectly locks to the available vertical space of mobile and tablet screens without expanding the body height unnecessarily.

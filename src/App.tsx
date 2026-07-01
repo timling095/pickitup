@@ -123,7 +123,7 @@ export default function App() {
         
         <div className="mb-6 flex flex-col md:flex-row md:items-end justify-between">
           <div className="text-center md:text-left">
-            <h1 className="text-4xl font-light tracking-tight text-slate-800 mb-6">Pick It Up</h1>
+            <h1 className="text-4xl tracking-tight text-slate-800 mb-6" style={{ fontFamily: '"Space Grotesk", sans-serif', fontWeight: 700 }}>Pick It Up</h1>
             <div className="flex bg-slate-200/50 p-1 rounded-xl w-fit mx-auto md:mx-0">
               <button 
                 onClick={() => setActiveTab('meaning')}

@@ -228,11 +228,11 @@ export const RecognitionDrill = ({
 
       <div className={`w-full mt-8 text-center transition-all duration-300 ${isEvaluated ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-2 pointer-events-none'}`}>
         <button
-          onPointerDown={() => {
+          onClick={() => {
             if (canProceed) onComplete(selectedId === vocab.id);
           }}
           disabled={!canProceed}
-          className="w-full py-4 bg-slate-800 text-white rounded-xl font-medium tracking-wide hover:bg-slate-700 transition-colors shadow-sm disabled:opacity-50 disabled:cursor-not-allowed select-none touch-none"
+          className="w-full py-4 bg-slate-800 text-white rounded-xl font-medium tracking-wide hover:bg-slate-700 transition-colors shadow-sm disabled:opacity-50 disabled:cursor-not-allowed select-none"
         >
           Next Question
         </button>
@@ -282,7 +282,7 @@ export const ProductionDrill = ({
   }, [vocab]);
 
   return (
-    <div className="flex flex-col items-center w-full max-w-none">
+    <div className="flex flex-col items-center w-full max-w-none select-none">
       <div className="text-3xl font-light text-slate-800 mb-12 tracking-wide text-center flex flex-col items-center gap-4 select-none touch-none">
         <div className="relative inline-flex items-center justify-center">
           {mode === 'romaji-reading' ? prompt : (
@@ -399,7 +399,7 @@ export const DrillEngine = ({
       return rate;
     }).sort((a, b) => a - b);
     
-    const cutoffIndex = Math.floor(scores.length * 0.4);
+    const cutoffIndex = Math.floor(scores.length * 0.5);
     const thresholdRate = scores[cutoffIndex] ?? 1;
 
     const weightedItems = vocabList.map(vocab => {
@@ -464,7 +464,7 @@ export const DrillEngine = ({
 
   return (
     <div className="w-full h-full flex flex-col">
-      <div className="flex items-center justify-between mb-12 select-none touch-none">
+      <div className="flex items-center justify-between mb-12 select-none">
         <button onClick={onExit} className="text-sm text-slate-400 hover:text-slate-600">Cancel Drill</button>
         <div className="flex gap-1">
           {queue.map((_, i) => (
