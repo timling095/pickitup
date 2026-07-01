@@ -274,6 +274,10 @@ export const ProductionDrill = ({
   let canvasPrompt = "";
   if (mode === 'romaji-reading') {
     canvasPrompt = vocab.system === 'katakana' ? 'Write Katakana' : 'Write Hiragana';
+  } else if (mode === 'meaning-term') {
+    canvasPrompt = 'Write the Term';
+  } else if (mode === 'meaning-reading') {
+    canvasPrompt = 'Write the Reading';
   }
 
   useEffect(() => {

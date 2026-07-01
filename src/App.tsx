@@ -53,8 +53,8 @@ export default function App() {
     { id: 'reading-meaning', label: 'Reading → Meaning', type: 'Recognition' },
     { id: 'meaning-term-rec', label: 'Meaning → Term', type: 'Recognition' },
     { id: 'meaning-reading-rec', label: 'Meaning → Reading', type: 'Recognition' },
-    { id: 'meaning-term', label: 'Meaning → Term', type: 'Production (Write)' },
-    { id: 'meaning-reading', label: 'Meaning → Reading', type: 'Production (Write)' },
+    { id: 'meaning-term', label: 'Meaning → Term', type: 'Write' },
+    { id: 'meaning-reading', label: 'Meaning → Reading', type: 'Write' },
   ];
 
   const activeModes = Object.entries(selectedModes)
