@@ -504,3 +504,107 @@ export const DrillEngine = ({
     </div>
   );
 };
+
+// ==========================================
+// === FlashcardEngine ===
+// ==========================================
+
+export const FlashcardEngine = ({ 
+  vocabList, 
+  targetCorrect,
+  allowMouse,
+  fcProgress,
+  onUpdateFcProgress,
+  onSkip,
+  onComplete,
+  onDiscard
+}: { 
+  vocabList: Vocabulary[], 
+  targetCorrect: number,
+  allowMouse: boolean,
+  fcProgress: Record<string, number>,
+  onUpdateFcProgress: (id: string, newProgress: number) => void,
+  onSkip: (id: string) => void,
+  onComplete: () => void,
+  onDiscard: () => void 
+}) => {
+  const [queue, setQueue] = useState<Vocabulary[]>([]);
+  const [isFinished, setIsFinished] = useState(false);
+  const [drillKey, setDrillKey] = useState(0);
+
+  useEffect(() => {
+    const uncompleted = vocabList.filter(v => (fcProgress[v.id] || 0) < targetCorrect);
+    if (uncompleted.length === 0) {
+      setIsFinished(true);
+      return;
+    }
+    if (queue.length === 0) {
+      setQueue(shuffle(uncompleted));
+    }
+  }, [vocabList, fcProgress, targetCorrect, queue.length]);
+
+  const handleComplete = (correct: boolean) => {
+    setDrillKey(prev => prev + 1);
+    const currentItem = queue[0];
+    const currentProgress = fcProgress[currentItem.id] || 0;
+    
+    if (correct) {
+      onUpdateFcProgress(currentItem.id, currentProgress + 1);
+      setQueue(prev => prev.slice(1));
+    } else {
+      setQueue(prev => [...prev.slice(1), currentItem]);
+    }
+  };
+
+  const handleSkip = () => {
+    onSkip(queue[0].id);
+    setQueue(prev => prev.slice(1));
+  };
+
+  if (isFinished) {
+    return (
+      <div className="flex flex-col items-center justify-center h-full text-center fade-in">
+        <div className="w-20 h-20 bg-green-100 text-green-600 rounded-full flex items-center justify-center mb-6">
+          <Check size={40} />
+        </div>
+        <h2 className="text-3xl font-light text-slate-800 mb-2">Session Complete</h2>
+        <p className="text-slate-500 mb-8">You've reached the target correct tries for all terms.</p>
+        <button onClick={onComplete} className="px-8 py-3 bg-slate-800 text-white rounded-full font-medium hover:bg-slate-700 transition-colors">
+          Return to Menu
+        </button>
+      </div>
+    );
+  }
+
+  if (queue.length === 0) return null;
+
+  const currentItem = queue[0];
+  const uncompletedTotal = vocabList.filter(v => (fcProgress[v.id] || 0) < targetCorrect).length;
+
+  return (
+    <div className="w-full h-full flex flex-col">
+      <div className="flex items-center justify-between mb-12 select-none">
+        <button onClick={onDiscard} className="text-sm text-slate-400 hover:text-slate-600">Discard Session</button>
+        <div className="flex flex-col items-center">
+          <div className="text-sm font-medium text-slate-400">
+            Target: {fcProgress[currentItem.id] || 0} / {targetCorrect}
+          </div>
+        </div>
+        <div className="flex items-center gap-4">
+          <div className="text-sm font-medium text-slate-400">{uncompletedTotal} terms remaining</div>
+          <button onClick={handleSkip} className="text-sm text-slate-400 hover:text-slate-600">Skip Term</button>
+        </div>
+      </div>
+
+      <div className="flex-1 flex items-center justify-center">
+        <ProductionDrill
+          key={`${currentItem.id}-${drillKey}`}
+          vocab={currentItem}
+          mode="meaning-term"
+          allowMouse={allowMouse}
+          onComplete={handleComplete}
+        />
+      </div>
+    </div>
+  );
+};

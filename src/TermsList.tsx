@@ -1,5 +1,5 @@
 import { useState, useMemo } from 'react';
-import { ChevronLeft } from 'lucide-react';
+import { ChevronLeft, Search } from 'lucide-react';
 import type { Vocabulary } from './dictionary';
 import { AnnotatedReading, AffixWrapper } from './Drills';
 
@@ -19,13 +19,26 @@ export const TermsList = ({
   onBack: () => void 
 }) => {
   const [sortMode, setSortMode] = useState<'default' | 'errors' | 'skipped'>('default');
+  const [searchQuery, setSearchQuery] = useState('');
 
   const sortedVocab = useMemo(() => {
+    let filtered = vocabList;
+    
+    if (searchQuery.trim() !== '') {
+      const q = searchQuery.toLowerCase();
+      filtered = filtered.filter(v => 
+        v.term.toLowerCase().includes(q) || 
+        v.reading.toLowerCase().includes(q) || 
+        v.definition.toLowerCase().includes(q) ||
+        v.romaji.toLowerCase().includes(q)
+      );
+    }
+
     if (sortMode === 'skipped') {
-      return vocabList.filter(v => skippedTerms[v.id]);
+      return filtered.filter(v => skippedTerms[v.id]);
     }
     
-    const unskipped = vocabList.filter(v => !skippedTerms[v.id]);
+    const unskipped = filtered.filter(v => !skippedTerms[v.id]);
 
     if (sortMode === 'default') {
       return [...unskipped];
@@ -38,7 +51,7 @@ export const TermsList = ({
         return errRateB - errRateA; // Descending error rate
       });
     }
-  }, [vocabList, stats, sortMode]);
+  }, [vocabList, stats, sortMode, skippedTerms, searchQuery]);
 
   return (
     <main className="h-[100dvh] overflow-y-auto bg-slate-50 p-6 md:p-12 font-sans text-slate-900 flex justify-center items-start">
@@ -68,6 +81,17 @@ export const TermsList = ({
               Skipped
             </button>
           </div>
+        </div>
+
+        <div className="bg-white rounded-2xl border border-slate-200 shadow-sm flex items-center px-4 py-3 mb-8 focus-within:border-slate-400 transition-colors">
+          <Search size={18} className="text-slate-400 mr-3" />
+          <input 
+            type="text" 
+            placeholder="Search by term, reading, or meaning..." 
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            className="w-full bg-transparent outline-none text-slate-700 placeholder:text-slate-400"
+          />
         </div>
 
         <div className="bg-white rounded-3xl border border-slate-100 shadow-sm overflow-hidden mb-12">
@@ -109,7 +133,7 @@ export const TermsList = ({
             
             {sortedVocab.length === 0 && (
               <div className="p-12 text-center text-slate-400 font-medium">
-                No terms available in the selected lessons.
+                {searchQuery ? 'No terms match your search.' : 'No terms available in the selected lessons.'}
               </div>
             )}
           </div>

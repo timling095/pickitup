@@ -1,7 +1,7 @@
 import { useState, useMemo } from 'react';
 import { ChevronRight, Check } from 'lucide-react';
 import { DICTIONARY, useVocabulary } from './dictionary';
-import { DrillEngine } from './Drills';
+import { DrillEngine, FlashcardEngine } from './Drills';
 import { TermsList } from './TermsList';
 
 // Custom hook to persist state in localStorage
@@ -31,7 +31,7 @@ function useLocalStorage<T>(key: string, initialValue: T): [T, (val: T | ((prev:
 export default function App() {
   const [appState, setAppState] = useState<'menu' | 'drill' | 'terms'>('menu');
   
-  const [activeTab, setActiveTab] = useLocalStorage<'meaning' | 'alphabets'>('nd_activeTab', 'meaning');
+  const [activeTab, setActiveTab] = useLocalStorage<'meaning' | 'alphabets' | 'flashcards'>('nd_activeTab', 'meaning');
   
   // Persisted Settings
   const [strictPitch, setStrictPitch] = useLocalStorage('nd_strictPitch', false);
@@ -47,6 +47,13 @@ export default function App() {
   
   const [stats, setStats] = useLocalStorage<Record<string, { attempts: number, correct: number }>>('nd_stats', {});
   const [skippedTerms, setSkippedTerms] = useLocalStorage<Record<string, boolean>>('nd_skippedTerms', {});
+
+  // Flashcards state
+  const [fcActive, setFcActive] = useLocalStorage('nd_fcActive', false);
+  const [fcTargetCorrect, setFcTargetCorrect] = useLocalStorage('nd_fcTargetCorrect', 3);
+  const [fcSelectedLessons, setFcSelectedLessons] = useLocalStorage<Record<string, boolean>>('nd_fcSelectedLessons', { '1': true });
+  const [fcProgress, setFcProgress] = useLocalStorage<Record<string, number>>('nd_fcProgress', {});
+  const [fcSkippedTerms, setFcSkippedTerms] = useLocalStorage<Record<string, boolean>>('nd_fcSkippedTerms', {});
 
   const availableModes = [
     { id: 'term-meaning', label: 'Term → Meaning', type: 'Recognition' },
@@ -73,8 +80,9 @@ export default function App() {
     return DICTIONARY.filter(v => v.system === selectedAlphabetSystem);
   }, [selectedAlphabetSystem]);
 
-  const activeVocab = activeTab === 'meaning' ? baseFilteredVocab : alphabetsVocab;
-  const computedActiveModes = activeTab === 'meaning' ? activeModes : ['romaji-reading'];
+  const fcFilteredVocab = useVocabulary(fcSelectedLessons);
+  const activeVocab = activeTab === 'meaning' ? baseFilteredVocab : activeTab === 'alphabets' ? alphabetsVocab : fcFilteredVocab;
+  const computedActiveModes = activeTab === 'meaning' ? activeModes : activeTab === 'alphabets' ? ['romaji-reading'] : ['meaning-term'];
 
   if (appState === 'terms') {
     return (
@@ -90,6 +98,33 @@ export default function App() {
   }
 
   if (appState === 'drill') {
+    if (activeTab === 'flashcards') {
+      return (
+        <main className="h-[100dvh] overflow-hidden bg-slate-50 p-4 md:p-8 font-sans text-slate-900 flex flex-col w-full max-w-full">
+          <FlashcardEngine 
+            vocabList={activeVocab.filter(v => !fcSkippedTerms[v.id])}
+            targetCorrect={fcTargetCorrect}
+            allowMouse={allowMouse}
+            fcProgress={fcProgress}
+            onUpdateFcProgress={(id, num) => setFcProgress(p => ({ ...p, [id]: num }))}
+            onSkip={(id) => setFcSkippedTerms(prev => ({ ...prev, [id]: true }))}
+            onComplete={() => {
+              setFcActive(false);
+              setFcProgress({});
+              setFcSkippedTerms({});
+              setAppState('menu');
+            }}
+            onDiscard={() => {
+              setFcActive(false);
+              setFcProgress({});
+              setFcSkippedTerms({});
+              setAppState('menu');
+            }}
+          />
+        </main>
+      );
+    }
+
     return (
       <main className="h-[100dvh] overflow-hidden bg-slate-50 p-4 md:p-8 font-sans text-slate-900 flex flex-col w-full max-w-full">
         <DrillEngine 
@@ -127,20 +162,26 @@ export default function App() {
             <div className="flex bg-slate-200/50 p-1 rounded-xl w-fit mx-auto md:mx-0">
               <button 
                 onClick={() => setActiveTab('meaning')}
-                className={`px-6 py-2 rounded-lg text-sm font-medium transition-colors ${activeTab === 'meaning' ? 'bg-white shadow-sm text-slate-800' : 'text-slate-500 hover:text-slate-700'}`}
+                className={`px-5 py-2 rounded-lg text-sm font-medium transition-colors ${activeTab === 'meaning' ? 'bg-white shadow-sm text-slate-800' : 'text-slate-500 hover:text-slate-700'}`}
               >
                 Terms
               </button>
               <button 
                 onClick={() => setActiveTab('alphabets')}
-                className={`px-6 py-2 rounded-lg text-sm font-medium transition-colors ${activeTab === 'alphabets' ? 'bg-white shadow-sm text-slate-800' : 'text-slate-500 hover:text-slate-700'}`}
+                className={`px-5 py-2 rounded-lg text-sm font-medium transition-colors ${activeTab === 'alphabets' ? 'bg-white shadow-sm text-slate-800' : 'text-slate-500 hover:text-slate-700'}`}
               >
                 Glyphs
+              </button>
+              <button 
+                onClick={() => setActiveTab('flashcards')}
+                className={`px-5 py-2 rounded-lg text-sm font-medium transition-colors ${activeTab === 'flashcards' ? 'bg-white shadow-sm text-slate-800' : 'text-slate-500 hover:text-slate-700'}`}
+              >
+                Flashcards
               </button>
             </div>
           </div>
           <div className="hidden md:flex items-center gap-3 mt-6 md:mt-0">
-            {activeTab === 'meaning' && (
+            {(activeTab === 'meaning' || activeTab === 'flashcards') && (
               <button
                 onClick={() => setAppState('terms')}
                 disabled={activeVocab.length === 0}
@@ -150,17 +191,23 @@ export default function App() {
               </button>
             )}
             <button 
-              onClick={() => setAppState('drill')}
+              onClick={() => {
+                if (activeTab === 'flashcards' && !fcActive) {
+                  setFcActive(true);
+                  setFcSkippedTerms({});
+                }
+                setAppState('drill');
+              }}
               disabled={computedActiveModes.length === 0 || activeVocab.length === 0}
               className="h-11 px-8 bg-slate-800 text-white rounded-xl font-medium tracking-wide flex items-center justify-center gap-2 hover:bg-slate-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed shadow-sm hover:shadow-md text-sm"
             >
-              Start Session <ChevronRight size={18} />
+              {(activeTab === 'flashcards' && fcActive) ? 'Resume Session' : 'Start Session'} <ChevronRight size={18} />
             </button>
           </div>
         </div>
 
         <div className="mb-6 text-center md:text-left text-sm text-slate-500 font-medium">
-          {activeTab === 'meaning' ? `${Object.values(selectedLessons).filter(Boolean).length} Lessons Selected` : 'All Lessons (Glyphs)'} • {activeVocab.length} terms loaded
+          {activeTab === 'alphabets' ? 'All Lessons (Glyphs)' : `${Object.values(activeTab === 'meaning' ? selectedLessons : fcSelectedLessons).filter(Boolean).length} Lessons Selected`} • {activeVocab.length} terms loaded
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-12 gap-8">
@@ -168,23 +215,45 @@ export default function App() {
           {/* Left Column: Lesson Select & Settings */}
           <div className="md:col-span-7 space-y-4">
             {/* Lesson or System Selection UI */}
-            {activeTab === 'meaning' ? (
-              <div className="bg-white rounded-3xl p-5 shadow-sm border border-slate-100 mb-4">
+            {activeTab === 'meaning' || activeTab === 'flashcards' ? (
+              <div className="bg-white rounded-3xl p-5 shadow-sm border border-slate-100 mb-4 relative overflow-hidden">
+                {activeTab === 'flashcards' && fcActive && (
+                  <div className="absolute inset-0 bg-white/80 backdrop-blur-[2px] z-10 flex flex-col items-center justify-center p-6 text-center">
+                    <div className="text-slate-800 font-semibold mb-2">Session in Progress</div>
+                    <div className="text-slate-500 text-sm mb-4">You must complete or discard the active session to change its scope.</div>
+                    <button 
+                      onClick={() => { setFcActive(false); setFcProgress({}); setFcSkippedTerms({}); }}
+                      className="px-4 py-2 bg-red-50 text-red-600 rounded-lg font-medium text-sm hover:bg-red-100 transition-colors"
+                    >
+                      Discard Session
+                    </button>
+                  </div>
+                )}
                 <h2 className="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-4">Select Lesson</h2>
                 <div className="grid grid-cols-4 sm:grid-cols-5 gap-2">
-                  {lessons.map(lessonId => (
-                    <button
-                      key={lessonId}
-                      onClick={() => setSelectedLessons(prev => ({ ...prev, [lessonId]: !prev[lessonId] }))}
-                      className={`py-2 rounded-xl text-xs font-medium transition-colors ${
-                        selectedLessons[lessonId]
-                          ? 'bg-slate-800 text-white shadow-sm'
-                          : 'bg-slate-100 text-slate-600 hover:bg-slate-200'
-                      }`}
-                    >
-                      L {lessonId}
-                    </button>
-                  ))}
+                  {lessons.map(lessonId => {
+                    const isSelected = activeTab === 'meaning' ? selectedLessons[lessonId] : fcSelectedLessons[lessonId];
+                    const toggleLesson = () => {
+                      if (activeTab === 'meaning') {
+                        setSelectedLessons(prev => ({ ...prev, [lessonId]: !prev[lessonId] }));
+                      } else {
+                        setFcSelectedLessons(prev => ({ ...prev, [lessonId]: !prev[lessonId] }));
+                      }
+                    };
+                    return (
+                      <button
+                        key={lessonId}
+                        onClick={toggleLesson}
+                        className={`py-2 rounded-xl text-xs font-medium transition-colors ${
+                          isSelected
+                            ? 'bg-slate-800 text-white shadow-sm'
+                            : 'bg-slate-100 text-slate-600 hover:bg-slate-200'
+                        }`}
+                      >
+                        L {lessonId}
+                      </button>
+                    );
+                  })}
                 </div>
               </div>
             ) : (
@@ -224,6 +293,24 @@ export default function App() {
                 </button>
               </div>
             )}
+
+            {activeTab === 'flashcards' && (
+              <div className="bg-white rounded-3xl p-5 shadow-sm border border-slate-100 mb-6 relative overflow-hidden">
+                {fcActive && <div className="absolute inset-0 bg-white/50 backdrop-blur-[1px] z-10" />}
+                <h2 className="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-4">Target Correct Tries</h2>
+                <div className="flex gap-2">
+                  {[1, 2, 3, 4, 5].map(num => (
+                    <button
+                      key={num}
+                      onClick={() => setFcTargetCorrect(num)}
+                      className={`flex-1 py-2 rounded-xl text-sm font-medium transition-colors ${fcTargetCorrect === num ? 'bg-slate-800 text-white shadow-sm' : 'bg-slate-100 text-slate-600 hover:bg-slate-200'}`}
+                    >
+                      {num}
+                    </button>
+                  ))}
+                </div>
+              </div>
+            )}
           </div>
 
           {/* Right Column: Modes Selection */}
@@ -255,7 +342,7 @@ export default function App() {
         </div>
 
         <div className="md:hidden flex flex-col gap-3 mt-8 w-full">
-          {activeTab === 'meaning' && (
+          {(activeTab === 'meaning' || activeTab === 'flashcards') && (
             <button
               onClick={() => setAppState('terms')}
               disabled={activeVocab.length === 0}
@@ -265,11 +352,17 @@ export default function App() {
             </button>
           )}
           <button 
-            onClick={() => setAppState('drill')}
+            onClick={() => {
+              if (activeTab === 'flashcards' && !fcActive) {
+                setFcActive(true);
+                setFcSkippedTerms({});
+              }
+              setAppState('drill');
+            }}
             disabled={computedActiveModes.length === 0 || activeVocab.length === 0}
             className="w-full py-4 bg-slate-800 text-white rounded-2xl font-medium tracking-wide flex items-center justify-center gap-2 hover:bg-slate-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed shadow-sm hover:shadow-md"
           >
-            Start Session <ChevronRight size={20} />
+            {(activeTab === 'flashcards' && fcActive) ? 'Resume Session' : 'Start Session'} <ChevronRight size={20} />
           </button>
         </div>
 
