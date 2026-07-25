@@ -82,7 +82,7 @@ export const DrawingCanvas = ({ promptText = "Draw Here", allowMouse = false, ch
   }, []);
 
   return (
-    <div className="relative w-[80%] mx-auto aspect-[4/5] max-h-[65vh] bg-white rounded-2xl border border-slate-200 overflow-hidden shadow-sm select-none">
+    <div className="relative w-[80%] mx-auto aspect-[4/5] max-h-[55vh] bg-white rounded-2xl border border-slate-200 overflow-hidden shadow-sm select-none">
       <div className="absolute top-4 left-4 text-xs font-medium text-slate-300 uppercase tracking-widest pointer-events-none">
         {promptText}
       </div>

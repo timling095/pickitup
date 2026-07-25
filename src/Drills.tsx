@@ -371,10 +371,17 @@ export const ProductionDrill = ({
   return (
     <div className="flex flex-col items-center w-full max-w-none select-none">
       <div className="text-3xl font-light text-slate-800 mb-12 tracking-wide text-center flex flex-col items-center gap-4 select-none touch-none">
-        <span style={{ fontFamily: '"Noto Serif TC", serif' }}>{prompt}</span>
+        <div className="relative inline-flex items-center justify-center">
+          <span style={{ fontFamily: '"Noto Serif TC", serif' }}>{prompt}</span>
+          {revealed && (
+            <div className="absolute left-full ml-6 text-4xl font-light text-slate-800 whitespace-nowrap animate-in fade-in flex items-center h-full pt-1">
+              <AnnotatedTerm term={vocab.term} reading={vocab.reading} pitch={vocab.pitch_accent} affixType={vocab.affix_type} />
+            </div>
+          )}
+        </div>
       </div>
 
-      <div className="flex items-center justify-center w-full mb-8 relative">
+      <div className="flex items-center justify-center w-full mb-8">
         <DrawingCanvas promptText={canvasPrompt} allowMouse={allowMouse}>
           {vocab.affix_type === 'prefix' && (
             <div className="absolute right-8 top-1/2 -translate-y-1/2 pointer-events-none">
@@ -387,14 +394,6 @@ export const ProductionDrill = ({
             </div>
           )}
         </DrawingCanvas>
-
-        {revealed && (
-          <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex items-center justify-center pointer-events-none bg-white px-5 pt-3 pb-2 rounded-xl shadow-sm">
-            <span className="text-4xl font-light text-slate-800 leading-[2.2]">
-              <AnnotatedTerm term={vocab.term} reading={vocab.reading} pitch={vocab.pitch_accent} affixType={vocab.affix_type} />
-            </span>
-          </div>
-        )}
       </div>
 
       {!revealed ? (
@@ -404,12 +403,12 @@ export const ProductionDrill = ({
               setRevealed(true);
             }
           }}
-          className="w-full py-4 bg-slate-800 text-white rounded-xl font-medium tracking-wide hover:bg-slate-700 transition-colors shadow-sm select-none touch-none"
+          className="w-[80%] py-4 bg-slate-800 text-white rounded-xl font-medium tracking-wide hover:bg-slate-700 transition-colors shadow-sm select-none touch-none"
         >
           Reveal Answer
         </button>
       ) : (
-        <div className="w-full animate-in fade-in slide-in-from-bottom-4 duration-300">
+        <div className="w-[80%] animate-in fade-in slide-in-from-bottom-4 duration-300">
 
           <div className="grid grid-cols-2 gap-4">
             <button
@@ -485,7 +484,7 @@ export const DrillEngine = ({
 
     const newQueue = weightedItems
       .sort((a, b) => b.randomScore - a.randomScore)
-      .slice(0, 10)
+      .slice(0, 15)
       .map(({ vocab }) => {
         const randomMode = RECOGNITION_MODES[Math.floor(Math.random() * RECOGNITION_MODES.length)];
         return { vocab, mode: randomMode };
@@ -542,10 +541,7 @@ export const DrillEngine = ({
             <div key={i} className={`h-1.5 rounded-full transition-all ${i < currentIndex ? 'bg-slate-800 w-4' : i === currentIndex ? 'bg-slate-400 w-4' : 'bg-slate-200 w-2'}`} />
           ))}
         </div>
-        <div className="flex items-center gap-4">
-          <div className="text-sm font-medium text-slate-400">{currentIndex + 1} / {queue.length}</div>
-          <button onClick={handleSkip} className="text-sm text-slate-400 hover:text-slate-600">Skip Term</button>
-        </div>
+        <button onClick={handleSkip} className="text-sm text-slate-400 hover:text-slate-600">Skip Term</button>
       </div>
 
       <div className="flex-1 flex items-center justify-center">
@@ -709,10 +705,8 @@ export const FlashcardEngine = ({
     <div className="w-full h-full flex flex-col">
       <div className="flex items-center justify-between mb-12 select-none">
         <button onClick={onExit} className="text-sm text-slate-400 hover:text-slate-600">Exit Session</button>
-        <div className="flex items-center gap-4">
-          <div className="text-sm font-medium text-slate-400">{masteredIds.size} / {vocabList.length} mastered</div>
-          <button onClick={handleSkip} className="text-sm text-slate-400 hover:text-slate-600">Skip Term</button>
-        </div>
+        <div className="text-sm font-medium text-slate-400">{masteredIds.size} / {vocabList.length} mastered</div>
+        <button onClick={handleSkip} className="text-sm text-slate-400 hover:text-slate-600">Skip Term</button>
       </div>
 
       <div className="flex-1 flex items-center justify-center">
