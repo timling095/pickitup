@@ -44,6 +44,9 @@ export const getMorae = (word: string): string[] => {
 };
 
 const overlineStyle = { textDecoration: 'overline', textDecorationThickness: '2px', textDecorationColor: 'currentColor' } as const;
+// Scales down the term's base glyphs without affecting furigana <rt> sizing —
+// <rt>'s own em unit is relative to <ruby>'s (unscaled) inherited font-size, not this sibling span.
+const termScaleStyle = { fontSize: '0.8em' } as const;
 
 function renderPitchAccent(reading: string, pitch: number) {
   const morae = getMorae(reading);
@@ -120,7 +123,7 @@ export const AnnotatedTerm = ({ term, reading, pitch, affixType = 'none' }: { te
   if (!hasKanji) {
     // Pure-kana term: it already displays its own reading, so no furigana needed —
     // just draw the pitch-accent line straight over the term itself.
-    content = renderMoraeSlice(morae, 0, pitch, isAccented);
+    content = <span style={termScaleStyle}>{renderMoraeSlice(morae, 0, pitch, isAccented)}</span>;
   } else {
     let segReadings: string[] | null = segments.length === 1 ? [reading] : null;
     if (!segReadings) {
@@ -137,7 +140,7 @@ export const AnnotatedTerm = ({ term, reading, pitch, affixType = 'none' }: { te
       // back to annotating the whole term as one ruby block rather than guessing wrong.
       content = (
         <ruby>
-          {term}
+          <span style={termScaleStyle}>{term}</span>
           <rt className="text-[0.5em] font-normal text-slate-400">{renderMoraeSlice(morae, 0, pitch, isAccented)}</rt>
         </ruby>
       );
@@ -151,12 +154,12 @@ export const AnnotatedTerm = ({ term, reading, pitch, affixType = 'none' }: { te
         if (seg.isKanji) {
           return (
             <ruby key={i}>
-              {seg.text}
+              <span style={termScaleStyle}>{seg.text}</span>
               <rt className="text-[0.5em] font-normal text-slate-400">{renderMoraeSlice(segMorae, startIdx, pitch, isAccented)}</rt>
             </ruby>
           );
         }
-        return <span key={i}>{renderMoraeSlice(segMorae, startIdx, pitch, isAccented)}</span>;
+        return <span key={i} style={termScaleStyle}>{renderMoraeSlice(segMorae, startIdx, pitch, isAccented)}</span>;
       });
     }
   }
@@ -374,7 +377,7 @@ export const ProductionDrill = ({
         <div className="relative inline-flex items-center justify-center">
           <span style={{ fontFamily: '"Noto Serif TC", serif' }}>{prompt}</span>
           {revealed && (
-            <div className="absolute left-full ml-8 text-4xl font-light text-slate-800 whitespace-nowrap animate-in fade-in flex items-baseline h-full pt-1">
+            <div className="absolute left-full ml-12 top-1/2 -translate-y-1/2 text-4xl font-light text-slate-800 whitespace-nowrap animate-in fade-in flex items-baseline gap-1">
               <AnnotatedTerm term={vocab.term} reading={vocab.reading} pitch={vocab.pitch_accent} affixType={vocab.affix_type} />
             </div>
           )}

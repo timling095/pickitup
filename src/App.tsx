@@ -41,6 +41,7 @@ export default function App() {
 
   const [stats, setStats] = useLocalStorage<Record<string, { attempts: number, correct: number }>>('nd_stats', {});
   const [skippedTerms, setSkippedTerms] = useLocalStorage<Record<string, boolean>>('nd_skippedTerms', {});
+  const [markedTerms, setMarkedTerms] = useLocalStorage<Record<string, boolean>>('nd_markedTerms', {});
 
   // Production (Flashcards) state
   const [fcActive, setFcActive] = useLocalStorage('nd_fcActive', false);
@@ -65,6 +66,8 @@ export default function App() {
         skippedTerms={skippedTerms}
         onSkip={(id) => setSkippedTerms(prev => ({ ...prev, [id]: true }))}
         onUnskip={(id) => setSkippedTerms(prev => ({ ...prev, [id]: false }))}
+        markedTerms={markedTerms}
+        onToggleMark={(id) => setMarkedTerms(prev => ({ ...prev, [id]: !prev[id] }))}
         onBack={() => setAppState('menu')}
       />
     );
