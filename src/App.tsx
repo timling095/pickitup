@@ -97,7 +97,7 @@ export default function App() {
               setFcActive(false);
               setAppState('menu');
             }}
-            onDiscard={() => {
+            onExit={() => {
               setFcActive(false);
               setAppState('menu');
             }}

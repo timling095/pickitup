@@ -1,4 +1,4 @@
-import { useState, useEffect, useMemo } from 'react';
+import { useState, useEffect, useMemo, type ReactNode } from 'react';
 import { Check, X } from 'lucide-react';
 import type { AffixType, Vocabulary } from './dictionary';
 import { DrawingCanvas } from './Canvas';
@@ -43,6 +43,8 @@ export const getMorae = (word: string): string[] => {
   return morae;
 };
 
+const overlineStyle = { textDecoration: 'overline', textDecorationThickness: '2px', textDecorationColor: 'currentColor' } as const;
+
 function renderPitchAccent(reading: string, pitch: number) {
   const morae = getMorae(reading);
   if (pitch <= 0 || pitch > morae.length) return <>{reading}</>;
@@ -50,10 +52,51 @@ function renderPitchAccent(reading: string, pitch: number) {
   const rest = morae.slice(pitch).join('');
   return (
     <>
-      <span style={{ textDecoration: 'overline', textDecorationThickness: '2px', textDecorationColor: 'currentColor' }}>{overlined}</span>
+      <span style={overlineStyle}>{overlined}</span>
       <span>{rest}</span>
     </>
   );
+}
+
+// Renders a slice of morae (starting at global mora index `startIdx`) with the
+// pitch-accent overline applied relative to the *whole* reading, so a run of
+// morae split across kanji/kana segments still shows one continuous accent line.
+function renderMoraeSlice(morae: string[], startIdx: number, pitch: number, isAccented: boolean) {
+  if (!isAccented) return <>{morae.join('')}</>;
+  const localPitch = Math.max(0, Math.min(morae.length, pitch - startIdx));
+  if (localPitch <= 0) return <>{morae.join('')}</>;
+  if (localPitch >= morae.length) return <span style={overlineStyle}>{morae.join('')}</span>;
+  return (
+    <>
+      <span style={overlineStyle}>{morae.slice(0, localPitch).join('')}</span>
+      <span>{morae.slice(localPitch).join('')}</span>
+    </>
+  );
+}
+
+const isKanjiChar = (ch: string) => /[一-龯㐀-䶿]/.test(ch);
+
+function segmentTerm(term: string): { text: string; isKanji: boolean }[] {
+  const segments: { text: string; isKanji: boolean }[] = [];
+  for (const ch of term) {
+    const kanji = isKanjiChar(ch);
+    const last = segments[segments.length - 1];
+    if (last && last.isKanji === kanji) {
+      last.text += ch;
+    } else {
+      segments.push({ text: ch, isKanji: kanji });
+    }
+  }
+  return segments;
+}
+
+function escapeRegExp(s: string) {
+  return s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+}
+
+// Katakana segments (e.g. loanwords) need to match against a hiragana reading string.
+function toHiragana(s: string) {
+  return s.replace(/[ァ-ヶ]/g, ch => String.fromCharCode(ch.charCodeAt(0) - 0x60));
 }
 
 export const AnnotatedReading = ({ reading, pitch, affixType = 'none' }: { reading: string, pitch: number, affixType?: AffixType }) => {
@@ -67,15 +110,59 @@ export const AnnotatedReading = ({ reading, pitch, affixType = 'none' }: { readi
 // ==========================================
 
 export const AnnotatedTerm = ({ term, reading, pitch, affixType = 'none' }: { term: string, reading: string, pitch: number, affixType?: AffixType }) => {
-  const rubyEl = (
-    <ruby>
-      {term}
-      <rt className="text-[0.5em] font-normal text-slate-400">{renderPitchAccent(reading, pitch)}</rt>
-    </ruby>
-  );
+  const segments = segmentTerm(term);
+  const hasKanji = segments.some(s => s.isKanji);
+  const morae = getMorae(reading);
+  const isAccented = pitch > 0 && pitch <= morae.length;
 
-  if (affixType === 'none') return rubyEl;
-  return affixType === 'prefix' ? <>{rubyEl}～</> : <>～{rubyEl}</>;
+  let content: ReactNode;
+
+  if (!hasKanji) {
+    // Pure-kana term: it already displays its own reading, so no furigana needed —
+    // just draw the pitch-accent line straight over the term itself.
+    content = renderMoraeSlice(morae, 0, pitch, isAccented);
+  } else {
+    let segReadings: string[] | null = segments.length === 1 ? [reading] : null;
+    if (!segReadings) {
+      const pattern = '^' + segments.map(s => s.isKanji ? '(.+?)' : escapeRegExp(toHiragana(s.text))).join('') + '$';
+      const match = reading.match(new RegExp(pattern));
+      if (match) {
+        let capIdx = 1;
+        segReadings = segments.map(s => s.isKanji ? match[capIdx++] : s.text);
+      }
+    }
+
+    if (!segReadings) {
+      // Couldn't align kana okurigana against the reading (unexpected data) — fall
+      // back to annotating the whole term as one ruby block rather than guessing wrong.
+      content = (
+        <ruby>
+          {term}
+          <rt className="text-[0.5em] font-normal text-slate-400">{renderMoraeSlice(morae, 0, pitch, isAccented)}</rt>
+        </ruby>
+      );
+    } else {
+      let moraIdx = 0;
+      const finalSegReadings = segReadings;
+      content = segments.map((seg, i) => {
+        const segMorae = getMorae(finalSegReadings[i]);
+        const startIdx = moraIdx;
+        moraIdx += segMorae.length;
+        if (seg.isKanji) {
+          return (
+            <ruby key={i}>
+              {seg.text}
+              <rt className="text-[0.5em] font-normal text-slate-400">{renderMoraeSlice(segMorae, startIdx, pitch, isAccented)}</rt>
+            </ruby>
+          );
+        }
+        return <span key={i}>{renderMoraeSlice(segMorae, startIdx, pitch, isAccented)}</span>;
+      });
+    }
+  }
+
+  if (affixType === 'none') return <>{content}</>;
+  return affixType === 'prefix' ? <>{content}～</> : <>～{content}</>;
 };
 
 // ==========================================
@@ -528,7 +615,7 @@ export const FlashcardEngine = ({
   onUpdateFcRecord,
   onSkip,
   onComplete,
-  onDiscard
+  onExit
 }: {
   vocabList: Vocabulary[],
   minWorking: number,
@@ -538,7 +625,7 @@ export const FlashcardEngine = ({
   onUpdateFcRecord: (id: string, correct: boolean) => void,
   onSkip: (id: string) => void,
   onComplete: () => void,
-  onDiscard: () => void
+  onExit: () => void
 }) => {
   const [workingIds, setWorkingIds] = useState<string[]>([]);
   const [permanentIds, setPermanentIds] = useState<Set<string>>(new Set());
@@ -618,18 +705,10 @@ export const FlashcardEngine = ({
   const currentItem = vocabList.find(v => v.id === currentId);
   if (!currentItem) return null;
 
-  const isPermanent = permanentIds.has(currentId);
-  const currentRecord = fcRecords[currentId];
-
   return (
     <div className="w-full h-full flex flex-col">
       <div className="flex items-center justify-between mb-12 select-none">
-        <button onClick={onDiscard} className="text-sm text-slate-400 hover:text-slate-600">Discard Session</button>
-        <div className="flex flex-col items-center">
-          <div className="text-sm font-medium text-slate-400">
-            {isPermanent ? 'Review (Mastered)' : `Streak: ${currentRecord?.streak ?? 0} / 2`}
-          </div>
-        </div>
+        <button onClick={onExit} className="text-sm text-slate-400 hover:text-slate-600">Exit Session</button>
         <div className="flex items-center gap-4">
           <div className="text-sm font-medium text-slate-400">{masteredIds.size} / {vocabList.length} mastered</div>
           <button onClick={handleSkip} className="text-sm text-slate-400 hover:text-slate-600">Skip Term</button>
