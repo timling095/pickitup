@@ -43,22 +43,39 @@ export const getMorae = (word: string): string[] => {
   return morae;
 };
 
-export const AnnotatedReading = ({ reading, pitch, affixType = 'none' }: { reading: string, pitch: number, affixType?: AffixType }) => {
-  const renderReading = () => {
-    const morae = getMorae(reading);
-    if (pitch <= 0 || pitch > morae.length) return <span>{reading}</span>;
-    const overlined = morae.slice(0, pitch).join('');
-    const rest = morae.slice(pitch).join('');
-    return (
-      <span>
-        <span style={{ textDecoration: 'overline', textDecorationThickness: '2px', textDecorationColor: 'currentColor' }}>{overlined}</span>
-        <span>{rest}</span>
-      </span>
-    );
-  };
+function renderPitchAccent(reading: string, pitch: number) {
+  const morae = getMorae(reading);
+  if (pitch <= 0 || pitch > morae.length) return <>{reading}</>;
+  const overlined = morae.slice(0, pitch).join('');
+  const rest = morae.slice(pitch).join('');
+  return (
+    <>
+      <span style={{ textDecoration: 'overline', textDecorationThickness: '2px', textDecorationColor: 'currentColor' }}>{overlined}</span>
+      <span>{rest}</span>
+    </>
+  );
+}
 
-  if (affixType === 'none') return renderReading();
-  return affixType === 'prefix' ? <span>{renderReading()}～</span> : <span>～{renderReading()}</span>;
+export const AnnotatedReading = ({ reading, pitch, affixType = 'none' }: { reading: string, pitch: number, affixType?: AffixType }) => {
+  const rendered = <span>{renderPitchAccent(reading, pitch)}</span>;
+  if (affixType === 'none') return rendered;
+  return affixType === 'prefix' ? <span>{rendered}～</span> : <span>～{rendered}</span>;
+};
+
+// ==========================================
+// === AnnotatedTerm (furigana) ===
+// ==========================================
+
+export const AnnotatedTerm = ({ term, reading, pitch, affixType = 'none' }: { term: string, reading: string, pitch: number, affixType?: AffixType }) => {
+  const rubyEl = (
+    <ruby>
+      {term}
+      <rt className="text-[0.5em] font-normal text-slate-400">{renderPitchAccent(reading, pitch)}</rt>
+    </ruby>
+  );
+
+  if (affixType === 'none') return rubyEl;
+  return affixType === 'prefix' ? <>{rubyEl}～</> : <>～{rubyEl}</>;
 };
 
 // ==========================================
@@ -257,7 +274,6 @@ export const ProductionDrill = ({
   }, [revealed]);
 
   const prompt = vocab.definition;
-  const target = vocab.term;
   const canvasPrompt = 'Write the Term';
 
   useEffect(() => {
@@ -268,14 +284,7 @@ export const ProductionDrill = ({
   return (
     <div className="flex flex-col items-center w-full max-w-none select-none">
       <div className="text-3xl font-light text-slate-800 mb-12 tracking-wide text-center flex flex-col items-center gap-4 select-none touch-none">
-        <div className="relative inline-flex items-center justify-center">
-          <span style={{ fontFamily: '"Noto Serif TC", serif' }}>{prompt}</span>
-          {revealed && (
-            <div className="absolute left-full ml-6 text-2xl text-slate-400 whitespace-nowrap flex items-center h-full pt-1">
-              <AnnotatedReading reading={vocab.reading} pitch={vocab.pitch_accent} affixType={vocab.affix_type} />
-            </div>
-          )}
-        </div>
+        <span style={{ fontFamily: '"Noto Serif TC", serif' }}>{prompt}</span>
       </div>
 
       <div className="flex items-center justify-center w-full mb-8 relative">
@@ -293,9 +302,9 @@ export const ProductionDrill = ({
         </DrawingCanvas>
 
         {revealed && (
-          <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex items-center justify-center pointer-events-none bg-white px-5 py-2">
-            <span className="text-4xl font-light text-slate-800">
-               {target}
+          <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex items-center justify-center pointer-events-none bg-white px-5 pt-3 pb-2 rounded-xl shadow-sm">
+            <span className="text-4xl font-light text-slate-800 leading-[2.2]">
+              <AnnotatedTerm term={vocab.term} reading={vocab.reading} pitch={vocab.pitch_accent} affixType={vocab.affix_type} />
             </span>
           </div>
         )}
