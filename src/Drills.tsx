@@ -370,11 +370,11 @@ export const ProductionDrill = ({
 
   return (
     <div className="flex flex-col items-center w-full max-w-none select-none">
-      <div className="text-3xl font-light text-slate-800 mb-12 tracking-wide text-center flex flex-col items-center gap-4 select-none touch-none">
+      <div className="text-5xl font-light text-slate-800 mb-12 tracking-wide text-center flex flex-col items-center gap-4 select-none touch-none">
         <div className="relative inline-flex items-center justify-center">
           <span style={{ fontFamily: '"Noto Serif TC", serif' }}>{prompt}</span>
           {revealed && (
-            <div className="absolute left-full ml-6 text-4xl font-light text-slate-800 whitespace-nowrap animate-in fade-in flex items-center h-full pt-1">
+            <div className="absolute left-full ml-8 text-4xl font-light text-slate-800 whitespace-nowrap animate-in fade-in flex items-baseline h-full pt-1">
               <AnnotatedTerm term={vocab.term} reading={vocab.reading} pitch={vocab.pitch_accent} affixType={vocab.affix_type} />
             </div>
           )}

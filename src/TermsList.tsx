@@ -94,33 +94,35 @@ export const TermsList = ({
           />
         </div>
 
-        <div className="bg-white rounded-3xl border border-slate-100 shadow-sm overflow-hidden mb-12">
+        <div className="bg-white rounded-2xl border border-slate-100 shadow-sm overflow-hidden mb-12">
+          <div className="grid grid-cols-[160px_180px_1fr_64px_84px] gap-4 px-4 py-2 text-[10px] font-bold uppercase tracking-wider text-slate-400 border-b border-slate-100">
+            <div>Term</div>
+            <div>Reading</div>
+            <div>Meaning</div>
+            <div className="text-right">Error</div>
+            <div></div>
+          </div>
           <div className="divide-y divide-slate-100">
             {sortedVocab.map((vocab, i) => {
               const stat = stats[vocab.id] || { attempts: 0, correct: 0 };
               const errRate = ((stat.attempts - stat.correct) + 1) / (stat.attempts + 2);
               const errPercent = Math.round(errRate * 100);
-              
+
               return (
-                <div key={`${vocab.id}-${i}`} className="p-4 sm:p-5 flex flex-col sm:flex-row sm:items-center justify-between hover:bg-slate-50 transition-colors gap-3">
-                  <div className="flex-1">
-                    <div className="text-xl text-slate-800 mb-1 flex items-center">
-                      <AffixWrapper term={vocab.term} affixType={vocab.affix_type} mode="inline" />
-                    </div>
-                    <div className="text-sm text-slate-500 flex flex-wrap items-center gap-2">
-                      <AnnotatedReading reading={vocab.reading} pitch={vocab.pitch_accent} affixType={vocab.affix_type} />
-                      <span className="text-slate-300">•</span>
-                      <span>{vocab.definition}</span>
-                    </div>
+                <div key={`${vocab.id}-${i}`} className="grid grid-cols-[160px_180px_1fr_64px_84px] items-center gap-4 px-4 py-2 hover:bg-slate-50 transition-colors">
+                  <div className="text-base text-slate-800 flex items-center truncate" title={vocab.term}>
+                    <AffixWrapper term={vocab.term} affixType={vocab.affix_type} mode="inline" />
                   </div>
-                  <div className="sm:text-right flex sm:flex-col items-center sm:items-end gap-2 sm:gap-0 bg-slate-50 sm:bg-transparent p-2 sm:p-0 rounded-lg">
-                    <div className="text-[10px] font-bold uppercase tracking-wider text-slate-400">Error Rate</div>
-                    <div className={`text-lg font-medium leading-none ${errPercent > 50 ? 'text-red-500' : 'text-slate-400'}`}>
-                      {errPercent}%
-                    </div>
+                  <div className="text-sm text-slate-500 truncate">
+                    <AnnotatedReading reading={vocab.reading} pitch={vocab.pitch_accent} affixType={vocab.affix_type} />
                   </div>
-                  
-                  <div className="ml-2 flex items-center">
+                  <div className="text-sm text-slate-600 truncate" style={{ fontFamily: '"Noto Serif TC", serif' }} title={vocab.definition}>
+                    {vocab.definition}
+                  </div>
+                  <div className={`text-sm text-right font-medium ${errPercent > 50 ? 'text-red-500' : 'text-slate-400'}`}>
+                    {errPercent}%
+                  </div>
+                  <div className="flex justify-end">
                     {skippedTerms[vocab.id] ? (
                       <button onClick={() => onUnskip(vocab.id)} className="text-xs px-3 py-1.5 bg-slate-800 text-white rounded-md font-medium hover:bg-slate-700">Unskip</button>
                     ) : (
@@ -130,7 +132,7 @@ export const TermsList = ({
                 </div>
               );
             })}
-            
+
             {sortedVocab.length === 0 && (
               <div className="p-12 text-center text-slate-400 font-medium">
                 {searchQuery ? 'No terms match your search.' : 'No terms available in the selected lessons.'}
