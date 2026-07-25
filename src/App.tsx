@@ -188,7 +188,7 @@ export default function App() {
           {/* Left Column: Lesson Select */}
           <div className="md:col-span-7 space-y-4">
             <div className="bg-white rounded-3xl p-5 shadow-sm border border-slate-100 mb-4 relative overflow-hidden">
-              {activeMode === 'production' && fcActive && (
+              {fcActive && (
                 <div className="absolute inset-0 bg-white/80 backdrop-blur-[2px] z-10 flex flex-col items-center justify-center p-6 text-center">
                   <div className="text-slate-800 font-semibold mb-2">Session in Progress</div>
                   <div className="text-slate-500 text-sm mb-4">You must complete or discard the active session to change its scope.</div>

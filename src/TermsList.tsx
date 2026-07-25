@@ -81,12 +81,11 @@ export const TermsList = ({
         </div>
 
         <div className="bg-white rounded-2xl border border-slate-100 shadow-sm overflow-hidden mb-12">
-          <div className="grid grid-cols-[160px_180px_1fr_64px_60px_40px] gap-4 px-4 py-2 text-[10px] font-bold uppercase tracking-wider text-slate-400 border-b border-slate-100">
+          <div className="grid grid-cols-[160px_180px_1fr_64px_40px] gap-4 px-4 py-2 text-[10px] font-bold uppercase tracking-wider text-slate-400 border-b border-slate-100">
             <div>Term</div>
             <div>Reading</div>
             <div>Meaning</div>
             <div className="text-right">Error</div>
-            <div className="text-center">Marked</div>
             <div></div>
           </div>
           <div className="divide-y divide-slate-100">
@@ -100,8 +99,9 @@ export const TermsList = ({
               return (
                 <div
                   key={`${vocab.id}-${i}`}
-                  className="grid grid-cols-[160px_180px_1fr_64px_60px_40px] items-center gap-4 px-4 py-2 transition-colors"
-                  style={{ backgroundColor: isMarked ? '#F8BBD0' : undefined }}
+                  onClick={() => onToggleMark(vocab.id)}
+                  className="grid grid-cols-[160px_180px_1fr_64px_40px] items-center gap-4 px-4 py-2 transition-colors cursor-pointer hover:bg-slate-50"
+                  style={{ backgroundColor: isMarked ? '#FCE4EC' : undefined }}
                 >
                   <div className="text-base text-slate-800 flex items-center truncate" title={vocab.term}>
                     <AffixWrapper term={vocab.term} affixType={vocab.affix_type} mode="inline" />
@@ -115,19 +115,11 @@ export const TermsList = ({
                   <div className={`text-sm text-right font-medium ${errPercent > 50 ? '' : 'text-slate-400'}`} style={errPercent > 50 ? { color: '#E91E63' } : undefined}>
                     {errPercent}%
                   </div>
-                  <div className="flex justify-center">
-                    <input
-                      type="checkbox"
-                      checked={isMarked}
-                      onChange={() => onToggleMark(vocab.id)}
-                      className="w-4 h-4 accent-pink-500 cursor-pointer"
-                    />
-                  </div>
                   <div className="flex justify-end">
                     <button
-                      onClick={() => (isSkipped ? onUnskip(vocab.id) : onSkip(vocab.id))}
+                      onClick={(e) => { e.stopPropagation(); if (isSkipped) { onUnskip(vocab.id); } else { onSkip(vocab.id); } }}
                       title={isSkipped ? 'Unskip' : 'Skip'}
-                      className={`w-7 h-7 flex items-center justify-center rounded-md transition-colors ${isSkipped ? 'bg-slate-800 text-white hover:bg-slate-700' : 'bg-slate-100 text-slate-400 hover:bg-slate-200'}`}
+                      className={`w-7 h-7 flex items-center justify-center rounded-full bg-transparent hover:bg-slate-200/70 transition-colors ${isSkipped ? 'text-slate-800' : 'text-slate-400'}`}
                     >
                       <X size={14} />
                     </button>
