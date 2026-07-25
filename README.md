@@ -1,6 +1,10 @@
 # Pick It Up - React + TypeScript + Vite + Tailwind CSS v4.0
 
-An interactive Japanese vocabulary drill application optimized for modern styling and clean, domain-driven colocation. The app features Recognition (Multiple Choice) drills and Production (Stylus/Mouse Writing) drills, enforcing a streamlined, micro-learning loop.
+An interactive Japanese vocabulary drill application optimized for modern styling and clean, domain-driven colocation. The app is organized into three top-level tabs:
+
+* **Terms:** Lesson-scoped Recognition (Multiple Choice) and Production (Stylus/Mouse Writing) drills, run through a fixed-length, weighted-selection session (`<DrillEngine>`).
+* **Glyphs:** A Production-only writing drill for raw hiragana/katakana characters (`Romaji → Reading`), scoped by alphabet system instead of by lesson.
+* **Flashcards:** A mastery-based Production writing loop (`<FlashcardEngine>`) that repeats each term until it's answered correctly a configurable number of times, rather than running a fixed-length session.
 
 > **Attribution:** The Japanese vocabulary dataset powering this application is provided by the Tokyo University of Foreign Studies and Kenta Li.
 
@@ -13,10 +17,11 @@ src/
 ├── assets/
 │   ├── processed_vocabulary.csv   # Raw CSV source dataset.
 │   └── processed_vocabulary.json  # Converted JSON database.
-├── dictionary.ts                  # The Data Domain: Vocabulary types, database load, and custom filtering hooks.
+├── dictionary.ts                  # The Data Domain: Vocabulary types, database load, and the useVocabulary filtering hook.
 ├── Canvas.tsx                     # The Hardware Domain: Isolated Apple Pencil and pointer-event writing canvas.
-├── Drills.tsx                     # The Core Engine: Orchestrates Recognition, Production, Affix wrappers, and DrillEngine.
-├── App.tsx                        # The Shell: Global settings, lesson select router, and top-level view wrapper.
+├── Drills.tsx                     # The Core Engine: Recognition, Production, Affix wrappers, DrillEngine, and FlashcardEngine.
+├── TermsList.tsx                  # The Terms Viewer: Sortable/searchable vocabulary browser with Skip/Unskip controls.
+├── App.tsx                        # The Shell: Global settings, localStorage persistence, and the Terms/Glyphs/Flashcards tab router.
 ├── main.tsx                       # React application entry point.
 ├── index.css                      # Global stylesheet importing Tailwind CSS v4.0.
 └── App.css                        # (Unused) Default stylesheet.
@@ -26,9 +31,9 @@ src/
 
 ### 2.1 The Data Domain (`src/dictionary.ts`)
 
-Houses the type systems (`Vocabulary`, `AffixType`), loads the parsed database from `src/assets/processed_vocabulary.json`, and exposes the `useVocabulary(lessonId)` hook. This hook enables menu controllers to filter drill sessions dynamically.
+Houses the type systems (`Vocabulary`, `AffixType`), loads the parsed database from `src/assets/processed_vocabulary.json`, and exposes the `useVocabulary(selectedLessons: Record<string, boolean>)` hook. The hook takes a multi-select map of lesson IDs (not a single lesson ID) and memoizes the filtered vocabulary list; it's invoked twice in `App.tsx` — once for the Terms tab's lesson scope and once for the Flashcards tab's independent lesson scope.
 
-* **State Management:** This domain must also handle a naive persistent statistics dictionary (e.g., `Record<vocab_id, { attempts: number, correct: number }>`) loaded from `localStorage`.
+* **State Management:** This file is intentionally stateless and has no `localStorage` involvement. The persistent statistics dictionary (`Record<vocab_id, { attempts: number, correct: number }>`), skip lists, and all other settings actually live in `App.tsx` (see 2.4), built on a shared generic `useLocalStorage` hook.
 
 ### 2.2 The Hardware Domain (`src/Canvas.tsx`)
 
@@ -56,11 +61,22 @@ Bundles drill execution components:
   * **Session Length:** Enforces a strict, unyielding limit of 10 questions per drill session to prevent fatigue. The engine explicitly eliminates recursive "mistakes queues," deferring error tracking entirely to the global stats to be dynamically resolved in future spaced-repetition cycles.
   * **Weighted Selection:** Implements a naive probability weighting algorithm. When building the 10-question queue, the system calculates the **Laplace smoothed correctness rate** `(correct + 1) / (attempts + 2)` for all available vocabulary in the selected lesson. The items in the lowest 50% tier of these smoothed rates are given a **2x probability multiplier** of being selected over the remaining 50%.
 
+* `<FlashcardEngine>`: A second, independent session engine used exclusively by the Flashcards tab. It has no fixed session length and no weighted selection:
+  * On session start, it shuffles every in-scope term whose `fcProgress` (correct tries so far) is below the user-configured **target correct tries** (1–5).
+  * Every card is presented as a `<ProductionDrill>` in `meaning-term` (Writing) mode only — there is no mode selection for Flashcards.
+  * A correct answer increments that term's progress and drops it from the session queue; an incorrect answer requeues it at the back of the same queue. Flashcard attempts do **not** write to the global `stats` dictionary used by Recognition/Production drills.
+  * The session ends only once every in-scope term has reached the target correct-tries count.
+
 ### 2.4 The Shell (`src/App.tsx`)
 
-Coordinates top-level states and routing between the menu screen and active sessions. It includes controls for Lesson Selection, Active Mode toggles, Pitch Accent Policies, and allow-mouse debugging. 
-* **Terms Viewer (`src/TermsList.tsx`):** Exposes a dedicated UI to view all vocabulary loaded under the active filter configuration. Features interactive layout modes to rank vocabulary exclusively by descending **Laplace smoothed error rate**, as well as a dedicated **'Skipped'** view to globally re-enable terms manually banished during drill sessions.
-* **Persistence:** All user settings (selected modes, toggles) and global correctness stats must be persisted across sessions/reloads using `localStorage`.
+Coordinates top-level state and routes between the menu screen, the Terms Viewer, and active drill sessions. It defines a generic `useLocalStorage<T>` hook that every piece of persisted state below is built on top of.
+
+* **Top-Level Tabs:** The menu screen is a three-tab router:
+  * **Terms:** Lesson-scoped Recognition + Production drills via `<DrillEngine>`, using the lessons and modes selected in the UI. Includes the Strict Pitch Accent and allow-mouse debug settings.
+  * **Glyphs:** A Production-only `romaji-reading` writing drill (also via `<DrillEngine>`), scoped by hiragana/katakana `system` rather than by lesson — lesson selection is ignored entirely in this tab.
+  * **Flashcards:** The mastery-based writing loop via `<FlashcardEngine>` (see 2.3), with its own independent lesson scope, its own skip list, and a configurable target correct-tries count (1–5).
+* **Terms Viewer (`src/TermsList.tsx`):** Exposes a dedicated UI to view all vocabulary loaded under the active tab's filter configuration (Terms or Flashcards scope). Features interactive layout modes to rank vocabulary by descending **Laplace smoothed error rate**, a live search box (matches term/reading/definition/romaji), and a dedicated **'Skipped'** view to re-enable terms manually banished during drill sessions.
+* **Persistence:** All user settings (active tab, selected lessons/modes/system, Strict Pitch toggle, allow-mouse debug flag), both skip lists, the Flashcards target and per-term progress, and the global correctness `stats` dictionary are persisted across sessions/reloads using `localStorage`, via the shared `useLocalStorage` hook.
 
 ---
 

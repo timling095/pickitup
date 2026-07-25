@@ -1,7 +1,8 @@
 import { useState, useMemo } from 'react';
-import { ChevronRight, Check } from 'lucide-react';
+import { ChevronRight } from 'lucide-react';
 import { DICTIONARY, useVocabulary } from './dictionary';
 import { DrillEngine, FlashcardEngine } from './Drills';
+import type { FcRecord } from './Drills';
 import { TermsList } from './TermsList';
 
 // Custom hook to persist state in localStorage
@@ -10,7 +11,7 @@ function useLocalStorage<T>(key: string, initialValue: T): [T, (val: T | ((prev:
     try {
       const item = window.localStorage.getItem(key);
       return item ? JSON.parse(item) : initialValue;
-    } catch (error) {
+    } catch {
       return initialValue;
     }
   });
@@ -30,43 +31,22 @@ function useLocalStorage<T>(key: string, initialValue: T): [T, (val: T | ((prev:
 
 export default function App() {
   const [appState, setAppState] = useState<'menu' | 'drill' | 'terms'>('menu');
-  
-  const [activeTab, setActiveTab] = useLocalStorage<'meaning' | 'alphabets' | 'flashcards'>('nd_activeTab', 'meaning');
-  
+
+  const [activeMode, setActiveMode] = useLocalStorage<'production' | 'recognition'>('nd_activeMode', 'production');
+
   // Persisted Settings
   const [strictPitch, setStrictPitch] = useLocalStorage('nd_strictPitch', false);
   const [allowMouse] = useLocalStorage('nd_allowMouse', false); // Default debug option to true
   const [selectedLessons, setSelectedLessons] = useLocalStorage<Record<string, boolean>>('nd_selectedLessons_v2', { '1': true });
-  
-  const [selectedAlphabetSystem, setSelectedAlphabetSystem] = useLocalStorage<'hiragana' | 'katakana'>('nd_alphabetSystem_v2', 'hiragana');
 
-  const [selectedModes, setSelectedModes] = useLocalStorage<Record<string, boolean>>('nd_selectedModes', {
-    'term-meaning': true,
-    'meaning-reading': true,
-  });
-  
   const [stats, setStats] = useLocalStorage<Record<string, { attempts: number, correct: number }>>('nd_stats', {});
   const [skippedTerms, setSkippedTerms] = useLocalStorage<Record<string, boolean>>('nd_skippedTerms', {});
 
-  // Flashcards state
+  // Production (Flashcards) state
   const [fcActive, setFcActive] = useLocalStorage('nd_fcActive', false);
-  const [fcTargetCorrect, setFcTargetCorrect] = useLocalStorage('nd_fcTargetCorrect', 3);
-  const [fcSelectedLessons, setFcSelectedLessons] = useLocalStorage<Record<string, boolean>>('nd_fcSelectedLessons', { '1': true });
-  const [fcProgress, setFcProgress] = useLocalStorage<Record<string, number>>('nd_fcProgress', {});
-  const [fcSkippedTerms, setFcSkippedTerms] = useLocalStorage<Record<string, boolean>>('nd_fcSkippedTerms', {});
-
-  const availableModes = [
-    { id: 'term-meaning', label: 'Term → Meaning', type: 'Recognition' },
-    { id: 'reading-meaning', label: 'Reading → Meaning', type: 'Recognition' },
-    { id: 'meaning-term-rec', label: 'Meaning → Term', type: 'Recognition' },
-    { id: 'meaning-reading-rec', label: 'Meaning → Reading', type: 'Recognition' },
-    { id: 'meaning-term', label: 'Meaning → Term', type: 'Write' },
-    { id: 'meaning-reading', label: 'Meaning → Reading', type: 'Write' },
-  ];
-
-  const activeModes = Object.entries(selectedModes)
-    .filter(([id, active]) => active && availableModes.some(m => m.id === id))
-    .map(([id]) => id);
+  const [fcMinWorking, setFcMinWorking] = useLocalStorage('nd_fcMinWorking', 5);
+  const [fcMaxWorking, setFcMaxWorking] = useLocalStorage('nd_fcMaxWorking', 10);
+  const [fcRecords, setFcRecords] = useLocalStorage<Record<string, FcRecord>>('nd_fcRecords', {});
 
   // Extract unique lesson IDs from DICTIONARY dynamically
   const lessons = useMemo(() => {
@@ -74,50 +54,51 @@ export default function App() {
     return ids.sort((a, b) => parseInt(a, 10) - parseInt(b, 10));
   }, []);
 
-  // Filter vocabulary by selected lesson using the query hook
-  const baseFilteredVocab = useVocabulary(selectedLessons);
-  const alphabetsVocab = useMemo(() => {
-    return DICTIONARY.filter(v => v.system === selectedAlphabetSystem);
-  }, [selectedAlphabetSystem]);
-
-  const fcFilteredVocab = useVocabulary(fcSelectedLessons);
-  const activeVocab = activeTab === 'meaning' ? baseFilteredVocab : activeTab === 'alphabets' ? alphabetsVocab : fcFilteredVocab;
-  const computedActiveModes = activeTab === 'meaning' ? activeModes : activeTab === 'alphabets' ? ['romaji-reading'] : ['meaning-term'];
+  // Filter vocabulary by selected lesson using the query hook (shared across both modes)
+  const activeVocab = useVocabulary(selectedLessons);
 
   if (appState === 'terms') {
     return (
-      <TermsList 
-        vocabList={activeVocab} 
-        stats={stats} 
+      <TermsList
+        vocabList={activeVocab}
+        stats={stats}
         skippedTerms={skippedTerms}
         onSkip={(id) => setSkippedTerms(prev => ({ ...prev, [id]: true }))}
         onUnskip={(id) => setSkippedTerms(prev => ({ ...prev, [id]: false }))}
-        onBack={() => setAppState('menu')} 
+        onBack={() => setAppState('menu')}
       />
     );
   }
 
   if (appState === 'drill') {
-    if (activeTab === 'flashcards') {
+    if (activeMode === 'production') {
       return (
         <main className="h-[100dvh] overflow-hidden bg-slate-50 p-4 md:p-8 font-sans text-slate-900 flex flex-col w-full max-w-full">
-          <FlashcardEngine 
-            vocabList={activeVocab.filter(v => !fcSkippedTerms[v.id])}
-            targetCorrect={fcTargetCorrect}
+          <FlashcardEngine
+            vocabList={activeVocab.filter(v => !skippedTerms[v.id])}
+            minWorking={fcMinWorking}
+            maxWorking={fcMaxWorking}
             allowMouse={allowMouse}
-            fcProgress={fcProgress}
-            onUpdateFcProgress={(id, num) => setFcProgress(p => ({ ...p, [id]: num }))}
-            onSkip={(id) => setFcSkippedTerms(prev => ({ ...prev, [id]: true }))}
+            fcRecords={fcRecords}
+            onUpdateFcRecord={(id, correct) => {
+              setFcRecords(prev => {
+                const current = prev[id] || { attempts: 0, streak: 0 };
+                return {
+                  ...prev,
+                  [id]: {
+                    attempts: current.attempts + 1,
+                    streak: correct ? current.streak + 1 : 0
+                  }
+                };
+              });
+            }}
+            onSkip={(id) => setSkippedTerms(prev => ({ ...prev, [id]: true }))}
             onComplete={() => {
               setFcActive(false);
-              setFcProgress({});
-              setFcSkippedTerms({});
               setAppState('menu');
             }}
             onDiscard={() => {
               setFcActive(false);
-              setFcProgress({});
-              setFcSkippedTerms({});
               setAppState('menu');
             }}
           />
@@ -127,11 +108,9 @@ export default function App() {
 
     return (
       <main className="h-[100dvh] overflow-hidden bg-slate-50 p-4 md:p-8 font-sans text-slate-900 flex flex-col w-full max-w-full">
-        <DrillEngine 
-          vocabList={activeVocab.filter(v => !skippedTerms[v.id])} 
-          modes={computedActiveModes} 
+        <DrillEngine
+          vocabList={activeVocab.filter(v => !skippedTerms[v.id])}
           strictPitch={strictPitch}
-          allowMouse={allowMouse}
           stats={stats}
           onUpdateStats={(id, correct) => {
             setStats(prev => {
@@ -146,7 +125,7 @@ export default function App() {
             });
           }}
           onSkip={(id) => setSkippedTerms(prev => ({ ...prev, [id]: true }))}
-          onExit={() => setAppState('menu')} 
+          onExit={() => setAppState('menu')}
         />
       </main>
     );
@@ -155,133 +134,99 @@ export default function App() {
   return (
     <main className="h-[100dvh] overflow-y-auto bg-slate-50 p-6 md:p-12 font-sans text-slate-900 flex justify-center items-start">
       <div className="w-full max-w-5xl flex flex-col min-h-full">
-        
+
         <div className="mb-6 flex flex-col md:flex-row md:items-end justify-between">
           <div className="text-center md:text-left">
             <h1 className="text-4xl tracking-tight text-slate-800 mb-6" style={{ fontFamily: '"Space Grotesk", sans-serif', fontWeight: 700 }}>Pick It Up</h1>
             <div className="flex bg-slate-200/50 p-1 rounded-xl w-fit mx-auto md:mx-0">
-              <button 
-                onClick={() => setActiveTab('meaning')}
-                className={`px-5 py-2 rounded-lg text-sm font-medium transition-colors ${activeTab === 'meaning' ? 'bg-white shadow-sm text-slate-800' : 'text-slate-500 hover:text-slate-700'}`}
+              <button
+                onClick={() => setActiveMode('production')}
+                className={`px-5 py-2 rounded-lg text-sm font-medium transition-colors ${activeMode === 'production' ? 'bg-white shadow-sm text-slate-800' : 'text-slate-500 hover:text-slate-700'}`}
               >
-                Terms
+                Production
               </button>
-              <button 
-                onClick={() => setActiveTab('alphabets')}
-                className={`px-5 py-2 rounded-lg text-sm font-medium transition-colors ${activeTab === 'alphabets' ? 'bg-white shadow-sm text-slate-800' : 'text-slate-500 hover:text-slate-700'}`}
+              <button
+                onClick={() => setActiveMode('recognition')}
+                className={`px-5 py-2 rounded-lg text-sm font-medium transition-colors ${activeMode === 'recognition' ? 'bg-white shadow-sm text-slate-800' : 'text-slate-500 hover:text-slate-700'}`}
               >
-                Glyphs
-              </button>
-              <button 
-                onClick={() => setActiveTab('flashcards')}
-                className={`px-5 py-2 rounded-lg text-sm font-medium transition-colors ${activeTab === 'flashcards' ? 'bg-white shadow-sm text-slate-800' : 'text-slate-500 hover:text-slate-700'}`}
-              >
-                Flashcards
+                Reading Recognition
               </button>
             </div>
           </div>
           <div className="hidden md:flex items-center gap-3 mt-6 md:mt-0">
-            {(activeTab === 'meaning' || activeTab === 'flashcards') && (
-              <button
-                onClick={() => setAppState('terms')}
-                disabled={activeVocab.length === 0}
-                className="h-11 px-6 bg-white border border-slate-200 text-slate-700 rounded-xl font-medium tracking-wide hover:bg-slate-50 transition-colors disabled:opacity-50 disabled:cursor-not-allowed shadow-sm text-sm"
-              >
-                View Terms
-              </button>
-            )}
-            <button 
+            <button
+              onClick={() => setAppState('terms')}
+              disabled={activeVocab.length === 0}
+              className="h-11 px-6 bg-white border border-slate-200 text-slate-700 rounded-xl font-medium tracking-wide hover:bg-slate-50 transition-colors disabled:opacity-50 disabled:cursor-not-allowed shadow-sm text-sm"
+            >
+              View Terms
+            </button>
+            <button
               onClick={() => {
-                if (activeTab === 'flashcards' && !fcActive) {
+                if (activeMode === 'production' && !fcActive) {
                   setFcActive(true);
-                  setFcSkippedTerms({});
                 }
                 setAppState('drill');
               }}
-              disabled={computedActiveModes.length === 0 || activeVocab.length === 0}
+              disabled={activeVocab.length === 0}
               className="h-11 px-8 bg-slate-800 text-white rounded-xl font-medium tracking-wide flex items-center justify-center gap-2 hover:bg-slate-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed shadow-sm hover:shadow-md text-sm"
             >
-              {(activeTab === 'flashcards' && fcActive) ? 'Resume Session' : 'Start Session'} <ChevronRight size={18} />
+              {(activeMode === 'production' && fcActive) ? 'Resume Session' : 'Start Session'} <ChevronRight size={18} />
             </button>
           </div>
         </div>
 
         <div className="mb-6 text-center md:text-left text-sm text-slate-500 font-medium">
-          {activeTab === 'alphabets' ? 'All Lessons (Glyphs)' : `${Object.values(activeTab === 'meaning' ? selectedLessons : fcSelectedLessons).filter(Boolean).length} Lessons Selected`} • {activeVocab.length} terms loaded
+          {Object.values(selectedLessons).filter(Boolean).length} Lessons Selected • {activeVocab.length} terms loaded
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-12 gap-8">
-          
-          {/* Left Column: Lesson Select & Settings */}
-          <div className="md:col-span-7 space-y-4">
-            {/* Lesson or System Selection UI */}
-            {activeTab === 'meaning' || activeTab === 'flashcards' ? (
-              <div className="bg-white rounded-3xl p-5 shadow-sm border border-slate-100 mb-4 relative overflow-hidden">
-                {activeTab === 'flashcards' && fcActive && (
-                  <div className="absolute inset-0 bg-white/80 backdrop-blur-[2px] z-10 flex flex-col items-center justify-center p-6 text-center">
-                    <div className="text-slate-800 font-semibold mb-2">Session in Progress</div>
-                    <div className="text-slate-500 text-sm mb-4">You must complete or discard the active session to change its scope.</div>
-                    <button 
-                      onClick={() => { setFcActive(false); setFcProgress({}); setFcSkippedTerms({}); }}
-                      className="px-4 py-2 bg-red-50 text-red-600 rounded-lg font-medium text-sm hover:bg-red-100 transition-colors"
-                    >
-                      Discard Session
-                    </button>
-                  </div>
-                )}
-                <h2 className="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-4">Select Lesson</h2>
-                <div className="grid grid-cols-4 sm:grid-cols-5 gap-2">
-                  {lessons.map(lessonId => {
-                    const isSelected = activeTab === 'meaning' ? selectedLessons[lessonId] : fcSelectedLessons[lessonId];
-                    const toggleLesson = () => {
-                      if (activeTab === 'meaning') {
-                        setSelectedLessons(prev => ({ ...prev, [lessonId]: !prev[lessonId] }));
-                      } else {
-                        setFcSelectedLessons(prev => ({ ...prev, [lessonId]: !prev[lessonId] }));
-                      }
-                    };
-                    return (
-                      <button
-                        key={lessonId}
-                        onClick={toggleLesson}
-                        className={`py-2 rounded-xl text-xs font-medium transition-colors ${
-                          isSelected
-                            ? 'bg-slate-800 text-white shadow-sm'
-                            : 'bg-slate-100 text-slate-600 hover:bg-slate-200'
-                        }`}
-                      >
-                        L {lessonId}
-                      </button>
-                    );
-                  })}
-                </div>
-              </div>
-            ) : (
-              <div className="bg-white rounded-3xl p-5 shadow-sm border border-slate-100 mb-4">
-                <h2 className="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-2">Select Systems</h2>
-                <div className="space-y-0">
-                  {['hiragana', 'katakana'].map(sys => (
-                    <button 
-                      key={sys}
-                      onClick={() => setSelectedAlphabetSystem(sys as any)}
-                      className="w-full text-left flex items-center p-2 rounded-xl hover:bg-slate-50 cursor-pointer transition-colors border border-transparent hover:border-slate-100"
-                    >
-                      <div className={`w-4 h-4 rounded-full flex items-center justify-center mr-3 transition-colors border ${selectedAlphabetSystem === sys ? 'border-slate-800 bg-slate-800' : 'border-slate-300 bg-transparent'}`}>
-                        {selectedAlphabetSystem === sys && <div className="w-1.5 h-1.5 bg-white rounded-full" />}
-                      </div>
-                      <div className="text-sm font-medium text-slate-700 capitalize pointer-events-none">{sys}</div>
-                    </button>
-                  ))}
-                </div>
-              </div>
-            )}
 
-            {activeTab === 'meaning' && (
-              <div className="bg-white rounded-3xl p-5 shadow-sm border border-slate-100 mb-6">
-                <h2 className="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-4">Settings</h2>
-                <button 
+          {/* Left Column: Lesson Select */}
+          <div className="md:col-span-7 space-y-4">
+            <div className="bg-white rounded-3xl p-5 shadow-sm border border-slate-100 mb-4 relative overflow-hidden">
+              {activeMode === 'production' && fcActive && (
+                <div className="absolute inset-0 bg-white/80 backdrop-blur-[2px] z-10 flex flex-col items-center justify-center p-6 text-center">
+                  <div className="text-slate-800 font-semibold mb-2">Session in Progress</div>
+                  <div className="text-slate-500 text-sm mb-4">You must complete or discard the active session to change its scope.</div>
+                  <button
+                    onClick={() => setFcActive(false)}
+                    className="px-4 py-2 bg-red-50 text-red-600 rounded-lg font-medium text-sm hover:bg-red-100 transition-colors"
+                  >
+                    Discard Session
+                  </button>
+                </div>
+              )}
+              <h2 className="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-4">Select Lesson</h2>
+              <div className="grid grid-cols-4 sm:grid-cols-5 gap-2">
+                {lessons.map(lessonId => {
+                  const isSelected = selectedLessons[lessonId];
+                  return (
+                    <button
+                      key={lessonId}
+                      onClick={() => setSelectedLessons(prev => ({ ...prev, [lessonId]: !prev[lessonId] }))}
+                      className={`py-2 rounded-xl text-xs font-medium transition-colors ${
+                        isSelected
+                          ? 'bg-slate-800 text-white shadow-sm'
+                          : 'bg-slate-100 text-slate-600 hover:bg-slate-200'
+                      }`}
+                    >
+                      L {lessonId}
+                    </button>
+                  );
+                })}
+              </div>
+            </div>
+          </div>
+
+          {/* Right Column: Mode-specific settings */}
+          <div className="md:col-span-5">
+            <div className="bg-white rounded-3xl p-5 shadow-sm border border-slate-100 h-full">
+              <h2 className="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-4">Settings</h2>
+              {activeMode === 'recognition' ? (
+                <button
                   onClick={() => setStrictPitch(!strictPitch)}
-                  className="w-full text-left flex items-center justify-between p-2 cursor-pointer mb-4 hover:bg-slate-50 rounded-xl transition-colors"
+                  className="w-full text-left flex items-center justify-between p-2 cursor-pointer hover:bg-slate-50 rounded-xl transition-colors"
                 >
                   <div className="pointer-events-none">
                     <div className="font-medium text-slate-700">Strict Pitch Accent</div>
@@ -291,78 +236,63 @@ export default function App() {
                     <div className={`w-5 h-5 bg-white rounded-full absolute top-0.5 transition-transform ${strictPitch ? 'translate-x-6' : 'translate-x-0.5'}`} />
                   </div>
                 </button>
-              </div>
-            )}
-
-            {activeTab === 'flashcards' && (
-              <div className="bg-white rounded-3xl p-5 shadow-sm border border-slate-100 mb-6 relative overflow-hidden">
-                {fcActive && <div className="absolute inset-0 bg-white/50 backdrop-blur-[1px] z-10" />}
-                <h2 className="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-4">Target Correct Tries</h2>
-                <div className="flex gap-2">
-                  {[1, 2, 3, 4, 5].map(num => (
-                    <button
-                      key={num}
-                      onClick={() => setFcTargetCorrect(num)}
-                      className={`flex-1 py-2 rounded-xl text-sm font-medium transition-colors ${fcTargetCorrect === num ? 'bg-slate-800 text-white shadow-sm' : 'bg-slate-100 text-slate-600 hover:bg-slate-200'}`}
-                    >
-                      {num}
-                    </button>
-                  ))}
+              ) : (
+                <div className={`space-y-4 ${fcActive ? 'opacity-50 pointer-events-none' : ''}`}>
+                  <div>
+                    <div className="font-medium text-slate-700 mb-1">Min Working Terms</div>
+                    <div className="text-xs text-slate-400 mb-2">Floor for how small the active rotation can shrink</div>
+                    <input
+                      type="number"
+                      min={1}
+                      value={fcMinWorking}
+                      onChange={(e) => {
+                        const val = Math.max(1, parseInt(e.target.value, 10) || 1);
+                        setFcMinWorking(val);
+                        if (val > fcMaxWorking) setFcMaxWorking(val);
+                      }}
+                      className="w-full px-3 py-2 border border-slate-200 rounded-xl text-sm"
+                    />
+                  </div>
+                  <div>
+                    <div className="font-medium text-slate-700 mb-1">Max Working Terms</div>
+                    <div className="text-xs text-slate-400 mb-2">Ceiling for how many terms stay active at once</div>
+                    <input
+                      type="number"
+                      min={fcMinWorking}
+                      value={fcMaxWorking}
+                      onChange={(e) => {
+                        const val = Math.max(fcMinWorking, parseInt(e.target.value, 10) || fcMinWorking);
+                        setFcMaxWorking(val);
+                      }}
+                      className="w-full px-3 py-2 border border-slate-200 rounded-xl text-sm"
+                    />
+                  </div>
                 </div>
-              </div>
-            )}
+              )}
+            </div>
           </div>
 
-          {/* Right Column: Modes Selection */}
-          {activeTab === 'meaning' && (
-            <div className="md:col-span-5">
-              <div className="bg-white rounded-3xl p-5 shadow-sm border border-slate-100 h-full">
-                <h2 className="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-2">Select Modes</h2>
-                <div className="space-y-0">
-                  {availableModes.map(mode => (
-                    <button 
-                      key={mode.id}
-                      onClick={() => setSelectedModes(prev => ({ ...prev, [mode.id]: !prev[mode.id] }))}
-                      className="w-full text-left flex items-center p-2 rounded-xl hover:bg-slate-50 cursor-pointer transition-colors border border-transparent hover:border-slate-100"
-                    >
-                      <div className={`w-4 h-4 rounded-md flex items-center justify-center mr-3 transition-colors ${selectedModes[mode.id] ? 'bg-slate-800 text-white' : 'bg-slate-100 text-slate-300'}`}>
-                        {selectedModes[mode.id] && <Check size={12} strokeWidth={3} />}
-                      </div>
-                      <div className="flex-1 flex items-center justify-between pointer-events-none">
-                        <div className="text-sm font-medium text-slate-700">{mode.label}</div>
-                        <div className="text-[10px] uppercase font-semibold text-slate-400">{mode.type}</div>
-                      </div>
-                    </button>
-                  ))}
-                </div>
-              </div>
-            </div>
-          )}
-          
         </div>
 
         <div className="md:hidden flex flex-col gap-3 mt-8 w-full">
-          {(activeTab === 'meaning' || activeTab === 'flashcards') && (
-            <button
-              onClick={() => setAppState('terms')}
-              disabled={activeVocab.length === 0}
-              className="w-full py-4 bg-white border border-slate-200 text-slate-700 rounded-2xl font-medium tracking-wide hover:bg-slate-50 transition-colors disabled:opacity-50 disabled:cursor-not-allowed shadow-sm"
-            >
-              View Terms
-            </button>
-          )}
-          <button 
+          <button
+            onClick={() => setAppState('terms')}
+            disabled={activeVocab.length === 0}
+            className="w-full py-4 bg-white border border-slate-200 text-slate-700 rounded-2xl font-medium tracking-wide hover:bg-slate-50 transition-colors disabled:opacity-50 disabled:cursor-not-allowed shadow-sm"
+          >
+            View Terms
+          </button>
+          <button
             onClick={() => {
-              if (activeTab === 'flashcards' && !fcActive) {
+              if (activeMode === 'production' && !fcActive) {
                 setFcActive(true);
-                setFcSkippedTerms({});
               }
               setAppState('drill');
             }}
-            disabled={computedActiveModes.length === 0 || activeVocab.length === 0}
+            disabled={activeVocab.length === 0}
             className="w-full py-4 bg-slate-800 text-white rounded-2xl font-medium tracking-wide flex items-center justify-center gap-2 hover:bg-slate-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed shadow-sm hover:shadow-md"
           >
-            {(activeTab === 'flashcards' && fcActive) ? 'Resume Session' : 'Start Session'} <ChevronRight size={20} />
+            {(activeMode === 'production' && fcActive) ? 'Resume Session' : 'Start Session'} <ChevronRight size={20} />
           </button>
         </div>
 
