@@ -8,12 +8,10 @@ export interface Vocabulary {
   raw_term: string;
   term: string;
   reading: string;
-  romaji: string;
   definition: string;
   pitch_accent: number;
   affix_type: AffixType;
   lesson_id: string;
-  system: 'hiragana' | 'katakana' | 'mixed';
 }
 
 export const DICTIONARY = vocabData as Vocabulary[];

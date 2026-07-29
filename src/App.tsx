@@ -224,7 +224,7 @@ export default function App() {
 
           {/* Right Column: Mode-specific settings */}
           <div className="md:col-span-5">
-            <div className="bg-white rounded-3xl p-5 shadow-sm border border-slate-100 h-full">
+            <div className="bg-white rounded-3xl p-5 shadow-sm border border-slate-100">
               <h2 className="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-4">Settings</h2>
               {activeMode === 'recognition' ? (
                 <button
@@ -240,34 +240,42 @@ export default function App() {
                   </div>
                 </button>
               ) : (
-                <div className={`space-y-4 ${fcActive ? 'opacity-50 pointer-events-none' : ''}`}>
+                <div className={`space-y-5 ${fcActive ? 'opacity-50 pointer-events-none' : ''}`}>
                   <div>
-                    <div className="font-medium text-slate-700 mb-1">Min Working Terms</div>
+                    <div className="flex items-center justify-between mb-1">
+                      <div className="font-medium text-slate-700">Min Working Terms</div>
+                      <div className="text-sm font-semibold text-slate-800 tabular-nums">{fcMinWorking}</div>
+                    </div>
                     <div className="text-xs text-slate-400 mb-2">Floor for how small the active rotation can shrink</div>
                     <input
-                      type="number"
+                      type="range"
                       min={1}
+                      max={30}
                       value={fcMinWorking}
                       onChange={(e) => {
-                        const val = Math.max(1, parseInt(e.target.value, 10) || 1);
+                        const val = parseInt(e.target.value, 10);
                         setFcMinWorking(val);
                         if (val > fcMaxWorking) setFcMaxWorking(val);
                       }}
-                      className="w-full px-3 py-2 border border-slate-200 rounded-xl text-sm"
+                      className="w-full accent-slate-800"
                     />
                   </div>
                   <div>
-                    <div className="font-medium text-slate-700 mb-1">Max Working Terms</div>
+                    <div className="flex items-center justify-between mb-1">
+                      <div className="font-medium text-slate-700">Max Working Terms</div>
+                      <div className="text-sm font-semibold text-slate-800 tabular-nums">{fcMaxWorking}</div>
+                    </div>
                     <div className="text-xs text-slate-400 mb-2">Ceiling for how many terms stay active at once</div>
                     <input
-                      type="number"
+                      type="range"
                       min={fcMinWorking}
+                      max={30}
                       value={fcMaxWorking}
                       onChange={(e) => {
-                        const val = Math.max(fcMinWorking, parseInt(e.target.value, 10) || fcMinWorking);
+                        const val = parseInt(e.target.value, 10);
                         setFcMaxWorking(val);
                       }}
-                      className="w-full px-3 py-2 border border-slate-200 rounded-xl text-sm"
+                      className="w-full accent-slate-800"
                     />
                   </div>
                 </div>

@@ -1,10 +1,11 @@
 # Pick It Up - React + TypeScript + Vite + Tailwind CSS v4.0
 
-An interactive Japanese vocabulary drill application optimized for modern styling and clean, domain-driven colocation. The app is organized into three top-level tabs:
+An interactive Japanese vocabulary drill application for iPad, built around two complementary study modes that share a single lesson scope:
 
-* **Terms:** Lesson-scoped Recognition (Multiple Choice) and Production (Stylus/Mouse Writing) drills, run through a fixed-length, weighted-selection session (`<DrillEngine>`).
-* **Glyphs:** A Production-only writing drill for raw hiragana/katakana characters (`Romaji → Reading`), scoped by alphabet system instead of by lesson.
-* **Flashcards:** A mastery-based Production writing loop (`<FlashcardEngine>`) that repeats each term until it's answered correctly a configurable number of times, rather than running a fixed-length session.
+* **Production:** A mastery-based, stylus-writing loop (`<FlashcardEngine>` + `<ProductionDrill>`). Each term repeats until it's answered correctly enough times to be "mastered," rather than running a fixed-length session.
+* **Reading Recognition:** A fixed-length, weighted-selection multiple-choice quiz (`<DrillEngine>` + `<RecognitionDrill>`), testing reading↔meaning recall with optional pitch-accent grading.
+
+Both modes read from the same lesson-scoped vocabulary pool and the same Terms Viewer, so switching modes never changes which terms are in play mid-session.
 
 > **Attribution:** The Japanese vocabulary dataset powering this application is provided by the Tokyo University of Foreign Studies and Kenta Li.
 
@@ -15,68 +16,87 @@ The codebase is structured into cohesive, domain-specific "fat files" to limit i
 ```
 src/
 ├── assets/
-│   ├── processed_vocabulary.csv   # Raw CSV source dataset.
-│   └── processed_vocabulary.json  # Converted JSON database.
-├── dictionary.ts                  # The Data Domain: Vocabulary types, database load, and the useVocabulary filtering hook.
-├── Canvas.tsx                     # The Hardware Domain: Isolated Apple Pencil and pointer-event writing canvas.
-├── Drills.tsx                     # The Core Engine: Recognition, Production, Affix wrappers, DrillEngine, and FlashcardEngine.
-├── TermsList.tsx                  # The Terms Viewer: Sortable/searchable vocabulary browser with Skip/Unskip controls.
-├── App.tsx                        # The Shell: Global settings, localStorage persistence, and the Terms/Glyphs/Flashcards tab router.
-├── main.tsx                       # React application entry point.
-├── index.css                      # Global stylesheet importing Tailwind CSS v4.0.
-└── App.css                        # (Unused) Default stylesheet.
+│   ├── processed_vocabulary.csv     # Original raw CSV source (historical, unused at runtime).
+│   ├── processed_vocabulary_2.csv   # Second raw CSV source, merged in (historical, unused at runtime).
+│   └── processed_vocabulary.json    # The only vocabulary file actually loaded by the app.
+├── dictionary.ts                    # The Data Domain: Vocabulary type, database load, and the useVocabulary filtering hook.
+├── Canvas.tsx                       # The Hardware Domain: Isolated Apple Pencil and pointer-event writing canvas.
+├── Drills.tsx                       # The Core Engine: Furigana/pitch rendering, Recognition/Production drills, DrillEngine, and FlashcardEngine.
+├── TermsList.tsx                    # The Terms Viewer: Searchable, spreadsheet-style vocabulary browser with mark/skip controls.
+├── App.tsx                          # The Shell: Global settings, localStorage persistence, and the menu/drill/terms router.
+├── main.tsx                         # React application entry point.
+├── index.css                        # Global stylesheet importing Tailwind CSS v4.0.
+└── App.css                          # (Unused) Default stylesheet.
 ```
 
 ## 2. Domain Specification
 
 ### 2.1 The Data Domain (`src/dictionary.ts`)
 
-Houses the type systems (`Vocabulary`, `AffixType`), loads the parsed database from `src/assets/processed_vocabulary.json`, and exposes the `useVocabulary(selectedLessons: Record<string, boolean>)` hook. The hook takes a multi-select map of lesson IDs (not a single lesson ID) and memoizes the filtered vocabulary list; it's invoked twice in `App.tsx` — once for the Terms tab's lesson scope and once for the Flashcards tab's independent lesson scope.
+Houses the type system (`Vocabulary`, `AffixType`), loads the parsed database from `src/assets/processed_vocabulary.json`, and exposes the `useVocabulary(selectedLessons: Record<string, boolean>)` hook, which memoizes the filtered vocabulary list for a multi-select map of lesson IDs.
 
-* **State Management:** This file is intentionally stateless and has no `localStorage` involvement. The persistent statistics dictionary (`Record<vocab_id, { attempts: number, correct: number }>`), skip lists, and all other settings actually live in `App.tsx` (see 2.4), built on a shared generic `useLocalStorage` hook.
+```ts
+interface Vocabulary {
+  id: string;
+  raw_term: string;
+  term: string;
+  reading: string;
+  definition: string;
+  pitch_accent: number;
+  affix_type: AffixType; // 'none' | 'prefix' | 'suffix'
+  lesson_id: string;
+}
+```
+
+* **State Management:** This file is intentionally stateless and has no `localStorage` involvement. Statistics, skip/mark lists, and all other settings live in `App.tsx` (see 2.4), built on a shared generic `useLocalStorage` hook.
+* The raw CSVs under `src/assets/` are historical source snapshots only — the running app never reads them. New vocabulary is merged into `processed_vocabulary.json` by hand/one-off script when a new CSV batch arrives.
 
 ### 2.2 The Hardware Domain (`src/Canvas.tsx`)
 
-Encapsulates low-level canvas context interactions and pressure-sensitive drawing. It is decoupled from game states, returning pure canvas elements and clear handles.
-* **Palm-Rejection Integrity:** All interactive canvas elements (clear buttons, evaluation buttons, and text tracking metrics) strictly enforce Apple Pencil gating (`pointerType === 'pen'`) combined with `select-none touch-none` CSS utility locks. This design counteracts iPadOS touch-bleed and aggressive text-highlighting behaviors during handwriting.
+Encapsulates low-level canvas context interactions and pressure-sensitive drawing (`<DrawingCanvas>`). It is decoupled from game state, returning a pure canvas element plus a global `clear` handle.
+
+* **Fixed Aspect Frame:** The canvas box is a centered `w-[80%]` panel constrained to `aspect-[4/5]` and `max-h-[55vh]`, so it keeps a consistent writing area across drill types instead of stretching to fill the viewport.
+* **Palm-Rejection Integrity:** All interactive canvas elements (clear button, evaluation buttons) strictly enforce Apple Pencil gating (`pointerType === 'pen'`) combined with `select-none touch-none` CSS utility locks. An `allowMouse` debug flag can widen this to also accept `pointerType === 'mouse'` for development on a trackpad.
 
 ### 2.3 The Core Engine (`src/Drills.tsx`)
 
-Bundles drill execution components:
+Bundles rendering helpers and both drill/session engines:
 
-* `<AffixWrapper>`: Contextually formats prefixes (`お～`) and suffixes (`～さん`). *(See critical Implementation Note below).*
+* `<AffixWrapper>`: Contextually formats prefixes (`お～`) and suffixes (`～さん`) — see the Affix Rendering Rules below.
+* `<AnnotatedReading>`: Renders a reading string with the pitch-accent overline applied over the correct span of morae.
+* `<AnnotatedTerm>`: Renders the term with per-segment furigana (`<ruby>`/`<rt>`) over kanji spans, aligning each kanji run against its slice of the reading via regex segment-matching, and falling back to one whole-term ruby block if segment alignment fails. The term's own glyphs render at `0.8em` (via a sibling `<span>`) to stay visually smaller than the furigana sitting above them — `<rt>`'s `em` unit is relative to the `<ruby>`'s own (unscaled) inherited font-size, so this scaling never shrinks the furigana itself.
 
-* `<RecognitionDrill>`: Renders multiple-choice questions with 6 options (1 correct answer, 5 randomized distractors). Supports 4 modes:
-   * `Term → Meaning`
+* `<RecognitionDrill>`: Renders a 6-option multiple-choice question (1 correct + 5 randomized distractors) in one of 2 modes, chosen randomly per question by `<DrillEngine>`:
    * `Reading → Meaning`
-   * `Meaning → Term`
    * `Meaning → Reading`
 
-* `<ProductionDrill>`: Integrates the drawing canvas, pitch accent numberpad selectors, and grading states. Supports 3 modes:
-  * `Meaning → Term` (Writing)
-  * `Meaning → Reading` (Writing)
-  * `Romaji → Reading` (Writing)
+  After evaluation, the complement (reading or meaning) is revealed as an absolutely-positioned annotation beside the prompt, so the prompt itself stays perfectly centered. The 0–6 pitch-accent selector pad stays visible throughout (always testable, never blocking submission) and color-grades green/red against the correct value once evaluated; a `pitch_accent === -1` term instead shows a locked "Pitch Accent N/A" placeholder.
 
-* `<DrillEngine>`: Handles session queues, progress bar tracking, and session routing.
-  * **Session Length:** Enforces a strict, unyielding limit of 10 questions per drill session to prevent fatigue. The engine explicitly eliminates recursive "mistakes queues," deferring error tracking entirely to the global stats to be dynamically resolved in future spaced-repetition cycles.
-  * **Weighted Selection:** Implements a naive probability weighting algorithm. When building the 10-question queue, the system calculates the **Laplace smoothed correctness rate** `(correct + 1) / (attempts + 2)` for all available vocabulary in the selected lesson. The items in the lowest 50% tier of these smoothed rates are given a **2x probability multiplier** of being selected over the remaining 50%.
+* `<ProductionDrill>`: Integrates the drawing canvas and a Correct/Incorrect self-grading step. Always drills `Meaning → Term` (writing the term freehand). Tapping "Reveal Answer" shows the term (with furigana) vertically centered beside the prompt, offset by `ml-12`; the user then self-grades their handwriting via Correct/Incorrect buttons (both pen-gated, matching the canvas's palm-rejection rules).
 
-* `<FlashcardEngine>`: A second, independent session engine used exclusively by the Flashcards tab. It has no fixed session length and no weighted selection:
-  * On session start, it shuffles every in-scope term whose `fcProgress` (correct tries so far) is below the user-configured **target correct tries** (1–5).
-  * Every card is presented as a `<ProductionDrill>` in `meaning-term` (Writing) mode only — there is no mode selection for Flashcards.
-  * A correct answer increments that term's progress and drops it from the session queue; an incorrect answer requeues it at the back of the same queue. Flashcard attempts do **not** write to the global `stats` dictionary used by Recognition/Production drills.
-  * The session ends only once every in-scope term has reached the target correct-tries count.
+* `<DrillEngine>`: Powers Reading Recognition sessions.
+  * **Session Length:** Builds a fixed 15-question queue per session. There is no recursive "mistakes queue" — errors are deferred entirely to the global `stats` dictionary for future weighted selection.
+  * **Weighted Selection:** Computes the **Laplace-smoothed correctness rate** `(correct + 1) / (attempts + 2)` for every in-scope term. Terms in the lowest 50% tier of these rates get a **3x probability weight** over the remaining 50% when the 15-question queue is drawn.
+  * **Progress UI:** A centered dot progress bar (no numeric counter); "Cancel Drill" and "Skip Term" sit on either side of it.
+
+* `<FlashcardEngine>`: Powers Production sessions. No fixed session length and no weighted selection — instead it maintains a rotating **working set** bounded by `[minWorking, maxWorking]`:
+  * On each refill, it tops the working set up to `maxWorking` with shuffled, not-yet-mastered terms; if the pool of fresh terms can't reach `minWorking`, it backfills with already-mastered terms (marked "permanent" so they don't get remastered, just recycled to keep the rotation full).
+  * A term is **mastered** (`isMastered`) once it's answered correctly on the very first attempt, or once it reaches a correctness **streak of 2** — an incorrect answer resets that term's streak to 0 and requeues it at the back of the rotation.
+  * The session ends once every in-scope term is mastered. Flashcard attempts write to their own `fcRecords` (`{ attempts, streak }` per term) and never touch the global Recognition `stats` dictionary.
 
 ### 2.4 The Shell (`src/App.tsx`)
 
-Coordinates top-level state and routes between the menu screen, the Terms Viewer, and active drill sessions. It defines a generic `useLocalStorage<T>` hook that every piece of persisted state below is built on top of.
+Coordinates top-level state and routes between the menu screen, the Terms Viewer, and an active drill session (`appState: 'menu' | 'drill' | 'terms'`). It defines a generic `useLocalStorage<T>` hook that every piece of persisted state below is built on top of.
 
-* **Top-Level Tabs:** The menu screen is a three-tab router:
-  * **Terms:** Lesson-scoped Recognition + Production drills via `<DrillEngine>`, using the lessons and modes selected in the UI. Includes the Strict Pitch Accent and allow-mouse debug settings.
-  * **Glyphs:** A Production-only `romaji-reading` writing drill (also via `<DrillEngine>`), scoped by hiragana/katakana `system` rather than by lesson — lesson selection is ignored entirely in this tab.
-  * **Flashcards:** The mastery-based writing loop via `<FlashcardEngine>` (see 2.3), with its own independent lesson scope, its own skip list, and a configurable target correct-tries count (1–5).
-* **Terms Viewer (`src/TermsList.tsx`):** Exposes a dedicated UI to view all vocabulary loaded under the active tab's filter configuration (Terms or Flashcards scope). Features interactive layout modes to rank vocabulary by descending **Laplace smoothed error rate**, a live search box (matches term/reading/definition/romaji), and a dedicated **'Skipped'** view to re-enable terms manually banished during drill sessions.
-* **Persistence:** All user settings (active tab, selected lessons/modes/system, Strict Pitch toggle, allow-mouse debug flag), both skip lists, the Flashcards target and per-term progress, and the global correctness `stats` dictionary are persisted across sessions/reloads using `localStorage`, via the shared `useLocalStorage` hook.
+* **Mode Toggle:** A single Production / Reading Recognition switch (`activeMode`) drives which engine `appState === 'drill'` renders. Both modes share one lesson scope (`selectedLessons`) and one skip list (`skippedTerms`) — there is no independent per-mode scope.
+* **Settings Panel:** Mode-dependent, shown alongside lesson selection:
+  * *Reading Recognition:* a **Strict Pitch Accent** toggle (require pitch selection before advancing — currently informational only, not session-blocking).
+  * *Production:* **Min/Max Working Terms** sliders (1–30, min ≤ max is enforced by clamping the other slider) controlling the Flashcard rotation size described above.
+* **Scope Lock:** Whenever a Flashcard session is in progress (`fcActive`), the lesson-select panel is covered by a blocking "Session in Progress" overlay with a "Discard Session" escape hatch — this lock applies regardless of which mode tab is currently displayed, since both modes share the same `selectedLessons` state and changing it mid-session would leave the Flashcard working set referencing terms that are no longer in scope.
+* **Terms Viewer (`src/TermsList.tsx`):** A spreadsheet-style grid (Term / Reading / Meaning / Error% / skip button) over the active lesson scope, live-searchable by term/reading/meaning, with a Default/Skipped view toggle.
+  * **Marking:** Clicking anywhere on a row toggles a "marked" highlight (`#FCE4EC` background) — a lightweight, private way to flag terms for attention with no effect on drill selection.
+  * **Skip/Unskip:** A dedicated circular ✕ button (transparent background, event-isolated from the row's mark-toggle click) skips a term out of both drill engines' pools; skipped terms surface in the "Skipped" view for unskipping.
+* **Persistence:** Active mode, selected lessons, both settings panels' values, the skip list, marked terms, the Flashcard working-set bounds and per-term `fcRecords`, and the global Recognition `stats` dictionary are all persisted across sessions/reloads via `localStorage`.
 
 ---
 
@@ -98,15 +118,16 @@ The application must strictly shield the user from ever having to manually draw 
 
 ### B. Pitch Accent Rules & Notation
 
-Pitch accent UI (e.g., number pad 0-6) is integrated **only into Recognition Drill modes**. In **Production Drills (Canvas Writing)**, the 0-6 pitch selector pad is explicitly omitted, as the user is expected to manually draw the pitch accent symbols directly onto the canvas alongside their reading.
+Pitch accent UI (0–6 number pad) is integrated **only into Recognition Drill mode**. In Production Drills, the number pad is omitted entirely — the user is expected to draw the pitch accent overline directly onto the canvas alongside their handwritten reading.
 
-* **The Test UI is Always Displayed:** In Recognition modes, the UI allowing the user to select/test the pitch accent is visible, but the user is completely **unblocked**; they are not forced to answer the pitch accent before submitting.
-* **Unavailable Targets (-1):** When a vocabulary term's `pitch_accent` is strictly equal to `-1`, it dictates that no pitch accent fundamentally applies. In these cases, the entire pitch accent testing interface is visually locked (e.g. `opacity-50`, `pointer-events-none`) and renders a placeholder `"Pitch Accent N/A"`.
-* **Post-Answer Annotation (Upperscore Notation):** The application automatically displays an annotated version of the reading immediately after the user answers or reveals. This annotation uses an **upperscore** (an overline) spanning the exact number of kana characters dictated by the `pitch_accent` value. **All reading targets now receive this upperscore annotation**, including `Romaji → Reading`.
-  * **0-6 Grading:** When a Recognition answer is evaluated, the 0-6 pitch accent selector buttons remain on screen but are color-graded. The correct target pitch button glows translucent green (`bg-green-50 border-green-500 text-green-700`), and if the user selected an incorrect pitch, that button is highlighted translucent red (`bg-red-50 border-red-500 text-red-700`).
-* **Reveal Mechanics (Production):** When the user taps "Reveal Answer", the correct answer is displayed inside a flat, non-obscuring, white rectangular "result box" anchored to the bottom center of the canvas area. This allows users to clearly compare their handwritten strokes against the correct answer without the canvas being covered up by an overlay.
-  * **Inline Prompt Complements:** When a Drill is evaluated or revealed (in both Recognition and Production modes), the corresponding complement (e.g. the Term or Reading) is annotated immediately beside the top screen prompt (anchored as an absolute offset) so that the original prompt remains perfectly centered on the screen.
-* **Typography:** English/non-Japanese prompts and meanings are explicitly rendered using the injected `Noto Serif TC` (`NotoSerifTC.ttf`) typeface to visually decouple them from Japanese characters, bypassing unreliable default system fonts like macOS "Songti TC". Furthermore, prompt texts in Production modes are scaled up (`text-3xl`) to exactly match the sizing aesthetics of Recognition modes. The top-level application header enforces `Space Grotesk` at an absolute 700 font-weight for distinct branding.
+* **The Test UI is Always Displayed:** In Recognition mode, the pitch-accent selector is visible but never blocks submission; the user can submit without selecting a pitch.
+* **Unavailable Targets (-1):** When a term's `pitch_accent` is strictly `-1`, no pitch accent applies. The entire pitch UI is visually locked (`opacity-50`, `pointer-events-none`) and shows a `"Pitch Accent N/A"` placeholder instead.
+* **Post-Answer Annotation (Overline Notation):** Immediately after answering/revealing, the reading is annotated with an overline spanning exactly the number of morae dictated by `pitch_accent`. All reading targets receive this annotation.
+  * **0–6 Grading:** After a Recognition answer is evaluated, the pitch buttons stay on screen but color-grade: the correct pitch glows green (`bg-green-50 border-green-500 text-green-700`); an incorrect selection glows red (`bg-red-50 border-red-500 text-red-700`).
+* **Reveal Mechanics (Production):** Tapping "Reveal Answer" shows the correct term — with furigana and pitch overline — vertically centered beside the prompt (not overlaying the canvas), so handwritten strokes stay visible for comparison.
+* **Furigana Scaling:** Term glyphs render at `0.8em` relative to their furigana so the reading annotation reads clearly above smaller kanji, without shrinking the `<rt>` furigana itself (see `AnnotatedTerm` in 2.3).
+* **Typography:** English/non-Japanese prompts and meanings use the injected `Noto Serif TC` typeface, decoupling them visually from Japanese characters and bypassing unreliable system font substitutions. The top-level app header uses `Space Grotesk` at 700 weight for branding.
 
 ### C. Layout Constraints
+
 * **Viewport Boundaries:** The app's root layout must strictly use `h-[100dvh]` combined with controlled overflow (`overflow-y-auto` or `overflow-hidden`), ensuring the app perfectly locks to the available vertical space of mobile and tablet screens without expanding the body height unnecessarily.

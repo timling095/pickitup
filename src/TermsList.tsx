@@ -33,8 +33,7 @@ export const TermsList = ({
       filtered = filtered.filter(v =>
         v.term.toLowerCase().includes(q) ||
         v.reading.toLowerCase().includes(q) ||
-        v.definition.toLowerCase().includes(q) ||
-        v.romaji.toLowerCase().includes(q)
+        v.definition.toLowerCase().includes(q)
       );
     }
 
