@@ -29,6 +29,49 @@ function useLocalStorage<T>(key: string, initialValue: T): [T, (val: T | ((prev:
   return [storedValue, setValue];
 }
 
+// Two overlapping range inputs, each visible only via its thumb (track is transparent),
+// stacked over a shared painted track so they read as one slider with two knobs.
+const sliderThumbClass = "[&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:pointer-events-auto [&::-webkit-slider-thumb]:w-5 [&::-webkit-slider-thumb]:h-5 [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:bg-slate-800 [&::-webkit-slider-thumb]:shadow-sm [&::-webkit-slider-thumb]:cursor-pointer [&::-moz-range-thumb]:appearance-none [&::-moz-range-thumb]:pointer-events-auto [&::-moz-range-thumb]:w-5 [&::-moz-range-thumb]:h-5 [&::-moz-range-thumb]:rounded-full [&::-moz-range-thumb]:bg-slate-800 [&::-moz-range-thumb]:border-0 [&::-moz-range-thumb]:shadow-sm [&::-moz-range-thumb]:cursor-pointer";
+
+function DualRangeSlider({
+  min, max, valueMin, valueMax, onChangeMin, onChangeMax
+}: {
+  min: number, max: number, valueMin: number, valueMax: number,
+  onChangeMin: (val: number) => void, onChangeMax: (val: number) => void
+}) {
+  const midpoint = (min + max) / 2;
+  return (
+    <div className="relative w-full h-5 flex items-center">
+      <div className="absolute left-0 right-0 h-1.5 rounded-full bg-slate-200" />
+      <div
+        className="absolute h-1.5 rounded-full bg-slate-800"
+        style={{
+          left: `${((valueMin - min) / (max - min)) * 100}%`,
+          right: `${100 - ((valueMax - min) / (max - min)) * 100}%`
+        }}
+      />
+      <input
+        type="range"
+        min={min}
+        max={max}
+        value={valueMin}
+        onChange={(e) => onChangeMin(Math.min(Number(e.target.value), valueMax))}
+        className={`absolute w-full h-full appearance-none bg-transparent pointer-events-none ${sliderThumbClass}`}
+        style={{ zIndex: valueMin > midpoint ? 5 : 3 }}
+      />
+      <input
+        type="range"
+        min={min}
+        max={max}
+        value={valueMax}
+        onChange={(e) => onChangeMax(Math.max(Number(e.target.value), valueMin))}
+        className={`absolute w-full h-full appearance-none bg-transparent pointer-events-none ${sliderThumbClass}`}
+        style={{ zIndex: 4 }}
+      />
+    </div>
+  );
+}
+
 export default function App() {
   const [appState, setAppState] = useState<'menu' | 'drill' | 'terms'>('menu');
 
@@ -40,7 +83,7 @@ export default function App() {
   const [selectedLessons, setSelectedLessons] = useLocalStorage<Record<string, boolean>>('nd_selectedLessons_v2', { '1': true });
 
   const [stats, setStats] = useLocalStorage<Record<string, { attempts: number, correct: number }>>('nd_stats', {});
-  const [skippedTerms, setSkippedTerms] = useLocalStorage<Record<string, boolean>>('nd_skippedTerms', {});
+  const [masteredTerms, setMasteredTerms] = useLocalStorage<Record<string, boolean>>('nd_masteredTerms', {});
   const [markedTerms, setMarkedTerms] = useLocalStorage<Record<string, boolean>>('nd_markedTerms', {});
 
   // Production (Flashcards) state
@@ -63,9 +106,8 @@ export default function App() {
       <TermsList
         vocabList={activeVocab}
         stats={stats}
-        skippedTerms={skippedTerms}
-        onSkip={(id) => setSkippedTerms(prev => ({ ...prev, [id]: true }))}
-        onUnskip={(id) => setSkippedTerms(prev => ({ ...prev, [id]: false }))}
+        masteredTerms={masteredTerms}
+        onToggleMastered={(id) => setMasteredTerms(prev => ({ ...prev, [id]: !prev[id] }))}
         markedTerms={markedTerms}
         onToggleMark={(id) => setMarkedTerms(prev => ({ ...prev, [id]: !prev[id] }))}
         onBack={() => setAppState('menu')}
@@ -78,7 +120,7 @@ export default function App() {
       return (
         <main className="h-[100dvh] overflow-hidden bg-slate-50 p-4 md:p-8 font-sans text-slate-900 flex flex-col w-full max-w-full">
           <FlashcardEngine
-            vocabList={activeVocab.filter(v => !skippedTerms[v.id])}
+            vocabList={activeVocab.filter(v => !masteredTerms[v.id])}
             minWorking={fcMinWorking}
             maxWorking={fcMaxWorking}
             allowMouse={allowMouse}
@@ -95,7 +137,7 @@ export default function App() {
                 };
               });
             }}
-            onSkip={(id) => setSkippedTerms(prev => ({ ...prev, [id]: true }))}
+            onSkip={(id) => setMasteredTerms(prev => ({ ...prev, [id]: true }))}
             onComplete={() => {
               setFcActive(false);
               setAppState('menu');
@@ -112,7 +154,7 @@ export default function App() {
     return (
       <main className="h-[100dvh] overflow-hidden bg-slate-50 p-4 md:p-8 font-sans text-slate-900 flex flex-col w-full max-w-full">
         <DrillEngine
-          vocabList={activeVocab.filter(v => !skippedTerms[v.id])}
+          vocabList={activeVocab.filter(v => !masteredTerms[v.id])}
           strictPitch={strictPitch}
           stats={stats}
           onUpdateStats={(id, correct) => {
@@ -127,7 +169,7 @@ export default function App() {
               };
             });
           }}
-          onSkip={(id) => setSkippedTerms(prev => ({ ...prev, [id]: true }))}
+          onSkip={(id) => setMasteredTerms(prev => ({ ...prev, [id]: true }))}
           onExit={() => setAppState('menu')}
         />
       </main>
@@ -240,44 +282,20 @@ export default function App() {
                   </div>
                 </button>
               ) : (
-                <div className={`space-y-5 ${fcActive ? 'opacity-50 pointer-events-none' : ''}`}>
-                  <div>
-                    <div className="flex items-center justify-between mb-1">
-                      <div className="font-medium text-slate-700">Min Working Terms</div>
-                      <div className="text-sm font-semibold text-slate-800 tabular-nums">{fcMinWorking}</div>
-                    </div>
-                    <div className="text-xs text-slate-400 mb-2">Floor for how small the active rotation can shrink</div>
-                    <input
-                      type="range"
-                      min={1}
-                      max={30}
-                      value={fcMinWorking}
-                      onChange={(e) => {
-                        const val = parseInt(e.target.value, 10);
-                        setFcMinWorking(val);
-                        if (val > fcMaxWorking) setFcMaxWorking(val);
-                      }}
-                      className="w-full accent-slate-800"
-                    />
+                <div className={`${fcActive ? 'opacity-50 pointer-events-none' : ''}`}>
+                  <div className="flex items-center justify-between mb-1">
+                    <div className="font-medium text-slate-700">Working Terms Range</div>
+                    <div className="text-sm font-semibold text-slate-800 tabular-nums">{fcMinWorking}–{fcMaxWorking}</div>
                   </div>
-                  <div>
-                    <div className="flex items-center justify-between mb-1">
-                      <div className="font-medium text-slate-700">Max Working Terms</div>
-                      <div className="text-sm font-semibold text-slate-800 tabular-nums">{fcMaxWorking}</div>
-                    </div>
-                    <div className="text-xs text-slate-400 mb-2">Ceiling for how many terms stay active at once</div>
-                    <input
-                      type="range"
-                      min={fcMinWorking}
-                      max={30}
-                      value={fcMaxWorking}
-                      onChange={(e) => {
-                        const val = parseInt(e.target.value, 10);
-                        setFcMaxWorking(val);
-                      }}
-                      className="w-full accent-slate-800"
-                    />
-                  </div>
+                  <div className="text-xs text-slate-400 mb-3">How many terms stay active in the rotation at once</div>
+                  <DualRangeSlider
+                    min={1}
+                    max={30}
+                    valueMin={fcMinWorking}
+                    valueMax={fcMaxWorking}
+                    onChangeMin={setFcMinWorking}
+                    onChangeMax={setFcMaxWorking}
+                  />
                 </div>
               )}
             </div>

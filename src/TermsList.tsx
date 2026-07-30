@@ -1,28 +1,26 @@
 import { useState, useMemo } from 'react';
-import { ChevronLeft, Search, X } from 'lucide-react';
+import { ChevronLeft, Search, Circle, Triangle } from 'lucide-react';
 import type { Vocabulary } from './dictionary';
 import { AnnotatedReading, AffixWrapper } from './Drills';
 
 export const TermsList = ({
   vocabList,
   stats,
-  skippedTerms,
-  onSkip,
-  onUnskip,
+  masteredTerms,
+  onToggleMastered,
   markedTerms,
   onToggleMark,
   onBack
 }: {
   vocabList: Vocabulary[],
   stats: Record<string, { attempts: number, correct: number }>,
-  skippedTerms: Record<string, boolean>,
-  onSkip: (id: string) => void,
-  onUnskip: (id: string) => void,
+  masteredTerms: Record<string, boolean>,
+  onToggleMastered: (id: string) => void,
   markedTerms: Record<string, boolean>,
   onToggleMark: (id: string) => void,
   onBack: () => void
 }) => {
-  const [sortMode, setSortMode] = useState<'default' | 'skipped'>('default');
+  const [sortMode, setSortMode] = useState<'practicing' | 'mastered' | 'both'>('practicing');
   const [searchQuery, setSearchQuery] = useState('');
 
   const sortedVocab = useMemo(() => {
@@ -37,12 +35,15 @@ export const TermsList = ({
       );
     }
 
-    if (sortMode === 'skipped') {
-      return filtered.filter(v => skippedTerms[v.id]);
+    if (sortMode === 'mastered') {
+      return filtered.filter(v => masteredTerms[v.id]);
+    }
+    if (sortMode === 'practicing') {
+      return filtered.filter(v => !masteredTerms[v.id]);
     }
 
-    return filtered.filter(v => !skippedTerms[v.id]);
-  }, [vocabList, sortMode, skippedTerms, searchQuery]);
+    return filtered;
+  }, [vocabList, sortMode, masteredTerms, searchQuery]);
 
   return (
     <main className="h-[100dvh] overflow-y-auto bg-slate-50 p-6 md:p-12 font-sans text-slate-900 flex justify-center items-start">
@@ -51,28 +52,34 @@ export const TermsList = ({
           <button onClick={onBack} className="text-slate-500 hover:text-slate-800 transition-colors flex items-center font-medium w-fit">
             <ChevronLeft size={20} className="mr-1" /> Back to Menu
           </button>
-          
+
           <div className="flex bg-slate-200/50 p-1 rounded-xl w-fit">
-            <button 
-              onClick={() => setSortMode('default')}
-              className={`px-4 py-1.5 rounded-lg text-sm font-medium transition-colors ${sortMode === 'default' ? 'bg-white shadow-sm text-slate-800' : 'text-slate-500 hover:text-slate-700'}`}
+            <button
+              onClick={() => setSortMode('practicing')}
+              className={`px-4 py-1.5 rounded-lg text-sm font-medium transition-colors ${sortMode === 'practicing' ? 'bg-white shadow-sm text-slate-800' : 'text-slate-500 hover:text-slate-700'}`}
             >
-              Default Order
+              Practicing
             </button>
             <button
-              onClick={() => setSortMode('skipped')}
-              className={`px-4 py-1.5 rounded-lg text-sm font-medium transition-colors ${sortMode === 'skipped' ? 'bg-white shadow-sm text-slate-800' : 'text-slate-500 hover:text-slate-700'}`}
+              onClick={() => setSortMode('mastered')}
+              className={`px-4 py-1.5 rounded-lg text-sm font-medium transition-colors ${sortMode === 'mastered' ? 'bg-white shadow-sm text-slate-800' : 'text-slate-500 hover:text-slate-700'}`}
             >
-              Skipped
+              Mastered
+            </button>
+            <button
+              onClick={() => setSortMode('both')}
+              className={`px-4 py-1.5 rounded-lg text-sm font-medium transition-colors ${sortMode === 'both' ? 'bg-white shadow-sm text-slate-800' : 'text-slate-500 hover:text-slate-700'}`}
+            >
+              Both
             </button>
           </div>
         </div>
 
         <div className="bg-white rounded-2xl border border-slate-200 shadow-sm flex items-center px-4 py-3 mb-8 focus-within:border-slate-400 transition-colors">
           <Search size={18} className="text-slate-400 mr-3" />
-          <input 
-            type="text" 
-            placeholder="Search by term, reading, or meaning..." 
+          <input
+            type="text"
+            placeholder="Search by term, reading, or meaning..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             className="w-full bg-transparent outline-none text-slate-700 placeholder:text-slate-400"
@@ -93,7 +100,7 @@ export const TermsList = ({
               const errRate = ((stat.attempts - stat.correct) + 1) / (stat.attempts + 2);
               const errPercent = Math.round(errRate * 100);
               const isMarked = !!markedTerms[vocab.id];
-              const isSkipped = !!skippedTerms[vocab.id];
+              const isMastered = !!masteredTerms[vocab.id];
 
               return (
                 <div
@@ -116,11 +123,11 @@ export const TermsList = ({
                   </div>
                   <div className="flex justify-end">
                     <button
-                      onClick={(e) => { e.stopPropagation(); if (isSkipped) { onUnskip(vocab.id); } else { onSkip(vocab.id); } }}
-                      title={isSkipped ? 'Unskip' : 'Skip'}
-                      className={`w-7 h-7 flex items-center justify-center rounded-full bg-transparent hover:bg-slate-200/70 transition-colors ${isSkipped ? 'text-slate-800' : 'text-slate-400'}`}
+                      onClick={(e) => { e.stopPropagation(); onToggleMastered(vocab.id); }}
+                      title={isMastered ? 'Mastered — click to mark Practicing' : 'Practicing — click to mark Mastered'}
+                      className={`w-7 h-7 flex items-center justify-center rounded-full bg-transparent hover:bg-slate-200/70 transition-colors ${isMastered ? 'text-slate-800' : 'text-slate-400'}`}
                     >
-                      <X size={14} />
+                      {isMastered ? <Triangle size={14} /> : <Circle size={14} />}
                     </button>
                   </div>
                 </div>

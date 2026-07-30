@@ -46,7 +46,7 @@ export const getMorae = (word: string): string[] => {
 const overlineStyle = { textDecoration: 'overline', textDecorationThickness: '2px', textDecorationColor: 'currentColor' } as const;
 // Scales down the term's base glyphs without affecting furigana <rt> sizing —
 // <rt>'s own em unit is relative to <ruby>'s (unscaled) inherited font-size, not this sibling span.
-const termScaleStyle = { fontSize: '0.8em' } as const;
+const termScaleStyle = { fontSize: '0.7em' } as const;
 
 function renderPitchAccent(reading: string, pitch: number) {
   const morae = getMorae(reading);
@@ -141,7 +141,7 @@ export const AnnotatedTerm = ({ term, reading, pitch, affixType = 'none' }: { te
       content = (
         <ruby>
           <span style={termScaleStyle}>{term}</span>
-          <rt className="text-[0.5em] font-normal text-slate-400">{renderMoraeSlice(morae, 0, pitch, isAccented)}</rt>
+          <rt className="text-[0.5em]">{renderMoraeSlice(morae, 0, pitch, isAccented)}</rt>
         </ruby>
       );
     } else {
@@ -155,7 +155,7 @@ export const AnnotatedTerm = ({ term, reading, pitch, affixType = 'none' }: { te
           return (
             <ruby key={i}>
               <span style={termScaleStyle}>{seg.text}</span>
-              <rt className="text-[0.5em] font-normal text-slate-400">{renderMoraeSlice(segMorae, startIdx, pitch, isAccented)}</rt>
+              <rt className="text-[0.5em]">{renderMoraeSlice(segMorae, startIdx, pitch, isAccented)}</rt>
             </ruby>
           );
         }
@@ -377,7 +377,7 @@ export const ProductionDrill = ({
         <div className="relative inline-flex items-center justify-center">
           <span style={{ fontFamily: '"Noto Serif TC", serif' }}>{prompt}</span>
           {revealed && (
-            <div className="absolute left-full ml-12 top-1/2 -translate-y-1/2 text-4xl font-light text-slate-800 whitespace-nowrap animate-in fade-in flex items-baseline gap-1">
+            <div className="absolute left-full ml-12 top-1/2 -translate-y-1/2 text-5xl font-light text-slate-800 whitespace-nowrap animate-in fade-in flex items-baseline gap-1">
               <AnnotatedTerm term={vocab.term} reading={vocab.reading} pitch={vocab.pitch_accent} affixType={vocab.affix_type} />
             </div>
           )}
