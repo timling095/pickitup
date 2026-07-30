@@ -1,7 +1,8 @@
 import { useState, useMemo } from 'react';
 import { ChevronRight } from 'lucide-react';
-import { DICTIONARY, useVocabulary, applyVerbForm } from './dictionary';
-import { DrillEngine, FlashcardEngine } from './Drills';
+import { DICTIONARY, useVocabulary, applyVerbForm, filterByWordType } from './dictionary';
+import type { WordType } from './dictionary';
+import { DrillEngine, FlashcardEngine, isMastered } from './Drills';
 import type { FcRecord } from './Drills';
 import { TermsList } from './TermsList';
 
@@ -48,13 +49,17 @@ function useLocalStorage<T>(key: string, initialValue: T): [T, (val: T | ((prev:
 const THUMB_HIT = 44;
 const THUMB_HALF = THUMB_HIT / 2;
 
+// iPadOS Safari draws a UA default box-shadow on ::-webkit-slider-thumb (used as its
+// focus/active glow) that survives appearance-none + a transparent background — visible
+// as a stray shadow under our decorative halo since the (invisible) native thumb sits
+// exactly beneath it. shadow-none clears it explicitly; harmless everywhere else.
 const nativeThumbClass =
   "[&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:pointer-events-auto " +
   "[&::-webkit-slider-thumb]:w-[44px] [&::-webkit-slider-thumb]:h-[44px] [&::-webkit-slider-thumb]:rounded-full " +
-  "[&::-webkit-slider-thumb]:border-0 [&::-webkit-slider-thumb]:bg-transparent [&::-webkit-slider-thumb]:cursor-pointer " +
+  "[&::-webkit-slider-thumb]:border-0 [&::-webkit-slider-thumb]:bg-transparent [&::-webkit-slider-thumb]:shadow-none [&::-webkit-slider-thumb]:cursor-pointer " +
   "[&::-moz-range-thumb]:appearance-none [&::-moz-range-thumb]:pointer-events-auto " +
   "[&::-moz-range-thumb]:w-[44px] [&::-moz-range-thumb]:h-[44px] [&::-moz-range-thumb]:rounded-full " +
-  "[&::-moz-range-thumb]:border-0 [&::-moz-range-thumb]:bg-transparent [&::-moz-range-thumb]:cursor-pointer";
+  "[&::-moz-range-thumb]:border-0 [&::-moz-range-thumb]:bg-transparent [&::-moz-range-thumb]:shadow-none [&::-moz-range-thumb]:cursor-pointer";
 
 function DualRangeSlider({
   min, max, valueMin, valueMax, onChangeMin, onChangeMax
@@ -69,7 +74,7 @@ function DualRangeSlider({
   const maxZ = 4;
   const inputStyleBase = { left: `-${THUMB_HALF}px`, right: `-${THUMB_HALF}px` };
   return (
-    <div className="relative w-[92%] mx-auto h-5 flex items-center">
+    <div className="relative w-[96%] mx-auto h-5 flex items-center">
       <div className="absolute left-0 right-0 h-1.5 rounded-full bg-slate-200" />
       <div
         className="absolute h-1.5 rounded-full bg-slate-800"
@@ -84,7 +89,7 @@ function DualRangeSlider({
         max={max}
         value={valueMin}
         onChange={(e) => onChangeMin(Math.min(Number(e.target.value), valueMax - 1))}
-        className={`peer/min absolute h-full appearance-none bg-transparent pointer-events-none outline-none ${nativeThumbClass}`}
+        className={`peer/min absolute h-full appearance-none bg-transparent pointer-events-none outline-none shadow-none ${nativeThumbClass}`}
         style={{ ...inputStyleBase, zIndex: minZ + 10 }}
       />
       <input
@@ -93,7 +98,7 @@ function DualRangeSlider({
         max={max}
         value={valueMax}
         onChange={(e) => onChangeMax(Math.max(Number(e.target.value), valueMin + 1))}
-        className={`peer/max absolute h-full appearance-none bg-transparent pointer-events-none outline-none ${nativeThumbClass}`}
+        className={`peer/max absolute h-full appearance-none bg-transparent pointer-events-none outline-none shadow-none ${nativeThumbClass}`}
         style={{ ...inputStyleBase, zIndex: maxZ + 10 }}
       />
       <div
@@ -126,6 +131,7 @@ export default function App() {
   const [useDicForm, setUseDicForm] = useLocalStorage('nd_useDicForm', false);
   const [allowMouse] = useLocalStorage('nd_allowMouse', false); // Default debug option to true
   const [selectedLessons, setSelectedLessons] = useLocalStorage<Record<string, boolean>>('nd_selectedLessons_v2', { '1': true });
+  const [selectedWordTypes, setSelectedWordTypes] = useLocalStorage<Record<WordType, boolean>>('nd_selectedWordTypes', { verb: true, other: true });
 
   const [stats, setStats] = useLocalStorage<Record<string, { attempts: number, correct: number }>>('nd_stats', {});
   const [markedTerms, setMarkedTerms] = useLocalStorage<Record<string, boolean>>('nd_markedTerms', {});
@@ -135,6 +141,11 @@ export default function App() {
   const [fcMinWorking, setFcMinWorking] = useLocalStorage('nd_fcMinWorking', 5);
   const [fcMaxWorking, setFcMaxWorking] = useLocalStorage('nd_fcMaxWorking', 10);
   const [fcRecords, setFcRecords] = useLocalStorage<Record<string, FcRecord>>('nd_fcRecords', {});
+  // Snapshot of the filters in effect when the active session was started — kept separate
+  // from the live selectedLessons/selectedWordTypes so editing filters from the home
+  // screen mid-session only affects the Terms Viewer, never the in-progress session.
+  const [fcSessionLessons, setFcSessionLessons] = useLocalStorage<Record<string, boolean>>('nd_fcSessionLessons', selectedLessons);
+  const [fcSessionWordTypes, setFcSessionWordTypes] = useLocalStorage<Record<WordType, boolean>>('nd_fcSessionWordTypes', selectedWordTypes);
 
   // Extract unique lesson IDs from DICTIONARY dynamically
   const lessons = useMemo(() => {
@@ -142,9 +153,17 @@ export default function App() {
     return ids.sort((a, b) => parseInt(a, 10) - parseInt(b, 10));
   }, []);
 
-  // Filter vocabulary by selected lesson using the query hook (shared across both modes)
+  // Filter vocabulary by selected lesson + word type using the query hook (shared across both modes)
   const activeVocab = useVocabulary(selectedLessons);
-  const displayVocab = useMemo(() => applyVerbForm(activeVocab, useDicForm), [activeVocab, useDicForm]);
+  const scopedVocab = useMemo(() => filterByWordType(activeVocab, selectedWordTypes), [activeVocab, selectedWordTypes]);
+  const displayVocab = useMemo(() => applyVerbForm(scopedVocab, useDicForm), [scopedVocab, useDicForm]);
+
+  // The active/paused Production session always uses the filters snapshotted at its
+  // start, regardless of what the live filters above are currently set to.
+  const sessionLessonVocab = useVocabulary(fcSessionLessons);
+  const sessionScopedVocab = useMemo(() => filterByWordType(sessionLessonVocab, fcSessionWordTypes), [sessionLessonVocab, fcSessionWordTypes]);
+  const sessionVocab = useMemo(() => applyVerbForm(sessionScopedVocab, useDicForm), [sessionScopedVocab, useDicForm]);
+  const sessionMasteredCount = useMemo(() => sessionVocab.filter(v => isMastered(fcRecords[v.id])).length, [sessionVocab, fcRecords]);
 
   if (appState === 'terms') {
     return (
@@ -164,7 +183,7 @@ export default function App() {
       return (
         <main className="h-[100dvh] overflow-hidden bg-slate-50 p-4 md:p-8 font-sans text-slate-900 flex flex-col w-full max-w-full">
           <FlashcardEngine
-            vocabList={displayVocab}
+            vocabList={sessionVocab}
             minWorking={fcMinWorking}
             maxWorking={fcMaxWorking}
             allowMouse={allowMouse}
@@ -185,10 +204,7 @@ export default function App() {
               setFcActive(false);
               setAppState('menu');
             }}
-            onExit={() => {
-              setFcActive(false);
-              setAppState('menu');
-            }}
+            onExit={() => setAppState('menu')}
           />
         </main>
       );
@@ -243,7 +259,7 @@ export default function App() {
           <div className="hidden md:flex items-center gap-3 mt-6 md:mt-0">
             <button
               onClick={() => setAppState('terms')}
-              disabled={activeVocab.length === 0}
+              disabled={displayVocab.length === 0}
               className="h-11 px-6 bg-white border border-slate-200 text-slate-700 rounded-xl font-medium tracking-wide hover:bg-slate-50 transition-colors disabled:opacity-50 disabled:cursor-not-allowed shadow-sm text-sm"
             >
               View Terms
@@ -252,10 +268,12 @@ export default function App() {
               onClick={() => {
                 if (activeMode === 'production' && !fcActive) {
                   setFcActive(true);
+                  setFcSessionLessons(selectedLessons);
+                  setFcSessionWordTypes(selectedWordTypes);
                 }
                 setAppState('drill');
               }}
-              disabled={activeVocab.length === 0}
+              disabled={(activeMode === 'production' && fcActive) ? false : displayVocab.length === 0}
               className="h-11 px-8 bg-slate-800 text-white rounded-xl font-medium tracking-wide flex items-center justify-center gap-2 hover:bg-slate-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed shadow-sm hover:shadow-md text-sm"
             >
               {(activeMode === 'production' && fcActive) ? 'Resume Session' : 'Start Session'} <ChevronRight size={18} />
@@ -264,7 +282,7 @@ export default function App() {
         </div>
 
         <div className="mb-6 text-center md:text-left text-sm text-slate-500 font-medium">
-          {Object.values(selectedLessons).filter(Boolean).length} Lessons Selected • {activeVocab.length} terms loaded
+          {Object.values(selectedLessons).filter(Boolean).length} Lessons Selected • {displayVocab.length} terms loaded
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-12 gap-8">
@@ -272,20 +290,15 @@ export default function App() {
           {/* Left Column: Lesson Select */}
           <div className="md:col-span-7 space-y-4">
             <div className="bg-white rounded-3xl p-5 shadow-sm border border-slate-100 mb-4 relative overflow-hidden">
+              <h2 className="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-4">Filters</h2>
               {fcActive && (
-                <div className="absolute inset-0 bg-white/80 backdrop-blur-[2px] z-10 flex flex-col items-center justify-center p-6 text-center">
-                  <div className="text-slate-800 font-semibold mb-2">Session in Progress</div>
-                  <div className="text-slate-500 text-sm mb-4">You must complete or discard the active session to change its scope.</div>
-                  <button
-                    onClick={() => setFcActive(false)}
-                    className="px-4 py-2 bg-red-50 text-red-600 rounded-lg font-medium text-sm hover:bg-red-100 transition-colors"
-                  >
-                    Discard Session
-                  </button>
+                <div className="text-xs text-slate-400 mb-4 -mt-2">
+                  A session is in progress — changes here only affect the Terms Viewer until it ends.
                 </div>
               )}
-              <h2 className="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-4">Select Lesson</h2>
-              <div className="grid grid-cols-4 sm:grid-cols-5 gap-2">
+
+              <div className="text-xs font-medium text-slate-500 mb-2">Lessons</div>
+              <div className="grid grid-cols-4 sm:grid-cols-5 gap-2 mb-5">
                 {lessons.map(lessonId => {
                   const isSelected = selectedLessons[lessonId];
                   return (
@@ -303,56 +316,104 @@ export default function App() {
                   );
                 })}
               </div>
+
+              <div className="pt-4 border-t border-slate-100">
+                <div className="text-xs font-medium text-slate-500 mb-2">Word Type</div>
+                <div className="grid grid-cols-2 gap-2">
+                  <button
+                    onClick={() => setSelectedWordTypes(prev => ({ ...prev, verb: !prev.verb }))}
+                    className={`py-2 rounded-xl text-xs font-medium transition-colors ${
+                      selectedWordTypes.verb
+                        ? 'bg-slate-800 text-white shadow-sm'
+                        : 'bg-slate-100 text-slate-600 hover:bg-slate-200'
+                    }`}
+                  >
+                    Verbs
+                  </button>
+                  <button
+                    onClick={() => setSelectedWordTypes(prev => ({ ...prev, other: !prev.other }))}
+                    className={`py-2 rounded-xl text-xs font-medium transition-colors ${
+                      selectedWordTypes.other
+                        ? 'bg-slate-800 text-white shadow-sm'
+                        : 'bg-slate-100 text-slate-600 hover:bg-slate-200'
+                    }`}
+                  >
+                    Others
+                  </button>
+                </div>
+              </div>
             </div>
           </div>
 
-          {/* Right Column: Mode-specific settings */}
+          {/* Right Column: Mode-specific settings, or session status while a session is active */}
           <div className="md:col-span-5">
-            <div className="bg-white rounded-3xl p-5 shadow-sm border border-slate-100">
-              <h2 className="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-4">Settings</h2>
-              <div className="flex items-center justify-between mb-4">
-                <div>
-                  <div className="font-medium text-slate-700">Verb Form: 辞書形</div>
-                  <div className="text-xs text-slate-400">Use dictionary form instead of ます form for verbs</div>
+            {fcActive ? (
+              <div className="bg-white rounded-3xl p-5 shadow-sm border border-slate-100">
+                <h2 className="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-4">Session Status</h2>
+                <div className="mb-5">
+                  <div className="font-medium text-slate-700 mb-1">Production session in progress</div>
+                  <div className="text-xs text-slate-400">
+                    {Object.values(fcSessionLessons).filter(Boolean).length} lessons • {sessionVocab.length} terms in scope
+                  </div>
+                </div>
+                <div className="flex items-center justify-between mb-5">
+                  <div className="text-sm text-slate-500">Progress</div>
+                  <div className="text-sm font-semibold text-slate-800 tabular-nums">{sessionMasteredCount} / {sessionVocab.length} mastered</div>
                 </div>
                 <button
-                  onClick={() => setUseDicForm(!useDicForm)}
-                  className={`w-[38px] h-[19px] rounded-full transition-colors relative flex-shrink-0 ${useDicForm ? 'bg-slate-800' : 'bg-slate-200'}`}
+                  onClick={() => setFcActive(false)}
+                  className="w-full px-4 py-2.5 bg-red-50 text-red-600 rounded-xl font-medium text-sm hover:bg-red-100 transition-colors"
                 >
-                  <div className={`w-4 h-4 bg-white rounded-full absolute top-[1.5px] transition-transform ${useDicForm ? 'translate-x-[20.5px]' : 'translate-x-[1.5px]'}`} />
+                  Discard Session
                 </button>
               </div>
-              {activeMode === 'recognition' ? (
-                <div className="flex items-center justify-between">
+            ) : (
+              <div className="bg-white rounded-3xl p-5 shadow-sm border border-slate-100">
+                <h2 className="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-4">Settings</h2>
+                <div className="flex items-center justify-between mb-4">
                   <div>
-                    <div className="font-medium text-slate-700">Strict Pitch Accent</div>
-                    <div className="text-xs text-slate-400">Require pitch selection before next question</div>
+                    <div className="font-medium text-slate-700">Verb Form: 辞書形</div>
+                    <div className="text-xs text-slate-400">Use dictionary form instead of ます form for verbs</div>
                   </div>
                   <button
-                    onClick={() => setStrictPitch(!strictPitch)}
-                    className={`w-[38px] h-[19px] rounded-full transition-colors relative flex-shrink-0 ${strictPitch ? 'bg-slate-800' : 'bg-slate-200'}`}
+                    onClick={() => setUseDicForm(!useDicForm)}
+                    className={`w-[38px] h-[19px] rounded-full transition-colors relative flex-shrink-0 ${useDicForm ? 'bg-slate-800' : 'bg-slate-200'}`}
                   >
-                    <div className={`w-4 h-4 bg-white rounded-full absolute top-[1.5px] transition-transform ${strictPitch ? 'translate-x-[20.5px]' : 'translate-x-[1.5px]'}`} />
+                    <div className={`w-4 h-4 bg-white rounded-full absolute top-[1.5px] transition-transform ${useDicForm ? 'translate-x-[20.5px]' : 'translate-x-[1.5px]'}`} />
                   </button>
                 </div>
-              ) : (
-                <div className={`${fcActive ? 'opacity-50 pointer-events-none' : ''}`}>
-                  <div className="flex items-center justify-between mb-1">
-                    <div className="font-medium text-slate-700">Working Terms Range</div>
-                    <div className="text-sm font-semibold text-slate-800 tabular-nums">{fcMinWorking}–{fcMaxWorking}</div>
+                {activeMode === 'recognition' ? (
+                  <div className="flex items-center justify-between">
+                    <div>
+                      <div className="font-medium text-slate-700">Strict Pitch Accent</div>
+                      <div className="text-xs text-slate-400">Require pitch selection before next question</div>
+                    </div>
+                    <button
+                      onClick={() => setStrictPitch(!strictPitch)}
+                      className={`w-[38px] h-[19px] rounded-full transition-colors relative flex-shrink-0 ${strictPitch ? 'bg-slate-800' : 'bg-slate-200'}`}
+                    >
+                      <div className={`w-4 h-4 bg-white rounded-full absolute top-[1.5px] transition-transform ${strictPitch ? 'translate-x-[20.5px]' : 'translate-x-[1.5px]'}`} />
+                    </button>
                   </div>
-                  <div className="text-xs text-slate-400 mb-3">How many terms stay active in the rotation at once</div>
-                  <DualRangeSlider
-                    min={1}
-                    max={30}
-                    valueMin={fcMinWorking}
-                    valueMax={fcMaxWorking}
-                    onChangeMin={setFcMinWorking}
-                    onChangeMax={setFcMaxWorking}
-                  />
-                </div>
-              )}
-            </div>
+                ) : (
+                  <div>
+                    <div className="flex items-center justify-between mb-1">
+                      <div className="font-medium text-slate-700">Working Terms Range</div>
+                      <div className="text-sm font-semibold text-slate-800 tabular-nums">{fcMinWorking}–{fcMaxWorking}</div>
+                    </div>
+                    <div className="text-xs text-slate-400 mb-3">How many terms stay active in the rotation at once</div>
+                    <DualRangeSlider
+                      min={1}
+                      max={30}
+                      valueMin={fcMinWorking}
+                      valueMax={fcMaxWorking}
+                      onChangeMin={setFcMinWorking}
+                      onChangeMax={setFcMaxWorking}
+                    />
+                  </div>
+                )}
+              </div>
+            )}
           </div>
 
         </div>
@@ -360,7 +421,7 @@ export default function App() {
         <div className="md:hidden flex flex-col gap-3 mt-8 w-full">
           <button
             onClick={() => setAppState('terms')}
-            disabled={activeVocab.length === 0}
+            disabled={displayVocab.length === 0}
             className="w-full py-4 bg-white border border-slate-200 text-slate-700 rounded-2xl font-medium tracking-wide hover:bg-slate-50 transition-colors disabled:opacity-50 disabled:cursor-not-allowed shadow-sm"
           >
             View Terms
@@ -369,10 +430,12 @@ export default function App() {
             onClick={() => {
               if (activeMode === 'production' && !fcActive) {
                 setFcActive(true);
+                setFcSessionLessons(selectedLessons);
+                setFcSessionWordTypes(selectedWordTypes);
               }
               setAppState('drill');
             }}
-            disabled={activeVocab.length === 0}
+            disabled={(activeMode === 'production' && fcActive) ? false : displayVocab.length === 0}
             className="w-full py-4 bg-slate-800 text-white rounded-2xl font-medium tracking-wide flex items-center justify-center gap-2 hover:bg-slate-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed shadow-sm hover:shadow-md"
           >
             {(activeMode === 'production' && fcActive) ? 'Resume Session' : 'Start Session'} <ChevronRight size={20} />

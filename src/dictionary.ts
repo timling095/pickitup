@@ -25,6 +25,19 @@ export function useVocabulary(selectedLessons: Record<string, boolean>) {
   }, [selectedLessons]);
 }
 
+export type WordType = 'verb' | 'other';
+
+// A term is a verb iff it carries a recorded dictionary (辞書形) form — this
+// mirrors the 詞性 (part of speech) column in the source CSVs exactly (verified
+// 1:1 against every 動詞-tagged row), so no separate pos field is needed.
+export function isVerb(v: Vocabulary): boolean {
+  return v.dic_form !== undefined;
+}
+
+export function filterByWordType(vocabList: Vocabulary[], selectedWordTypes: Record<WordType, boolean>): Vocabulary[] {
+  return vocabList.filter(v => selectedWordTypes[isVerb(v) ? 'verb' : 'other']);
+}
+
 // For verbs with a recorded dictionary (辞書形) form, swaps term/reading/pitch_accent
 // over to it — everything downstream (drills, terms list) reads those three fields
 // generically, so no other code needs to know which form is active.
