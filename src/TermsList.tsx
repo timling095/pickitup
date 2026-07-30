@@ -1,27 +1,30 @@
 import { useState, useMemo } from 'react';
-import { ChevronLeft, Search, Circle, Triangle } from 'lucide-react';
+import { ChevronLeft, Search } from 'lucide-react';
 import type { Vocabulary } from './dictionary';
-import { AnnotatedReading, AffixWrapper } from './Drills';
+import type { FcRecord } from './Drills';
+import { AnnotatedReading, AffixWrapper, isMastered } from './Drills';
 
 export const TermsList = ({
   vocabList,
   stats,
-  masteredTerms,
-  onToggleMastered,
+  mode,
+  fcRecords,
   markedTerms,
   onToggleMark,
   onBack
 }: {
   vocabList: Vocabulary[],
   stats: Record<string, { attempts: number, correct: number }>,
-  masteredTerms: Record<string, boolean>,
-  onToggleMastered: (id: string) => void,
+  mode: 'production' | 'recognition',
+  fcRecords: Record<string, FcRecord>,
   markedTerms: Record<string, boolean>,
   onToggleMark: (id: string) => void,
   onBack: () => void
 }) => {
-  const [sortMode, setSortMode] = useState<'practicing' | 'mastered' | 'both'>('practicing');
+  const [sortMode, setSortMode] = useState<'all' | 'practicing'>('practicing');
   const [searchQuery, setSearchQuery] = useState('');
+
+  const showTabs = mode === 'production';
 
   const sortedVocab = useMemo(() => {
     let filtered = vocabList;
@@ -35,15 +38,12 @@ export const TermsList = ({
       );
     }
 
-    if (sortMode === 'mastered') {
-      return filtered.filter(v => masteredTerms[v.id]);
-    }
-    if (sortMode === 'practicing') {
-      return filtered.filter(v => !masteredTerms[v.id]);
+    if (showTabs && sortMode === 'practicing') {
+      return filtered.filter(v => !isMastered(fcRecords[v.id]));
     }
 
     return filtered;
-  }, [vocabList, sortMode, masteredTerms, searchQuery]);
+  }, [vocabList, showTabs, sortMode, fcRecords, searchQuery]);
 
   return (
     <main className="h-[100dvh] overflow-y-auto bg-slate-50 p-6 md:p-12 font-sans text-slate-900 flex justify-center items-start">
@@ -53,26 +53,22 @@ export const TermsList = ({
             <ChevronLeft size={20} className="mr-1" /> Back to Menu
           </button>
 
-          <div className="flex bg-slate-200/50 p-1 rounded-xl w-fit">
-            <button
-              onClick={() => setSortMode('practicing')}
-              className={`px-4 py-1.5 rounded-lg text-sm font-medium transition-colors ${sortMode === 'practicing' ? 'bg-white shadow-sm text-slate-800' : 'text-slate-500 hover:text-slate-700'}`}
-            >
-              Practicing
-            </button>
-            <button
-              onClick={() => setSortMode('mastered')}
-              className={`px-4 py-1.5 rounded-lg text-sm font-medium transition-colors ${sortMode === 'mastered' ? 'bg-white shadow-sm text-slate-800' : 'text-slate-500 hover:text-slate-700'}`}
-            >
-              Mastered
-            </button>
-            <button
-              onClick={() => setSortMode('both')}
-              className={`px-4 py-1.5 rounded-lg text-sm font-medium transition-colors ${sortMode === 'both' ? 'bg-white shadow-sm text-slate-800' : 'text-slate-500 hover:text-slate-700'}`}
-            >
-              Both
-            </button>
-          </div>
+          {showTabs && (
+            <div className="flex bg-slate-200/50 p-1 rounded-xl w-fit">
+              <button
+                onClick={() => setSortMode('all')}
+                className={`px-4 py-1.5 rounded-lg text-sm font-medium transition-colors ${sortMode === 'all' ? 'bg-white shadow-sm text-slate-800' : 'text-slate-500 hover:text-slate-700'}`}
+              >
+                All
+              </button>
+              <button
+                onClick={() => setSortMode('practicing')}
+                className={`px-4 py-1.5 rounded-lg text-sm font-medium transition-colors ${sortMode === 'practicing' ? 'bg-white shadow-sm text-slate-800' : 'text-slate-500 hover:text-slate-700'}`}
+              >
+                Practicing
+              </button>
+            </div>
+          )}
         </div>
 
         <div className="bg-white rounded-2xl border border-slate-200 shadow-sm flex items-center px-4 py-3 mb-8 focus-within:border-slate-400 transition-colors">
@@ -87,12 +83,11 @@ export const TermsList = ({
         </div>
 
         <div className="bg-white rounded-2xl border border-slate-100 shadow-sm overflow-hidden mb-12">
-          <div className="grid grid-cols-[160px_180px_1fr_64px_40px] gap-4 px-4 py-2 text-[10px] font-bold uppercase tracking-wider text-slate-400 border-b border-slate-100">
+          <div className="grid grid-cols-[160px_180px_1fr_64px] gap-4 px-4 py-2 text-[10px] font-bold uppercase tracking-wider text-slate-400 border-b border-slate-100">
             <div>Term</div>
             <div>Reading</div>
             <div>Meaning</div>
             <div className="text-right">Error</div>
-            <div></div>
           </div>
           <div className="divide-y divide-slate-100">
             {sortedVocab.map((vocab, i) => {
@@ -100,19 +95,18 @@ export const TermsList = ({
               const errRate = ((stat.attempts - stat.correct) + 1) / (stat.attempts + 2);
               const errPercent = Math.round(errRate * 100);
               const isMarked = !!markedTerms[vocab.id];
-              const isMastered = !!masteredTerms[vocab.id];
 
               return (
                 <div
                   key={`${vocab.id}-${i}`}
                   onClick={() => onToggleMark(vocab.id)}
-                  className="grid grid-cols-[160px_180px_1fr_64px_40px] items-center gap-4 px-4 py-2 transition-colors cursor-pointer hover:bg-slate-50"
+                  className="grid grid-cols-[160px_180px_1fr_64px] items-center gap-4 px-4 py-2 transition-colors cursor-pointer hover:bg-slate-50"
                   style={{ backgroundColor: isMarked ? '#FCE4EC' : undefined }}
                 >
                   <div className="text-base text-slate-800 flex items-center truncate" title={vocab.term}>
                     <AffixWrapper term={vocab.term} affixType={vocab.affix_type} mode="inline" />
                   </div>
-                  <div className="text-sm text-slate-500 truncate">
+                  <div className="text-sm text-slate-800 truncate">
                     <AnnotatedReading reading={vocab.reading} pitch={vocab.pitch_accent} affixType={vocab.affix_type} />
                   </div>
                   <div className="text-sm text-slate-600 truncate" style={{ fontFamily: '"Noto Serif TC", serif' }} title={vocab.definition}>
@@ -120,15 +114,6 @@ export const TermsList = ({
                   </div>
                   <div className={`text-sm text-right font-medium ${errPercent > 50 ? '' : 'text-slate-400'}`} style={errPercent > 50 ? { color: '#E91E63' } : undefined}>
                     {errPercent}%
-                  </div>
-                  <div className="flex justify-end">
-                    <button
-                      onClick={(e) => { e.stopPropagation(); onToggleMastered(vocab.id); }}
-                      title={isMastered ? 'Mastered — click to mark Practicing' : 'Practicing — click to mark Mastered'}
-                      className={`w-7 h-7 flex items-center justify-center rounded-full bg-transparent hover:bg-slate-200/70 transition-colors ${isMastered ? 'text-slate-800' : 'text-slate-400'}`}
-                    >
-                      {isMastered ? <Triangle size={14} /> : <Circle size={14} />}
-                    </button>
                   </div>
                 </div>
               );

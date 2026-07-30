@@ -141,7 +141,7 @@ export const AnnotatedTerm = ({ term, reading, pitch, affixType = 'none' }: { te
       content = (
         <ruby>
           <span style={termScaleStyle}>{term}</span>
-          <rt className="text-[0.5em]">{renderMoraeSlice(morae, 0, pitch, isAccented)}</rt>
+          <rt className="text-[0.4em] leading-none" style={{ marginBottom: '0.2em' }}>{renderMoraeSlice(morae, 0, pitch, isAccented)}</rt>
         </ruby>
       );
     } else {
@@ -155,7 +155,7 @@ export const AnnotatedTerm = ({ term, reading, pitch, affixType = 'none' }: { te
           return (
             <ruby key={i}>
               <span style={termScaleStyle}>{seg.text}</span>
-              <rt className="text-[0.5em]">{renderMoraeSlice(segMorae, startIdx, pitch, isAccented)}</rt>
+              <rt className="text-[0.4em] leading-none" style={{ marginBottom: '0.2em' }}>{renderMoraeSlice(segMorae, startIdx, pitch, isAccented)}</rt>
             </ruby>
           );
         }
@@ -372,48 +372,49 @@ export const ProductionDrill = ({
   }, [vocab]);
 
   return (
-    <div className="flex flex-col items-center w-full max-w-none select-none">
-      <div className="text-5xl font-light text-slate-800 mb-12 tracking-wide text-center flex flex-col items-center gap-4 select-none touch-none">
-        <div className="relative inline-flex items-center justify-center">
-          <span style={{ fontFamily: '"Noto Serif TC", serif' }}>{prompt}</span>
-          {revealed && (
-            <div className="absolute left-full ml-12 top-1/2 -translate-y-1/2 text-5xl font-light text-slate-800 whitespace-nowrap animate-in fade-in flex items-baseline gap-1">
-              <AnnotatedTerm term={vocab.term} reading={vocab.reading} pitch={vocab.pitch_accent} affixType={vocab.affix_type} />
-            </div>
-          )}
+    <div className="flex flex-col items-center w-full h-full max-w-none select-none">
+      <div className="flex-1 flex flex-col items-center justify-center w-full min-h-0">
+        <div className="text-5xl font-light text-slate-800 mb-12 tracking-wide text-center flex flex-col items-center gap-4 select-none touch-none">
+          <div className="relative inline-flex items-center justify-center">
+            <span style={{ fontFamily: '"Noto Serif TC", serif' }}>{prompt}</span>
+            {revealed && (
+              <div className="absolute left-full ml-12 top-1/2 -translate-y-1/2 text-5xl font-light text-slate-800 whitespace-nowrap animate-in fade-in flex items-baseline gap-1">
+                <AnnotatedTerm term={vocab.term} reading={vocab.reading} pitch={vocab.pitch_accent} affixType={vocab.affix_type} />
+              </div>
+            )}
+          </div>
+        </div>
+
+        <div className="flex items-center justify-center w-full">
+          <DrawingCanvas promptText={canvasPrompt} allowMouse={allowMouse}>
+            {vocab.affix_type === 'prefix' && (
+              <div className="absolute right-8 top-1/2 -translate-y-1/2 pointer-events-none">
+                <AffixWrapper term={vocab.term} affixType="prefix" mode="framing" />
+              </div>
+            )}
+            {vocab.affix_type === 'suffix' && (
+              <div className="absolute left-8 top-1/2 -translate-y-1/2 pointer-events-none">
+                <AffixWrapper term={vocab.term} affixType="suffix" mode="framing" />
+              </div>
+            )}
+          </DrawingCanvas>
         </div>
       </div>
 
-      <div className="flex items-center justify-center w-full mb-8">
-        <DrawingCanvas promptText={canvasPrompt} allowMouse={allowMouse}>
-          {vocab.affix_type === 'prefix' && (
-            <div className="absolute right-8 top-1/2 -translate-y-1/2 pointer-events-none">
-              <AffixWrapper term={vocab.term} affixType="prefix" mode="framing" />
-            </div>
-          )}
-          {vocab.affix_type === 'suffix' && (
-            <div className="absolute left-8 top-1/2 -translate-y-1/2 pointer-events-none">
-              <AffixWrapper term={vocab.term} affixType="suffix" mode="framing" />
-            </div>
-          )}
-        </DrawingCanvas>
-      </div>
-
-      {!revealed ? (
-        <button
-          onPointerDown={(e) => {
-            if (e.pointerType === 'pen' || allowMouse) {
-              setRevealed(true);
-            }
-          }}
-          className="w-[80%] py-4 bg-slate-800 text-white rounded-xl font-medium tracking-wide hover:bg-slate-700 transition-colors shadow-sm select-none touch-none"
-        >
-          Reveal Answer
-        </button>
-      ) : (
-        <div className="w-[80%] animate-in fade-in slide-in-from-bottom-4 duration-300">
-
-          <div className="grid grid-cols-2 gap-4">
+      <div className="w-[80%] pb-4">
+        {!revealed ? (
+          <button
+            onPointerDown={(e) => {
+              if (e.pointerType === 'pen' || allowMouse) {
+                setRevealed(true);
+              }
+            }}
+            className="w-full py-4 bg-slate-800 text-white rounded-xl font-medium tracking-wide hover:bg-slate-700 transition-colors shadow-sm select-none touch-none"
+          >
+            Reveal Answer
+          </button>
+        ) : (
+          <div className="grid grid-cols-2 gap-4 animate-in fade-in slide-in-from-bottom-4 duration-300">
             <button
               onPointerDown={(e) => {
                 if (!canEvaluate) return;
@@ -435,8 +436,8 @@ export const ProductionDrill = ({
               <Check size={20} /> Correct
             </button>
           </div>
-        </div>
-      )}
+        )}
+      </div>
     </div>
   );
 };
@@ -452,14 +453,12 @@ export const DrillEngine = ({
   strictPitch,
   stats,
   onUpdateStats,
-  onSkip,
   onExit
 }: {
   vocabList: Vocabulary[],
   strictPitch: boolean,
   stats: Record<string, { attempts: number, correct: number }>,
   onUpdateStats: (id: string, correct: boolean) => void,
-  onSkip: (id: string) => void,
   onExit: () => void
 }) => {
   const [queue, setQueue] = useState<{vocab: Vocabulary, mode: 'reading-meaning' | 'meaning-reading-rec'}[]>([]);
@@ -507,15 +506,6 @@ export const DrillEngine = ({
     }
   };
 
-  const handleSkip = () => {
-    onSkip(queue[currentIndex].vocab.id);
-    if (currentIndex < queue.length - 1) {
-      setCurrentIndex(prev => prev + 1);
-    } else {
-      setIsFinished(true);
-    }
-  };
-
   if (queue.length === 0) return null;
 
   if (isFinished) {
@@ -537,14 +527,13 @@ export const DrillEngine = ({
 
   return (
     <div className="w-full h-full flex flex-col">
-      <div className="flex items-center justify-between mb-12 select-none">
-        <button onClick={onExit} className="text-sm text-slate-400 hover:text-slate-600">Cancel Drill</button>
+      <div className="relative flex items-center justify-center mb-12 select-none">
+        <button onClick={onExit} className="absolute left-0 text-sm text-slate-400 hover:text-slate-600">Cancel Drill</button>
         <div className="flex gap-1">
           {queue.map((_, i) => (
             <div key={i} className={`h-1.5 rounded-full transition-all ${i < currentIndex ? 'bg-slate-800 w-4' : i === currentIndex ? 'bg-slate-400 w-4' : 'bg-slate-200 w-2'}`} />
           ))}
         </div>
-        <button onClick={handleSkip} className="text-sm text-slate-400 hover:text-slate-600">Skip Term</button>
       </div>
 
       <div className="flex-1 flex items-center justify-center">
@@ -612,7 +601,6 @@ export const FlashcardEngine = ({
   allowMouse,
   fcRecords,
   onUpdateFcRecord,
-  onSkip,
   onComplete,
   onExit
 }: {
@@ -622,7 +610,6 @@ export const FlashcardEngine = ({
   allowMouse: boolean,
   fcRecords: Record<string, FcRecord>,
   onUpdateFcRecord: (id: string, correct: boolean) => void,
-  onSkip: (id: string) => void,
   onComplete: () => void,
   onExit: () => void
 }) => {
@@ -673,16 +660,6 @@ export const FlashcardEngine = ({
     }
   };
 
-  const handleSkip = () => {
-    const currentId = workingIds[0];
-    onSkip(currentId);
-    const withoutCurrent = workingIds.slice(1);
-    const remainingVocab = vocabList.filter(v => v.id !== currentId);
-    const { next, nextPermanent } = buildRefill(withoutCurrent, permanentIds, masteredIds, minWorking, maxWorking, remainingVocab);
-    setWorkingIds(next);
-    setPermanentIds(nextPermanent);
-  };
-
   if (isFinished) {
     return (
       <div className="flex flex-col items-center justify-center h-full text-center fade-in">
@@ -706,13 +683,12 @@ export const FlashcardEngine = ({
 
   return (
     <div className="w-full h-full flex flex-col">
-      <div className="flex items-center justify-between mb-12 select-none">
-        <button onClick={onExit} className="text-sm text-slate-400 hover:text-slate-600">Exit Session</button>
+      <div className="relative flex items-center justify-center mb-12 select-none">
+        <button onClick={onExit} className="absolute left-0 text-sm text-slate-400 hover:text-slate-600">Exit Session</button>
         <div className="text-sm font-medium text-slate-400">{masteredIds.size} / {vocabList.length} mastered</div>
-        <button onClick={handleSkip} className="text-sm text-slate-400 hover:text-slate-600">Skip Term</button>
       </div>
 
-      <div className="flex-1 flex items-center justify-center">
+      <div className="flex-1 flex justify-center min-h-0">
         <ProductionDrill
           key={`${currentItem.id}-${drillKey}`}
           vocab={currentItem}

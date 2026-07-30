@@ -22,7 +22,7 @@ src/
 ├── dictionary.ts                    # The Data Domain: Vocabulary type, database load, and the useVocabulary filtering hook.
 ├── Canvas.tsx                       # The Hardware Domain: Isolated Apple Pencil and pointer-event writing canvas.
 ├── Drills.tsx                       # The Core Engine: Furigana/pitch rendering, Recognition/Production drills, DrillEngine, and FlashcardEngine.
-├── TermsList.tsx                    # The Terms Viewer: Searchable, spreadsheet-style vocabulary browser with mark/skip controls.
+├── TermsList.tsx                    # The Terms Viewer: Searchable, spreadsheet-style vocabulary browser with a marking control.
 ├── App.tsx                          # The Shell: Global settings, localStorage persistence, and the menu/drill/terms router.
 ├── main.tsx                         # React application entry point.
 ├── index.css                        # Global stylesheet importing Tailwind CSS v4.0.
@@ -48,7 +48,7 @@ interface Vocabulary {
 }
 ```
 
-* **State Management:** This file is intentionally stateless and has no `localStorage` involvement. Statistics, skip/mark lists, and all other settings live in `App.tsx` (see 2.4), built on a shared generic `useLocalStorage` hook.
+* **State Management:** This file is intentionally stateless and has no `localStorage` involvement. Statistics, the marked-terms list, and all other settings live in `App.tsx` (see 2.4), built on a shared generic `useLocalStorage` hook.
 * The raw CSVs under `src/assets/` are historical source snapshots only — the running app never reads them. New vocabulary is merged into `processed_vocabulary.json` by hand/one-off script when a new CSV batch arrives.
 
 ### 2.2 The Hardware Domain (`src/Canvas.tsx`)
@@ -77,7 +77,7 @@ Bundles rendering helpers and both drill/session engines:
 * `<DrillEngine>`: Powers Reading Recognition sessions.
   * **Session Length:** Builds a fixed 15-question queue per session. There is no recursive "mistakes queue" — errors are deferred entirely to the global `stats` dictionary for future weighted selection.
   * **Weighted Selection:** Computes the **Laplace-smoothed correctness rate** `(correct + 1) / (attempts + 2)` for every in-scope term. Terms in the lowest 50% tier of these rates get a **3x probability weight** over the remaining 50% when the 15-question queue is drawn.
-  * **Progress UI:** A centered dot progress bar (no numeric counter); "Cancel Drill" and "Skip Term" sit on either side of it.
+  * **Progress UI:** A centered dot progress bar (no numeric counter), with "Cancel Drill" pinned to the left.
 
 * `<FlashcardEngine>`: Powers Production sessions. No fixed session length and no weighted selection — instead it maintains a rotating **working set** bounded by `[minWorking, maxWorking]`:
   * On each refill, it tops the working set up to `maxWorking` with shuffled, not-yet-mastered terms; if the pool of fresh terms can't reach `minWorking`, it backfills with already-mastered terms (marked "permanent" so they don't get remastered, just recycled to keep the rotation full).
@@ -88,15 +88,15 @@ Bundles rendering helpers and both drill/session engines:
 
 Coordinates top-level state and routes between the menu screen, the Terms Viewer, and an active drill session (`appState: 'menu' | 'drill' | 'terms'`). It defines a generic `useLocalStorage<T>` hook that every piece of persisted state below is built on top of.
 
-* **Mode Toggle:** A single Production / Reading Recognition switch (`activeMode`) drives which engine `appState === 'drill'` renders. Both modes share one lesson scope (`selectedLessons`) and one skip list (`skippedTerms`) — there is no independent per-mode scope.
+* **Mode Toggle:** A single Production / Reading Recognition switch (`activeMode`) drives which engine `appState === 'drill'` renders. Both modes share one lesson scope (`selectedLessons`) — there is no independent per-mode scope, and no term can be permanently hidden from within the app (editing `processed_vocabulary.json` directly is the intended way to drop a term for good).
 * **Settings Panel:** Mode-dependent, shown alongside lesson selection:
   * *Reading Recognition:* a **Strict Pitch Accent** toggle (require pitch selection before advancing — currently informational only, not session-blocking).
   * *Production:* **Min/Max Working Terms** sliders (1–30, min ≤ max is enforced by clamping the other slider) controlling the Flashcard rotation size described above.
 * **Scope Lock:** Whenever a Flashcard session is in progress (`fcActive`), the lesson-select panel is covered by a blocking "Session in Progress" overlay with a "Discard Session" escape hatch — this lock applies regardless of which mode tab is currently displayed, since both modes share the same `selectedLessons` state and changing it mid-session would leave the Flashcard working set referencing terms that are no longer in scope.
-* **Terms Viewer (`src/TermsList.tsx`):** A spreadsheet-style grid (Term / Reading / Meaning / Error% / skip button) over the active lesson scope, live-searchable by term/reading/meaning, with a Default/Skipped view toggle.
+* **Terms Viewer (`src/TermsList.tsx`):** A spreadsheet-style grid (Term / Reading / Meaning / Error%) over the active lesson scope, live-searchable by term/reading/meaning.
   * **Marking:** Clicking anywhere on a row toggles a "marked" highlight (`#FCE4EC` background) — a lightweight, private way to flag terms for attention with no effect on drill selection.
-  * **Skip/Unskip:** A dedicated circular ✕ button (transparent background, event-isolated from the row's mark-toggle click) skips a term out of both drill engines' pools; skipped terms surface in the "Skipped" view for unskipping.
-* **Persistence:** Active mode, selected lessons, both settings panels' values, the skip list, marked terms, the Flashcard working-set bounds and per-term `fcRecords`, and the global Recognition `stats` dictionary are all persisted across sessions/reloads via `localStorage`.
+  * **Practicing View (Production only):** A second tab, "Practicing", filters the grid down to terms that aren't yet mastered (derived live from `fcRecords`/`isMastered`, the same session-mastery data the Flashcard engine itself tracks — there's no separate manual mastery toggle). Reading Recognition has no mastery concept, so its Terms Viewer shows a single unfiltered list with no tabs.
+* **Persistence:** Active mode, selected lessons, both settings panels' values, marked terms, the Flashcard working-set bounds and per-term `fcRecords`, and the global Recognition `stats` dictionary are all persisted across sessions/reloads via `localStorage`.
 
 ---
 

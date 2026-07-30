@@ -83,7 +83,6 @@ export default function App() {
   const [selectedLessons, setSelectedLessons] = useLocalStorage<Record<string, boolean>>('nd_selectedLessons_v2', { '1': true });
 
   const [stats, setStats] = useLocalStorage<Record<string, { attempts: number, correct: number }>>('nd_stats', {});
-  const [masteredTerms, setMasteredTerms] = useLocalStorage<Record<string, boolean>>('nd_masteredTerms', {});
   const [markedTerms, setMarkedTerms] = useLocalStorage<Record<string, boolean>>('nd_markedTerms', {});
 
   // Production (Flashcards) state
@@ -106,8 +105,8 @@ export default function App() {
       <TermsList
         vocabList={activeVocab}
         stats={stats}
-        masteredTerms={masteredTerms}
-        onToggleMastered={(id) => setMasteredTerms(prev => ({ ...prev, [id]: !prev[id] }))}
+        mode={activeMode}
+        fcRecords={fcRecords}
         markedTerms={markedTerms}
         onToggleMark={(id) => setMarkedTerms(prev => ({ ...prev, [id]: !prev[id] }))}
         onBack={() => setAppState('menu')}
@@ -120,7 +119,7 @@ export default function App() {
       return (
         <main className="h-[100dvh] overflow-hidden bg-slate-50 p-4 md:p-8 font-sans text-slate-900 flex flex-col w-full max-w-full">
           <FlashcardEngine
-            vocabList={activeVocab.filter(v => !masteredTerms[v.id])}
+            vocabList={activeVocab}
             minWorking={fcMinWorking}
             maxWorking={fcMaxWorking}
             allowMouse={allowMouse}
@@ -137,7 +136,6 @@ export default function App() {
                 };
               });
             }}
-            onSkip={(id) => setMasteredTerms(prev => ({ ...prev, [id]: true }))}
             onComplete={() => {
               setFcActive(false);
               setAppState('menu');
@@ -154,7 +152,7 @@ export default function App() {
     return (
       <main className="h-[100dvh] overflow-hidden bg-slate-50 p-4 md:p-8 font-sans text-slate-900 flex flex-col w-full max-w-full">
         <DrillEngine
-          vocabList={activeVocab.filter(v => !masteredTerms[v.id])}
+          vocabList={activeVocab}
           strictPitch={strictPitch}
           stats={stats}
           onUpdateStats={(id, correct) => {
@@ -169,7 +167,6 @@ export default function App() {
               };
             });
           }}
-          onSkip={(id) => setMasteredTerms(prev => ({ ...prev, [id]: true }))}
           onExit={() => setAppState('menu')}
         />
       </main>
