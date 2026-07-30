@@ -6,7 +6,6 @@ import { AnnotatedReading, AffixWrapper, isMastered } from './Drills';
 
 export const TermsList = ({
   vocabList,
-  stats,
   mode,
   fcRecords,
   markedTerms,
@@ -14,7 +13,6 @@ export const TermsList = ({
   onBack
 }: {
   vocabList: Vocabulary[],
-  stats: Record<string, { attempts: number, correct: number }>,
   mode: 'production' | 'recognition',
   fcRecords: Record<string, FcRecord>,
   markedTerms: Record<string, boolean>,
@@ -83,24 +81,20 @@ export const TermsList = ({
         </div>
 
         <div className="bg-white rounded-2xl border border-slate-100 shadow-sm overflow-hidden mb-12">
-          <div className="grid grid-cols-[160px_180px_1fr_64px] gap-4 px-4 py-2 text-[10px] font-bold uppercase tracking-wider text-slate-400 border-b border-slate-100">
+          <div className="grid grid-cols-3 gap-4 px-4 py-2 text-[10px] font-bold uppercase tracking-wider text-slate-400 border-b border-slate-100">
             <div>Term</div>
             <div>Reading</div>
             <div>Meaning</div>
-            <div className="text-right">Error</div>
           </div>
           <div className="divide-y divide-slate-100">
             {sortedVocab.map((vocab, i) => {
-              const stat = stats[vocab.id] || { attempts: 0, correct: 0 };
-              const errRate = ((stat.attempts - stat.correct) + 1) / (stat.attempts + 2);
-              const errPercent = Math.round(errRate * 100);
               const isMarked = !!markedTerms[vocab.id];
 
               return (
                 <div
                   key={`${vocab.id}-${i}`}
                   onClick={() => onToggleMark(vocab.id)}
-                  className="grid grid-cols-[160px_180px_1fr_64px] items-center gap-4 px-4 py-2 transition-colors cursor-pointer hover:bg-slate-50"
+                  className="grid grid-cols-3 items-center gap-4 px-4 py-2 transition-colors cursor-pointer hover:bg-slate-50"
                   style={{ backgroundColor: isMarked ? '#FCE4EC' : undefined }}
                 >
                   <div className="text-base text-slate-800 flex items-center truncate" title={vocab.term}>
@@ -109,11 +103,8 @@ export const TermsList = ({
                   <div className="text-sm text-slate-800 truncate">
                     <AnnotatedReading reading={vocab.reading} pitch={vocab.pitch_accent} affixType={vocab.affix_type} />
                   </div>
-                  <div className="text-sm text-slate-600 truncate" style={{ fontFamily: '"Noto Serif TC", serif' }} title={vocab.definition}>
+                  <div className="text-sm text-slate-800 truncate" style={{ fontFamily: '"Noto Serif TC", serif' }} title={vocab.definition}>
                     {vocab.definition}
-                  </div>
-                  <div className={`text-sm text-right font-medium ${errPercent > 50 ? '' : 'text-slate-400'}`} style={errPercent > 50 ? { color: '#E91E63' } : undefined}>
-                    {errPercent}%
                   </div>
                 </div>
               );

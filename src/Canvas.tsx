@@ -4,10 +4,11 @@ import { RefreshCw } from 'lucide-react';
 interface DrawingCanvasProps {
   promptText?: string;
   allowMouse?: boolean;
+  disabled?: boolean;
   children?: React.ReactNode;
 }
 
-export const DrawingCanvas = ({ promptText = "Draw Here", allowMouse = false, children }: DrawingCanvasProps) => {
+export const DrawingCanvas = ({ promptText = "Draw Here", allowMouse = false, disabled = false, children }: DrawingCanvasProps) => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const [isDrawing, setIsDrawing] = useState(false);
   // We use this ref to track if we've calibrated the canvas dimensions yet
@@ -82,7 +83,7 @@ export const DrawingCanvas = ({ promptText = "Draw Here", allowMouse = false, ch
   }, []);
 
   return (
-    <div className="relative w-[80%] mx-auto aspect-[4/3.75] max-h-[41vh] bg-white rounded-2xl border border-slate-200 overflow-hidden shadow-sm select-none">
+    <div className={`relative w-[80%] mx-auto aspect-[4/3.75] max-h-[41vh] bg-white rounded-2xl border border-slate-200 overflow-hidden shadow-sm select-none ${disabled ? 'pointer-events-none' : ''}`}>
       <div className="absolute top-4 left-4 text-xs font-medium text-slate-300 uppercase tracking-widest pointer-events-none">
         {promptText}
       </div>

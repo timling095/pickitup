@@ -353,6 +353,8 @@ export const ProductionDrill = ({
 }) => {
   const [revealed, setRevealed] = useState(false);
   const [canEvaluate, setCanEvaluate] = useState(false);
+  const [correcting, setCorrecting] = useState(false);
+  const [canProceed, setCanProceed] = useState(false);
 
   useEffect(() => {
     if (revealed) {
@@ -363,11 +365,21 @@ export const ProductionDrill = ({
     }
   }, [revealed]);
 
+  useEffect(() => {
+    if (correcting) {
+      const timer = setTimeout(() => setCanProceed(true), 400);
+      return () => clearTimeout(timer);
+    } else {
+      setCanProceed(false);
+    }
+  }, [correcting]);
+
   const prompt = vocab.definition;
   const canvasPrompt = 'Write the Term';
 
   useEffect(() => {
     setRevealed(false);
+    setCorrecting(false);
     if ((window as any).__clearCanvas) (window as any).__clearCanvas();
   }, [vocab]);
 
@@ -386,7 +398,7 @@ export const ProductionDrill = ({
         </div>
 
         <div className="flex items-center justify-center w-full">
-          <DrawingCanvas promptText={canvasPrompt} allowMouse={allowMouse}>
+          <DrawingCanvas promptText={canvasPrompt} allowMouse={allowMouse} disabled={revealed && !correcting}>
             {vocab.affix_type === 'prefix' && (
               <div className="absolute right-8 top-1/2 -translate-y-1/2 pointer-events-none">
                 <AffixWrapper term={vocab.term} affixType="prefix" mode="framing" />
@@ -413,12 +425,23 @@ export const ProductionDrill = ({
           >
             Reveal Answer
           </button>
+        ) : correcting ? (
+          <button
+            onPointerDown={(e) => {
+              if (!canProceed) return;
+              if (e.pointerType === 'pen' || allowMouse) onComplete(false);
+            }}
+            disabled={!canProceed}
+            className="w-full py-4 bg-slate-800 text-white rounded-xl font-medium tracking-wide hover:bg-slate-700 transition-colors shadow-sm select-none touch-none disabled:opacity-50 disabled:cursor-not-allowed animate-in fade-in slide-in-from-bottom-4 duration-300"
+          >
+            Proceed
+          </button>
         ) : (
           <div className="grid grid-cols-2 gap-4 animate-in fade-in slide-in-from-bottom-4 duration-300">
             <button
               onPointerDown={(e) => {
                 if (!canEvaluate) return;
-                if (e.pointerType === 'pen' || allowMouse) onComplete(false);
+                if (e.pointerType === 'pen' || allowMouse) setCorrecting(true);
               }}
               disabled={!canEvaluate}
               className="flex items-center justify-center gap-2 py-4 bg-white border-2 border-red-100 text-red-600 rounded-xl hover:bg-red-50 transition-colors font-medium select-none touch-none disabled:opacity-50 disabled:cursor-not-allowed"
@@ -527,8 +550,8 @@ export const DrillEngine = ({
 
   return (
     <div className="w-full h-full flex flex-col">
-      <div className="relative flex items-center justify-center mb-12 select-none">
-        <button onClick={onExit} className="absolute left-0 text-sm text-slate-400 hover:text-slate-600">Cancel Drill</button>
+      <div className="flex items-center justify-between mb-12 select-none">
+        <button onClick={onExit} className="text-sm text-slate-400 hover:text-slate-600">Cancel Drill</button>
         <div className="flex gap-1">
           {queue.map((_, i) => (
             <div key={i} className={`h-1.5 rounded-full transition-all ${i < currentIndex ? 'bg-slate-800 w-4' : i === currentIndex ? 'bg-slate-400 w-4' : 'bg-slate-200 w-2'}`} />
@@ -640,6 +663,16 @@ export const FlashcardEngine = ({
     const currentId = workingIds[0];
 
     if (permanentIds.has(currentId)) {
+      if (correct) {
+        setWorkingIds([...workingIds.slice(1), currentId]);
+        return;
+      }
+      // Wrong answer on a backfilled "mastered" term: un-master it via the normal
+      // streak-reset path instead of silently recycling it forever.
+      const nextPermanentIds = new Set(permanentIds);
+      nextPermanentIds.delete(currentId);
+      setPermanentIds(nextPermanentIds);
+      onUpdateFcRecord(currentId, false);
       setWorkingIds([...workingIds.slice(1), currentId]);
       return;
     }
@@ -683,8 +716,8 @@ export const FlashcardEngine = ({
 
   return (
     <div className="w-full h-full flex flex-col">
-      <div className="relative flex items-center justify-center mb-12 select-none">
-        <button onClick={onExit} className="absolute left-0 text-sm text-slate-400 hover:text-slate-600">Exit Session</button>
+      <div className="flex items-center justify-between mb-12 select-none">
+        <button onClick={onExit} className="text-sm text-slate-400 hover:text-slate-600">Exit Session</button>
         <div className="text-sm font-medium text-slate-400">{masteredIds.size} / {vocabList.length} mastered</div>
       </div>
 

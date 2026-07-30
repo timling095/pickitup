@@ -1967,7 +1967,10 @@
     "definition": "起床",
     "pitch_accent": 3,
     "affix_type": "none",
-    "lesson_id": "3"
+    "lesson_id": "3",
+    "dic_form": "起きる",
+    "dic_form_reading": "おきる",
+    "dic_form_pitch_accent": 2
   },
   {
     "id": "42d0bdcc-670a-4a71-b2e2-db0db49e04be",
@@ -1997,7 +2000,10 @@
     "definition": "睡覺",
     "pitch_accent": 2,
     "affix_type": "none",
-    "lesson_id": "3"
+    "lesson_id": "3",
+    "dic_form": "寝る",
+    "dic_form_reading": "ねる",
+    "dic_form_pitch_accent": 0
   },
   {
     "id": "4b6b0321-2e01-4f75-8baa-ea7cb70ae342",
@@ -2017,7 +2023,10 @@
     "definition": "開始",
     "pitch_accent": 5,
     "affix_type": "none",
-    "lesson_id": "3"
+    "lesson_id": "3",
+    "dic_form": "始まる",
+    "dic_form_reading": "はじまる",
+    "dic_form_pitch_accent": 0
   },
   {
     "id": "f59791cc-1343-421b-9bd2-40b2b931bd89",
@@ -2037,7 +2046,10 @@
     "definition": "結束",
     "pitch_accent": 4,
     "affix_type": "none",
-    "lesson_id": "3"
+    "lesson_id": "3",
+    "dic_form": "終わる",
+    "dic_form_reading": "おわる",
+    "dic_form_pitch_accent": 0
   },
   {
     "id": "18a4e5d5-4fd3-4e72-a5c8-1d8b0e8644a7",
@@ -2147,7 +2159,10 @@
     "definition": "吃",
     "pitch_accent": 3,
     "affix_type": "none",
-    "lesson_id": "3"
+    "lesson_id": "3",
+    "dic_form": "食べる",
+    "dic_form_reading": "たべる",
+    "dic_form_pitch_accent": 2
   },
   {
     "id": "9f1dd3dc-f5fb-4334-9086-acc7fc011eb8",
@@ -2177,7 +2192,10 @@
     "definition": "喝",
     "pitch_accent": 3,
     "affix_type": "none",
-    "lesson_id": "3"
+    "lesson_id": "3",
+    "dic_form": "飲む",
+    "dic_form_reading": "のむ",
+    "dic_form_pitch_accent": 1
   },
   {
     "id": "4ba678ea-82b4-49d5-b003-b240244068d1",
@@ -2207,7 +2225,10 @@
     "definition": "寫",
     "pitch_accent": 3,
     "affix_type": "none",
-    "lesson_id": "3"
+    "lesson_id": "3",
+    "dic_form": "書く",
+    "dic_form_reading": "かく",
+    "dic_form_pitch_accent": 1
   },
   {
     "id": "acd71334-5443-4bb1-9274-28109a98c006",
@@ -2217,7 +2238,10 @@
     "definition": "讀；閱讀；看；唸",
     "pitch_accent": 3,
     "affix_type": "none",
-    "lesson_id": "3"
+    "lesson_id": "3",
+    "dic_form": "読む",
+    "dic_form_reading": "よむ",
+    "dic_form_pitch_accent": 1
   },
   {
     "id": "4118cda1-7727-4ea2-b267-9c2bcbacb391",
@@ -2247,7 +2271,10 @@
     "definition": "聽；問",
     "pitch_accent": 3,
     "affix_type": "none",
-    "lesson_id": "3"
+    "lesson_id": "3",
+    "dic_form": "聞く",
+    "dic_form_reading": "きく",
+    "dic_form_pitch_accent": 0
   },
   {
     "id": "a12bd4a3-492e-461e-ad16-c8490c6a3f64",
@@ -2267,7 +2294,10 @@
     "definition": "看",
     "pitch_accent": 2,
     "affix_type": "none",
-    "lesson_id": "3"
+    "lesson_id": "3",
+    "dic_form": "見る",
+    "dic_form_reading": "みる",
+    "dic_form_pitch_accent": 1
   },
   {
     "id": "278f529b-6ca6-46d1-a65c-d310ed03b4fa",
@@ -2277,7 +2307,10 @@
     "definition": "讀書；學習",
     "pitch_accent": 6,
     "affix_type": "none",
-    "lesson_id": "3"
+    "lesson_id": "3",
+    "dic_form": "勉強する",
+    "dic_form_reading": "べんきょうする",
+    "dic_form_pitch_accent": 0
   },
   {
     "id": "024a39ae-6910-4664-9bcf-d5a0fca0b8e5",
@@ -2287,7 +2320,10 @@
     "definition": "買",
     "pitch_accent": 3,
     "affix_type": "none",
-    "lesson_id": "3"
+    "lesson_id": "3",
+    "dic_form": "買う",
+    "dic_form_reading": "かう",
+    "dic_form_pitch_accent": 0
   },
   {
     "id": "2af8ff5d-6da7-4d9e-811f-d5ae1c467d1c",
@@ -2317,7 +2353,10 @@
     "definition": "吃飯",
     "pitch_accent": 5,
     "affix_type": "none",
-    "lesson_id": "3"
+    "lesson_id": "3",
+    "dic_form": "食事する",
+    "dic_form_reading": "しょくじする",
+    "dic_form_pitch_accent": 0
   },
   {
     "id": "c165ddba-fac6-498a-91c6-150899a7aac9",
@@ -2337,7 +2376,10 @@
     "definition": "做；製作；建立；創造",
     "pitch_accent": 4,
     "affix_type": "none",
-    "lesson_id": "3"
+    "lesson_id": "3",
+    "dic_form": "作る",
+    "dic_form_reading": "つくる",
+    "dic_form_pitch_accent": 2
   },
   {
     "id": "fadb75c2-9e1b-4b26-9a84-64b00f70ccb0",
@@ -2377,7 +2419,10 @@
     "definition": "做；配戴",
     "pitch_accent": 2,
     "affix_type": "none",
-    "lesson_id": "3"
+    "lesson_id": "3",
+    "dic_form": "する",
+    "dic_form_reading": "する",
+    "dic_form_pitch_accent": 0
   },
   {
     "id": "d9f450c3-5763-430e-a7b6-99c624be967b",
@@ -2387,7 +2432,10 @@
     "definition": "購物；採買",
     "pitch_accent": 6,
     "affix_type": "none",
-    "lesson_id": "3"
+    "lesson_id": "3",
+    "dic_form": "買い物する",
+    "dic_form_reading": "かいものする",
+    "dic_form_pitch_accent": 0
   },
   {
     "id": "1fcff6f7-26d8-4689-932e-8d0c261be333",
@@ -2397,7 +2445,10 @@
     "definition": "散步",
     "pitch_accent": 5,
     "affix_type": "none",
-    "lesson_id": "3"
+    "lesson_id": "3",
+    "dic_form": "散歩する",
+    "dic_form_reading": "さんぽする",
+    "dic_form_pitch_accent": 0
   },
   {
     "id": "d8fd301f-4ee0-4939-abf5-538ea87cdf08",
@@ -2407,7 +2458,10 @@
     "definition": "說；聊天",
     "pitch_accent": 4,
     "affix_type": "none",
-    "lesson_id": "3"
+    "lesson_id": "3",
+    "dic_form": "話す",
+    "dic_form_reading": "はなす",
+    "dic_form_pitch_accent": 2
   },
   {
     "id": "95335a99-6021-450f-b0ae-0657797552d0",
@@ -3297,7 +3351,10 @@
     "definition": "去",
     "pitch_accent": 3,
     "affix_type": "none",
-    "lesson_id": "4"
+    "lesson_id": "4",
+    "dic_form": "行く",
+    "dic_form_reading": "いく",
+    "dic_form_pitch_accent": 0
   },
   {
     "id": "5ec1b3b4-2f12-4df6-848e-8a7228d132db",
@@ -3307,7 +3364,10 @@
     "definition": "來",
     "pitch_accent": 2,
     "affix_type": "none",
-    "lesson_id": "4"
+    "lesson_id": "4",
+    "dic_form": "来る",
+    "dic_form_reading": "くる",
+    "dic_form_pitch_accent": 1
   },
   {
     "id": "56a15f1a-8c8f-48c3-a56c-fb9adfd73273",
@@ -3317,7 +3377,10 @@
     "definition": "回",
     "pitch_accent": 4,
     "affix_type": "none",
-    "lesson_id": "4"
+    "lesson_id": "4",
+    "dic_form": "帰る",
+    "dic_form_reading": "かえる",
+    "dic_form_pitch_accent": 1
   },
   {
     "id": "0c543929-c443-4d0a-a42b-fc20aed6434a",
@@ -3347,7 +3410,10 @@
     "definition": "拍(照)",
     "pitch_accent": 3,
     "affix_type": "none",
-    "lesson_id": "4"
+    "lesson_id": "4",
+    "dic_form": "撮る",
+    "dic_form_reading": "とる",
+    "dic_form_pitch_accent": 1
   },
   {
     "id": "c0aa41b8-2695-458a-9302-11712b86ce3f",
@@ -3777,7 +3843,10 @@
     "definition": "旅行",
     "pitch_accent": 5,
     "affix_type": "none",
-    "lesson_id": "5"
+    "lesson_id": "5",
+    "dic_form": "旅行する",
+    "dic_form_reading": "りょこうする",
+    "dic_form_pitch_accent": 0
   },
   {
     "id": "e0c8b0b4-4337-4cf4-aea5-379b7756fd84",
@@ -3797,7 +3866,10 @@
     "definition": "練習",
     "pitch_accent": 6,
     "affix_type": "none",
-    "lesson_id": "5"
+    "lesson_id": "5",
+    "dic_form": "練習する",
+    "dic_form_reading": "れんしゅうする",
+    "dic_form_pitch_accent": 0
   },
   {
     "id": "7d29b90c-0945-478f-92ef-1440b8a98c4e",
@@ -3897,7 +3969,10 @@
     "definition": "步行；徒步",
     "pitch_accent": 2,
     "affix_type": "none",
-    "lesson_id": "5"
+    "lesson_id": "5",
+    "dic_form": "歩く",
+    "dic_form_reading": "あるく",
+    "dic_form_pitch_accent": 2
   },
   {
     "id": "9b5ad64e-a18c-414e-afe2-ded537fd7ba1",
@@ -3937,7 +4012,10 @@
     "definition": "花費",
     "pitch_accent": 4,
     "affix_type": "none",
-    "lesson_id": "5"
+    "lesson_id": "5",
+    "dic_form": "かかる",
+    "dic_form_reading": "かかる",
+    "dic_form_pitch_accent": 2
   },
   {
     "id": "89d01857-c0de-4e76-8ab8-9e2f54609d74",
@@ -4307,7 +4385,10 @@
     "definition": "生活",
     "pitch_accent": 6,
     "affix_type": "none",
-    "lesson_id": "5"
+    "lesson_id": "5",
+    "dic_form": "生活する",
+    "dic_form_reading": "せいかつする",
+    "dic_form_pitch_accent": 0
   },
   {
     "id": "a1f07ddb-16d5-470c-aa04-d10d76b43502",
@@ -4487,7 +4568,10 @@
     "definition": "疲累；疲倦",
     "pitch_accent": 4,
     "affix_type": "none",
-    "lesson_id": "5"
+    "lesson_id": "5",
+    "dic_form": "疲れる",
+    "dic_form_reading": "つかれる",
+    "dic_form_pitch_accent": 3
   },
   {
     "id": "f075d64a-2c71-445a-ac9f-2f9404c36354",
@@ -4547,7 +4631,10 @@
     "definition": "(植物、物品等)有，在；舉辦",
     "pitch_accent": 3,
     "affix_type": "none",
-    "lesson_id": "6"
+    "lesson_id": "6",
+    "dic_form": "ある",
+    "dic_form_reading": "ある",
+    "dic_form_pitch_accent": 1
   },
   {
     "id": "08d9c783-3662-4311-8055-fcff1c3ec218",
@@ -4557,7 +4644,10 @@
     "definition": "(人類、動物等)有，在",
     "pitch_accent": 2,
     "affix_type": "none",
-    "lesson_id": "6"
+    "lesson_id": "6",
+    "dic_form": "いる",
+    "dic_form_reading": "いる",
+    "dic_form_pitch_accent": 0
   },
   {
     "id": "96309c5c-ca22-447d-b7b7-fb4e1e85b42f",
@@ -5067,7 +5157,10 @@
     "definition": "請給(我)",
     "pitch_accent": 3,
     "affix_type": "none",
-    "lesson_id": "6"
+    "lesson_id": "6",
+    "dic_form": "くださる",
+    "dic_form_reading": "くださる",
+    "dic_form_pitch_accent": 3
   },
   {
     "id": "b348a0fd-131a-42e4-85f3-c3f6ee26388c",
@@ -5767,7 +5860,10 @@
     "definition": "給；送",
     "pitch_accent": 3,
     "affix_type": "none",
-    "lesson_id": "7"
+    "lesson_id": "7",
+    "dic_form": "あげる",
+    "dic_form_reading": "あげる",
+    "dic_form_pitch_accent": 0
   },
   {
     "id": "edf706cc-e4a6-4b92-9980-8983641306cf",
@@ -5777,7 +5873,10 @@
     "definition": "收",
     "pitch_accent": 4,
     "affix_type": "none",
-    "lesson_id": "7"
+    "lesson_id": "7",
+    "dic_form": "もらう",
+    "dic_form_reading": "もらう",
+    "dic_form_pitch_accent": 0
   },
   {
     "id": "a32290b3-bb01-4048-be26-53d8a95ff42d",
@@ -5817,7 +5916,10 @@
     "definition": "教；告訴",
     "pitch_accent": 4,
     "affix_type": "none",
-    "lesson_id": "7"
+    "lesson_id": "7",
+    "dic_form": "教える",
+    "dic_form_reading": "おしえる",
+    "dic_form_pitch_accent": 0
   },
   {
     "id": "7c53e020-de19-4b3f-b633-81837761ed2f",
@@ -5827,7 +5929,10 @@
     "definition": "學習(技藝)",
     "pitch_accent": 4,
     "affix_type": "none",
-    "lesson_id": "7"
+    "lesson_id": "7",
+    "dic_form": "習う",
+    "dic_form_reading": "ならう",
+    "dic_form_pitch_accent": 2
   },
   {
     "id": "99c4d154-f430-4876-a866-8472af988a49",
@@ -5847,7 +5952,10 @@
     "definition": "提交；送出；拿出；取出",
     "pitch_accent": 3,
     "affix_type": "none",
-    "lesson_id": "7"
+    "lesson_id": "7",
+    "dic_form": "出す",
+    "dic_form_reading": "だす",
+    "dic_form_pitch_accent": 1
   },
   {
     "id": "78ca5398-eb2a-4eb7-9402-0eaf2f1a7bb0",
@@ -5877,7 +5985,10 @@
     "definition": "寄送；送行",
     "pitch_accent": 4,
     "affix_type": "none",
-    "lesson_id": "7"
+    "lesson_id": "7",
+    "dic_form": "送る",
+    "dic_form_reading": "おくる",
+    "dic_form_pitch_accent": 0
   },
   {
     "id": "aa94898d-9819-4464-97a0-1b2483e52885",
@@ -5907,7 +6018,10 @@
     "definition": "出示；給看",
     "pitch_accent": 3,
     "affix_type": "none",
-    "lesson_id": "7"
+    "lesson_id": "7",
+    "dic_form": "見せる",
+    "dic_form_reading": "みせる",
+    "dic_form_pitch_accent": 2
   },
   {
     "id": "77c64c59-2118-4451-bf09-de59590d9c48",
@@ -5927,7 +6041,10 @@
     "definition": "借出",
     "pitch_accent": 3,
     "affix_type": "none",
-    "lesson_id": "7"
+    "lesson_id": "7",
+    "dic_form": "貸す",
+    "dic_form_reading": "かす",
+    "dic_form_pitch_accent": 0
   },
   {
     "id": "cb39abd8-565c-4aae-83e7-8607d76ce799",
@@ -5937,7 +6054,10 @@
     "definition": "借入",
     "pitch_accent": 3,
     "affix_type": "none",
-    "lesson_id": "7"
+    "lesson_id": "7",
+    "dic_form": "借りる",
+    "dic_form_reading": "かりる",
+    "dic_form_pitch_accent": 0
   },
   {
     "id": "d0e7c006-9632-4e1f-bdae-957f8732cb5f",
@@ -5947,7 +6067,10 @@
     "definition": "給(我)",
     "pitch_accent": 3,
     "affix_type": "none",
-    "lesson_id": "7"
+    "lesson_id": "7",
+    "dic_form": "くれる",
+    "dic_form_reading": "くれる",
+    "dic_form_pitch_accent": 0
   },
   {
     "id": "4354c80c-d953-4a1d-9f6e-7c14290d4e76",
@@ -6047,7 +6170,10 @@
     "definition": "結婚",
     "pitch_accent": 6,
     "affix_type": "none",
-    "lesson_id": "7"
+    "lesson_id": "7",
+    "dic_form": "結婚する",
+    "dic_form_reading": "けっこんする",
+    "dic_form_pitch_accent": 0
   },
   {
     "id": "2f707862-45db-4581-97ea-71ee9de74b42",
@@ -6057,7 +6183,10 @@
     "definition": "吵架；打架",
     "pitch_accent": 5,
     "affix_type": "none",
-    "lesson_id": "7"
+    "lesson_id": "7",
+    "dic_form": "喧嘩する",
+    "dic_form_reading": "けんかする",
+    "dic_form_pitch_accent": 0
   },
   {
     "id": "f1d22627-e77e-4944-b42a-5bd0abfe183a",
@@ -6107,7 +6236,10 @@
     "definition": "約會",
     "pitch_accent": 5,
     "affix_type": "none",
-    "lesson_id": "7"
+    "lesson_id": "7",
+    "dic_form": "デートする",
+    "dic_form_reading": "デートする",
+    "dic_form_pitch_accent": 1
   },
   {
     "id": "9d4026b5-3fdd-4df3-93c1-7c672466344a",
@@ -6117,7 +6249,10 @@
     "definition": "分開；離別；分手",
     "pitch_accent": 4,
     "affix_type": "none",
-    "lesson_id": "7"
+    "lesson_id": "7",
+    "dic_form": "別れる",
+    "dic_form_reading": "わかれる",
+    "dic_form_pitch_accent": 3
   },
   {
     "id": "3e1bca41-ab2e-459f-8604-87221aa6bd27",
@@ -6127,7 +6262,10 @@
     "definition": "諮詢；商量",
     "pitch_accent": 6,
     "affix_type": "none",
-    "lesson_id": "7"
+    "lesson_id": "7",
+    "dic_form": "相談する",
+    "dic_form_reading": "そうだんする",
+    "dic_form_pitch_accent": 0
   },
   {
     "id": "7f431dcd-a311-41db-86f1-442dab4eec47",
@@ -6137,7 +6275,10 @@
     "definition": "見面",
     "pitch_accent": 3,
     "affix_type": "none",
-    "lesson_id": "7"
+    "lesson_id": "7",
+    "dic_form": "会う",
+    "dic_form_reading": "あう",
+    "dic_form_pitch_accent": 1
   },
   {
     "id": "f223493f-269b-403a-b4f9-ff6c0fef8c40",
@@ -6147,7 +6288,10 @@
     "definition": "相似；像",
     "pitch_accent": 4,
     "affix_type": "none",
-    "lesson_id": "7"
+    "lesson_id": "7",
+    "dic_form": "似る",
+    "dic_form_reading": "にる",
+    "dic_form_pitch_accent": 0
   },
   {
     "id": "e60d1d41-f350-4c46-8072-2b9df12f01fb",
@@ -6157,7 +6301,10 @@
     "definition": "不一樣；不同",
     "pitch_accent": 4,
     "affix_type": "none",
-    "lesson_id": "7"
+    "lesson_id": "7",
+    "dic_form": "違う",
+    "dic_form_reading": "ちがう",
+    "dic_form_pitch_accent": 0
   },
   {
     "id": "eca79f11-8cef-4b1a-b860-ee53e924dcbe",
@@ -6247,7 +6394,10 @@
     "definition": "游泳",
     "pitch_accent": 4,
     "affix_type": "none",
-    "lesson_id": "7"
+    "lesson_id": "7",
+    "dic_form": "泳ぐ",
+    "dic_form_reading": "およぐ",
+    "dic_form_pitch_accent": 2
   },
   {
     "id": "d273b9ba-620c-4a42-a989-6ceab161f889",
@@ -6277,7 +6427,10 @@
     "definition": "唱",
     "pitch_accent": 4,
     "affix_type": "none",
-    "lesson_id": "7"
+    "lesson_id": "7",
+    "dic_form": "歌う",
+    "dic_form_reading": "うたう",
+    "dic_form_pitch_accent": 0
   },
   {
     "id": "16f21369-1ec0-438a-bc4a-fcf47fca6f15",
@@ -6367,7 +6520,10 @@
     "definition": "懂；會；知道",
     "pitch_accent": 4,
     "affix_type": "none",
-    "lesson_id": "8"
+    "lesson_id": "8",
+    "dic_form": "わかる",
+    "dic_form_reading": "わかる",
+    "dic_form_pitch_accent": 2
   },
   {
     "id": "b037a50c-0d84-48e5-8c12-6b35387595c8",
@@ -6377,7 +6533,10 @@
     "definition": "等",
     "pitch_accent": 3,
     "affix_type": "none",
-    "lesson_id": "8"
+    "lesson_id": "8",
+    "dic_form": "待つ",
+    "dic_form_reading": "まつ",
+    "dic_form_pitch_accent": 1
   },
   {
     "id": "9a926c70-f3d0-4384-8bd9-b1df1d6e5baf",
@@ -6387,7 +6546,10 @@
     "definition": "玩",
     "pitch_accent": 4,
     "affix_type": "none",
-    "lesson_id": "8"
+    "lesson_id": "8",
+    "dic_form": "遊ぶ",
+    "dic_form_reading": "あそぶ",
+    "dic_form_pitch_accent": 0
   },
   {
     "id": "ae301ec8-07a6-41fd-86c1-357717c5a4e6",
@@ -6397,7 +6559,10 @@
     "definition": "死",
     "pitch_accent": 3,
     "affix_type": "none",
-    "lesson_id": "8"
+    "lesson_id": "8",
+    "dic_form": "死ぬ",
+    "dic_form_reading": "しぬ",
+    "dic_form_pitch_accent": 0
   },
   {
     "id": "1f20a459-7729-4a3f-8ef9-1488efd900c7",
@@ -6417,7 +6582,10 @@
     "definition": "決定",
     "pitch_accent": 3,
     "affix_type": "none",
-    "lesson_id": "8"
+    "lesson_id": "8",
+    "dic_form": "決める",
+    "dic_form_reading": "きめる",
+    "dic_form_pitch_accent": 0
   },
   {
     "id": "66581918-fccd-422e-81fc-e23a8c6b23cf",
@@ -6437,7 +6605,10 @@
     "definition": "爬；攀爬",
     "pitch_accent": 4,
     "affix_type": "none",
-    "lesson_id": "8"
+    "lesson_id": "8",
+    "dic_form": "登る",
+    "dic_form_reading": "のぼる",
+    "dic_form_pitch_accent": 0
   },
   {
     "id": "2a17ab32-7c1c-4cb9-bb5a-20221a606046",
@@ -6447,7 +6618,10 @@
     "definition": "變；成為；當",
     "pitch_accent": 3,
     "affix_type": "none",
-    "lesson_id": "8"
+    "lesson_id": "8",
+    "dic_form": "なる",
+    "dic_form_reading": "なる",
+    "dic_form_pitch_accent": 1
   },
   {
     "id": "c27178a9-bc4d-4fbb-bc4b-3b2c073963bb",
@@ -6807,7 +6981,10 @@
     "definition": "彈奏",
     "pitch_accent": 3,
     "affix_type": "none",
-    "lesson_id": "8"
+    "lesson_id": "8",
+    "dic_form": "弾く",
+    "dic_form_reading": "ひく",
+    "dic_form_pitch_accent": 0
   },
   {
     "id": "d43beb27-2342-4af3-aab9-ae9b4a349bd3",
@@ -6947,7 +7124,10 @@
     "definition": "握手",
     "pitch_accent": 5,
     "affix_type": "none",
-    "lesson_id": "8"
+    "lesson_id": "8",
+    "dic_form": "握手する",
+    "dic_form_reading": "あくしゅする",
+    "dic_form_pitch_accent": 1
   },
   {
     "id": "6fae61a8-c526-46aa-8681-f740f528b098",
@@ -7017,7 +7197,10 @@
     "definition": "回答；應答",
     "pitch_accent": 4,
     "affix_type": "none",
-    "lesson_id": "8"
+    "lesson_id": "8",
+    "dic_form": "答える",
+    "dic_form_reading": "こたえる",
+    "dic_form_pitch_accent": 3
   },
   {
     "id": "fdec499c-ad45-41fa-ad02-123a2c65ea81",
@@ -7027,7 +7210,10 @@
     "definition": "開始",
     "pitch_accent": 4,
     "affix_type": "none",
-    "lesson_id": "8"
+    "lesson_id": "8",
+    "dic_form": "始める",
+    "dic_form_reading": "はじめる",
+    "dic_form_pitch_accent": 0
   },
   {
     "id": "f27fb63c-cbb5-4587-9fea-56e05fcac1ba",
@@ -7057,7 +7243,10 @@
     "definition": "坐",
     "pitch_accent": 0,
     "affix_type": "none",
-    "lesson_id": "9"
+    "lesson_id": "9",
+    "dic_form": "座る",
+    "dic_form_reading": "すわる",
+    "dic_form_pitch_accent": 0
   },
   {
     "id": "2eb7e96d-834c-470f-904f-3452810a3755",
@@ -7067,7 +7256,10 @@
     "definition": "站",
     "pitch_accent": 1,
     "affix_type": "none",
-    "lesson_id": "9"
+    "lesson_id": "9",
+    "dic_form": "立つ",
+    "dic_form_reading": "たつ",
+    "dic_form_pitch_accent": 1
   },
   {
     "id": "5d222f19-6a23-4f46-ab5d-501c1ea757a2",
@@ -7077,7 +7269,10 @@
     "definition": "詢問；提問",
     "pitch_accent": 0,
     "affix_type": "none",
-    "lesson_id": "9"
+    "lesson_id": "9",
+    "dic_form": "質問する",
+    "dic_form_reading": "しつもんする",
+    "dic_form_pitch_accent": 0
   },
   {
     "id": "01019fb3-b770-4622-b2ce-9b0d3cfa617b",
@@ -7107,7 +7302,10 @@
     "definition": "幫忙；協助",
     "pitch_accent": 3,
     "affix_type": "none",
-    "lesson_id": "9"
+    "lesson_id": "9",
+    "dic_form": "手伝う",
+    "dic_form_reading": "てつだう",
+    "dic_form_pitch_accent": 3
   },
   {
     "id": "af0eca46-c329-4db0-9c6a-fc25c13ba0b7",
@@ -7137,7 +7335,10 @@
     "definition": "拿；帶；持有",
     "pitch_accent": 1,
     "affix_type": "none",
-    "lesson_id": "9"
+    "lesson_id": "9",
+    "dic_form": "持つ",
+    "dic_form_reading": "もつ",
+    "dic_form_pitch_accent": 1
   },
   {
     "id": "eb6103ca-49d1-496d-a795-083245b217e1",
@@ -7157,7 +7358,10 @@
     "definition": "拿取；取得；拿下；偷取",
     "pitch_accent": 1,
     "affix_type": "none",
-    "lesson_id": "9"
+    "lesson_id": "9",
+    "dic_form": "取る",
+    "dic_form_reading": "とる",
+    "dic_form_pitch_accent": 1
   },
   {
     "id": "d8d3e579-8019-440a-b4ea-2953ced1eb68",
@@ -7177,7 +7381,10 @@
     "definition": "打開(門、窗)",
     "pitch_accent": 0,
     "affix_type": "none",
-    "lesson_id": "9"
+    "lesson_id": "9",
+    "dic_form": "開ける",
+    "dic_form_reading": "あける",
+    "dic_form_pitch_accent": 0
   },
   {
     "id": "aeac1a4a-96c7-4faa-8d84-7683f7c0eea7",
@@ -7187,7 +7394,10 @@
     "definition": "放；放置",
     "pitch_accent": 0,
     "affix_type": "none",
-    "lesson_id": "9"
+    "lesson_id": "9",
+    "dic_form": "置く",
+    "dic_form_reading": "おく",
+    "dic_form_pitch_accent": 0
   },
   {
     "id": "98189319-940e-43ec-a1c1-ad64ebe6dbd5",
@@ -7247,7 +7457,10 @@
     "definition": "發音",
     "pitch_accent": 0,
     "affix_type": "none",
-    "lesson_id": "9"
+    "lesson_id": "9",
+    "dic_form": "発音する",
+    "dic_form_reading": "はつおんする",
+    "dic_form_pitch_accent": 0
   },
   {
     "id": "71aad816-89ef-4c06-9565-94b9cf824edf",
@@ -7257,7 +7470,10 @@
     "definition": "複印；複製",
     "pitch_accent": 1,
     "affix_type": "none",
-    "lesson_id": "9"
+    "lesson_id": "9",
+    "dic_form": "コピーする",
+    "dic_form_reading": "コピーする",
+    "dic_form_pitch_accent": 1
   },
   {
     "id": "448ef26a-399e-488e-a408-c555978cf4ed",
@@ -7277,7 +7493,10 @@
     "definition": "休息；缺席；請假",
     "pitch_accent": 2,
     "affix_type": "none",
-    "lesson_id": "9"
+    "lesson_id": "9",
+    "dic_form": "休む",
+    "dic_form_reading": "やすむ",
+    "dic_form_pitch_accent": 2
   },
   {
     "id": "c8845dea-13fe-45d2-b152-56a9b0ef5f88",
@@ -7287,7 +7506,10 @@
     "definition": "叫；稱",
     "pitch_accent": 0,
     "affix_type": "none",
-    "lesson_id": "9"
+    "lesson_id": "9",
+    "dic_form": "呼ぶ",
+    "dic_form_reading": "よぶ",
+    "dic_form_pitch_accent": 0
   },
   {
     "id": "00d1144b-7715-4172-8b9e-5ac51b043fb6",
@@ -7297,7 +7519,10 @@
     "definition": "使用",
     "pitch_accent": 0,
     "affix_type": "none",
-    "lesson_id": "9"
+    "lesson_id": "9",
+    "dic_form": "使う",
+    "dic_form_reading": "つかう",
+    "dic_form_pitch_accent": 0
   },
   {
     "id": "b4c9a38c-c896-485a-a082-7f3182c9d894",
@@ -7307,7 +7532,10 @@
     "definition": "忘記",
     "pitch_accent": 0,
     "affix_type": "none",
-    "lesson_id": "9"
+    "lesson_id": "9",
+    "dic_form": "忘れる",
+    "dic_form_reading": "わすれる",
+    "dic_form_pitch_accent": 0
   },
   {
     "id": "fc787f47-3733-4555-a9b3-764e2adb4cc4",
@@ -7317,7 +7545,10 @@
     "definition": "遲到",
     "pitch_accent": 0,
     "affix_type": "none",
-    "lesson_id": "9"
+    "lesson_id": "9",
+    "dic_form": "遅れる",
+    "dic_form_reading": "おくれる",
+    "dic_form_pitch_accent": 0
   },
   {
     "id": "1e076f16-538f-41f0-9546-9be5c9238d3d",
@@ -7327,7 +7558,10 @@
     "definition": "擔心",
     "pitch_accent": 0,
     "affix_type": "none",
-    "lesson_id": "9"
+    "lesson_id": "9",
+    "dic_form": "心配する",
+    "dic_form_reading": "しんぱいする",
+    "dic_form_pitch_accent": 0
   },
   {
     "id": "52cbd272-0afa-466a-bff7-5304e35a50c0",
@@ -7347,7 +7581,10 @@
     "definition": "說；講",
     "pitch_accent": 0,
     "affix_type": "none",
-    "lesson_id": "9"
+    "lesson_id": "9",
+    "dic_form": "言う",
+    "dic_form_reading": "いう",
+    "dic_form_pitch_accent": 0
   },
   {
     "id": "3ecfab88-52a8-43e3-b23d-e990159ff483",
@@ -7387,7 +7624,10 @@
     "definition": "吸；抽(菸)",
     "pitch_accent": 0,
     "affix_type": "none",
-    "lesson_id": "9"
+    "lesson_id": "9",
+    "dic_form": "吸う",
+    "dic_form_reading": "すう",
+    "dic_form_pitch_accent": 0
   },
   {
     "id": "ebe14ed2-7871-4e4f-9a7c-9e30dea8975d",
@@ -7397,7 +7637,10 @@
     "definition": "歸還",
     "pitch_accent": 1,
     "affix_type": "none",
-    "lesson_id": "9"
+    "lesson_id": "9",
+    "dic_form": "返す",
+    "dic_form_reading": "かえす",
+    "dic_form_pitch_accent": 1
   },
   {
     "id": "e4443341-d425-4d6b-9eb5-8f1a0cdb5926",
@@ -7407,7 +7650,10 @@
     "definition": "迎接",
     "pitch_accent": 0,
     "affix_type": "none",
-    "lesson_id": "9"
+    "lesson_id": "9",
+    "dic_form": "迎える",
+    "dic_form_reading": "むかえる",
+    "dic_form_pitch_accent": 0
   },
   {
     "id": "b09d8cdd-9c52-412b-a19d-3a2002fd4b50",
@@ -7427,7 +7673,10 @@
     "definition": "研究；鑽研",
     "pitch_accent": 0,
     "affix_type": "none",
-    "lesson_id": "9"
+    "lesson_id": "9",
+    "dic_form": "研究する",
+    "dic_form_reading": "けんきゅうする",
+    "dic_form_pitch_accent": 0
   },
   {
     "id": "b8211459-3c22-407d-9c2c-4246a6f0be62",
@@ -7477,7 +7726,10 @@
     "definition": "調查；查詢",
     "pitch_accent": 3,
     "affix_type": "none",
-    "lesson_id": "9"
+    "lesson_id": "9",
+    "dic_form": "調べる",
+    "dic_form_reading": "しらべる",
+    "dic_form_pitch_accent": 3
   },
   {
     "id": "22b06d04-4905-46de-aa0f-e4814ff31f46",
@@ -7537,7 +7789,10 @@
     "definition": "記下；記得",
     "pitch_accent": 3,
     "affix_type": "none",
-    "lesson_id": "9"
+    "lesson_id": "9",
+    "dic_form": "覚える",
+    "dic_form_reading": "おぼえる",
+    "dic_form_pitch_accent": 3
   },
   {
     "id": "2317a31a-b6ad-4d4d-9b93-eb3bb55fb426",
@@ -7547,7 +7802,10 @@
     "definition": "努力；加油",
     "pitch_accent": 3,
     "affix_type": "none",
-    "lesson_id": "9"
+    "lesson_id": "9",
+    "dic_form": "頑張る",
+    "dic_form_reading": "がんばる",
+    "dic_form_pitch_accent": 3
   },
   {
     "id": "3cbe397e-1212-4216-b72c-b2bfb2f60b85",
@@ -7587,7 +7845,10 @@
     "definition": "洗",
     "pitch_accent": 0,
     "affix_type": "none",
-    "lesson_id": "10"
+    "lesson_id": "10",
+    "dic_form": "洗う",
+    "dic_form_reading": "あらう",
+    "dic_form_pitch_accent": 0
   },
   {
     "id": "fdba4989-d7a0-4e50-b83a-31ab6bb9b9e5",
@@ -7607,7 +7868,10 @@
     "definition": "刷(牙)；磨",
     "pitch_accent": 0,
     "affix_type": "none",
-    "lesson_id": "10"
+    "lesson_id": "10",
+    "dic_form": "磨く",
+    "dic_form_reading": "みがく",
+    "dic_form_pitch_accent": 0
   },
   {
     "id": "690146bc-f09a-4171-ad75-761e1235180f",
@@ -7627,7 +7891,10 @@
     "definition": "淋；沐",
     "pitch_accent": 0,
     "affix_type": "none",
-    "lesson_id": "10"
+    "lesson_id": "10",
+    "dic_form": "浴びる",
+    "dic_form_reading": "あびる",
+    "dic_form_pitch_accent": 0
   },
   {
     "id": "1f271c87-7cae-4946-9519-4f1324e3efb7",
@@ -7637,7 +7904,10 @@
     "definition": "進入；加入；參與",
     "pitch_accent": 1,
     "affix_type": "none",
-    "lesson_id": "10"
+    "lesson_id": "10",
+    "dic_form": "入る",
+    "dic_form_reading": "はいる",
+    "dic_form_pitch_accent": 1
   },
   {
     "id": "8922bfcc-0e8b-4455-b848-a762edc1b9cd",
@@ -7647,7 +7917,10 @@
     "definition": "出去；出來",
     "pitch_accent": 1,
     "affix_type": "none",
-    "lesson_id": "10"
+    "lesson_id": "10",
+    "dic_form": "出る",
+    "dic_form_reading": "でる",
+    "dic_form_pitch_accent": 1
   },
   {
     "id": "f05b3e8f-e4a5-48c3-bb44-c22fc687a694",
@@ -7657,7 +7930,10 @@
     "definition": "搭乘",
     "pitch_accent": 0,
     "affix_type": "none",
-    "lesson_id": "10"
+    "lesson_id": "10",
+    "dic_form": "乗る",
+    "dic_form_reading": "のる",
+    "dic_form_pitch_accent": 0
   },
   {
     "id": "a29e9beb-183c-420b-a2f6-8b8aee5be1cf",
@@ -7667,7 +7943,10 @@
     "definition": "下(車)",
     "pitch_accent": 2,
     "affix_type": "none",
-    "lesson_id": "10"
+    "lesson_id": "10",
+    "dic_form": "降りる",
+    "dic_form_reading": "おりる",
+    "dic_form_pitch_accent": 2
   },
   {
     "id": "18460065-cfd0-48ea-8460-89980fad1001",
@@ -7677,7 +7956,10 @@
     "definition": "到；抵達",
     "pitch_accent": 1,
     "affix_type": "none",
-    "lesson_id": "10"
+    "lesson_id": "10",
+    "dic_form": "着く",
+    "dic_form_reading": "つく",
+    "dic_form_pitch_accent": 1
   },
   {
     "id": "3c93bae3-0659-4ed0-a24e-8b58532e5654",
@@ -7697,7 +7979,10 @@
     "definition": "轉乘",
     "pitch_accent": 4,
     "affix_type": "none",
-    "lesson_id": "10"
+    "lesson_id": "10",
+    "dic_form": "乗り換える",
+    "dic_form_reading": "のりかえる",
+    "dic_form_pitch_accent": 4
   },
   {
     "id": "1fcb44b4-582f-419d-af74-d11b3ee4f497",
@@ -7707,7 +7992,10 @@
     "definition": "下(樓梯)",
     "pitch_accent": 2,
     "affix_type": "none",
-    "lesson_id": "10"
+    "lesson_id": "10",
+    "dic_form": "下りる",
+    "dic_form_reading": "おりる",
+    "dic_form_pitch_accent": 2
   },
   {
     "id": "3042ace1-deab-4df3-8142-3a8c42d0bf10",
@@ -7827,7 +8115,10 @@
     "definition": "下(雨、雪)",
     "pitch_accent": 1,
     "affix_type": "none",
-    "lesson_id": "10"
+    "lesson_id": "10",
+    "dic_form": "降る",
+    "dic_form_reading": "ふる",
+    "dic_form_pitch_accent": 1
   },
   {
     "id": "1628b13c-6957-4f06-bd77-a7773bace84b",
@@ -7837,7 +8128,10 @@
     "definition": "(雨、風)停止",
     "pitch_accent": 0,
     "affix_type": "none",
-    "lesson_id": "10"
+    "lesson_id": "10",
+    "dic_form": "止む",
+    "dic_form_reading": "やむ",
+    "dic_form_pitch_accent": 0
   },
   {
     "id": "d29cab8f-5e99-4b94-aaf7-2f72f35d9f2a",
@@ -7877,7 +8171,10 @@
     "definition": "吹；刮(風)",
     "pitch_accent": 1,
     "affix_type": "none",
-    "lesson_id": "10"
+    "lesson_id": "10",
+    "dic_form": "吹く",
+    "dic_form_reading": "ふく",
+    "dic_form_pitch_accent": 1
   },
   {
     "id": "c94af3bb-65e3-486b-8c26-a7c4543936a3",
@@ -7897,7 +8194,10 @@
     "definition": "參訪；參觀學習",
     "pitch_accent": 0,
     "affix_type": "none",
-    "lesson_id": "10"
+    "lesson_id": "10",
+    "dic_form": "見学する",
+    "dic_form_reading": "けんがくする",
+    "dic_form_pitch_accent": 0
   },
   {
     "id": "af5f2160-4944-40e4-91cb-af5729f87bd9",
@@ -7907,7 +8207,10 @@
     "definition": "收集；集合",
     "pitch_accent": 3,
     "affix_type": "none",
-    "lesson_id": "10"
+    "lesson_id": "10",
+    "dic_form": "集める",
+    "dic_form_reading": "あつめる",
+    "dic_form_pitch_accent": 3
   },
   {
     "id": "8d9d4a33-8a5a-4aa0-9dfd-3d68a74ce3fa",
@@ -7957,7 +8260,10 @@
     "definition": "參觀；賞",
     "pitch_accent": 0,
     "affix_type": "none",
-    "lesson_id": "10"
+    "lesson_id": "10",
+    "dic_form": "見物する",
+    "dic_form_reading": "けんぶつする",
+    "dic_form_pitch_accent": 0
   },
   {
     "id": "a24e29b5-1e9e-4149-b277-7488f566e506",
@@ -7977,7 +8283,10 @@
     "definition": "住(宿)",
     "pitch_accent": 0,
     "affix_type": "none",
-    "lesson_id": "10"
+    "lesson_id": "10",
+    "dic_form": "泊まる",
+    "dic_form_reading": "とまる",
+    "dic_form_pitch_accent": 0
   },
   {
     "id": "6ae00197-a016-446a-8c78-fe90704d1b82",
@@ -8057,7 +8366,10 @@
     "definition": "放進；放入",
     "pitch_accent": 0,
     "affix_type": "none",
-    "lesson_id": "11"
+    "lesson_id": "11",
+    "dic_form": "入れる",
+    "dic_form_reading": "いれる",
+    "dic_form_pitch_accent": 0
   },
   {
     "id": "30e1aa7c-c788-45f8-9111-1116f090ccd9",
@@ -8067,7 +8379,10 @@
     "definition": "掛；掛上",
     "pitch_accent": 0,
     "affix_type": "none",
-    "lesson_id": "11"
+    "lesson_id": "11",
+    "dic_form": "かける",
+    "dic_form_reading": "かける",
+    "dic_form_pitch_accent": 0
   },
   {
     "id": "180115ad-4e94-4a6c-ba9e-433676fd8b4c",
@@ -8077,7 +8392,10 @@
     "definition": "放；放上；盛上",
     "pitch_accent": 0,
     "affix_type": "none",
-    "lesson_id": "11"
+    "lesson_id": "11",
+    "dic_form": "のせる",
+    "dic_form_reading": "のせる",
+    "dic_form_pitch_accent": 0
   },
   {
     "id": "5ec8cb46-78f4-40a8-8322-6b8e6e5f8567",
@@ -8167,7 +8485,10 @@
     "definition": "水煮；川燙",
     "pitch_accent": 2,
     "affix_type": "none",
-    "lesson_id": "11"
+    "lesson_id": "11",
+    "dic_form": "ゆでる",
+    "dic_form_reading": "ゆでる",
+    "dic_form_pitch_accent": 2
   },
   {
     "id": "0882b790-96b9-433d-8936-55b472e9cf80",
@@ -8177,7 +8498,10 @@
     "definition": "居住",
     "pitch_accent": 1,
     "affix_type": "none",
-    "lesson_id": "11"
+    "lesson_id": "11",
+    "dic_form": "住む",
+    "dic_form_reading": "すむ",
+    "dic_form_pitch_accent": 1
   },
   {
     "id": "a755db7b-a007-4f22-b372-712a0867d8d4",
@@ -8187,7 +8511,10 @@
     "definition": "知道；認識",
     "pitch_accent": 0,
     "affix_type": "none",
-    "lesson_id": "11"
+    "lesson_id": "11",
+    "dic_form": "知る",
+    "dic_form_reading": "しる",
+    "dic_form_pitch_accent": 0
   },
   {
     "id": "290831fc-3758-45bb-8f3f-1ec73f8ff83f",
@@ -8217,7 +8544,10 @@
     "definition": "工作；勞動",
     "pitch_accent": 0,
     "affix_type": "none",
-    "lesson_id": "11"
+    "lesson_id": "11",
+    "dic_form": "働く",
+    "dic_form_reading": "はたらく",
+    "dic_form_pitch_accent": 0
   },
   {
     "id": "f608166c-b27d-4443-bc21-2b66d09b34b9",
@@ -8267,7 +8597,10 @@
     "definition": "支付",
     "pitch_accent": 2,
     "affix_type": "none",
-    "lesson_id": "11"
+    "lesson_id": "11",
+    "dic_form": "払う",
+    "dic_form_reading": "はらう",
+    "dic_form_pitch_accent": 2
   },
   {
     "id": "050235c8-c35f-47de-861f-f3ddd32a7b06",
@@ -8297,7 +8630,10 @@
     "definition": "想起；記起",
     "pitch_accent": 4,
     "affix_type": "none",
-    "lesson_id": "11"
+    "lesson_id": "11",
+    "dic_form": "思い出す",
+    "dic_form_reading": "おもいだす",
+    "dic_form_pitch_accent": 4
   },
   {
     "id": "7bfbd980-852a-443d-b224-bf16eea64c32",
@@ -8307,7 +8643,10 @@
     "definition": "確認；檢查；核對",
     "pitch_accent": 1,
     "affix_type": "none",
-    "lesson_id": "11"
+    "lesson_id": "11",
+    "dic_form": "チェックする",
+    "dic_form_reading": "チェックする",
+    "dic_form_pitch_accent": 1
   },
   {
     "id": "4db3ceef-b22c-4d81-8261-e5adf649f8e7",
@@ -8317,7 +8656,10 @@
     "definition": "錄音",
     "pitch_accent": 0,
     "affix_type": "none",
-    "lesson_id": "11"
+    "lesson_id": "11",
+    "dic_form": "録音する",
+    "dic_form_reading": "ろくおんする",
+    "dic_form_pitch_accent": 0
   },
   {
     "id": "3f4bb2d4-fab8-48fe-99a1-3320efe3c52e",
@@ -8447,7 +8789,10 @@
     "definition": "敲(門)",
     "pitch_accent": 1,
     "affix_type": "none",
-    "lesson_id": "11"
+    "lesson_id": "11",
+    "dic_form": "ノックする",
+    "dic_form_reading": "ノックする",
+    "dic_form_pitch_accent": 1
   },
   {
     "id": "f36d270a-a09a-45ca-bd95-eccadc2e1670",
@@ -8457,7 +8802,10 @@
     "definition": "聯絡；聯繫",
     "pitch_accent": 0,
     "affix_type": "none",
-    "lesson_id": "11"
+    "lesson_id": "11",
+    "dic_form": "連絡する",
+    "dic_form_reading": "れんらくする",
+    "dic_form_pitch_accent": 0
   },
   {
     "id": "8fb476e8-4660-4965-8f97-52f132df6578",
@@ -8517,7 +8865,10 @@
     "definition": "想；認為；覺得",
     "pitch_accent": 2,
     "affix_type": "none",
-    "lesson_id": "11"
+    "lesson_id": "11",
+    "dic_form": "思う",
+    "dic_form_reading": "おもう",
+    "dic_form_pitch_accent": 2
   },
   {
     "id": "ae4be614-c113-4f57-96ee-c73a0dc3842b",
@@ -8547,7 +8898,10 @@
     "definition": "慢跑",
     "pitch_accent": 0,
     "affix_type": "none",
-    "lesson_id": "11"
+    "lesson_id": "11",
+    "dic_form": "ジョギングする",
+    "dic_form_reading": "ジョギングする",
+    "dic_form_pitch_accent": 0
   },
   {
     "id": "aa9505c1-853b-429c-b6bf-43654e0a3b6e",
@@ -8557,7 +8911,10 @@
     "definition": "洗衣服",
     "pitch_accent": 0,
     "affix_type": "none",
-    "lesson_id": "11"
+    "lesson_id": "11",
+    "dic_form": "洗濯する",
+    "dic_form_reading": "せんたくする",
+    "dic_form_pitch_accent": 0
   },
   {
     "id": "d060dca9-ea7f-47da-9e32-4610dd2d077c",
@@ -8567,7 +8924,10 @@
     "definition": "打掃",
     "pitch_accent": 0,
     "affix_type": "none",
-    "lesson_id": "11"
+    "lesson_id": "11",
+    "dic_form": "掃除する",
+    "dic_form_reading": "そうじする",
+    "dic_form_pitch_accent": 0
   },
   {
     "id": "923e1bb2-0c71-487f-bda6-6e50f43f781d",
@@ -8577,7 +8937,10 @@
     "definition": "(門、窗)開",
     "pitch_accent": 0,
     "affix_type": "none",
-    "lesson_id": "11"
+    "lesson_id": "11",
+    "dic_form": "開く",
+    "dic_form_reading": "あく",
+    "dic_form_pitch_accent": 0
   },
   {
     "id": "9bf62433-1c96-4fb9-b07a-f412ae9a2b5a",
@@ -8587,7 +8950,10 @@
     "definition": "(門、窗)關",
     "pitch_accent": 2,
     "affix_type": "none",
-    "lesson_id": "11"
+    "lesson_id": "11",
+    "dic_form": "閉まる",
+    "dic_form_reading": "しまる",
+    "dic_form_pitch_accent": 2
   },
   {
     "id": "356f5bc8-b88a-4785-95f0-9edc73011440",
@@ -8607,7 +8973,10 @@
     "definition": "哭",
     "pitch_accent": 0,
     "affix_type": "none",
-    "lesson_id": "11"
+    "lesson_id": "11",
+    "dic_form": "泣く",
+    "dic_form_reading": "なく",
+    "dic_form_pitch_accent": 0
   },
   {
     "id": "a7ed3845-0c29-475b-a385-ee2472bf6547",
@@ -8617,7 +8986,10 @@
     "definition": "笑",
     "pitch_accent": 0,
     "affix_type": "none",
-    "lesson_id": "11"
+    "lesson_id": "11",
+    "dic_form": "笑う",
+    "dic_form_reading": "わらう",
+    "dic_form_pitch_accent": 0
   },
   {
     "id": "3fc7bdba-a5c1-4aec-874c-40a7f7a92589",
@@ -8677,7 +9049,10 @@
     "definition": "賣；販賣",
     "pitch_accent": 0,
     "affix_type": "none",
-    "lesson_id": "11"
+    "lesson_id": "11",
+    "dic_form": "売る",
+    "dic_form_reading": "うる",
+    "dic_form_pitch_accent": 0
   },
   {
     "id": "11842e40-655a-44f7-9d7e-e569b15366ec",
@@ -8727,7 +9102,10 @@
     "definition": "遞；交付",
     "pitch_accent": 0,
     "affix_type": "none",
-    "lesson_id": "11"
+    "lesson_id": "11",
+    "dic_form": "渡す",
+    "dic_form_reading": "わたす",
+    "dic_form_pitch_accent": 0
   },
   {
     "id": "2fe2161f-7b3e-49ac-94e0-74f32ca1a610",
@@ -8737,7 +9115,10 @@
     "definition": "穿(上身衣物)",
     "pitch_accent": 0,
     "affix_type": "none",
-    "lesson_id": "12"
+    "lesson_id": "12",
+    "dic_form": "着る",
+    "dic_form_reading": "きる",
+    "dic_form_pitch_accent": 0
   },
   {
     "id": "2fe9a4a1-a60b-4dd2-a6c1-aeec85132031",
@@ -8747,7 +9128,10 @@
     "definition": "脫",
     "pitch_accent": 1,
     "affix_type": "none",
-    "lesson_id": "12"
+    "lesson_id": "12",
+    "dic_form": "脱ぐ",
+    "dic_form_reading": "ぬぐ",
+    "dic_form_pitch_accent": 1
   },
   {
     "id": "24f65e63-3429-4286-ae79-0a2c9d3d1855",
@@ -8827,7 +9211,10 @@
     "definition": "穿(下身衣物、鞋、襪)",
     "pitch_accent": 0,
     "affix_type": "none",
-    "lesson_id": "12"
+    "lesson_id": "12",
+    "dic_form": "はく",
+    "dic_form_reading": "はく",
+    "dic_form_pitch_accent": 0
   },
   {
     "id": "d6537e5f-369e-47af-8049-855f233f7032",
@@ -8837,7 +9224,10 @@
     "definition": "戴(帽子)",
     "pitch_accent": 2,
     "affix_type": "none",
-    "lesson_id": "12"
+    "lesson_id": "12",
+    "dic_form": "かぶる",
+    "dic_form_reading": "かぶる",
+    "dic_form_pitch_accent": 2
   },
   {
     "id": "d8cca907-434a-4e8c-a2fc-2e398b78b38a",
@@ -9037,7 +9427,10 @@
     "definition": "急忙；加快",
     "pitch_accent": 2,
     "affix_type": "none",
-    "lesson_id": "12"
+    "lesson_id": "12",
+    "dic_form": "急ぐ",
+    "dic_form_reading": "いそぐ",
+    "dic_form_pitch_accent": 2
   },
   {
     "id": "1b8a9fb3-665b-4c08-a132-9e118da83791",
@@ -9277,7 +9670,10 @@
     "definition": "跳舞；舞動",
     "pitch_accent": 0,
     "affix_type": "none",
-    "lesson_id": "12"
+    "lesson_id": "12",
+    "dic_form": "踊る",
+    "dic_form_reading": "おどる",
+    "dic_form_pitch_accent": 0
   },
   {
     "id": "15648cc2-667b-4449-9520-17e7c701fb45",
@@ -9327,7 +9723,10 @@
     "definition": "開心；喜悅",
     "pitch_accent": 3,
     "affix_type": "none",
-    "lesson_id": "12"
+    "lesson_id": "12",
+    "dic_form": "喜ぶ",
+    "dic_form_reading": "よろこぶ",
+    "dic_form_pitch_accent": 3
   },
   {
     "id": "73090669-ff0e-49e1-9661-76373d0ca072",
@@ -9377,7 +9776,10 @@
     "definition": "排隊；排列",
     "pitch_accent": 0,
     "affix_type": "none",
-    "lesson_id": "12"
+    "lesson_id": "12",
+    "dic_form": "並ぶ",
+    "dic_form_reading": "ならぶ",
+    "dic_form_pitch_accent": 0
   },
   {
     "id": "fea7bd72-5969-4c2e-8643-5f210e583483",
