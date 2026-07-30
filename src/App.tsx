@@ -102,7 +102,7 @@ function DualRangeSlider({
         style={{ ...inputStyleBase, zIndex: maxZ + 10 }}
       />
       <div
-        className="absolute w-10 h-10 rounded-full bg-slate-800/[0.12] opacity-0 peer-hover/min:opacity-100 peer-focus/min:opacity-100 transition-opacity duration-150 pointer-events-none"
+        className="absolute w-10 h-10 rounded-full bg-slate-800/[0.12] opacity-0 peer-hover/min:opacity-100 peer-focus/min:opacity-100 peer-active/min:opacity-100 transition-opacity duration-150 pointer-events-none"
         style={{ left: `${fracMin * 100}%`, top: '50%', transform: 'translate(-50%, -50%)', zIndex: minZ }}
       />
       <div
@@ -110,7 +110,7 @@ function DualRangeSlider({
         style={{ left: `${fracMin * 100}%`, top: '50%', transform: 'translate(-50%, -50%)', zIndex: minZ }}
       />
       <div
-        className="absolute w-10 h-10 rounded-full bg-slate-800/[0.12] opacity-0 peer-hover/max:opacity-100 peer-focus/max:opacity-100 transition-opacity duration-150 pointer-events-none"
+        className="absolute w-10 h-10 rounded-full bg-slate-800/[0.12] opacity-0 peer-hover/max:opacity-100 peer-focus/max:opacity-100 peer-active/max:opacity-100 transition-opacity duration-150 pointer-events-none"
         style={{ left: `${fracMax * 100}%`, top: '50%', transform: 'translate(-50%, -50%)', zIndex: maxZ }}
       />
       <div
@@ -290,14 +290,7 @@ export default function App() {
           {/* Left Column: Lesson Select */}
           <div className="md:col-span-7 space-y-4">
             <div className="bg-white rounded-3xl p-5 shadow-sm border border-slate-100 mb-4 relative overflow-hidden">
-              <h2 className="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-4">Filters</h2>
-              {fcActive && (
-                <div className="text-xs text-slate-400 mb-4 -mt-2">
-                  A session is in progress — changes here only affect the Terms Viewer until it ends.
-                </div>
-              )}
-
-              <div className="text-xs font-medium text-slate-500 mb-2">Lessons</div>
+              <div className="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-4">Lessons</div>
               <div className="grid grid-cols-4 sm:grid-cols-5 gap-2 mb-5">
                 {lessons.map(lessonId => {
                   const isSelected = selectedLessons[lessonId];
@@ -318,7 +311,7 @@ export default function App() {
               </div>
 
               <div className="pt-4 border-t border-slate-100">
-                <div className="text-xs font-medium text-slate-500 mb-2">Word Type</div>
+                <div className="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-2">Word Type</div>
                 <div className="grid grid-cols-2 gap-2">
                   <button
                     onClick={() => setSelectedWordTypes(prev => ({ ...prev, verb: !prev.verb }))}
@@ -350,15 +343,8 @@ export default function App() {
             {fcActive ? (
               <div className="bg-white rounded-3xl p-5 shadow-sm border border-slate-100">
                 <h2 className="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-4">Session Status</h2>
-                <div className="mb-5">
-                  <div className="font-medium text-slate-700 mb-1">Production session in progress</div>
-                  <div className="text-xs text-slate-400">
-                    {Object.values(fcSessionLessons).filter(Boolean).length} lessons • {sessionVocab.length} terms in scope
-                  </div>
-                </div>
                 <div className="flex items-center justify-between mb-5">
-                  <div className="text-sm text-slate-500">Progress</div>
-                  <div className="text-sm font-semibold text-slate-800 tabular-nums">{sessionMasteredCount} / {sessionVocab.length} mastered</div>
+                  <div className="text-sm text-slate-500">{sessionMasteredCount} / {sessionVocab.length} mastered</div>
                 </div>
                 <button
                   onClick={() => setFcActive(false)}

@@ -39,7 +39,7 @@ These filters stay editable even while a Production session is running, but they
 - **Strict Pitch Accent** *(Reading Recognition only)*: require selecting a pitch accent before advancing.
 - **Working Terms Range** *(Production only)*: a slider controlling how many terms stay active in the rotation at once (1–30). Drag either handle; the app keeps the low end at or below the high end automatically.
 
-While a Production session is in progress, this card is replaced by a **Session Status** card instead — showing the session's scope, a live mastered-terms count, and the **Discard Session** button.
+While a Production session is in progress, this card is replaced by a **Session Status** card instead — showing a live mastered-terms count and the **Discard Session** button.
 
 ## Terms Viewer
 
