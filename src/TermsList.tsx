@@ -7,6 +7,7 @@ import { AnnotatedReading, AffixWrapper, isMastered } from './Drills';
 export const TermsList = ({
   vocabList,
   mode,
+  sessionActive,
   fcRecords,
   markedTerms,
   onToggleMark,
@@ -14,6 +15,7 @@ export const TermsList = ({
 }: {
   vocabList: Vocabulary[],
   mode: 'production' | 'recognition',
+  sessionActive: boolean,
   fcRecords: Record<string, FcRecord>,
   markedTerms: Record<string, boolean>,
   onToggleMark: (id: string) => void,
@@ -22,7 +24,10 @@ export const TermsList = ({
   const [sortMode, setSortMode] = useState<'all' | 'practicing'>('practicing');
   const [searchQuery, setSearchQuery] = useState('');
 
-  const showTabs = mode === 'production';
+  // The Practicing tab reflects an in-progress Production session's mastery
+  // data — outside of a session there's nothing "in progress" to filter down to,
+  // so the tab (and its filtering) only appears while a session is actually active.
+  const showTabs = mode === 'production' && sessionActive;
 
   const sortedVocab = useMemo(() => {
     let filtered = vocabList;
@@ -47,7 +52,7 @@ export const TermsList = ({
     <main className="h-[100dvh] overflow-y-auto bg-slate-50 p-6 md:p-12 font-sans text-slate-900 flex justify-center items-start">
       <div className="w-full max-w-4xl flex flex-col min-h-full">
         <div className="mb-8 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-          <button onClick={onBack} className="text-slate-500 hover:text-slate-800 transition-colors flex items-center font-medium w-fit">
+          <button onClick={onBack} className="text-slate-500 hover:text-md-primary transition-colors flex items-center font-medium w-fit">
             <ChevronLeft size={20} className="mr-1" /> Back to Menu
           </button>
 
@@ -55,13 +60,13 @@ export const TermsList = ({
             <div className="flex bg-slate-200/50 p-1 rounded-xl w-fit">
               <button
                 onClick={() => setSortMode('all')}
-                className={`px-4 py-1.5 rounded-lg text-sm font-medium transition-colors ${sortMode === 'all' ? 'bg-white shadow-sm text-slate-800' : 'text-slate-500 hover:text-slate-700'}`}
+                className={`px-4 py-1.5 rounded-lg text-sm font-medium transition-colors ${sortMode === 'all' ? 'bg-white shadow-sm text-md-primary' : 'text-slate-500 hover:text-slate-700'}`}
               >
                 All
               </button>
               <button
                 onClick={() => setSortMode('practicing')}
-                className={`px-4 py-1.5 rounded-lg text-sm font-medium transition-colors ${sortMode === 'practicing' ? 'bg-white shadow-sm text-slate-800' : 'text-slate-500 hover:text-slate-700'}`}
+                className={`px-4 py-1.5 rounded-lg text-sm font-medium transition-colors ${sortMode === 'practicing' ? 'bg-white shadow-sm text-md-primary' : 'text-slate-500 hover:text-slate-700'}`}
               >
                 Practicing
               </button>
@@ -69,7 +74,7 @@ export const TermsList = ({
           )}
         </div>
 
-        <div className="bg-white rounded-2xl border border-slate-200 shadow-sm flex items-center px-4 py-3 mb-8 focus-within:border-slate-400 transition-colors">
+        <div className="bg-white rounded-2xl border border-slate-200 shadow-sm flex items-center px-4 py-3 mb-8 focus-within:border-md-primary transition-colors">
           <Search size={18} className="text-slate-400 mr-3" />
           <input
             type="text"
@@ -94,8 +99,7 @@ export const TermsList = ({
                 <div
                   key={`${vocab.id}-${i}`}
                   onClick={() => onToggleMark(vocab.id)}
-                  className="grid grid-cols-3 items-center gap-4 px-4 py-2 transition-colors cursor-pointer hover:bg-slate-50"
-                  style={{ backgroundColor: isMarked ? '#FCE4EC' : undefined }}
+                  className={`grid grid-cols-3 items-center gap-4 px-4 py-2 transition-colors cursor-pointer hover:bg-slate-50 ${isMarked ? 'bg-md-accent-light' : ''}`}
                 >
                   <div className="text-base text-slate-800 flex items-center truncate" title={vocab.term}>
                     <AffixWrapper term={vocab.term} affixType={vocab.affix_type} mode="inline" />

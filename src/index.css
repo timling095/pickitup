@@ -1,5 +1,18 @@
 @import "tailwindcss";
 
+/* Material Design 2's classic default palette (the Android Studio "Indigo + Pink A200"
+   starter theme): colorPrimary/colorPrimaryDark drive selected/interactive elements,
+   colorAccent stays reserved for the marked-term highlight in TermsList. Registering
+   these here (Tailwind v4 CSS-first theme) generates bg-md-primary, text-md-primary,
+   border-md-primary, bg-md-primary/12 (opacity), etc. across the whole app. */
+@theme {
+  --color-md-primary: #3F51B5;
+  --color-md-primary-dark: #303F9F;
+  --color-md-primary-light: #C5CAE9;
+  --color-md-accent: #FF4081;
+  --color-md-accent-light: #FCE4EC;
+}
+
 @font-face {
   font-family: 'Noto Serif TC';
   src: url('./assets/NotoSerifTC.ttf') format('truetype');

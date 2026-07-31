@@ -3,6 +3,16 @@ import vocabData from './assets/processed_vocabulary.json';
 
 export type AffixType = 'none' | 'prefix' | 'suffix';
 
+// All pos values present in the dataset. The five user-visible filter categories
+// are: verb, na_adj, i_adj, noun, other. The remaining pos values (pronoun,
+// interjection, conjunction, pre_noun, counter, adverb, phrase, prefix, suffix,
+// and the catch-all other) all collapse into the "other" filter bucket.
+export type PosType =
+  | 'verb' | 'na_adj' | 'i_adj' | 'noun'
+  | 'adverb' | 'pronoun' | 'interjection' | 'conjunction'
+  | 'pre_noun' | 'counter' | 'prefix' | 'suffix' | 'phrase'
+  | 'other';
+
 export interface Vocabulary {
   id: string;
   raw_term: string;
@@ -12,6 +22,9 @@ export interface Vocabulary {
   pitch_accent: number;
   affix_type: AffixType;
   lesson_id: string;
+  // Part-of-speech data sourced from the tableConvert CSVs.
+  pos: PosType;
+  pos_raw: string;           // Original Chinese 詞性 label, kept for traceability.
   dic_form?: string;
   dic_form_reading?: string;
   dic_form_pitch_accent?: number;
@@ -25,17 +38,26 @@ export function useVocabulary(selectedLessons: Record<string, boolean>) {
   }, [selectedLessons]);
 }
 
-export type WordType = 'verb' | 'other';
+// The five user-visible word-type filter categories.
+export type WordType = 'verb' | 'na_adj' | 'i_adj' | 'noun' | 'other';
 
-// A term is a verb iff it carries a recorded dictionary (辞書形) form — this
-// mirrors the 詞性 (part of speech) column in the source CSVs exactly (verified
-// 1:1 against every 動詞-tagged row), so no separate pos field is needed.
+// Maps a vocabulary entry's pos to one of the five filter buckets.
+export function wordTypeOf(v: Vocabulary): WordType {
+  if (v.pos === 'verb')   return 'verb';
+  if (v.pos === 'na_adj') return 'na_adj';
+  if (v.pos === 'i_adj')  return 'i_adj';
+  if (v.pos === 'noun')   return 'noun';
+  return 'other';
+}
+
+// isVerb is kept for backward compatibility (FlashcardEngine, TermsList, etc.)
+// and now reads from the pos field rather than the dic_form heuristic.
 export function isVerb(v: Vocabulary): boolean {
-  return v.dic_form !== undefined;
+  return v.pos === 'verb';
 }
 
 export function filterByWordType(vocabList: Vocabulary[], selectedWordTypes: Record<WordType, boolean>): Vocabulary[] {
-  return vocabList.filter(v => selectedWordTypes[isVerb(v) ? 'verb' : 'other']);
+  return vocabList.filter(v => selectedWordTypes[wordTypeOf(v)]);
 }
 
 // For verbs with a recorded dictionary (辞書形) form, swaps term/reading/pitch_accent

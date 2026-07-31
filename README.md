@@ -25,11 +25,11 @@ Tap **Exit Session** at any time to return to the menu — this is just a quick 
 
 ### Reading Recognition
 
-A 15-question multiple-choice quiz per session, testing reading↔meaning recall (question direction is randomized each time), with an optional 0–6 pitch accent selector alongside every question. Terms you tend to get wrong show up more often.
+A 15-question multiple-choice quiz per session, testing reading↔meaning recall (question direction is randomized each time), with an optional 0–6 pitch accent selector alongside every question. The session always has exactly 15 questions — if you have at least 8 terms in scope, no term appears more than twice per session; with fewer terms they repeat as needed to fill the 15 slots. Terms you tend to get wrong show up more often.
 
 ## Filters
 
-Pick one or more lessons from the grid on the main screen, and choose which word types to include — **Verbs**, **Others**, or both — right below it. Both modes pull from the same filters — you can't scope them separately.
+Pick one or more lessons from the grid on the main screen, and choose which word types to include right below it: **Verbs**, **な-adj**, **い-adj**, **Nouns**, and **Others** — any combination, independently. Both modes pull from the same filters — you can't scope them separately.
 
 These filters stay editable even while a Production session is running, but they only affect the Terms Viewer (and whatever session you start next) — they never change the scope of a session that's already in progress.
 
@@ -39,11 +39,11 @@ These filters stay editable even while a Production session is running, but they
 - **Strict Pitch Accent** *(Reading Recognition only)*: require selecting a pitch accent before advancing.
 - **Working Terms Range** *(Production only)*: a slider controlling how many terms stay active in the rotation at once (1–30). Drag either handle; the app keeps the low end at or below the high end automatically.
 
-While a Production session is in progress, this card is replaced by a **Session Status** card instead — showing a live mastered-terms count and the **Discard Session** button.
+While a Production session is in progress, this card is replaced by a **Session Status** card instead — a single line showing a live mastered-terms count alongside the **Discard Session** button.
 
 ## Terms Viewer
 
-Tap **View Terms** to browse every term in your current lesson selection as a searchable list (search matches term, reading, or meaning). Tap any row to mark it with a highlight — this is just a personal reminder and has no effect on drills. In Production mode, a **Practicing** tab filters the list down to terms you haven't mastered yet.
+Tap **View Terms** to browse every term in your current lesson selection as a searchable list (search matches term, reading, or meaning). Tap any row to mark it with a highlight — this is just a personal reminder and has no effect on drills. While a Production session is in progress, a **Practicing** tab also appears, filtering the list down to terms you haven't mastered yet.
 
 ## Managing your vocabulary list
 
