@@ -60,13 +60,13 @@ export const TermsList = ({
             <div className="flex bg-slate-200/50 p-1 rounded-xl w-fit">
               <button
                 onClick={() => setSortMode('all')}
-                className={`px-4 py-1.5 rounded-lg text-sm font-medium transition-colors ${sortMode === 'all' ? 'bg-white shadow-sm text-md-primary' : 'text-slate-500 hover:text-slate-700'}`}
+                className={`px-4 py-2 rounded-lg text-sm font-medium uppercase tracking-wide transition-colors ${sortMode === 'all' ? 'bg-white shadow-sm text-md-primary' : 'text-slate-500 hover:text-slate-700'}`}
               >
                 All
               </button>
               <button
                 onClick={() => setSortMode('practicing')}
-                className={`px-4 py-1.5 rounded-lg text-sm font-medium transition-colors ${sortMode === 'practicing' ? 'bg-white shadow-sm text-md-primary' : 'text-slate-500 hover:text-slate-700'}`}
+                className={`px-4 py-2 rounded-lg text-sm font-medium uppercase tracking-wide transition-colors ${sortMode === 'practicing' ? 'bg-white shadow-sm text-md-primary' : 'text-slate-500 hover:text-slate-700'}`}
               >
                 Practicing
               </button>

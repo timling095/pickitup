@@ -122,33 +122,45 @@ function DualRangeSlider({
 }
 
 // Material Design checkbox: an 18px square, 2px border, filled indigo + white check
-// when checked. `role="checkbox"`/`aria-checked` on a <button> since these are simple
-// boolean settings toggles, not part of a <form>.
+// when checked. The <button> IS the full 40px halo/hit-area (not just the 18px visual
+// box), so clicking anywhere in the halo registers — the 18px box is a plain inner
+// <div> (can't nest a <button> inside a <button>). `role="checkbox"`/`aria-checked`
+// since this is a simple boolean settings toggle, not part of a <form>. The halo reuses
+// DualRangeSlider's thumb technique (a Material "state layer"): group-hover/group-focus/
+// group-active fade it in — `group-focus` (not `-within`) since the button itself, not
+// a descendant, is what receives focus here.
 function MdCheckbox({ checked, onChange }: { checked: boolean, onChange: () => void }) {
   return (
     <button
       onClick={onChange}
       role="checkbox"
       aria-checked={checked}
-      className={`w-[18px] h-[18px] rounded-[2px] border-2 flex items-center justify-center flex-shrink-0 transition-colors ${
-        checked ? 'bg-md-primary border-md-primary' : 'bg-white border-slate-400 hover:border-md-primary'
-      }`}
+      className="group relative w-10 h-10 flex items-center justify-center flex-shrink-0"
     >
-      {checked && <Check size={13} strokeWidth={3.5} className="text-white" />}
+      <div className="absolute inset-0 m-auto w-10 h-10 rounded-full bg-md-primary/[0.12] opacity-0 group-hover:opacity-100 group-focus:opacity-100 group-active:opacity-100 transition-opacity duration-150 pointer-events-none" />
+      <div
+        className={`relative w-[18px] h-[18px] rounded-[2px] border-2 flex items-center justify-center transition-colors pointer-events-none ${
+          checked ? 'bg-md-primary border-md-primary' : 'bg-white border-slate-400 group-hover:border-md-primary'
+        }`}
+      >
+        {checked && <Check size={13} strokeWidth={3.5} className="text-white" />}
+      </div>
     </button>
   );
 }
 
-// Material Design filter chip: fully-rounded, outlined when unselected, filled indigo
-// with a leading checkmark when selected — used for every multi-select filter control
-// (Lessons, Word Type) so they all read as one consistent chip group.
+// Material Design filter chip: fully-rounded, neutral grayscale in both states — MD2
+// filter chips don't need the primary/accent color at all, and selecting one never
+// inverts its text to white; the darker tonal fill + leading checkmark alone communicate
+// "selected". Used for every multi-select filter control (Lessons, Word Type) so they
+// all read as one consistent chip group.
 function Chip({ selected, onClick, children }: { selected: boolean, onClick: () => void, children: ReactNode }) {
   return (
     <button
       onClick={onClick}
       className={`h-8 px-3 rounded-full text-xs font-medium border transition-colors inline-flex items-center justify-center gap-1 ${
         selected
-          ? 'bg-md-primary border-md-primary text-white shadow-sm'
+          ? 'bg-slate-200 border-slate-200 text-slate-800'
           : 'bg-white border-slate-300 text-slate-600 hover:bg-slate-50'
       }`}
     >
@@ -282,13 +294,13 @@ export default function App() {
             <div className="flex bg-slate-200/50 p-1 rounded-xl w-fit mx-auto md:mx-0">
               <button
                 onClick={() => setActiveMode('production')}
-                className={`px-5 py-2 rounded-lg text-sm font-medium transition-colors ${activeMode === 'production' ? 'bg-white shadow-sm text-md-primary' : 'text-slate-500 hover:text-slate-700'}`}
+                className={`px-5 py-2 rounded-lg text-sm font-medium uppercase tracking-wide transition-colors ${activeMode === 'production' ? 'bg-white shadow-sm text-md-primary' : 'text-slate-500 hover:text-slate-700'}`}
               >
                 Production
               </button>
               <button
                 onClick={() => setActiveMode('recognition')}
-                className={`px-5 py-2 rounded-lg text-sm font-medium transition-colors ${activeMode === 'recognition' ? 'bg-white shadow-sm text-md-primary' : 'text-slate-500 hover:text-slate-700'}`}
+                className={`px-5 py-2 rounded-lg text-sm font-medium uppercase tracking-wide transition-colors ${activeMode === 'recognition' ? 'bg-white shadow-sm text-md-primary' : 'text-slate-500 hover:text-slate-700'}`}
               >
                 Reading Recognition
               </button>
@@ -298,7 +310,7 @@ export default function App() {
             <button
               onClick={() => setAppState('terms')}
               disabled={displayVocab.length === 0}
-              className="h-11 px-6 bg-white border-2 border-md-primary text-md-primary rounded-lg font-medium tracking-wide hover:bg-md-primary/5 transition-colors disabled:opacity-50 disabled:cursor-not-allowed text-sm"
+              className="px-6 py-2 bg-white border border-slate-300 text-md-primary rounded-lg font-medium uppercase tracking-wide hover:border-md-primary/40 hover:bg-md-primary/5 transition-colors disabled:opacity-50 disabled:cursor-not-allowed text-sm"
             >
               View Terms
             </button>
@@ -312,7 +324,7 @@ export default function App() {
                 setAppState('drill');
               }}
               disabled={(activeMode === 'production' && fcActive) ? false : displayVocab.length === 0}
-              className="h-11 px-8 bg-md-primary text-white rounded-lg font-medium tracking-wide flex items-center justify-center gap-2 hover:bg-md-primary-dark transition-colors disabled:opacity-50 disabled:cursor-not-allowed shadow-sm hover:shadow-md text-sm"
+              className="px-8 py-2 bg-md-primary text-white rounded-lg font-medium uppercase tracking-wide flex items-center justify-center gap-2 hover:bg-md-primary-dark transition-colors disabled:opacity-50 disabled:cursor-not-allowed shadow-sm hover:shadow-md text-sm"
             >
               {(activeMode === 'production' && fcActive) ? 'Resume Session' : 'Start Session'} <ChevronRight size={18} />
             </button>
@@ -373,7 +385,7 @@ export default function App() {
                   <div className="text-sm text-slate-500 tabular-nums whitespace-nowrap">{sessionMasteredCount} / {sessionVocab.length} mastered</div>
                   <button
                     onClick={() => setFcActive(false)}
-                    className="flex-shrink-0 px-4 py-2 bg-red-50 text-red-600 rounded-lg font-medium text-sm hover:bg-red-100 transition-colors"
+                    className="flex-shrink-0 px-4 py-2 bg-red-50 text-red-600 rounded-lg font-medium text-sm uppercase tracking-wide hover:bg-red-100 transition-colors"
                   >
                     Discard Session
                   </button>
@@ -424,7 +436,7 @@ export default function App() {
           <button
             onClick={() => setAppState('terms')}
             disabled={displayVocab.length === 0}
-            className="w-full py-4 bg-white border-2 border-md-primary text-md-primary rounded-lg font-medium tracking-wide hover:bg-md-primary/5 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+            className="w-full py-2 bg-white border border-slate-300 text-md-primary rounded-lg font-medium uppercase tracking-wide text-sm hover:border-md-primary/40 hover:bg-md-primary/5 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
           >
             View Terms
           </button>
@@ -438,7 +450,7 @@ export default function App() {
               setAppState('drill');
             }}
             disabled={(activeMode === 'production' && fcActive) ? false : displayVocab.length === 0}
-            className="w-full py-4 bg-md-primary text-white rounded-lg font-medium tracking-wide flex items-center justify-center gap-2 hover:bg-md-primary-dark transition-colors disabled:opacity-50 disabled:cursor-not-allowed shadow-sm hover:shadow-md"
+            className="w-full py-2 bg-md-primary text-white rounded-lg font-medium uppercase tracking-wide text-sm flex items-center justify-center gap-2 hover:bg-md-primary-dark transition-colors disabled:opacity-50 disabled:cursor-not-allowed shadow-sm hover:shadow-md"
           >
             {(activeMode === 'production' && fcActive) ? 'Resume Session' : 'Start Session'} <ChevronRight size={20} />
           </button>
