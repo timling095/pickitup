@@ -7048,11 +7048,11 @@
   },
   {
     "id": "57d8e3a6-4c8e-4bf3-8c72-3fd06355328e",
-    "raw_term": "自動販売機",
-    "term": "自動販売機",
-    "reading": "じどうはんばいき",
+    "raw_term": "自販機",
+    "term": "自販機",
+    "reading": "じはんき",
     "definition": "自動販賣機",
-    "pitch_accent": 6,
+    "pitch_accent": 2,
     "affix_type": "none",
     "lesson_id": "8"
   },
