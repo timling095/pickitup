@@ -426,17 +426,8 @@ export default function App() {
     <main className="h-[100dvh] overflow-y-auto bg-slate-50 p-6 md:p-12 font-sans text-slate-900 flex justify-center items-start">
       <div className="w-full max-w-5xl flex flex-col min-h-full">
 
-        <div className="mb-6 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+        <div className="mb-6">
           <h1 className="text-4xl tracking-tight text-slate-800 text-center sm:text-left" style={{ fontFamily: '"Space Grotesk", sans-serif', fontWeight: 700 }}>Pick It Up</h1>
-          <div className="hidden md:flex items-center gap-3">
-            <button
-              onClick={() => setAppState('terms')}
-              disabled={displayVocab.length === 0}
-              className="h-11 px-6 bg-white border border-slate-200 text-slate-700 rounded-xl font-medium tracking-wide hover:bg-slate-50 transition-colors disabled:opacity-50 disabled:cursor-not-allowed shadow-sm text-sm"
-            >
-              View Terms
-            </button>
-          </div>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-12 gap-8">
@@ -444,9 +435,20 @@ export default function App() {
           {/* Left Column: Lesson Select */}
           <div className="md:col-span-7 space-y-4">
             <div className="bg-white rounded-3xl p-5 shadow-sm border border-slate-100 mb-4 relative overflow-hidden">
-              <h2 className="text-lg font-normal text-slate-900 mb-1">Filters</h2>
-              <div className="text-xs text-slate-400 mb-5">
-                {Object.values(selectedLessons).filter(Boolean).length} Lessons Selected • {displayVocab.length} terms loaded
+              <div className="flex items-end justify-between gap-4 mb-5">
+                <div>
+                  <h2 className="text-lg font-normal text-slate-900 mb-1">Glossary</h2>
+                  <div className="text-xs text-slate-400">
+                    {Object.values(selectedLessons).filter(Boolean).length} Lessons Selected • {displayVocab.length} terms loaded
+                  </div>
+                </div>
+                <button
+                  onClick={() => setAppState('terms')}
+                  disabled={displayVocab.length === 0}
+                  className="flex-shrink-0 h-11 px-5 bg-slate-800 text-white rounded-xl font-medium tracking-wide hover:bg-slate-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed shadow-md text-sm"
+                >
+                  View Terms
+                </button>
               </div>
 
               <div className="border-t border-slate-100 -mx-5 mb-5" />
@@ -595,16 +597,6 @@ export default function App() {
             )}
           </div>
 
-        </div>
-
-        <div className="md:hidden mt-8 w-full">
-          <button
-            onClick={() => setAppState('terms')}
-            disabled={displayVocab.length === 0}
-            className="w-full py-4 bg-white border border-slate-200 text-slate-700 rounded-2xl font-medium tracking-wide hover:bg-slate-50 transition-colors disabled:opacity-50 disabled:cursor-not-allowed shadow-sm"
-          >
-            View Terms
-          </button>
         </div>
 
         <div className="mt-auto pt-12 pb-2 text-center text-[10px] font-normal text-slate-400 tracking-wide uppercase">
