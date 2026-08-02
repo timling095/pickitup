@@ -1,5 +1,5 @@
 import { useState, useMemo, type ReactNode } from 'react';
-import { ChevronRight, Check } from 'lucide-react';
+import { ChevronRight, Check, PenLine, Eye } from 'lucide-react';
 import { DICTIONARY, useVocabulary, applyVerbForm, filterByWordType } from './dictionary';
 import type { WordType } from './dictionary';
 import { DrillEngine, FlashcardEngine, isMastered } from './Drills';
@@ -149,6 +149,111 @@ function MdCheckbox({ checked, onChange }: { checked: boolean, onChange: () => v
   );
 }
 
+// Mode switch: DualRangeSlider's overshoot trick pushed into an actual hardware
+// toggle that now also *launches*. The lever is `bg-slate-800` — this app's one
+// "primary action" color, inherited directly from the Start Session button it
+// replaces — so it reads clearly against the white card instead of disappearing
+// into it. Tapping the side that's already active launches (or resumes) that
+// mode's session; tapping the other side just switches, the same as before.
+// The track is fully rounded (a thin pill, echoing DualRangeSlider's own slender
+// line) but the lever itself stays boxy — `rounded-xl`, the same radius as the
+// app's cards and buttons — so it reads as a distinct rectangular object riding
+// inside a round groove, not just a bigger pill nested in a smaller one. The
+// lever overshoots the track on all four sides — a slim horizontal overshoot
+// past the pill's rounded caps (echoing DualRangeSlider's thumb overshooting
+// its line) paired with a taller vertical one, so the boxy lever reads as a
+// tall, narrow object riding *on top of* the thin track rather than being
+// inlaid flush into it. That vertical overshoot is safe in a way it wasn't
+// during an earlier attempt at this: the earlier "off-center" illusion came
+// from an unrelated bug (the caption forcing both sides to share a baseline
+// instead of centering independently — see below), not from the overshoot
+// itself. With that fixed, the lever can run taller than the track without
+// giving the eye a competing shape to measure the un-levered side against.
+// New-user discoverability is solved with a persistent caption under the active
+// label ("Tap to start"/"Tap to resume") rather than a hover hint, since this is
+// an iPad-first app and iPadOS Safari doesn't reliably fire :hover at all. The
+// caption is always mounted on both sides, but collapsed to zero height via
+// `grid-template-rows` when inactive (see `renderSide`) rather than being
+// removed from the DOM — that's what lets it animate open/shut instead of
+// popping, and it's also why each side's own content — icon+label alone at
+// rest, icon+label+caption once expanded — can still center independently via
+// `justify-center` inside a fixed-height track (`h-11`) without the two sides
+// ever needing to share a baseline. That means the icon+label sits a touch
+// higher on the active side than the inactive one (it's making room for the
+// caption below it), and the track's fixed height is what stops the card from
+// jerking as that caption row grows and shrinks. The press itself gets a
+// satisfying squash: the buttons are named peers (`peer/production`,
+// `peer/recognition`) and the lever — the *last* child, so z-index alone (not
+// DOM order) keeps it visually behind the button labels — scales down on
+// `peer-active`, the same peer-driven wiring DualRangeSlider uses for its halo,
+// reused here for a push instead of a fade-in.
+function ModeSwitch({
+  activeMode, onChangeMode, onLaunch, launchDisabled, resuming
+}: {
+  activeMode: 'production' | 'recognition',
+  onChangeMode: (mode: 'production' | 'recognition') => void,
+  onLaunch: () => void,
+  launchDisabled: boolean,
+  resuming: boolean
+}) {
+  const handleClick = (mode: 'production' | 'recognition') => {
+    if (mode === activeMode) {
+      if (!launchDisabled) onLaunch();
+    } else {
+      onChangeMode(mode);
+    }
+  };
+
+  const caption = launchDisabled ? 'No terms selected' : resuming ? 'Tap to resume' : 'Tap to start';
+
+  const renderSide = (mode: 'production' | 'recognition', Icon: typeof PenLine, label: string) => {
+    const isActive = activeMode === mode;
+    return (
+      <button
+        onClick={() => handleClick(mode)}
+        disabled={isActive && launchDisabled}
+        className={`peer/${mode} relative z-10 flex-1 min-w-0 rounded-xl text-sm font-medium transition-colors flex flex-col items-center justify-center disabled:cursor-not-allowed ${isActive ? 'text-white' : 'text-slate-500 hover:text-slate-700'}`}
+      >
+        <span className="flex items-center gap-1.5">
+          <Icon size={16} strokeWidth={2} />
+          {label}
+        </span>
+        {/* The caption row is always mounted, on both sides, and its height is
+            driven by `grid-template-rows` (0fr collapsed / 1fr expanded) rather
+            than by mounting/unmounting — a plain conditional render can't animate
+            itself in, so the icon+label above would otherwise snap to its new
+            position the instant the caption appears instead of easing into it. */}
+        <div
+          className={`grid w-full transition-[grid-template-rows,margin-top] duration-200 ease-out ${isActive ? 'grid-rows-[1fr] mt-1' : 'grid-rows-[0fr] mt-0'}`}
+        >
+          {/* No padding/margin of its own — the spacing above lives on the
+              collapsing wrapper (as `mt-1`/`mt-0`) instead, since padding on this
+              overflow-hidden element wouldn't shrink away with it: padding is
+              part of the box itself, not clippable "overflow", so it would leave
+              a permanent sliver even at `grid-rows-[0fr]`. */}
+          <div className={`overflow-hidden flex items-center justify-center gap-0.5 text-[10px] font-normal ${launchDisabled ? 'text-white/40' : 'text-white/60'}`}>
+            {caption}
+            {!launchDisabled && <ChevronRight size={9} />}
+          </div>
+        </div>
+      </button>
+    );
+  };
+
+  return (
+    <div className="relative flex h-11 bg-slate-200 px-0.5 rounded-full shadow-inner w-full">
+      {renderSide('production', PenLine, 'Production')}
+      {renderSide('recognition', Eye, 'Recognition')}
+      <div
+        className={`absolute rounded-xl bg-slate-800 shadow-md transition-all duration-200 ease-out pointer-events-none ${
+          activeMode === 'production' ? 'peer-active/production:scale-95' : 'peer-active/recognition:scale-95'
+        } ${launchDisabled ? 'opacity-70' : ''}`}
+        style={{ top: '-6px', bottom: '-6px', left: activeMode === 'production' ? '-2px' : '50%', width: 'calc(50% + 2px)' }}
+      />
+    </div>
+  );
+}
+
 // Material Design filter chip: fully-rounded, neutral grayscale in both states — MD2
 // filter chips don't need the primary/accent color at all, and selecting one never
 // inverts its text to white; the darker tonal fill + leading checkmark alone communicate
@@ -232,6 +337,21 @@ export default function App() {
   const sessionVocab = useMemo(() => applyVerbForm(sessionScopedVocab, useDicForm), [sessionScopedVocab, useDicForm]);
   const sessionMasteredCount = useMemo(() => sessionVocab.filter(v => isMastered(fcRecords[v.id])).length, [sessionVocab, fcRecords]);
 
+  // Shared by both ModeSwitch instances (Session Status card and Settings card) —
+  // tapping the switch's active side now does what the old Start/Resume Session
+  // button did.
+  const handleLaunchSession = () => {
+    if (activeMode === 'production' && !fcActive) {
+      setFcActive(true);
+      setFcSessionLessons(selectedLessons);
+      setFcSessionWordTypes(selectedWordTypes);
+      setFcRecords({});
+    }
+    setAppState('drill');
+  };
+  const launchResuming = activeMode === 'production' && fcActive;
+  const launchDisabled = launchResuming ? false : displayVocab.length === 0;
+
   if (appState === 'terms') {
     return (
       <TermsList
@@ -306,50 +426,15 @@ export default function App() {
     <main className="h-[100dvh] overflow-y-auto bg-slate-50 p-6 md:p-12 font-sans text-slate-900 flex justify-center items-start">
       <div className="w-full max-w-5xl flex flex-col min-h-full">
 
-        <div className="mb-6 flex flex-col md:flex-row md:items-end justify-between">
-          <div className="text-center md:text-left">
-            <h1 className="text-4xl tracking-tight text-slate-800 mb-6" style={{ fontFamily: '"Space Grotesk", sans-serif', fontWeight: 700 }}>Pick It Up</h1>
-            <div className="relative flex bg-slate-200 px-0.5 rounded-xl shadow-inner w-fit mx-auto md:mx-0">
-              <div
-                className="absolute top-1/2 -translate-y-1/2 h-11 rounded-lg bg-white shadow-sm transition-all duration-300 ease-out"
-                style={{ left: activeMode === 'production' ? '-3px' : '50%', width: 'calc(50% + 3px)' }}
-              />
-              <button
-                onClick={() => setActiveMode('production')}
-                className={`relative z-10 flex-1 min-w-0 px-5 py-2 rounded-lg text-sm font-medium transition-colors ${activeMode === 'production' ? 'text-slate-800' : 'text-slate-500 hover:text-slate-700'}`}
-              >
-                Production
-              </button>
-              <button
-                onClick={() => setActiveMode('recognition')}
-                className={`relative z-10 flex-1 min-w-0 px-5 py-2 rounded-lg text-sm font-medium transition-colors ${activeMode === 'recognition' ? 'text-slate-800' : 'text-slate-500 hover:text-slate-700'}`}
-              >
-                Recognition
-              </button>
-            </div>
-          </div>
-          <div className="hidden md:flex items-center gap-3 mt-6 md:mt-0">
+        <div className="mb-6 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+          <h1 className="text-4xl tracking-tight text-slate-800 text-center sm:text-left" style={{ fontFamily: '"Space Grotesk", sans-serif', fontWeight: 700 }}>Pick It Up</h1>
+          <div className="hidden md:flex items-center gap-3">
             <button
               onClick={() => setAppState('terms')}
               disabled={displayVocab.length === 0}
               className="h-11 px-6 bg-white border border-slate-200 text-slate-700 rounded-xl font-medium tracking-wide hover:bg-slate-50 transition-colors disabled:opacity-50 disabled:cursor-not-allowed shadow-sm text-sm"
             >
               View Terms
-            </button>
-            <button
-              onClick={() => {
-                if (activeMode === 'production' && !fcActive) {
-                  setFcActive(true);
-                  setFcSessionLessons(selectedLessons);
-                  setFcSessionWordTypes(selectedWordTypes);
-                  setFcRecords({});
-                }
-                setAppState('drill');
-              }}
-              disabled={(activeMode === 'production' && fcActive) ? false : displayVocab.length === 0}
-              className="h-11 px-8 bg-slate-800 text-white rounded-xl font-medium tracking-wide flex items-center justify-center gap-2 hover:bg-slate-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed shadow-sm hover:shadow-md text-sm"
-            >
-              {(activeMode === 'production' && fcActive) ? 'Resume Session' : 'Start Session'} <ChevronRight size={18} />
             </button>
           </div>
         </div>
@@ -418,7 +503,15 @@ export default function App() {
           <div className="md:col-span-5">
             {fcActive ? (
               <div className="bg-white rounded-3xl p-5 shadow-sm border border-slate-100">
-                <h2 className="text-lg font-normal text-slate-900 mb-4">Session Status</h2>
+                <h2 className="text-lg font-normal text-slate-900 mb-4">Session</h2>
+                <ModeSwitch
+                  activeMode={activeMode}
+                  onChangeMode={setActiveMode}
+                  onLaunch={handleLaunchSession}
+                  launchDisabled={launchDisabled}
+                  resuming={launchResuming}
+                />
+                <div className="border-t border-slate-100 -mx-5 my-5" />
                 <div className="flex items-center justify-between gap-3">
                   <div className="text-sm text-slate-500 tabular-nums whitespace-nowrap">{sessionMasteredCount} / {sessionVocab.length} mastered</div>
                   <button
@@ -434,17 +527,35 @@ export default function App() {
               </div>
             ) : (
               <div className="bg-white rounded-3xl p-5 shadow-sm border border-slate-100">
-                <h2 className="text-lg font-normal text-slate-900 mb-4">Settings</h2>
-                {activeMode === 'recognition' ? (
-                  <div className="flex items-center justify-between">
-                    <div>
-                      <div className="font-medium text-slate-700">Strict Pitch Accent</div>
-                      <div className="text-xs text-slate-400">Require pitch selection before next question</div>
-                    </div>
-                    <MdCheckbox checked={strictPitch} onChange={() => setStrictPitch(!strictPitch)} />
-                  </div>
-                ) : (
-                  <div>
+                <h2 className="text-lg font-normal text-slate-900 mb-4">Session</h2>
+                <ModeSwitch
+                  activeMode={activeMode}
+                  onChangeMode={setActiveMode}
+                  onLaunch={handleLaunchSession}
+                  launchDisabled={launchDisabled}
+                  resuming={launchResuming}
+                />
+                <div className="border-t border-slate-100 -mx-5 my-5" />
+                {/* Both panels stay mounted, stacked in the same grid cell, and slide
+                    fully past each other, each one exiting in the direction the lever
+                    just moved while the other enters from the opposite edge, so the
+                    bottom of the card visibly "follows" the switch instead of hard-
+                    cutting between two unrelated pieces of content. Each panel gets an
+                    opaque white background so the one sliding in front visibly occludes
+                    the other rather than the two cross-dissolving. The entering panel's
+                    class list only puts `transform` in its transition-property, so its
+                    opacity snaps to 1 instantly (no fade-in) while it slides into place;
+                    the exiting panel's class list adds `opacity` alongside `transform`,
+                    so it fades out as it slides away. Same duration/easing either way —
+                    only which properties animate differs. */}
+                <div className="grid overflow-hidden">
+                  <div
+                    className={`col-start-1 row-start-1 bg-white duration-200 ease-out ${
+                      activeMode === 'production'
+                        ? 'transition-transform translate-x-0 opacity-100'
+                        : 'transition-[transform,opacity] translate-x-full opacity-0 pointer-events-none'
+                    }`}
+                  >
                     <div className="font-medium text-slate-700 mb-1">Working Terms Range</div>
                     <div className="text-xs text-slate-400 mb-3">How many terms stay active in the rotation at once</div>
                     <div className="flex items-center gap-3">
@@ -466,35 +577,33 @@ export default function App() {
                       </div>
                     </div>
                   </div>
-                )}
+                  <div
+                    className={`col-start-1 row-start-1 flex items-center justify-between bg-white duration-200 ease-out ${
+                      activeMode === 'recognition'
+                        ? 'transition-transform translate-x-0 opacity-100'
+                        : 'transition-[transform,opacity] -translate-x-full opacity-0 pointer-events-none'
+                    }`}
+                  >
+                    <div>
+                      <div className="font-medium text-slate-700 mb-1">Strict Pitch Accent</div>
+                      <div className="text-xs text-slate-400">Require pitch selection before next question</div>
+                    </div>
+                    <MdCheckbox checked={strictPitch} onChange={() => setStrictPitch(!strictPitch)} />
+                  </div>
+                </div>
               </div>
             )}
           </div>
 
         </div>
 
-        <div className="md:hidden flex flex-col gap-3 mt-8 w-full">
+        <div className="md:hidden mt-8 w-full">
           <button
             onClick={() => setAppState('terms')}
             disabled={displayVocab.length === 0}
             className="w-full py-4 bg-white border border-slate-200 text-slate-700 rounded-2xl font-medium tracking-wide hover:bg-slate-50 transition-colors disabled:opacity-50 disabled:cursor-not-allowed shadow-sm"
           >
             View Terms
-          </button>
-          <button
-            onClick={() => {
-              if (activeMode === 'production' && !fcActive) {
-                setFcActive(true);
-                setFcSessionLessons(selectedLessons);
-                setFcSessionWordTypes(selectedWordTypes);
-                setFcRecords({});
-              }
-              setAppState('drill');
-            }}
-            disabled={(activeMode === 'production' && fcActive) ? false : displayVocab.length === 0}
-            className="w-full py-4 bg-slate-800 text-white rounded-2xl font-medium tracking-wide flex items-center justify-center gap-2 hover:bg-slate-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed shadow-sm hover:shadow-md"
-          >
-            {(activeMode === 'production' && fcActive) ? 'Resume Session' : 'Start Session'} <ChevronRight size={20} />
           </button>
         </div>
 
