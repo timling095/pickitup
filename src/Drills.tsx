@@ -248,9 +248,9 @@ export const RecognitionDrill = ({
           
           if (!isEvaluated) {
             if (selectedId === opt.id) {
-              btnClass += "bg-md-primary border-md-primary text-white shadow-sm"; // Selected but waiting for evaluation
+              btnClass += "bg-slate-800 border-slate-800 text-white shadow-sm"; // Selected but waiting for evaluation
             } else {
-              btnClass += "bg-white border-slate-200 text-slate-700 hover:border-md-primary hover:shadow-sm";
+              btnClass += "bg-white border-slate-200 text-slate-700 hover:border-slate-400 hover:shadow-sm";
             }
           } else {
             if (opt.id === vocab.id) {
@@ -293,7 +293,7 @@ export const RecognitionDrill = ({
               let btnClass = "w-10 h-10 rounded-full flex items-center justify-center text-sm font-medium transition-all ";
               if (!isEvaluated) {
                 if (selectedPitch === num) {
-                  btnClass += "bg-md-primary text-white shadow-sm scale-110";
+                  btnClass += "bg-slate-800 text-white shadow-sm scale-110";
                 } else {
                   btnClass += "bg-slate-100 text-slate-500 hover:bg-slate-200";
                 }
@@ -329,7 +329,7 @@ export const RecognitionDrill = ({
             if (canProceed) onComplete(selectedId === vocab.id);
           }}
           disabled={!canProceed}
-          className="w-full py-2 bg-md-primary text-white rounded-xl font-medium uppercase tracking-wide text-sm hover:bg-md-primary-dark transition-colors shadow-sm disabled:opacity-50 disabled:cursor-not-allowed select-none"
+          className="w-full py-4 bg-slate-800 text-white rounded-xl font-medium tracking-wide hover:bg-slate-700 transition-colors shadow-sm disabled:opacity-50 disabled:cursor-not-allowed select-none"
         >
           Next Question
         </button>
@@ -421,7 +421,7 @@ export const ProductionDrill = ({
                 setRevealed(true);
               }
             }}
-            className="w-full py-2 bg-md-primary text-white rounded-xl font-medium uppercase tracking-wide text-sm hover:bg-md-primary-dark transition-colors shadow-sm select-none touch-none"
+            className="w-full py-4 bg-slate-800 text-white rounded-xl font-medium tracking-wide hover:bg-slate-700 transition-colors shadow-sm select-none touch-none"
           >
             Reveal Answer
           </button>
@@ -432,7 +432,7 @@ export const ProductionDrill = ({
               if (e.pointerType === 'pen' || allowMouse) onComplete(false);
             }}
             disabled={!canProceed}
-            className="w-full py-2 bg-md-primary text-white rounded-xl font-medium uppercase tracking-wide text-sm hover:bg-md-primary-dark transition-colors shadow-sm select-none touch-none disabled:opacity-50 disabled:cursor-not-allowed animate-in fade-in slide-in-from-bottom-4 duration-300"
+            className="w-full py-4 bg-slate-800 text-white rounded-xl font-medium tracking-wide hover:bg-slate-700 transition-colors shadow-sm select-none touch-none disabled:opacity-50 disabled:cursor-not-allowed animate-in fade-in slide-in-from-bottom-4 duration-300"
           >
             Proceed
           </button>
@@ -444,7 +444,7 @@ export const ProductionDrill = ({
                 if (e.pointerType === 'pen' || allowMouse) setCorrecting(true);
               }}
               disabled={!canEvaluate}
-              className="flex items-center justify-center gap-2 py-2 bg-white border-2 border-red-100 text-red-600 rounded-xl hover:bg-red-50 transition-colors font-medium uppercase tracking-wide text-sm select-none touch-none disabled:opacity-50 disabled:cursor-not-allowed"
+              className="flex items-center justify-center gap-2 py-4 bg-white border-2 border-red-100 text-red-600 rounded-xl hover:bg-red-50 transition-colors font-medium select-none touch-none disabled:opacity-50 disabled:cursor-not-allowed"
             >
               <X size={20} /> Incorrect
             </button>
@@ -454,7 +454,7 @@ export const ProductionDrill = ({
                 if (e.pointerType === 'pen' || allowMouse) onComplete(true);
               }}
               disabled={!canEvaluate}
-              className="flex items-center justify-center gap-2 py-2 bg-white border-2 border-green-100 text-green-600 rounded-xl hover:bg-green-50 transition-colors font-medium uppercase tracking-wide text-sm select-none touch-none disabled:opacity-50 disabled:cursor-not-allowed"
+              className="flex items-center justify-center gap-2 py-4 bg-white border-2 border-green-100 text-green-600 rounded-xl hover:bg-green-50 transition-colors font-medium select-none touch-none disabled:opacity-50 disabled:cursor-not-allowed"
             >
               <Check size={20} /> Correct
             </button>
@@ -535,7 +535,7 @@ export const DrillEngine = ({
         </div>
         <h2 className="text-3xl font-light text-slate-800 mb-2">Drill Complete</h2>
         <p className="text-slate-500 mb-8">You've mastered this set.</p>
-        <button onClick={onExit} className="px-8 py-2 bg-md-primary text-white rounded-full font-medium uppercase tracking-wide text-sm hover:bg-md-primary-dark transition-colors">
+        <button onClick={onExit} className="px-8 py-3 bg-slate-800 text-white rounded-full font-medium hover:bg-slate-700 transition-colors">
           Return to Menu
         </button>
       </div>
@@ -547,10 +547,10 @@ export const DrillEngine = ({
   return (
     <div className="w-full h-full flex flex-col">
       <div className="flex items-center justify-between mb-12 select-none">
-        <button onClick={onExit} className="text-sm text-slate-400 hover:text-md-primary">Cancel Drill</button>
+        <button onClick={onExit} className="text-sm text-slate-400 hover:text-slate-600">Cancel Drill</button>
         <div className="flex gap-1">
           {queue.map((_, i) => (
-            <div key={i} className={`h-1.5 rounded-full transition-all ${i < currentIndex ? 'bg-md-primary w-4' : i === currentIndex ? 'bg-slate-400 w-4' : 'bg-slate-200 w-2'}`} />
+            <div key={i} className={`h-1.5 rounded-full transition-all ${i < currentIndex ? 'bg-slate-800 w-4' : i === currentIndex ? 'bg-slate-400 w-4' : 'bg-slate-200 w-2'}`} />
           ))}
         </div>
       </div>
@@ -697,7 +697,7 @@ export const FlashcardEngine = ({
         </div>
         <h2 className="text-3xl font-light text-slate-800 mb-2">Session Complete</h2>
         <p className="text-slate-500 mb-8">You've mastered every term in this scope.</p>
-        <button onClick={onComplete} className="px-8 py-2 bg-md-primary text-white rounded-full font-medium uppercase tracking-wide text-sm hover:bg-md-primary-dark transition-colors">
+        <button onClick={onComplete} className="px-8 py-3 bg-slate-800 text-white rounded-full font-medium hover:bg-slate-700 transition-colors">
           Return to Menu
         </button>
       </div>
@@ -713,7 +713,7 @@ export const FlashcardEngine = ({
   return (
     <div className="w-full h-full flex flex-col">
       <div className="flex items-center justify-between mb-12 select-none">
-        <button onClick={onExit} className="text-sm text-slate-400 hover:text-md-primary">Exit Session</button>
+        <button onClick={onExit} className="text-sm text-slate-400 hover:text-slate-600">Exit Session</button>
         <div className="text-sm font-medium text-slate-400">{masteredIds.size} / {vocabList.length} mastered</div>
       </div>
 
