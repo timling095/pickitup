@@ -1,6 +1,7 @@
 import { useState, useMemo } from 'react';
 import { ChevronLeft, Search } from 'lucide-react';
 import type { Vocabulary } from './dictionary';
+import { abbreviatePos } from './dictionary';
 import type { FcRecord } from './Drills';
 import { AnnotatedReading, AffixWrapper, isMastered } from './Drills';
 
@@ -86,8 +87,9 @@ export const TermsList = ({
         </div>
 
         <div className="bg-white rounded-2xl border border-slate-100 shadow-sm overflow-hidden mb-12">
-          <div className="grid grid-cols-3 gap-4 px-4 py-2 text-[10px] font-bold uppercase tracking-wider text-slate-400 border-b border-slate-100">
+          <div className="grid grid-cols-[1fr_3rem_1fr_1fr] gap-4 px-4 py-2 text-[10px] font-bold uppercase tracking-wider text-slate-400 border-b border-slate-100">
             <div>Term</div>
+            <div>Form</div>
             <div>Reading</div>
             <div>Meaning</div>
           </div>
@@ -99,10 +101,13 @@ export const TermsList = ({
                 <div
                   key={`${vocab.id}-${i}`}
                   onClick={() => onToggleMark(vocab.id)}
-                  className={`grid grid-cols-3 items-center gap-4 px-4 py-2 transition-colors cursor-pointer ${isMarked ? 'bg-md-accent-light' : 'hover:bg-md-accent-light/50'}`}
+                  className={`grid grid-cols-[1fr_3rem_1fr_1fr] items-center gap-4 px-4 py-2 transition-colors cursor-pointer ${isMarked ? 'bg-md-accent-light' : 'hover:bg-md-accent-light/50'}`}
                 >
                   <div className="text-base text-slate-800 flex items-center truncate" title={vocab.term}>
                     <AffixWrapper term={vocab.term} affixType={vocab.affix_type} mode="inline" />
+                  </div>
+                  <div className="text-xs text-slate-400 truncate">
+                    {abbreviatePos(vocab)}
                   </div>
                   <div className="text-sm text-slate-800 truncate">
                     <AnnotatedReading reading={vocab.reading} pitch={vocab.pitch_accent} affixType={vocab.affix_type} />

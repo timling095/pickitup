@@ -498,7 +498,7 @@ export default function App() {
           </button>
         </div>
 
-        <div className="mt-auto pt-12 pb-4 text-center text-xs font-medium text-slate-400 tracking-wide uppercase">
+        <div className="mt-auto pt-12 pb-2 text-center text-[10px] font-normal text-slate-400 tracking-wide uppercase">
           Vocabulary list provided by Tokyo University of Foreign Studies and Kenta Li
         </div>
 

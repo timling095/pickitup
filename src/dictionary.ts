@@ -56,6 +56,28 @@ export function isVerb(v: Vocabulary): boolean {
   return v.pos === 'verb';
 }
 
+// Traditional dictionary-style abbreviations for the Terms Viewer's narrow "form" column.
+const POS_ABBREVIATIONS: Record<PosType, string> = {
+  verb: 'v.',
+  na_adj: 'na-adj.',
+  i_adj: 'i-adj.',
+  noun: 'n.',
+  adverb: 'adv.',
+  pronoun: 'pron.',
+  interjection: 'interj.',
+  conjunction: 'conj.',
+  pre_noun: 'pre-n.',
+  counter: 'ctr.',
+  prefix: 'pref.',
+  suffix: 'suf.',
+  phrase: 'phr.',
+  other: '—',
+};
+
+export function abbreviatePos(v: Vocabulary): string {
+  return POS_ABBREVIATIONS[v.pos];
+}
+
 export function filterByWordType(vocabList: Vocabulary[], selectedWordTypes: Record<WordType, boolean>): Vocabulary[] {
   return vocabList.filter(v => selectedWordTypes[wordTypeOf(v)]);
 }

@@ -2,6 +2,15 @@
 
 Technical/internal documentation for `Pick It Up` (React + TypeScript + Vite + Tailwind CSS v4). For what the app does and how to use it, see [README.md](README.md).
 
+## Design Philosophy
+
+A few principles recur across every UI decision in this codebase, worth stating explicitly since no single component makes them obvious on its own:
+
+* **A small set of primitives, reused relentlessly.** New controls are built by extending an existing pattern rather than inventing a new one: `<ChoiceChip>` is `<Chip>` with exactly one thing removed (the checkmark), and `MdCheckbox`'s hover halo is `DualRangeSlider`'s thumb "state layer" technique, applied to a second component.
+* **Physical mechanisms, not flat components.** Controls are conceived as tactile objects with real geometry, not flat rectangles. `DualRangeSlider`'s halo overshoots its own track like a real slider thumb; the Production/Recognition mode toggle's sliding white piece is deliberately taller than the dented (`shadow-inner`) groove it slides in and overshoots the track's edges on purpose, so it reads as a lever rather than a tab.
+* **Borrowed authority, overridden on contact with reality.** Established design vocabularies (Material Design 2's chips, checkboxes, tab conventions) are a starting point, not a spec. A full MD2 reskin was tried app-wide, didn't hold up, and was rolled back to a near-monochrome slate-and-white system with one accent color — only the two components that still worked in isolation were kept.
+* **Structure and behavior are treated as design, not separate from it.** Passes like consolidating the Filters card (title/subtitle/divider hierarchy, later folding the Verb Form toggle in as chips) or fixing session-scoped mastery happen in the same breath as visual polish — where a setting lives and what a control actually does are considered alongside how it looks.
+
 ## 1. File Architecture & Domain Model
 
 The codebase is structured into cohesive, domain-specific "fat files" to limit import fragmentation and optimize clarity.
