@@ -21,7 +21,7 @@ export const TermsList = ({
   onToggleMark: (id: string) => void,
   onBack: () => void
 }) => {
-  const [sortMode, setSortMode] = useState<'all' | 'practicing'>('practicing');
+  const [sortMode, setSortMode] = useState<'all' | 'practicing'>('all');
   const [searchQuery, setSearchQuery] = useState('');
 
   // The Practicing tab reflects an in-progress Production session's mastery
@@ -99,7 +99,7 @@ export const TermsList = ({
                 <div
                   key={`${vocab.id}-${i}`}
                   onClick={() => onToggleMark(vocab.id)}
-                  className={`grid grid-cols-3 items-center gap-4 px-4 py-2 transition-colors cursor-pointer hover:bg-slate-50 ${isMarked ? 'bg-md-accent-light' : ''}`}
+                  className={`grid grid-cols-3 items-center gap-4 px-4 py-2 transition-colors cursor-pointer ${isMarked ? 'bg-md-accent-light' : 'hover:bg-md-accent-light/50'}`}
                 >
                   <div className="text-base text-slate-800 flex items-center truncate" title={vocab.term}>
                     <AffixWrapper term={vocab.term} affixType={vocab.affix_type} mode="inline" />

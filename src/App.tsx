@@ -75,7 +75,7 @@ function DualRangeSlider({
   const inputStyleBase = { left: `-${THUMB_HALF}px`, right: `-${THUMB_HALF}px` };
   return (
     <div className="relative w-[96%] mx-auto h-5 flex items-center">
-      <div className="absolute left-0 right-0 h-1.5 rounded-full bg-slate-200" />
+      <div className="absolute left-0 right-0 h-1 rounded-full bg-slate-200" />
       <div
         className="absolute h-1.5 rounded-full bg-slate-800"
         style={{
@@ -135,7 +135,7 @@ function MdCheckbox({ checked, onChange }: { checked: boolean, onChange: () => v
       onClick={onChange}
       role="checkbox"
       aria-checked={checked}
-      className="group relative w-10 h-10 flex items-center justify-center flex-shrink-0"
+      className="group relative w-10 h-10 -mr-[11px] flex items-center justify-center flex-shrink-0"
     >
       <div className="absolute inset-0 m-auto w-10 h-10 rounded-full bg-slate-800/[0.12] opacity-0 group-hover:opacity-100 group-focus:opacity-100 group-active:opacity-100 transition-opacity duration-150 pointer-events-none" />
       <div
@@ -165,6 +165,24 @@ function Chip({ selected, onClick, children }: { selected: boolean, onClick: () 
       }`}
     >
       {selected && <Check size={12} strokeWidth={3.5} />}
+      {children}
+    </button>
+  );
+}
+
+// Choice chip: same shape/coloring as Chip, but for a single-select group where exactly
+// one option is always active — no checkmark, since "selected" here means "the current
+// choice", not "added to a set".
+function ChoiceChip({ selected, onClick, children }: { selected: boolean, onClick: () => void, children: ReactNode }) {
+  return (
+    <button
+      onClick={onClick}
+      className={`h-8 px-3 rounded-full text-xs font-medium border transition-colors inline-flex items-center justify-center ${
+        selected
+          ? 'bg-slate-200 border-slate-200 text-slate-800'
+          : 'bg-white border-slate-300 text-slate-600 hover:bg-slate-50'
+      }`}
+    >
       {children}
     </button>
   );
@@ -291,18 +309,22 @@ export default function App() {
         <div className="mb-6 flex flex-col md:flex-row md:items-end justify-between">
           <div className="text-center md:text-left">
             <h1 className="text-4xl tracking-tight text-slate-800 mb-6" style={{ fontFamily: '"Space Grotesk", sans-serif', fontWeight: 700 }}>Pick It Up</h1>
-            <div className="flex bg-slate-200/50 p-1 rounded-xl w-fit mx-auto md:mx-0">
+            <div className="relative flex bg-slate-200 px-0.5 rounded-xl shadow-inner w-fit mx-auto md:mx-0">
+              <div
+                className="absolute top-1/2 -translate-y-1/2 h-11 rounded-lg bg-white shadow-sm transition-all duration-300 ease-out"
+                style={{ left: activeMode === 'production' ? '-3px' : '50%', width: 'calc(50% + 3px)' }}
+              />
               <button
                 onClick={() => setActiveMode('production')}
-                className={`px-5 py-2 rounded-lg text-sm font-medium transition-colors ${activeMode === 'production' ? 'bg-white shadow-sm text-slate-800' : 'text-slate-500 hover:text-slate-700'}`}
+                className={`relative z-10 flex-1 min-w-0 px-5 py-2 rounded-lg text-sm font-medium transition-colors ${activeMode === 'production' ? 'text-slate-800' : 'text-slate-500 hover:text-slate-700'}`}
               >
                 Production
               </button>
               <button
                 onClick={() => setActiveMode('recognition')}
-                className={`px-5 py-2 rounded-lg text-sm font-medium transition-colors ${activeMode === 'recognition' ? 'bg-white shadow-sm text-slate-800' : 'text-slate-500 hover:text-slate-700'}`}
+                className={`relative z-10 flex-1 min-w-0 px-5 py-2 rounded-lg text-sm font-medium transition-colors ${activeMode === 'recognition' ? 'text-slate-800' : 'text-slate-500 hover:text-slate-700'}`}
               >
-                Reading Recognition
+                Recognition
               </button>
             </div>
           </div>
@@ -320,6 +342,7 @@ export default function App() {
                   setFcActive(true);
                   setFcSessionLessons(selectedLessons);
                   setFcSessionWordTypes(selectedWordTypes);
+                  setFcRecords({});
                 }
                 setAppState('drill');
               }}
@@ -331,15 +354,18 @@ export default function App() {
           </div>
         </div>
 
-        <div className="mb-6 text-center md:text-left text-sm text-slate-500 font-medium">
-          {Object.values(selectedLessons).filter(Boolean).length} Lessons Selected • {displayVocab.length} terms loaded
-        </div>
-
         <div className="grid grid-cols-1 md:grid-cols-12 gap-8">
 
           {/* Left Column: Lesson Select */}
           <div className="md:col-span-7 space-y-4">
             <div className="bg-white rounded-3xl p-5 shadow-sm border border-slate-100 mb-4 relative overflow-hidden">
+              <h2 className="text-lg font-normal text-slate-900 mb-1">Filters</h2>
+              <div className="text-xs text-slate-400 mb-5">
+                {Object.values(selectedLessons).filter(Boolean).length} Lessons Selected • {displayVocab.length} terms loaded
+              </div>
+
+              <div className="border-t border-slate-100 -mx-5 mb-5" />
+
               <div className="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-4">Lessons</div>
               <div className="flex flex-wrap gap-2 mb-5">
                 {lessons.map(lessonId => (
@@ -353,7 +379,7 @@ export default function App() {
                 ))}
               </div>
 
-              <div className="pt-4 border-t border-slate-100">
+              <div>
                 <div className="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-4">Word Type</div>
                 <div className="flex flex-wrap gap-2">
                   {([
@@ -373,6 +399,18 @@ export default function App() {
                   ))}
                 </div>
               </div>
+
+              <div className="mt-5">
+                <div className="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-4">Verb Form</div>
+                <div className="flex flex-wrap gap-2">
+                  <ChoiceChip selected={!useDicForm} onClick={() => setUseDicForm(false)}>
+                    ます形
+                  </ChoiceChip>
+                  <ChoiceChip selected={useDicForm} onClick={() => setUseDicForm(true)}>
+                    辞書形
+                  </ChoiceChip>
+                </div>
+              </div>
             </div>
           </div>
 
@@ -380,11 +418,14 @@ export default function App() {
           <div className="md:col-span-5">
             {fcActive ? (
               <div className="bg-white rounded-3xl p-5 shadow-sm border border-slate-100">
-                <h2 className="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-4">Session Status</h2>
+                <h2 className="text-lg font-normal text-slate-900 mb-4">Session Status</h2>
                 <div className="flex items-center justify-between gap-3">
                   <div className="text-sm text-slate-500 tabular-nums whitespace-nowrap">{sessionMasteredCount} / {sessionVocab.length} mastered</div>
                   <button
-                    onClick={() => setFcActive(false)}
+                    onClick={() => {
+                      setFcActive(false);
+                      setFcRecords({});
+                    }}
                     className="flex-shrink-0 px-4 py-2 bg-red-50 text-red-600 rounded-lg font-medium text-sm hover:bg-red-100 transition-colors"
                   >
                     Discard Session
@@ -393,14 +434,7 @@ export default function App() {
               </div>
             ) : (
               <div className="bg-white rounded-3xl p-5 shadow-sm border border-slate-100">
-                <h2 className="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-4">Settings</h2>
-                <div className="flex items-center justify-between mb-4">
-                  <div>
-                    <div className="font-medium text-slate-700">Verb Form: 辞書形</div>
-                    <div className="text-xs text-slate-400">Use dictionary form instead of ます form for verbs</div>
-                  </div>
-                  <MdCheckbox checked={useDicForm} onChange={() => setUseDicForm(!useDicForm)} />
-                </div>
+                <h2 className="text-lg font-normal text-slate-900 mb-4">Settings</h2>
                 {activeMode === 'recognition' ? (
                   <div className="flex items-center justify-between">
                     <div>
@@ -411,19 +445,26 @@ export default function App() {
                   </div>
                 ) : (
                   <div>
-                    <div className="flex items-center justify-between mb-1">
-                      <div className="font-medium text-slate-700">Working Terms Range</div>
-                      <div className="text-sm font-semibold text-slate-800 tabular-nums">{fcMinWorking}–{fcMaxWorking}</div>
-                    </div>
+                    <div className="font-medium text-slate-700 mb-1">Working Terms Range</div>
                     <div className="text-xs text-slate-400 mb-3">How many terms stay active in the rotation at once</div>
-                    <DualRangeSlider
-                      min={1}
-                      max={30}
-                      valueMin={fcMinWorking}
-                      valueMax={fcMaxWorking}
-                      onChangeMin={setFcMinWorking}
-                      onChangeMax={setFcMaxWorking}
-                    />
+                    <div className="flex items-center gap-3">
+                      <div className="flex-shrink-0 min-w-[2.5rem] text-center bg-slate-100 rounded-lg py-1.5 text-xs font-normal text-slate-800 tabular-nums">
+                        {fcMinWorking}
+                      </div>
+                      <div className="flex-1">
+                        <DualRangeSlider
+                          min={1}
+                          max={30}
+                          valueMin={fcMinWorking}
+                          valueMax={fcMaxWorking}
+                          onChangeMin={setFcMinWorking}
+                          onChangeMax={setFcMaxWorking}
+                        />
+                      </div>
+                      <div className="flex-shrink-0 min-w-[2.5rem] text-center bg-slate-100 rounded-lg py-1.5 text-xs font-normal text-slate-800 tabular-nums">
+                        {fcMaxWorking}
+                      </div>
+                    </div>
                   </div>
                 )}
               </div>
@@ -446,6 +487,7 @@ export default function App() {
                 setFcActive(true);
                 setFcSessionLessons(selectedLessons);
                 setFcSessionWordTypes(selectedWordTypes);
+                setFcRecords({});
               }
               setAppState('drill');
             }}
