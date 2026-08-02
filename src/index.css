@@ -1,5 +1,13 @@
 @import "tailwindcss";
 
+/* Material Pink 50 — the one accent tint used throughout (chips, halos, list rows).
+   Registered as a Tailwind v4 theme token (CSS-first theme) so it generates
+   bg-md-accent-light, and opacity modifiers like bg-md-accent-light/50 for an even
+   lighter touch — same trick as the slate state-layer halos (bg-slate-800/[0.12]). */
+@theme {
+  --color-md-accent-light: #FCE4EC;
+}
+
 @font-face {
   font-family: 'Noto Serif TC';
   src: url('./assets/NotoSerifTC.ttf') format('truetype');

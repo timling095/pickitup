@@ -489,31 +489,27 @@ export const DrillEngine = ({
   const [isFinished, setIsFinished] = useState(false);
 
   useEffect(() => {
+    // Single weighted pass: each term appears at most once.
+    // Session length = min(15, pool size) — no repetition ever.
     const scores = vocabList.map(v => {
       const stat = stats[v.id] || { attempts: 0, correct: 0 };
-      const rate = (stat.correct + 1) / (stat.attempts + 2);
-      return rate;
+      return (stat.correct + 1) / (stat.attempts + 2);
     }).sort((a, b) => a - b);
-    
-    const cutoffIndex = Math.floor(scores.length * 0.5);
-    const thresholdRate = scores[cutoffIndex] ?? 1;
+    const thresholdRate = scores[Math.floor(scores.length * 0.5)] ?? 1;
 
-    const weightedItems = vocabList.map(vocab => {
-      const stat = stats[vocab.id] || { attempts: 0, correct: 0 };
-      const rate = (stat.correct + 1) / (stat.attempts + 2);
-      const weight = rate <= thresholdRate ? 3 : 1;
-
-      const randomScore = Math.random() ** (1 / weight);
-      return { vocab, randomScore };
-    });
-
-    const newQueue = weightedItems
+    const newQueue = vocabList
+      .map(vocab => {
+        const stat = stats[vocab.id] || { attempts: 0, correct: 0 };
+        const rate = (stat.correct + 1) / (stat.attempts + 2);
+        const weight = rate <= thresholdRate ? 3 : 1;
+        return { vocab, randomScore: Math.random() ** (1 / weight) };
+      })
       .sort((a, b) => b.randomScore - a.randomScore)
       .slice(0, 15)
-      .map(({ vocab }) => {
-        const randomMode = RECOGNITION_MODES[Math.floor(Math.random() * RECOGNITION_MODES.length)];
-        return { vocab, mode: randomMode };
-      });
+      .map(({ vocab }) => ({
+        vocab,
+        mode: RECOGNITION_MODES[Math.floor(Math.random() * RECOGNITION_MODES.length)] as 'reading-meaning' | 'meaning-reading-rec',
+      }));
 
     setQueue(newQueue);
   }, [vocabList]);

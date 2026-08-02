@@ -7,6 +7,7 @@ import { AnnotatedReading, AffixWrapper, isMastered } from './Drills';
 export const TermsList = ({
   vocabList,
   mode,
+  sessionActive,
   fcRecords,
   markedTerms,
   onToggleMark,
@@ -14,15 +15,19 @@ export const TermsList = ({
 }: {
   vocabList: Vocabulary[],
   mode: 'production' | 'recognition',
+  sessionActive: boolean,
   fcRecords: Record<string, FcRecord>,
   markedTerms: Record<string, boolean>,
   onToggleMark: (id: string) => void,
   onBack: () => void
 }) => {
-  const [sortMode, setSortMode] = useState<'all' | 'practicing'>('practicing');
+  const [sortMode, setSortMode] = useState<'all' | 'practicing'>('all');
   const [searchQuery, setSearchQuery] = useState('');
 
-  const showTabs = mode === 'production';
+  // The Practicing tab reflects an in-progress Production session's mastery
+  // data — outside of a session there's nothing "in progress" to filter down to,
+  // so the tab (and its filtering) only appears while a session is actually active.
+  const showTabs = mode === 'production' && sessionActive;
 
   const sortedVocab = useMemo(() => {
     let filtered = vocabList;
@@ -94,8 +99,7 @@ export const TermsList = ({
                 <div
                   key={`${vocab.id}-${i}`}
                   onClick={() => onToggleMark(vocab.id)}
-                  className="grid grid-cols-3 items-center gap-4 px-4 py-2 transition-colors cursor-pointer hover:bg-slate-50"
-                  style={{ backgroundColor: isMarked ? '#FCE4EC' : undefined }}
+                  className={`grid grid-cols-3 items-center gap-4 px-4 py-2 transition-colors cursor-pointer ${isMarked ? 'bg-md-accent-light' : 'hover:bg-md-accent-light/50'}`}
                 >
                   <div className="text-base text-slate-800 flex items-center truncate" title={vocab.term}>
                     <AffixWrapper term={vocab.term} affixType={vocab.affix_type} mode="inline" />
