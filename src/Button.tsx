@@ -30,7 +30,7 @@ export function Button({
       onClick={onClick}
       onPointerDown={onPointerDown}
       disabled={disabled}
-      className={`h-11 ${fullWidth ? 'w-full' : 'px-4'} rounded-xl font-medium tracking-wide transition-colors shadow-md disabled:opacity-50 disabled:cursor-not-allowed inline-flex items-center justify-center gap-2 text-sm select-none ${VARIANT_CLASSES[variant]} ${className}`}
+      className={`h-11 ${fullWidth ? 'w-full' : 'px-4'} rounded-xl font-medium tracking-wide transition-colors shadow-md cursor-pointer disabled:cursor-not-allowed disabled:opacity-50 inline-flex items-center justify-center gap-2 text-sm select-none ${VARIANT_CLASSES[variant]} ${className}`}
     >
       {children}
     </button>
@@ -64,7 +64,7 @@ export function TextButton({
     <button
       onClick={onClick}
       disabled={disabled}
-      className={`h-11 px-4 rounded-xl font-medium tracking-wide transition-colors disabled:opacity-50 disabled:cursor-not-allowed inline-flex items-center justify-center gap-2 text-sm select-none ${TEXT_VARIANT_CLASSES[variant]} ${className}`}
+      className={`h-11 px-4 rounded-xl font-medium tracking-wide transition-colors cursor-pointer disabled:cursor-not-allowed disabled:opacity-50 inline-flex items-center justify-center gap-2 text-sm select-none ${TEXT_VARIANT_CLASSES[variant]} ${className}`}
     >
       {children}
     </button>

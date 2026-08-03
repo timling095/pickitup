@@ -113,11 +113,25 @@ export function ModeSwitch({
   // OS swallowing it) — without this, its listeners would linger and a new
   // drag would run alongside a stale one reading a stale `startX`.
   const cleanupRef = useRef<(() => void) | null>(null);
+  // Once a drag has carried the lever more than this far from its starting
+  // side, the label color stops tracking the pointer continuously and snaps
+  // to (then holds at) the fully-neutral abstain gray for the rest of the
+  // gesture — see `pastAbstainThresholdRef` below.
+  const ABSTAIN_SNAP_FRACTION = 0.1;
   const DRAG_THRESHOLD_PX = 6;
 
   // null = not dragging, lever position follows `activeMode` as normal.
   // 0–1 while dragging = raw pointer fraction across the track, live.
   const [dragFrac, setDragFrac] = useState<number | null>(null);
+  // Sticky within a single gesture: flips true the first time the drag passes
+  // ABSTAIN_SNAP_FRACTION away from its starting side, and never flips back
+  // until the next pointerdown — so wandering back toward the start mid-drag
+  // doesn't un-snap the color. Real state (not a ref) because it's read
+  // during render (refs can't be — React flags that as unsafe, since a ref
+  // mutation alone doesn't guarantee the component re-renders); the
+  // gesture-local `crossedAbstainThreshold` flag below is what avoids
+  // redundant `setState` calls once it's already latched true.
+  const [pastAbstainThreshold, setPastAbstainThreshold] = useState(false);
 
   const handleClick = (mode: 'production' | 'recognition') => {
     if (justDraggedRef.current) {
@@ -143,8 +157,15 @@ export function ModeSwitch({
     // The frac as of the most recent move — read at release to resolve which
     // side the drag actually lands on. Starts at the lever's current resting
     // spot so a release before any real movement (see `draggedRef` below)
-    // never resolves anywhere else.
+    // never resolves anywhere else. Also doubles as the abstain-snap anchor
+    // (`anchorFrac`, below) — the point the drag is measured "away from".
     let lastFrac = activeMode === 'production' ? 0 : 1;
+    const anchorFrac = lastFrac;
+    // Gesture-local latch mirroring `pastAbstainThreshold` state, so onMove
+    // only calls setState once per gesture instead of on every move past the
+    // snap point (a plain closure variable, same pattern as `lastFrac` — not
+    // a ref, since nothing here needs to survive past this one gesture).
+    let crossedAbstainThreshold = false;
 
     const onMove = (ev: globalThis.PointerEvent) => {
       if (!draggedRef.current) {
@@ -154,6 +175,10 @@ export function ModeSwitch({
       const rect = trackRef.current?.getBoundingClientRect();
       if (!rect || rect.width === 0) return;
       lastFrac = Math.min(1, Math.max(0, (ev.clientX - rect.left) / rect.width));
+      if (!crossedAbstainThreshold && Math.abs(lastFrac - anchorFrac) > ABSTAIN_SNAP_FRACTION) {
+        crossedAbstainThreshold = true;
+        setPastAbstainThreshold(true);
+      }
       setDragFrac(lastFrac);
     };
     const onUp = () => {
@@ -163,6 +188,7 @@ export function ModeSwitch({
         if (finalMode !== activeMode) onChangeMode(finalMode);
       }
       draggedRef.current = false;
+      setPastAbstainThreshold(false);
       setDragFrac(null);
       window.removeEventListener('pointermove', onMove);
       window.removeEventListener('pointerup', onUp);
@@ -195,13 +221,20 @@ export function ModeSwitch({
     // 1 when the lever is fully over this side, 0 when it's fully over the
     // other — continuous while dragging, otherwise just the binary isActive
     // value again (so resting states render pixel-identical to before).
-    const closeness = mode === 'production' ? 1 - displayFrac : displayFrac;
+    // Once the drag has passed ABSTAIN_SNAP_FRACTION away from its starting
+    // side, this stops tracking the pointer and holds flat at 0 (fully
+    // neutral gray, both sides) for the rest of the gesture — so the color
+    // only ever eases through the first sliver of the drag, matching the
+    // caption's already-binary abstain instead of visibly chasing the
+    // pointer the whole way across the track.
+    const rawCloseness = mode === 'production' ? 1 - displayFrac : displayFrac;
+    const closeness = isAbstaining && pastAbstainThreshold ? 0 : rawCloseness;
     return (
       <button
         onClick={() => handleClick(mode)}
         disabled={isActive && launchDisabled}
         style={dragFrac !== null ? { color: lerpLabelColor(closeness) } : undefined}
-        className={`peer/${mode} relative z-10 flex-1 min-w-0 shadow-md text-sm font-medium flex flex-col items-center justify-center disabled:cursor-not-allowed ${
+        className={`peer/${mode} relative z-10 flex-1 min-w-0 shadow-md text-sm font-medium flex flex-col items-center justify-center cursor-pointer disabled:cursor-not-allowed ${
           dragFrac === null ? 'transition-colors' : ''
         } ${
           mode === 'production' ? 'rounded-l-full rounded-r-xl' : 'rounded-r-full rounded-l-xl'

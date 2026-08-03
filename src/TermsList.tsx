@@ -4,6 +4,7 @@ import type { Vocabulary } from './dictionary';
 import { posLabel, posRank } from './dictionary';
 import type { FcRecord } from './Drills';
 import { AnnotatedReading, AffixWrapper, isMastered } from './Drills';
+import { TextButton } from './Button';
 
 export const TermsList = ({
   vocabList,
@@ -61,21 +62,21 @@ export const TermsList = ({
     <main className="h-[100dvh] overflow-y-auto bg-slate-50 p-6 md:p-12 font-sans text-slate-900 flex justify-center items-start">
       <div className="w-full max-w-4xl flex flex-col min-h-full">
         <div className="mb-8 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-          <button onClick={onBack} className="text-slate-500 hover:text-slate-800 transition-colors flex items-center font-medium w-fit">
-            <ChevronLeft size={20} className="mr-1" /> Back to Menu
-          </button>
+          <TextButton onClick={onBack} className="-ml-4">
+            <ChevronLeft size={18} strokeWidth={2} /> Back to Menu
+          </TextButton>
 
           {showTabs && (
             <div className="flex bg-slate-200/50 p-1 rounded-xl w-fit">
               <button
                 onClick={() => setSortMode('all')}
-                className={`px-4 py-1.5 rounded-lg text-sm font-medium transition-colors ${sortMode === 'all' ? 'bg-white shadow-sm text-slate-800' : 'text-slate-500 hover:text-slate-700'}`}
+                className={`px-4 py-1.5 rounded-lg text-sm font-medium transition-colors cursor-pointer ${sortMode === 'all' ? 'bg-white shadow-sm text-slate-800' : 'text-slate-500 hover:text-slate-700'}`}
               >
                 All
               </button>
               <button
                 onClick={() => setSortMode('practicing')}
-                className={`px-4 py-1.5 rounded-lg text-sm font-medium transition-colors ${sortMode === 'practicing' ? 'bg-white shadow-sm text-slate-800' : 'text-slate-500 hover:text-slate-700'}`}
+                className={`px-4 py-1.5 rounded-lg text-sm font-medium transition-colors cursor-pointer ${sortMode === 'practicing' ? 'bg-white shadow-sm text-slate-800' : 'text-slate-500 hover:text-slate-700'}`}
               >
                 Practicing
               </button>
@@ -101,7 +102,7 @@ export const TermsList = ({
             <div>Meaning</div>
             <button
               onClick={() => setSortByForm(s => !s)}
-              className={`flex items-center justify-end gap-1 transition-colors ${sortByForm ? 'text-slate-600' : 'hover:text-slate-600'}`}
+              className={`flex items-center justify-end gap-1 transition-colors cursor-pointer ${sortByForm ? 'text-slate-600' : 'hover:text-slate-600'}`}
             >
               Form
               <ArrowUpDown size={10} className={sortByForm ? 'opacity-100' : 'opacity-40'} />

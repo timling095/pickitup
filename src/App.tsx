@@ -137,7 +137,7 @@ function MdCheckbox({ checked, onChange }: { checked: boolean, onChange: () => v
       onClick={onChange}
       role="checkbox"
       aria-checked={checked}
-      className="group relative w-10 h-10 -mr-[11px] flex items-center justify-center flex-shrink-0"
+      className="group relative w-10 h-10 -mr-[11px] flex items-center justify-center flex-shrink-0 cursor-pointer"
     >
       <div className="absolute inset-0 m-auto w-10 h-10 rounded-full bg-slate-800/[0.12] opacity-0 group-hover:opacity-100 group-focus:opacity-100 group-active:opacity-100 transition-opacity duration-150 pointer-events-none" />
       <div
@@ -160,7 +160,7 @@ function Chip({ selected, onClick, children }: { selected: boolean, onClick: () 
   return (
     <button
       onClick={onClick}
-      className={`h-8 px-3 rounded-full text-xs font-medium border transition-colors inline-flex items-center justify-center gap-1 ${
+      className={`h-8 px-3 rounded-full text-xs font-medium border transition-colors cursor-pointer inline-flex items-center justify-center gap-1 ${
         selected
           ? 'bg-slate-200 border-slate-200 text-slate-800'
           : 'bg-white border-slate-300 text-slate-600 hover:bg-slate-50'
@@ -179,7 +179,7 @@ function ChoiceChip({ selected, onClick, children }: { selected: boolean, onClic
   return (
     <button
       onClick={onClick}
-      className={`h-8 px-3 rounded-full text-xs font-medium border transition-colors inline-flex items-center justify-center ${
+      className={`h-8 px-3 rounded-full text-xs font-medium border transition-colors cursor-pointer inline-flex items-center justify-center ${
         selected
           ? 'bg-slate-200 border-slate-200 text-slate-800'
           : 'bg-white border-slate-300 text-slate-600 hover:bg-slate-50'
@@ -399,9 +399,14 @@ export default function App() {
             </div>
           </div>
 
-          {/* Right Column: Mode-specific settings, or session status while a session is active */}
+          {/* Right Column: Mode-specific settings, or session status while a session is
+              active. Session status is Production-specific (mastery count + Discard Drill
+              for the paused/active flashcard run), so it's gated on activeMode too, not
+              just fcActive — switching the lever to Recognition while a Production session
+              sits paused in the background should surface Recognition's own settings, not
+              stats about a session that mode isn't even running. */}
           <div className="md:col-span-5">
-            {fcActive ? (
+            {fcActive && activeMode === 'production' ? (
               <div className="bg-white rounded-3xl p-5 shadow-sm border border-slate-100">
                 <h2 className="text-lg font-normal text-slate-900 mb-4">Drill</h2>
                 <ModeSwitch
@@ -450,7 +455,14 @@ export default function App() {
                     the exiting panel's class list adds `opacity` alongside `transform`,
                     so it fades out as it slides away. Same duration/easing either way —
                     only which properties animate differs. */}
-                <div className="grid overflow-hidden">
+                {/* py-3 -my-3: the working-size slider's hover/focus halo (a 40px circle
+                    riding a 20px track) overshoots its own row by more than this panel's
+                    natural bottom edge leaves room for, so `overflow-hidden` (needed below
+                    to clip the slide-in animation horizontally) was clipping the halo too.
+                    Padding pushes the clip boundary out past the halo; the equal negative
+                    margin pulls the box back to its original footprint so surrounding
+                    spacing is unaffected. */}
+                <div className="grid overflow-hidden py-3 -my-3">
                   <div
                     className={`col-start-1 row-start-1 bg-white duration-200 ease-out ${
                       activeMode === 'production'

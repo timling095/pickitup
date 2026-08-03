@@ -245,7 +245,7 @@ export const RecognitionDrill = ({
 
       <div className="grid grid-cols-2 gap-3 w-full transition-opacity">
         {options.map((opt, i) => {
-          let btnClass = "p-4 border rounded-xl text-sm font-medium transition-all ";
+          let btnClass = "p-4 border rounded-xl text-sm font-medium transition-all cursor-pointer disabled:cursor-not-allowed ";
           
           if (!isEvaluated) {
             if (selectedId === opt.id) {
@@ -291,7 +291,7 @@ export const RecognitionDrill = ({
           </p>
           <div className="flex justify-center flex-wrap gap-2">
             {Array.from({length: getMorae(vocab.reading).length + 1}, (_, i) => i).map(num => {
-              let btnClass = "w-10 h-10 rounded-full flex items-center justify-center text-sm font-medium transition-all ";
+              let btnClass = "w-10 h-10 rounded-full flex items-center justify-center text-sm font-medium transition-all cursor-pointer disabled:cursor-not-allowed ";
               if (!isEvaluated) {
                 if (selectedPitch === num) {
                   btnClass += "bg-slate-800 text-white shadow-sm scale-110";
@@ -542,7 +542,7 @@ export const DrillEngine = ({
         </div>
         <h2 className="text-3xl font-light text-slate-800 mb-2">Drill Complete</h2>
         <p className="text-slate-500 mb-8">You've mastered this set.</p>
-        <button onClick={onExit} className="px-8 py-3 bg-slate-800 text-white rounded-full font-medium hover:bg-slate-700 transition-colors">
+        <button onClick={onExit} className="px-8 py-3 bg-slate-800 text-white rounded-full font-medium hover:bg-slate-700 transition-colors cursor-pointer">
           Return to Menu
         </button>
       </div>
@@ -704,7 +704,7 @@ export const FlashcardEngine = ({
         </div>
         <h2 className="text-3xl font-light text-slate-800 mb-2">Session Complete</h2>
         <p className="text-slate-500 mb-8">You've mastered every term in this scope.</p>
-        <button onClick={onComplete} className="px-8 py-3 bg-slate-800 text-white rounded-full font-medium hover:bg-slate-700 transition-colors">
+        <button onClick={onComplete} className="px-8 py-3 bg-slate-800 text-white rounded-full font-medium hover:bg-slate-700 transition-colors cursor-pointer">
           Return to Menu
         </button>
       </div>

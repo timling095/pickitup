@@ -101,7 +101,7 @@ export const DrawingCanvas = ({ promptText = "Draw Here", allowMouse = false, di
         onPointerDown={(e) => {
           if (e.pointerType === 'pen' || allowMouse) clearCanvas();
         }}
-        className="absolute bottom-4 right-4 p-2 bg-slate-100 hover:bg-slate-200 text-slate-500 rounded-full transition-colors select-none touch-none"
+        className="absolute bottom-4 right-4 p-2 bg-slate-100 hover:bg-slate-200 text-slate-500 rounded-full transition-colors select-none touch-none cursor-pointer"
       >
         <RefreshCw size={18} />
       </button>
