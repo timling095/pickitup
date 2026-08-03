@@ -2,6 +2,7 @@ import { useState, useEffect, useMemo, type ReactNode } from 'react';
 import { Check, X } from 'lucide-react';
 import type { AffixType, Vocabulary } from './dictionary';
 import { DrawingCanvas } from './Canvas';
+import { Button, TextButton } from './Button';
 
 function shuffle<T>(array: T[]): T[] {
   const newArray = [...array];
@@ -324,15 +325,15 @@ export const RecognitionDrill = ({
       </div>
 
       <div className={`w-full mt-8 text-center transition-all duration-300 ${isEvaluated ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-2 pointer-events-none'}`}>
-        <button
+        <Button
           onClick={() => {
             if (canProceed) onComplete(selectedId === vocab.id);
           }}
           disabled={!canProceed}
-          className="w-full py-4 bg-slate-800 text-white rounded-xl font-medium tracking-wide hover:bg-slate-700 transition-colors shadow-sm disabled:opacity-50 disabled:cursor-not-allowed select-none"
+          fullWidth
         >
           Next Question
-        </button>
+        </Button>
       </div>
     </div>
   );
@@ -415,49 +416,55 @@ export const ProductionDrill = ({
 
       <div className="w-[80%] pb-4">
         {!revealed ? (
-          <button
+          <Button
             onPointerDown={(e) => {
               if (e.pointerType === 'pen' || allowMouse) {
                 setRevealed(true);
               }
             }}
-            className="w-full py-4 bg-slate-800 text-white rounded-xl font-medium tracking-wide hover:bg-slate-700 transition-colors shadow-sm select-none touch-none"
+            fullWidth
+            className="touch-none"
           >
             Reveal Answer
-          </button>
+          </Button>
         ) : correcting ? (
-          <button
+          <Button
             onPointerDown={(e) => {
               if (!canProceed) return;
               if (e.pointerType === 'pen' || allowMouse) onComplete(false);
             }}
             disabled={!canProceed}
-            className="w-full py-4 bg-slate-800 text-white rounded-xl font-medium tracking-wide hover:bg-slate-700 transition-colors shadow-sm select-none touch-none disabled:opacity-50 disabled:cursor-not-allowed animate-in fade-in slide-in-from-bottom-4 duration-300"
+            fullWidth
+            className="touch-none animate-in fade-in slide-in-from-bottom-4 duration-300"
           >
             Proceed
-          </button>
+          </Button>
         ) : (
           <div className="grid grid-cols-2 gap-4 animate-in fade-in slide-in-from-bottom-4 duration-300">
-            <button
+            <Button
               onPointerDown={(e) => {
                 if (!canEvaluate) return;
                 if (e.pointerType === 'pen' || allowMouse) setCorrecting(true);
               }}
               disabled={!canEvaluate}
-              className="flex items-center justify-center gap-2 py-4 bg-white border-2 border-red-100 text-red-600 rounded-xl hover:bg-red-50 transition-colors font-medium select-none touch-none disabled:opacity-50 disabled:cursor-not-allowed"
+              variant="danger-outline"
+              fullWidth
+              className="touch-none"
             >
               <X size={20} /> Incorrect
-            </button>
-            <button
+            </Button>
+            <Button
               onPointerDown={(e) => {
                 if (!canEvaluate) return;
                 if (e.pointerType === 'pen' || allowMouse) onComplete(true);
               }}
               disabled={!canEvaluate}
-              className="flex items-center justify-center gap-2 py-4 bg-white border-2 border-green-100 text-green-600 rounded-xl hover:bg-green-50 transition-colors font-medium select-none touch-none disabled:opacity-50 disabled:cursor-not-allowed"
+              variant="success-outline"
+              fullWidth
+              className="touch-none"
             >
               <Check size={20} /> Correct
-            </button>
+            </Button>
           </div>
         )}
       </div>
@@ -547,7 +554,7 @@ export const DrillEngine = ({
   return (
     <div className="w-full h-full flex flex-col">
       <div className="flex items-center justify-between mb-12 select-none">
-        <button onClick={onExit} className="text-sm text-slate-400 hover:text-slate-600">Cancel Drill</button>
+        <TextButton onClick={onExit}><X size={16} strokeWidth={2} />Exit Drill</TextButton>
         <div className="flex gap-1">
           {queue.map((_, i) => (
             <div key={i} className={`h-1.5 rounded-full transition-all ${i < currentIndex ? 'bg-slate-800 w-4' : i === currentIndex ? 'bg-slate-400 w-4' : 'bg-slate-200 w-2'}`} />
@@ -713,7 +720,7 @@ export const FlashcardEngine = ({
   return (
     <div className="w-full h-full flex flex-col">
       <div className="flex items-center justify-between mb-12 select-none">
-        <button onClick={onExit} className="text-sm text-slate-400 hover:text-slate-600">Exit Session</button>
+        <TextButton onClick={onExit}><X size={16} strokeWidth={2} />Exit Drill</TextButton>
         <div className="text-sm font-medium text-slate-400">{masteredIds.size} / {vocabList.length} mastered</div>
       </div>
 

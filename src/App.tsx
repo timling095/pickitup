@@ -1,10 +1,12 @@
 import { useState, useMemo, type ReactNode } from 'react';
-import { ChevronRight, Check, PenLine, Eye } from 'lucide-react';
+import { Check, BookOpen, Trash2 } from 'lucide-react';
 import { DICTIONARY, useVocabulary, applyVerbForm, filterByWordType } from './dictionary';
 import type { WordType } from './dictionary';
 import { DrillEngine, FlashcardEngine, isMastered } from './Drills';
 import type { FcRecord } from './Drills';
 import { TermsList } from './TermsList';
+import { Button, TextButton } from './Button';
+import { ModeSwitch } from './ModeSwitch';
 
 // Custom hook to persist state in localStorage
 function useLocalStorage<T>(key: string, initialValue: T): [T, (val: T | ((prev: T) => T)) => void] {
@@ -146,111 +148,6 @@ function MdCheckbox({ checked, onChange }: { checked: boolean, onChange: () => v
         {checked && <Check size={13} strokeWidth={3.5} className="text-white" />}
       </div>
     </button>
-  );
-}
-
-// Mode switch: DualRangeSlider's overshoot trick pushed into an actual hardware
-// toggle that now also *launches*. The lever is `bg-slate-800` — this app's one
-// "primary action" color, inherited directly from the Start Session button it
-// replaces — so it reads clearly against the white card instead of disappearing
-// into it. Tapping the side that's already active launches (or resumes) that
-// mode's session; tapping the other side just switches, the same as before.
-// The track is fully rounded (a thin pill, echoing DualRangeSlider's own slender
-// line) but the lever itself stays boxy — `rounded-xl`, the same radius as the
-// app's cards and buttons — so it reads as a distinct rectangular object riding
-// inside a round groove, not just a bigger pill nested in a smaller one. The
-// lever overshoots the track on all four sides — a slim horizontal overshoot
-// past the pill's rounded caps (echoing DualRangeSlider's thumb overshooting
-// its line) paired with a taller vertical one, so the boxy lever reads as a
-// tall, narrow object riding *on top of* the thin track rather than being
-// inlaid flush into it. That vertical overshoot is safe in a way it wasn't
-// during an earlier attempt at this: the earlier "off-center" illusion came
-// from an unrelated bug (the caption forcing both sides to share a baseline
-// instead of centering independently — see below), not from the overshoot
-// itself. With that fixed, the lever can run taller than the track without
-// giving the eye a competing shape to measure the un-levered side against.
-// New-user discoverability is solved with a persistent caption under the active
-// label ("Tap to start"/"Tap to resume") rather than a hover hint, since this is
-// an iPad-first app and iPadOS Safari doesn't reliably fire :hover at all. The
-// caption is always mounted on both sides, but collapsed to zero height via
-// `grid-template-rows` when inactive (see `renderSide`) rather than being
-// removed from the DOM — that's what lets it animate open/shut instead of
-// popping, and it's also why each side's own content — icon+label alone at
-// rest, icon+label+caption once expanded — can still center independently via
-// `justify-center` inside a fixed-height track (`h-11`) without the two sides
-// ever needing to share a baseline. That means the icon+label sits a touch
-// higher on the active side than the inactive one (it's making room for the
-// caption below it), and the track's fixed height is what stops the card from
-// jerking as that caption row grows and shrinks. The press itself gets a
-// satisfying squash: the buttons are named peers (`peer/production`,
-// `peer/recognition`) and the lever — the *last* child, so z-index alone (not
-// DOM order) keeps it visually behind the button labels — scales down on
-// `peer-active`, the same peer-driven wiring DualRangeSlider uses for its halo,
-// reused here for a push instead of a fade-in.
-function ModeSwitch({
-  activeMode, onChangeMode, onLaunch, launchDisabled, resuming
-}: {
-  activeMode: 'production' | 'recognition',
-  onChangeMode: (mode: 'production' | 'recognition') => void,
-  onLaunch: () => void,
-  launchDisabled: boolean,
-  resuming: boolean
-}) {
-  const handleClick = (mode: 'production' | 'recognition') => {
-    if (mode === activeMode) {
-      if (!launchDisabled) onLaunch();
-    } else {
-      onChangeMode(mode);
-    }
-  };
-
-  const caption = launchDisabled ? 'No terms selected' : resuming ? 'Tap to resume' : 'Tap to start';
-
-  const renderSide = (mode: 'production' | 'recognition', Icon: typeof PenLine, label: string) => {
-    const isActive = activeMode === mode;
-    return (
-      <button
-        onClick={() => handleClick(mode)}
-        disabled={isActive && launchDisabled}
-        className={`peer/${mode} relative z-10 flex-1 min-w-0 rounded-xl text-sm font-medium transition-colors flex flex-col items-center justify-center disabled:cursor-not-allowed ${isActive ? 'text-white' : 'text-slate-500 hover:text-slate-700'}`}
-      >
-        <span className="flex items-center gap-1.5">
-          <Icon size={16} strokeWidth={2} />
-          {label}
-        </span>
-        {/* The caption row is always mounted, on both sides, and its height is
-            driven by `grid-template-rows` (0fr collapsed / 1fr expanded) rather
-            than by mounting/unmounting — a plain conditional render can't animate
-            itself in, so the icon+label above would otherwise snap to its new
-            position the instant the caption appears instead of easing into it. */}
-        <div
-          className={`grid w-full transition-[grid-template-rows,margin-top] duration-200 ease-out ${isActive ? 'grid-rows-[1fr] mt-1' : 'grid-rows-[0fr] mt-0'}`}
-        >
-          {/* No padding/margin of its own — the spacing above lives on the
-              collapsing wrapper (as `mt-1`/`mt-0`) instead, since padding on this
-              overflow-hidden element wouldn't shrink away with it: padding is
-              part of the box itself, not clippable "overflow", so it would leave
-              a permanent sliver even at `grid-rows-[0fr]`. */}
-          <div className={`overflow-hidden flex items-center justify-center gap-0.5 text-[10px] font-normal ${launchDisabled ? 'text-white/40' : 'text-white/60'}`}>
-            {caption}
-            {!launchDisabled && <ChevronRight size={9} />}
-          </div>
-        </div>
-      </button>
-    );
-  };
-
-  return (
-    <div className="relative flex h-11 bg-slate-200 px-0.5 rounded-full shadow-inner w-full">
-      {renderSide('production', PenLine, 'Production')}
-      {renderSide('recognition', Eye, 'Recognition')}
-      <div
-        className={`absolute rounded-xl bg-slate-800 shadow-md transition-all duration-200 ease-out pointer-events-none ${
-          activeMode === 'production' ? 'peer-active/production:scale-95' : 'peer-active/recognition:scale-95'
-        } ${launchDisabled ? 'opacity-70' : ''}`}
-        style={{ top: '-6px', bottom: '-6px', left: activeMode === 'production' ? '-2px' : '50%', width: 'calc(50% + 2px)' }}
-      />
-    </div>
   );
 }
 
@@ -442,19 +339,20 @@ export default function App() {
                     {Object.values(selectedLessons).filter(Boolean).length} Lessons Selected • {displayVocab.length} terms loaded
                   </div>
                 </div>
-                <button
+                <Button
                   onClick={() => setAppState('terms')}
                   disabled={displayVocab.length === 0}
-                  className="flex-shrink-0 h-11 px-5 bg-slate-800 text-white rounded-xl font-medium tracking-wide hover:bg-slate-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed shadow-md text-sm"
+                  className="flex-shrink-0"
                 >
+                  <BookOpen size={16} strokeWidth={2} />
                   View Terms
-                </button>
+                </Button>
               </div>
 
               <div className="border-t border-slate-100 -mx-5 mb-5" />
 
               <div className="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-4">Lessons</div>
-              <div className="flex flex-wrap gap-2 mb-5">
+              <div className="flex flex-wrap gap-2 mb-7">
                 {lessons.map(lessonId => (
                   <Chip
                     key={lessonId}
@@ -487,7 +385,7 @@ export default function App() {
                 </div>
               </div>
 
-              <div className="mt-5">
+              <div className="mt-7">
                 <div className="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-4">Verb Form</div>
                 <div className="flex flex-wrap gap-2">
                   <ChoiceChip selected={!useDicForm} onClick={() => setUseDicForm(false)}>
@@ -505,7 +403,7 @@ export default function App() {
           <div className="md:col-span-5">
             {fcActive ? (
               <div className="bg-white rounded-3xl p-5 shadow-sm border border-slate-100">
-                <h2 className="text-lg font-normal text-slate-900 mb-4">Session</h2>
+                <h2 className="text-lg font-normal text-slate-900 mb-4">Drill</h2>
                 <ModeSwitch
                   activeMode={activeMode}
                   onChangeMode={setActiveMode}
@@ -516,20 +414,22 @@ export default function App() {
                 <div className="border-t border-slate-100 -mx-5 my-5" />
                 <div className="flex items-center justify-between gap-3">
                   <div className="text-sm text-slate-500 tabular-nums whitespace-nowrap">{sessionMasteredCount} / {sessionVocab.length} mastered</div>
-                  <button
+                  <TextButton
+                    variant="pink"
                     onClick={() => {
                       setFcActive(false);
                       setFcRecords({});
                     }}
-                    className="flex-shrink-0 px-4 py-2 bg-red-50 text-red-600 rounded-lg font-medium text-sm hover:bg-red-100 transition-colors"
+                    className="flex-shrink-0"
                   >
-                    Discard Session
-                  </button>
+                    <Trash2 size={16} strokeWidth={2} />
+                    Discard Drill
+                  </TextButton>
                 </div>
               </div>
             ) : (
               <div className="bg-white rounded-3xl p-5 shadow-sm border border-slate-100">
-                <h2 className="text-lg font-normal text-slate-900 mb-4">Session</h2>
+                <h2 className="text-lg font-normal text-slate-900 mb-4">Drill</h2>
                 <ModeSwitch
                   activeMode={activeMode}
                   onChangeMode={setActiveMode}
@@ -599,7 +499,7 @@ export default function App() {
 
         </div>
 
-        <div className="mt-auto pt-12 pb-2 text-center text-[10px] font-normal text-slate-400 tracking-wide uppercase">
+        <div className="mt-auto pt-12 pb-1 text-center text-[11px] font-normal text-slate-400 tracking-wide uppercase">
           Vocabulary list provided by Tokyo University of Foreign Studies and Kenta Li
         </div>
 

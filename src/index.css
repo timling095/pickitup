@@ -1,11 +1,14 @@
 @import "tailwindcss";
 
-/* Material Pink 50 — the one accent tint used throughout (chips, halos, list rows).
-   Registered as a Tailwind v4 theme token (CSS-first theme) so it generates
-   bg-md-accent-light, and opacity modifiers like bg-md-accent-light/50 for an even
-   lighter touch — same trick as the slate state-layer halos (bg-slate-800/[0.12]). */
+/* Material Pink 50/500 — the one accent hue used throughout. -light (Pink 50) tints
+   chips/halos/list rows; the full-strength token is the "discard" text button's
+   label + state-layer color. Registered as Tailwind v4 theme tokens (CSS-first
+   theme) so they generate bg-md-accent(-light), text-md-accent(-light), and opacity
+   modifiers like bg-md-accent/[0.08] for a state-layer hint — same trick as the
+   slate halos (bg-slate-800/[0.12]) used elsewhere. */
 @theme {
   --color-md-accent-light: #FCE4EC;
+  --color-md-accent: #E91E63;
 }
 
 @font-face {

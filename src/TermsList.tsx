@@ -1,7 +1,7 @@
 import { useState, useMemo } from 'react';
-import { ChevronLeft, Search } from 'lucide-react';
+import { ChevronLeft, Search, ArrowUpDown } from 'lucide-react';
 import type { Vocabulary } from './dictionary';
-import { abbreviatePos } from './dictionary';
+import { posLabel, posRank } from './dictionary';
 import type { FcRecord } from './Drills';
 import { AnnotatedReading, AffixWrapper, isMastered } from './Drills';
 
@@ -24,6 +24,7 @@ export const TermsList = ({
 }) => {
   const [sortMode, setSortMode] = useState<'all' | 'practicing'>('all');
   const [searchQuery, setSearchQuery] = useState('');
+  const [sortByForm, setSortByForm] = useState(false);
 
   // The Practicing tab reflects an in-progress Production session's mastery
   // data — outside of a session there's nothing "in progress" to filter down to,
@@ -43,11 +44,18 @@ export const TermsList = ({
     }
 
     if (showTabs && sortMode === 'practicing') {
-      return filtered.filter(v => !isMastered(fcRecords[v.id]));
+      filtered = filtered.filter(v => !isMastered(fcRecords[v.id]));
+    }
+
+    // A stable sort here preserves the existing (lesson/dataset) order within
+    // each form, so toggling this off always returns exactly to that order —
+    // it's a re-sort, not a shuffle, which is what makes it "unsortable" too.
+    if (sortByForm) {
+      return [...filtered].sort((a, b) => posRank(a) - posRank(b));
     }
 
     return filtered;
-  }, [vocabList, showTabs, sortMode, fcRecords, searchQuery]);
+  }, [vocabList, showTabs, sortMode, fcRecords, searchQuery, sortByForm]);
 
   return (
     <main className="h-[100dvh] overflow-y-auto bg-slate-50 p-6 md:p-12 font-sans text-slate-900 flex justify-center items-start">
@@ -87,11 +95,17 @@ export const TermsList = ({
         </div>
 
         <div className="bg-white rounded-2xl border border-slate-100 shadow-sm overflow-hidden mb-12">
-          <div className="grid grid-cols-[1fr_3rem_1fr_1fr] gap-4 px-4 py-2 text-[10px] font-bold uppercase tracking-wider text-slate-400 border-b border-slate-100">
+          <div className="grid grid-cols-[1fr_1fr_1fr_6rem] gap-4 px-4 py-2 text-[10px] font-bold uppercase tracking-wider text-slate-400 border-b border-slate-100">
             <div>Term</div>
-            <div>Form</div>
             <div>Reading</div>
             <div>Meaning</div>
+            <button
+              onClick={() => setSortByForm(s => !s)}
+              className={`flex items-center justify-end gap-1 transition-colors ${sortByForm ? 'text-slate-600' : 'hover:text-slate-600'}`}
+            >
+              Form
+              <ArrowUpDown size={10} className={sortByForm ? 'opacity-100' : 'opacity-40'} />
+            </button>
           </div>
           <div className="divide-y divide-slate-100">
             {sortedVocab.map((vocab, i) => {
@@ -101,19 +115,19 @@ export const TermsList = ({
                 <div
                   key={`${vocab.id}-${i}`}
                   onClick={() => onToggleMark(vocab.id)}
-                  className={`grid grid-cols-[1fr_3rem_1fr_1fr] items-center gap-4 px-4 py-2 transition-colors cursor-pointer ${isMarked ? 'bg-md-accent-light' : 'hover:bg-md-accent-light/50'}`}
+                  className={`grid grid-cols-[1fr_1fr_1fr_6rem] items-center gap-4 px-4 py-2 transition-colors cursor-pointer ${isMarked ? 'bg-md-accent-light' : 'hover:bg-md-accent-light/50'}`}
                 >
                   <div className="text-base text-slate-800 flex items-center truncate" title={vocab.term}>
                     <AffixWrapper term={vocab.term} affixType={vocab.affix_type} mode="inline" />
-                  </div>
-                  <div className="text-xs text-slate-400 truncate">
-                    {abbreviatePos(vocab)}
                   </div>
                   <div className="text-sm text-slate-800 truncate">
                     <AnnotatedReading reading={vocab.reading} pitch={vocab.pitch_accent} affixType={vocab.affix_type} />
                   </div>
                   <div className="text-sm text-slate-800 truncate" style={{ fontFamily: '"Noto Serif TC", serif' }} title={vocab.definition}>
                     {vocab.definition}
+                  </div>
+                  <div className="text-xs text-slate-400 text-right truncate" title={posLabel(vocab)}>
+                    {posLabel(vocab)}
                   </div>
                 </div>
               );

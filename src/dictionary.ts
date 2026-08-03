@@ -56,26 +56,41 @@ export function isVerb(v: Vocabulary): boolean {
   return v.pos === 'verb';
 }
 
-// Traditional dictionary-style abbreviations for the Terms Viewer's narrow "form" column.
-const POS_ABBREVIATIONS: Record<PosType, string> = {
-  verb: 'v.',
-  na_adj: 'na-adj.',
-  i_adj: 'i-adj.',
-  noun: 'n.',
-  adverb: 'adv.',
-  pronoun: 'pron.',
-  interjection: 'interj.',
-  conjunction: 'conj.',
-  pre_noun: 'pre-n.',
-  counter: 'ctr.',
-  prefix: 'pref.',
-  suffix: 'suf.',
-  phrase: 'phr.',
-  other: '—',
+// Terms Viewer "form" column labels, in the same style as the Word Type filter
+// chips (short English words, hiragana prefix where the chips use one) rather
+// than traditional dictionary abbreviations.
+const POS_LABELS: Record<PosType, string> = {
+  verb: 'Verb',
+  na_adj: 'な-adj',
+  i_adj: 'い-adj',
+  noun: 'Noun',
+  adverb: 'Adverb',
+  pronoun: 'Pronoun',
+  interjection: 'Interjection',
+  conjunction: 'Conjunction',
+  pre_noun: 'Pre-noun',
+  counter: 'Counter',
+  prefix: 'Prefix',
+  suffix: 'Suffix',
+  phrase: 'Phrase',
+  other: 'Other',
 };
 
-export function abbreviatePos(v: Vocabulary): string {
-  return POS_ABBREVIATIONS[v.pos];
+export function posLabel(v: Vocabulary): string {
+  return POS_LABELS[v.pos];
+}
+
+// Fixed display/sort order for the Terms Viewer's form-sort toggle — the five
+// filter-chip categories first (in the same order the Word Type chips use),
+// then the remaining pos values that only ever show up in the "Others" bucket.
+const POS_ORDER: PosType[] = [
+  'verb', 'na_adj', 'i_adj', 'noun',
+  'adverb', 'pronoun', 'interjection', 'conjunction',
+  'pre_noun', 'counter', 'prefix', 'suffix', 'phrase', 'other'
+];
+
+export function posRank(v: Vocabulary): number {
+  return POS_ORDER.indexOf(v.pos);
 }
 
 export function filterByWordType(vocabList: Vocabulary[], selectedWordTypes: Record<WordType, boolean>): Vocabulary[] {
