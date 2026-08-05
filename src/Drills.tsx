@@ -113,11 +113,16 @@ export const AnnotatedReading = ({ reading, pitch, affixType = 'none' }: { readi
 // === AnnotatedTerm (furigana) ===
 // ==========================================
 
-export const AnnotatedTerm = ({ term, reading, pitch, affixType = 'none' }: { term: string, reading: string, pitch: number, affixType?: AffixType }) => {
+// `compact`: tightens the furigana-to-kanji gap (used by the Terms List's dense table
+// rows) — the default 0.2em gap was tuned for the Drills' large-scale prompt display,
+// where more breathing room reads fine; in a compact table row the same gap reads as
+// oddly floating.
+export const AnnotatedTerm = ({ term, reading, pitch, affixType = 'none', compact = false }: { term: string, reading: string, pitch: number, affixType?: AffixType, compact?: boolean }) => {
   const segments = segmentTerm(term);
   const hasKanji = segments.some(s => s.isKanji);
   const morae = getMorae(reading);
   const isAccented = pitch > 0 && pitch <= morae.length;
+  const rubyGap = compact ? '0.05em' : '0.2em';
 
   let content: ReactNode;
 
@@ -142,7 +147,7 @@ export const AnnotatedTerm = ({ term, reading, pitch, affixType = 'none' }: { te
       content = (
         <ruby>
           <span style={termScaleStyle}>{term}</span>
-          <rt className="text-[0.4em] leading-none" style={{ marginBottom: '0.2em' }}>{renderMoraeSlice(morae, 0, pitch, isAccented)}</rt>
+          <rt className="text-[0.4em] leading-none" style={{ marginBottom: rubyGap }}>{renderMoraeSlice(morae, 0, pitch, isAccented)}</rt>
         </ruby>
       );
     } else {
@@ -156,7 +161,7 @@ export const AnnotatedTerm = ({ term, reading, pitch, affixType = 'none' }: { te
           return (
             <ruby key={i}>
               <span style={termScaleStyle}>{seg.text}</span>
-              <rt className="text-[0.4em] leading-none" style={{ marginBottom: '0.2em' }}>{renderMoraeSlice(segMorae, startIdx, pitch, isAccented)}</rt>
+              <rt className="text-[0.4em] leading-none" style={{ marginBottom: rubyGap }}>{renderMoraeSlice(segMorae, startIdx, pitch, isAccented)}</rt>
             </ruby>
           );
         }
@@ -236,7 +241,7 @@ export const RecognitionDrill = ({
             <span style={{ fontFamily: '"Noto Serif TC", serif' }}>{prompt}</span>
           )}
           {isEvaluated && (
-            <div className="absolute left-full ml-6 text-2xl text-slate-400 whitespace-nowrap animate-in fade-in flex items-center h-full pt-1">
+            <div className="absolute left-full ml-6 text-2xl text-slate-400 whitespace-nowrap animate-fade-in flex items-center h-full pt-1">
               <AffixWrapper term={vocab.term} affixType={vocab.affix_type} mode="inline" />
             </div>
           )}
@@ -245,30 +250,29 @@ export const RecognitionDrill = ({
 
       <div className="grid grid-cols-2 gap-3 w-full transition-opacity">
         {options.map((opt, i) => {
-          let btnClass = "p-4 border rounded-xl text-sm font-medium transition-all cursor-pointer disabled:cursor-not-allowed ";
-          
-          if (!isEvaluated) {
-            if (selectedId === opt.id) {
-              btnClass += "bg-slate-800 border-slate-800 text-white shadow-sm"; // Selected but waiting for evaluation
-            } else {
-              btnClass += "bg-white border-slate-200 text-slate-700 hover:border-slate-400 hover:shadow-sm";
-            }
-          } else {
-            if (opt.id === vocab.id) {
-              btnClass += "bg-green-50 border-green-500 text-green-700 shadow-sm";
-            } else if (opt.id === selectedId) {
-              btnClass += "bg-red-50 border-red-500 text-red-700";
-            } else {
-              btnClass += "bg-white border-slate-100 text-slate-300 opacity-50";
-            }
-          }
+          const isSelected = selectedId === opt.id;
+          const isCorrectOpt = opt.id === vocab.id;
+          // Selection/feedback expressed as a Button variant, same as every other
+          // button in the app, instead of a bespoke class string. `pointer-events-none`
+          // (rather than the `disabled` prop) once evaluated: clicks are already a
+          // no-op via `handleSelect`'s own guard, and this avoids Button's
+          // disabled:opacity-50 washing out the correct/incorrect feedback colors —
+          // only the "neither correct nor selected" options get faded, via a plain
+          // (non-pseudo-class) opacity-50 so it can't be fought by specificity.
+          const variant: 'outline' | 'primary' | 'correct' | 'incorrect' =
+            !isEvaluated ? (isSelected ? 'primary' : 'outline')
+            : isCorrectOpt ? 'correct'
+            : isSelected ? 'incorrect'
+            : 'outline';
 
           return (
-            <button
+            <Button
               key={i}
               onClick={() => handleSelect(opt.id)}
-              disabled={isEvaluated}
-              className={btnClass}
+              variant={variant}
+              autoHeight
+              fullWidth
+              className={`px-4 ${isEvaluated ? `pointer-events-none ${!isCorrectOpt && !isSelected ? 'opacity-50' : ''}` : ''}`}
             >
               {isOptionJapanese ? (
                 isEvaluated ? (
@@ -279,7 +283,7 @@ export const RecognitionDrill = ({
               ) : (
                 <span style={{ fontFamily: '"Noto Serif TC", serif' }}>{getOptionText(opt)}</span>
               )}
-            </button>
+            </Button>
           );
         })}
       </div>
@@ -291,7 +295,7 @@ export const RecognitionDrill = ({
           </p>
           <div className="flex justify-center flex-wrap gap-2">
             {Array.from({length: getMorae(vocab.reading).length + 1}, (_, i) => i).map(num => {
-              let btnClass = "w-10 h-10 rounded-full flex items-center justify-center text-sm font-medium transition-all cursor-pointer disabled:cursor-not-allowed ";
+              let btnClass = "w-10 h-10 rounded-full flex items-center justify-center text-sm font-medium transition-all cursor-pointer active:scale-95 disabled:cursor-not-allowed ";
               if (!isEvaluated) {
                 if (selectedPitch === num) {
                   btnClass += "bg-slate-800 text-white shadow-sm scale-110";
@@ -391,7 +395,7 @@ export const ProductionDrill = ({
           <div className="relative inline-flex items-center justify-center">
             <span style={{ fontFamily: '"Noto Serif TC", serif' }}>{prompt}</span>
             {revealed && (
-              <div className="absolute left-full ml-12 top-1/2 -translate-y-1/2 text-5xl font-light text-slate-800 whitespace-nowrap animate-in fade-in flex items-baseline gap-1">
+              <div className="absolute left-full ml-12 top-1/2 -translate-y-1/2 text-5xl font-light text-slate-800 whitespace-nowrap animate-fade-in flex items-baseline gap-1">
                 <AnnotatedTerm term={vocab.term} reading={vocab.reading} pitch={vocab.pitch_accent} affixType={vocab.affix_type} />
               </div>
             )}
@@ -435,12 +439,12 @@ export const ProductionDrill = ({
             }}
             disabled={!canProceed}
             fullWidth
-            className="touch-none animate-in fade-in slide-in-from-bottom-4 duration-300"
+            className="touch-none animate-fade-slide-up"
           >
             Proceed
           </Button>
         ) : (
-          <div className="grid grid-cols-2 gap-4 animate-in fade-in slide-in-from-bottom-4 duration-300">
+          <div className="grid grid-cols-2 gap-4 animate-fade-slide-up">
             <Button
               onPointerDown={(e) => {
                 if (!canEvaluate) return;
@@ -536,13 +540,13 @@ export const DrillEngine = ({
 
   if (isFinished) {
     return (
-      <div className="flex flex-col items-center justify-center h-full text-center fade-in">
+      <div className="flex flex-col items-center justify-center h-full text-center animate-fade-in">
         <div className="w-20 h-20 bg-green-100 text-green-600 rounded-full flex items-center justify-center mb-6">
           <Check size={40} />
         </div>
         <h2 className="text-3xl font-light text-slate-800 mb-2">Drill Complete</h2>
         <p className="text-slate-500 mb-8">You've mastered this set.</p>
-        <button onClick={onExit} className="px-8 py-3 bg-slate-800 text-white rounded-full font-medium hover:bg-slate-700 transition-colors cursor-pointer">
+        <button onClick={onExit} className="px-8 py-3 bg-slate-800 text-white rounded-full font-medium hover:bg-slate-700 transition cursor-pointer active:scale-95">
           Return to Menu
         </button>
       </div>
@@ -554,7 +558,7 @@ export const DrillEngine = ({
   return (
     <div className="w-full h-full flex flex-col">
       <div className="flex items-center justify-between mb-12 select-none">
-        <TextButton onClick={onExit}><X size={16} strokeWidth={2} />Exit Drill</TextButton>
+        <TextButton onClick={onExit} align="start"><X size={16} strokeWidth={2} />Exit Drill</TextButton>
         <div className="flex gap-1">
           {queue.map((_, i) => (
             <div key={i} className={`h-1.5 rounded-full transition-all ${i < currentIndex ? 'bg-slate-800 w-4' : i === currentIndex ? 'bg-slate-400 w-4' : 'bg-slate-200 w-2'}`} />
@@ -698,13 +702,13 @@ export const FlashcardEngine = ({
 
   if (isFinished) {
     return (
-      <div className="flex flex-col items-center justify-center h-full text-center fade-in">
+      <div className="flex flex-col items-center justify-center h-full text-center animate-fade-in">
         <div className="w-20 h-20 bg-green-100 text-green-600 rounded-full flex items-center justify-center mb-6">
           <Check size={40} />
         </div>
         <h2 className="text-3xl font-light text-slate-800 mb-2">Session Complete</h2>
         <p className="text-slate-500 mb-8">You've mastered every term in this scope.</p>
-        <button onClick={onComplete} className="px-8 py-3 bg-slate-800 text-white rounded-full font-medium hover:bg-slate-700 transition-colors cursor-pointer">
+        <button onClick={onComplete} className="px-8 py-3 bg-slate-800 text-white rounded-full font-medium hover:bg-slate-700 transition cursor-pointer active:scale-95">
           Return to Menu
         </button>
       </div>
@@ -720,7 +724,7 @@ export const FlashcardEngine = ({
   return (
     <div className="w-full h-full flex flex-col">
       <div className="flex items-center justify-between mb-12 select-none">
-        <TextButton onClick={onExit}><X size={16} strokeWidth={2} />Exit Drill</TextButton>
+        <TextButton onClick={onExit} align="start"><X size={16} strokeWidth={2} />Exit Drill</TextButton>
         <div className="text-sm font-medium text-slate-400">{masteredIds.size} / {vocabList.length} mastered</div>
       </div>
 

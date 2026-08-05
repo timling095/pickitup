@@ -121,8 +121,18 @@ export function ModeSwitch({
   const DRAG_THRESHOLD_PX = 6;
 
   // null = not dragging, lever position follows `activeMode` as normal.
-  // 0–1 while dragging = raw pointer fraction across the track, live.
+  // 0–1 while dragging = raw pointer fraction across the track, live —
+  // updated on every pointermove from the very first pixel (no threshold),
+  // so the lever's rendered position is always exactly where the finger is.
   const [dragFrac, setDragFrac] = useState<number | null>(null);
+  // Mirrors `draggedRef.current`, i.e. "has this gesture moved past
+  // DRAG_THRESHOLD_PX" — real state (not just the ref) because it's read
+  // during render, to drive `isAbstaining`. Deliberately kept SEPARATE from
+  // `dragFrac !== null`: position tracks the pointer unconditionally, but the
+  // caption/abstain visuals should only kick in once a real drag (not a
+  // sub-threshold jiggle) is underway — same threshold-gated timing as
+  // before this was split out.
+  const [isDragging, setIsDragging] = useState(false);
   // Sticky within a single gesture: flips true the first time the drag passes
   // ABSTAIN_SNAP_FRACTION away from its starting side, and never flips back
   // until the next pointerdown — so wandering back toward the start mid-drag
@@ -168,18 +178,25 @@ export function ModeSwitch({
     let crossedAbstainThreshold = false;
 
     const onMove = (ev: globalThis.PointerEvent) => {
-      if (!draggedRef.current) {
-        if (Math.abs(ev.clientX - startX) < DRAG_THRESHOLD_PX) return;
-        draggedRef.current = true;
-      }
+      // Position tracking is unconditional — no threshold — so the lever is
+      // always exactly under the finger, with zero catch-up jump once a real
+      // drag is later recognized below.
       const rect = trackRef.current?.getBoundingClientRect();
       if (!rect || rect.width === 0) return;
       lastFrac = Math.min(1, Math.max(0, (ev.clientX - rect.left) / rect.width));
+      setDragFrac(lastFrac);
+
+      // Everything past this point is the "is this a real drag" bookkeeping —
+      // still threshold-gated, independent of the position tracking above.
+      if (!draggedRef.current) {
+        if (Math.abs(ev.clientX - startX) < DRAG_THRESHOLD_PX) return;
+        draggedRef.current = true;
+        setIsDragging(true);
+      }
       if (!crossedAbstainThreshold && Math.abs(lastFrac - anchorFrac) > ABSTAIN_SNAP_FRACTION) {
         crossedAbstainThreshold = true;
         setPastAbstainThreshold(true);
       }
-      setDragFrac(lastFrac);
     };
     const onUp = () => {
       if (draggedRef.current) {
@@ -188,6 +205,7 @@ export function ModeSwitch({
         if (finalMode !== activeMode) onChangeMode(finalMode);
       }
       draggedRef.current = false;
+      setIsDragging(false);
       setPastAbstainThreshold(false);
       setDragFrac(null);
       window.removeEventListener('pointermove', onMove);
@@ -205,10 +223,12 @@ export function ModeSwitch({
 
   // Past the drag threshold and short of a resolved release, the switch
   // abstains: neither side reads as active, so the *caption* doesn't pop to
-  // an answer the gesture hasn't actually committed to yet. The label/icon
-  // color is deliberately NOT gated by this — see `displayFrac`/`lerpLabelColor`
-  // below, which track the lever continuously instead.
-  const isAbstaining = dragFrac !== null;
+  // an answer the gesture hasn't actually committed to yet. Keyed off
+  // `isDragging` (threshold-gated), not `dragFrac !== null` (which now goes
+  // non-null on the first pixel of any movement, threshold or not) — the
+  // caption's timing is deliberately unchanged from before position tracking
+  // became unconditional.
+  const isAbstaining = isDragging;
 
   // Same two endpoints as the lever's own position (`0` = Production, `1` =
   // Recognition) — reused here so the label colors visibly track *where the
@@ -234,14 +254,14 @@ export function ModeSwitch({
         onClick={() => handleClick(mode)}
         disabled={isActive && launchDisabled}
         style={dragFrac !== null ? { color: lerpLabelColor(closeness) } : undefined}
-        className={`peer/${mode} relative z-10 flex-1 min-w-0 shadow-md text-sm font-medium flex flex-col items-center justify-center cursor-pointer disabled:cursor-not-allowed ${
+        className={`peer/${mode} relative z-10 flex-1 min-w-0 shadow-md text-base font-medium flex flex-col items-center justify-center cursor-pointer disabled:cursor-not-allowed ${
           dragFrac === null ? 'transition-colors' : ''
         } ${
           mode === 'production' ? 'rounded-l-full rounded-r-xl' : 'rounded-r-full rounded-l-xl'
         } ${isActive ? 'text-white' : 'text-slate-500 hover:text-slate-700'}`}
       >
         <span className="flex items-center gap-1.5">
-          <Icon size={16} strokeWidth={2} />
+          <Icon size={18} strokeWidth={2} />
           {label}
         </span>
         {/* The caption row is always mounted, on both sides, and its height is

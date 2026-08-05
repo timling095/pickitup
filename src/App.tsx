@@ -1,36 +1,14 @@
 import { useState, useMemo, type ReactNode } from 'react';
-import { Check, BookOpen, Trash2 } from 'lucide-react';
+import { Check, BookOpen, ChevronRight, Trash2 } from 'lucide-react';
 import { DICTIONARY, useVocabulary, applyVerbForm, filterByWordType } from './dictionary';
 import type { WordType } from './dictionary';
 import { DrillEngine, FlashcardEngine, isMastered } from './Drills';
 import type { FcRecord } from './Drills';
 import { TermsList } from './TermsList';
-import { Button, TextButton } from './Button';
+import { TextButton } from './Button';
 import { ModeSwitch } from './ModeSwitch';
-
-// Custom hook to persist state in localStorage
-function useLocalStorage<T>(key: string, initialValue: T): [T, (val: T | ((prev: T) => T)) => void] {
-  const [storedValue, setStoredValue] = useState<T>(() => {
-    try {
-      const item = window.localStorage.getItem(key);
-      return item ? JSON.parse(item) : initialValue;
-    } catch {
-      return initialValue;
-    }
-  });
-
-  const setValue = (value: T | ((prev: T) => T)) => {
-    try {
-      const valueToStore = value instanceof Function ? value(storedValue) : value;
-      setStoredValue(valueToStore);
-      window.localStorage.setItem(key, JSON.stringify(valueToStore));
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
-  return [storedValue, setValue];
-}
+import { MdCheckbox } from './MdCheckbox';
+import { useLocalStorage } from './useLocalStorage';
 
 // Two overlapping range inputs drive value/drag logic only — their native thumbs are
 // made a big, fully invisible 44px touch target (Material Design clickbox) and never
@@ -120,34 +98,6 @@ function DualRangeSlider({
         style={{ left: `${fracMax * 100}%`, top: '50%', transform: 'translate(-50%, -50%)', zIndex: maxZ }}
       />
     </div>
-  );
-}
-
-// Checkbox: an 18px square, 2px border, filled black + white check when checked. The
-// <button> IS the full 40px halo/hit-area (not just the 18px visual box), so clicking
-// anywhere in the halo registers — the 18px box is a plain inner <div> (can't nest a
-// <button> inside a <button>). `role="checkbox"`/`aria-checked` since this is a simple
-// boolean settings toggle, not part of a <form>. The halo reuses DualRangeSlider's
-// thumb technique (a Material "state layer"): group-hover/group-focus/group-active
-// fade it in — `group-focus` (not `-within`) since the button itself, not a descendant,
-// is what receives focus here.
-function MdCheckbox({ checked, onChange }: { checked: boolean, onChange: () => void }) {
-  return (
-    <button
-      onClick={onChange}
-      role="checkbox"
-      aria-checked={checked}
-      className="group relative w-10 h-10 -mr-[11px] flex items-center justify-center flex-shrink-0 cursor-pointer"
-    >
-      <div className="absolute inset-0 m-auto w-10 h-10 rounded-full bg-slate-800/[0.12] opacity-0 group-hover:opacity-100 group-focus:opacity-100 group-active:opacity-100 transition-opacity duration-150 pointer-events-none" />
-      <div
-        className={`relative w-[18px] h-[18px] rounded-[2px] border-2 flex items-center justify-center transition-colors pointer-events-none ${
-          checked ? 'bg-slate-800 border-slate-800' : 'bg-white border-slate-400 group-hover:border-slate-800'
-        }`}
-      >
-        {checked && <Check size={13} strokeWidth={3.5} className="text-white" />}
-      </div>
-    </button>
   );
 }
 
@@ -252,7 +202,8 @@ export default function App() {
   if (appState === 'terms') {
     return (
       <TermsList
-        vocabList={displayVocab}
+        vocabList={scopedVocab}
+        defaultUseDicForm={useDicForm}
         mode={activeMode}
         sessionActive={fcActive}
         fcRecords={fcRecords}
@@ -320,7 +271,7 @@ export default function App() {
   }
 
   return (
-    <main className="h-[100dvh] overflow-y-auto bg-slate-50 p-6 md:p-12 font-sans text-slate-900 flex justify-center items-start">
+    <main className="h-[100dvh] overflow-y-auto overscroll-y-contain bg-slate-50 p-6 md:p-12 font-sans text-slate-900 flex justify-center items-start">
       <div className="w-full max-w-5xl flex flex-col min-h-full">
 
         <div className="mb-6">
@@ -330,28 +281,38 @@ export default function App() {
         <div className="grid grid-cols-1 md:grid-cols-12 gap-8">
 
           {/* Left Column: Lesson Select */}
-          <div className="md:col-span-7 space-y-4">
+          <div className="md:col-span-6 space-y-4">
             <div className="bg-white rounded-3xl p-5 shadow-sm border border-slate-100 mb-4 relative overflow-hidden">
-              <div className="flex items-end justify-between gap-4 mb-5">
-                <div>
-                  <h2 className="text-lg font-normal text-slate-900 mb-1">Glossary</h2>
-                  <div className="text-xs text-slate-400">
-                    {Object.values(selectedLessons).filter(Boolean).length} Lessons Selected • {displayVocab.length} terms loaded
-                  </div>
-                </div>
-                <Button
-                  onClick={() => setAppState('terms')}
-                  disabled={displayVocab.length === 0}
-                  className="flex-shrink-0"
-                >
-                  <BookOpen size={16} strokeWidth={2} />
+              {/* Actionable title: a main title + a small action prompt underneath, both
+                  inside one interactive slab — same treatment (and size) as a single
+                  ModeSwitch lever SIDE, not the full track: bg-slate-800, rounded-xl,
+                  shadow-md, bold label + caption, both centered, at roughly half the
+                  card's width, sitting at the card's left edge — same object, same
+                  proportions, just one action instead of two. The subtitle below it —
+                  which briefly explains what's going on, not what tapping it does —
+                  lives outside the button, left-aligned under it, same mt-3 gap as the
+                  Drill card's subtitle below its lever. */}
+              <button
+                onClick={() => setAppState('terms')}
+                disabled={displayVocab.length === 0}
+                className="w-full h-[62px] rounded-xl bg-slate-800 text-white shadow-md flex flex-col items-center justify-center cursor-pointer active:scale-95 transition disabled:cursor-not-allowed disabled:opacity-70"
+              >
+                <span className="flex items-center gap-1.5 text-base font-medium">
+                  <BookOpen size={18} strokeWidth={2} />
+                  Glossary
+                </span>
+                <span className="flex items-center gap-0.5 text-[10px] font-normal text-white/60 mt-0.5">
                   View Terms
-                </Button>
+                  <ChevronRight size={9} strokeWidth={2} />
+                </span>
+              </button>
+              <div className="text-xs text-slate-400 text-left mt-3">
+                {Object.values(selectedLessons).filter(Boolean).length} Lessons Selected • {displayVocab.length} terms loaded
               </div>
 
-              <div className="border-t border-slate-100 -mx-5 mb-5" />
+              <div className="border-t border-slate-100 -mx-5 my-5" />
 
-              <div className="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-4">Lessons</div>
+              <div className="font-medium text-slate-700 mb-3">Lessons</div>
               <div className="flex flex-wrap gap-2 mb-7">
                 {lessons.map(lessonId => (
                   <Chip
@@ -365,7 +326,7 @@ export default function App() {
               </div>
 
               <div>
-                <div className="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-4">Word Type</div>
+                <div className="font-medium text-slate-700 mb-3">Word Type</div>
                 <div className="flex flex-wrap gap-2">
                   {([
                     { key: 'verb',   label: 'Verbs' },
@@ -385,30 +346,32 @@ export default function App() {
                 </div>
               </div>
 
-              <div className="mt-7">
-                <div className="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-4">Verb Form</div>
-                <div className="flex flex-wrap gap-2">
-                  <ChoiceChip selected={!useDicForm} onClick={() => setUseDicForm(false)}>
-                    ます形
-                  </ChoiceChip>
-                  <ChoiceChip selected={useDicForm} onClick={() => setUseDicForm(true)}>
-                    辞書形
-                  </ChoiceChip>
-                </div>
-              </div>
             </div>
           </div>
 
-          {/* Right Column: Mode-specific settings, or session status while a session is
-              active. Session status is Production-specific (mastery count + Discard Drill
-              for the paused/active flashcard run), so it's gated on activeMode too, not
-              just fcActive — switching the lever to Recognition while a Production session
-              sits paused in the background should surface Recognition's own settings, not
-              stats about a session that mode isn't even running. */}
-          <div className="md:col-span-5">
-            {fcActive && activeMode === 'production' ? (
-              <div className="bg-white rounded-3xl p-5 shadow-sm border border-slate-100">
-                <h2 className="text-lg font-normal text-slate-900 mb-4">Drill</h2>
+          {/* Right Column: mode-switch card. Kept as ONE persistent card/ModeSwitch/
+              sliding-panel structure regardless of session state — only the content
+              inside the "production slot" of the sliding panel varies (Working Terms
+              Range when idle, Discard Drill when a session is active). Splitting this
+              into two entirely different top-level branches (as it used to be) meant
+              switching Production↔Recognition while a session was active hard-cut
+              between disconnected DOM trees instead of sliding, unlike every other
+              lever-driven transition in the app. */}
+          <div className="md:col-span-6">
+            <div className="bg-white rounded-3xl p-5 shadow-sm border border-slate-100">
+              {/* No separate card title here, by design — ModeSwitch's own
+                  Production/Recognition labels + captions already function as this
+                  card's actionable title, mirroring the Glossary button. The subtitle
+                  below uses the same mt-3 gap and left alignment as Glossary's.
+                  py-[9px] wrapper: the lever visually overshoots its own track by 9px
+                  top/bottom (see ModeSwitch's absolute -9px lever offsets) — the track's
+                  own flow-box doesn't account for that, so a plain margin on either the
+                  track or this subtitle would partially collapse away (adjacent-sibling
+                  margins collapse to their max, not their sum). Padding on a wrapper
+                  never collapses, so it's what actually reserves the lever's true 9px
+                  of extra visual space on both sides, measured off the *lever*, not the
+                  track's own (smaller) box. */}
+              <div className="py-[9px]">
                 <ModeSwitch
                   activeMode={activeMode}
                   onChangeMode={setActiveMode}
@@ -416,97 +379,121 @@ export default function App() {
                   launchDisabled={launchDisabled}
                   resuming={launchResuming}
                 />
-                <div className="border-t border-slate-100 -mx-5 my-5" />
-                <div className="flex items-center justify-between gap-3">
-                  <div className="text-sm text-slate-500 tabular-nums whitespace-nowrap">{sessionMasteredCount} / {sessionVocab.length} mastered</div>
-                  <TextButton
-                    variant="pink"
-                    onClick={() => {
-                      setFcActive(false);
-                      setFcRecords({});
-                    }}
-                    className="flex-shrink-0"
-                  >
-                    <Trash2 size={16} strokeWidth={2} />
-                    Discard Drill
-                  </TextButton>
+              </div>
+              <div className="text-xs text-slate-400 text-left mt-3">
+                {activeMode === 'production' && fcActive
+                  ? `${sessionMasteredCount} / ${sessionVocab.length} mastered`
+                  : 'Load terms from the glossary'}
+              </div>
+              <div className="border-t border-slate-100 -mx-5 my-5" />
+              {/* Both panels stay mounted, stacked in the same grid cell, and slide
+                  fully past each other, each one exiting in the direction the lever
+                  just moved while the other enters from the opposite edge, so the
+                  bottom of the card visibly "follows" the switch instead of hard-
+                  cutting between two unrelated pieces of content. Each panel gets an
+                  opaque white background so the one sliding in front visibly occludes
+                  the other rather than the two cross-dissolving. The entering panel's
+                  class list only puts `transform` in its transition-property, so its
+                  opacity snaps to 1 instantly (no fade-in) while it slides into place;
+                  the exiting panel's class list adds `opacity` alongside `transform`,
+                  so it fades out as it slides away. Same duration/easing either way —
+                  only which properties animate differs. */}
+              {/* p-3 -m-3: both the working-size slider's and the Strict Pitch Accent
+                  checkbox's hover/focus halos (40px circles riding much smaller rows)
+                  overshoot their own row by more than this panel's edges leave room
+                  for, so `overflow-hidden` (needed below to clip the slide-in animation
+                  horizontally) was clipping the halos too — vertically for the slider,
+                  horizontally for the checkbox (it sits flush against the row's right
+                  edge). Padding pushes the clip boundary out past both halos on every
+                  side; the equal negative margin pulls the box back to its original
+                  footprint so surrounding spacing is unaffected. */}
+              <div className="grid overflow-hidden p-3 -m-3">
+                <div
+                  className={`col-start-1 row-start-1 bg-white duration-200 ease-out ${
+                    activeMode === 'production'
+                      ? 'transition-transform translate-x-0 opacity-100'
+                      : 'transition-[transform,opacity] translate-x-full opacity-0 pointer-events-none'
+                  }`}
+                >
+                  {fcActive ? (
+                    <div className="flex items-center justify-end">
+                      <TextButton
+                        variant="pink"
+                        align="end"
+                        onClick={() => {
+                          setFcActive(false);
+                          setFcRecords({});
+                        }}
+                      >
+                        <Trash2 size={16} strokeWidth={2} />
+                        Discard Drill
+                      </TextButton>
+                    </div>
+                  ) : (
+                    <>
+                      <div className="font-medium text-slate-700 mb-1">Working Terms Range</div>
+                      <div className="text-xs text-slate-400 mb-3">How many terms stay active in the rotation at once</div>
+                      <div className="flex items-center gap-3">
+                        <div className="flex-shrink-0 min-w-[2.5rem] text-center bg-slate-100 rounded-lg py-1.5 text-xs font-normal text-slate-800 tabular-nums">
+                          {fcMinWorking}
+                        </div>
+                        <div className="flex-1">
+                          <DualRangeSlider
+                            min={1}
+                            max={30}
+                            valueMin={fcMinWorking}
+                            valueMax={fcMaxWorking}
+                            onChangeMin={setFcMinWorking}
+                            onChangeMax={setFcMaxWorking}
+                          />
+                        </div>
+                        <div className="flex-shrink-0 min-w-[2.5rem] text-center bg-slate-100 rounded-lg py-1.5 text-xs font-normal text-slate-800 tabular-nums">
+                          {fcMaxWorking}
+                        </div>
+                      </div>
+                    </>
+                  )}
+                </div>
+                <div
+                  className={`col-start-1 row-start-1 flex items-center justify-between bg-white duration-200 ease-out ${
+                    activeMode === 'recognition'
+                      ? 'transition-transform translate-x-0 opacity-100'
+                      : 'transition-[transform,opacity] -translate-x-full opacity-0 pointer-events-none'
+                  }`}
+                >
+                  <div>
+                    <div className="font-medium text-slate-700 mb-1">Strict Pitch Accent</div>
+                    <div className="text-xs text-slate-400">Require pitch selection before next question</div>
+                  </div>
+                  <MdCheckbox checked={strictPitch} onChange={() => setStrictPitch(!strictPitch)} />
                 </div>
               </div>
-            ) : (
-              <div className="bg-white rounded-3xl p-5 shadow-sm border border-slate-100">
-                <h2 className="text-lg font-normal text-slate-900 mb-4">Drill</h2>
-                <ModeSwitch
-                  activeMode={activeMode}
-                  onChangeMode={setActiveMode}
-                  onLaunch={handleLaunchSession}
-                  launchDisabled={launchDisabled}
-                  resuming={launchResuming}
-                />
-                <div className="border-t border-slate-100 -mx-5 my-5" />
-                {/* Both panels stay mounted, stacked in the same grid cell, and slide
-                    fully past each other, each one exiting in the direction the lever
-                    just moved while the other enters from the opposite edge, so the
-                    bottom of the card visibly "follows" the switch instead of hard-
-                    cutting between two unrelated pieces of content. Each panel gets an
-                    opaque white background so the one sliding in front visibly occludes
-                    the other rather than the two cross-dissolving. The entering panel's
-                    class list only puts `transform` in its transition-property, so its
-                    opacity snaps to 1 instantly (no fade-in) while it slides into place;
-                    the exiting panel's class list adds `opacity` alongside `transform`,
-                    so it fades out as it slides away. Same duration/easing either way —
-                    only which properties animate differs. */}
-                {/* py-3 -my-3: the working-size slider's hover/focus halo (a 40px circle
-                    riding a 20px track) overshoots its own row by more than this panel's
-                    natural bottom edge leaves room for, so `overflow-hidden` (needed below
-                    to clip the slide-in animation horizontally) was clipping the halo too.
-                    Padding pushes the clip boundary out past the halo; the equal negative
-                    margin pulls the box back to its original footprint so surrounding
-                    spacing is unaffected. */}
-                <div className="grid overflow-hidden py-3 -my-3">
-                  <div
-                    className={`col-start-1 row-start-1 bg-white duration-200 ease-out ${
-                      activeMode === 'production'
-                        ? 'transition-transform translate-x-0 opacity-100'
-                        : 'transition-[transform,opacity] translate-x-full opacity-0 pointer-events-none'
-                    }`}
-                  >
-                    <div className="font-medium text-slate-700 mb-1">Working Terms Range</div>
-                    <div className="text-xs text-slate-400 mb-3">How many terms stay active in the rotation at once</div>
-                    <div className="flex items-center gap-3">
-                      <div className="flex-shrink-0 min-w-[2.5rem] text-center bg-slate-100 rounded-lg py-1.5 text-xs font-normal text-slate-800 tabular-nums">
-                        {fcMinWorking}
-                      </div>
-                      <div className="flex-1">
-                        <DualRangeSlider
-                          min={1}
-                          max={30}
-                          valueMin={fcMinWorking}
-                          valueMax={fcMaxWorking}
-                          onChangeMin={setFcMinWorking}
-                          onChangeMax={setFcMaxWorking}
-                        />
-                      </div>
-                      <div className="flex-shrink-0 min-w-[2.5rem] text-center bg-slate-100 rounded-lg py-1.5 text-xs font-normal text-slate-800 tabular-nums">
-                        {fcMaxWorking}
-                      </div>
+              {/* Verb Form determines what actually gets drilled (both modes read
+                  `useDicForm`), so it lives here with the other drill-affecting
+                  controls rather than in the Glossary card — and unlike the sliding
+                  panel above, it applies to both modes equally, so it's not part of
+                  that slide transition, just a static section below it. Hidden
+                  whenever a session is active/paused (`fcActive`), regardless of which
+                  mode is currently selected: a paused Production session's vocab reads
+                  this setting live, so leaving it editable mid-session would silently
+                  change that session's content out from under it. */}
+              {!fcActive && (
+                <>
+                  <div className="border-t border-slate-100 -mx-5 my-5" />
+                  <div>
+                    <div className="font-medium text-slate-700 mb-3">Verb Form</div>
+                    <div className="flex flex-wrap gap-2">
+                      <ChoiceChip selected={!useDicForm} onClick={() => setUseDicForm(false)}>
+                        ます形
+                      </ChoiceChip>
+                      <ChoiceChip selected={useDicForm} onClick={() => setUseDicForm(true)}>
+                        辞書形
+                      </ChoiceChip>
                     </div>
                   </div>
-                  <div
-                    className={`col-start-1 row-start-1 flex items-center justify-between bg-white duration-200 ease-out ${
-                      activeMode === 'recognition'
-                        ? 'transition-transform translate-x-0 opacity-100'
-                        : 'transition-[transform,opacity] -translate-x-full opacity-0 pointer-events-none'
-                    }`}
-                  >
-                    <div>
-                      <div className="font-medium text-slate-700 mb-1">Strict Pitch Accent</div>
-                      <div className="text-xs text-slate-400">Require pitch selection before next question</div>
-                    </div>
-                    <MdCheckbox checked={strictPitch} onChange={() => setStrictPitch(!strictPitch)} />
-                  </div>
-                </div>
-              </div>
-            )}
+                </>
+              )}
+            </div>
           </div>
 
         </div>

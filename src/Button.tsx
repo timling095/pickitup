@@ -2,26 +2,36 @@ import type { PointerEvent, ReactNode } from 'react';
 
 // The one shared shape for every non-specialized *filled* button in the app —
 // same height, shadow, and radius everywhere, only the color varies by
-// intent. "Specialized" controls (Chip/ChoiceChip's selection pills, the
-// drill's per-option answer/pitch buttons whose coloring IS the feedback)
-// stay bespoke since their styling carries state, not just an action's
-// category.
-type ButtonVariant = 'primary' | 'danger-outline' | 'success-outline';
+// intent. `outline`/`correct`/`incorrect` cover the Recognition drill's
+// answer options (selection/feedback state expressed as a variant, same as
+// every other button, rather than a bespoke class string) — kept separate
+// from `success-outline`/`danger-outline` (the Production drill's grading
+// buttons) since those intentionally use a lighter, more inviting resting
+// look that a stronger drill-feedback color would clash with. Chip/ChoiceChip
+// stay bespoke in App.tsx since their styling is a selection pill, not an action.
+type ButtonVariant = 'primary' | 'danger-outline' | 'success-outline' | 'outline' | 'correct' | 'incorrect';
 
 const VARIANT_CLASSES: Record<ButtonVariant, string> = {
   primary: 'bg-slate-800 text-white hover:bg-slate-700',
   'danger-outline': 'bg-white border-2 border-red-100 text-red-600 hover:bg-red-50',
   'success-outline': 'bg-white border-2 border-green-100 text-green-600 hover:bg-green-50',
+  outline: 'bg-white border border-slate-200 text-slate-700 hover:border-slate-400 hover:shadow-sm',
+  correct: 'bg-green-50 border-2 border-green-500 text-green-700 shadow-sm',
+  incorrect: 'bg-red-50 border-2 border-red-500 text-red-700',
 };
 
 export function Button({
-  onClick, onPointerDown, disabled, variant = 'primary', fullWidth = false, children, className = ''
+  onClick, onPointerDown, disabled, variant = 'primary', fullWidth = false, autoHeight = false, children, className = ''
 }: {
   onClick?: () => void,
   onPointerDown?: (e: PointerEvent<HTMLButtonElement>) => void,
   disabled?: boolean,
   variant?: ButtonVariant,
   fullWidth?: boolean,
+  // Swaps the fixed `h-11` for `py-3 min-h-11` — for variable-content buttons
+  // (e.g. drill answer options with multi-line definitions) that need to grow
+  // instead of clipping.
+  autoHeight?: boolean,
   children: ReactNode,
   className?: string
 }) {
@@ -30,7 +40,7 @@ export function Button({
       onClick={onClick}
       onPointerDown={onPointerDown}
       disabled={disabled}
-      className={`h-11 ${fullWidth ? 'w-full' : 'px-4'} rounded-xl font-medium tracking-wide transition-colors shadow-md cursor-pointer disabled:cursor-not-allowed disabled:opacity-50 inline-flex items-center justify-center gap-2 text-sm select-none ${VARIANT_CLASSES[variant]} ${className}`}
+      className={`${autoHeight ? 'py-3 min-h-11' : 'h-11'} ${fullWidth ? 'w-full' : 'px-4'} rounded-xl font-medium tracking-wide transition shadow-md cursor-pointer active:scale-95 disabled:cursor-not-allowed disabled:opacity-50 inline-flex items-center justify-center gap-2 text-sm select-none ${VARIANT_CLASSES[variant]} ${className}`}
     >
       {children}
     </button>
@@ -51,12 +61,25 @@ const TEXT_VARIANT_CLASSES: Record<TextButtonVariant, string> = {
   pink: 'text-md-accent hover:bg-md-accent/[0.08] active:bg-md-accent/[0.16]',
 };
 
+// Where the invisible px-4 clickbox sits relative to the visible label: 'start'/'end'
+// pull it halfway back towards the label's un-padded position — literally half of the
+// px-4 clickbox padding, not the full amount — landing deliberately between "text-
+// aligned" (as if the clickbox didn't exist) and "clickbox-aligned" (today's px-4).
+type TextButtonAlign = 'start' | 'end' | 'center';
+
+const ALIGN_CLASSES: Record<TextButtonAlign, string> = {
+  start: '-ml-2',
+  end: '-mr-2',
+  center: '',
+};
+
 export function TextButton({
-  onClick, disabled, variant = 'neutral', children, className = ''
+  onClick, disabled, variant = 'neutral', align = 'center', children, className = ''
 }: {
   onClick?: () => void,
   disabled?: boolean,
   variant?: TextButtonVariant,
+  align?: TextButtonAlign,
   children: ReactNode,
   className?: string
 }) {
@@ -64,7 +87,7 @@ export function TextButton({
     <button
       onClick={onClick}
       disabled={disabled}
-      className={`h-11 px-4 rounded-xl font-medium tracking-wide transition-colors cursor-pointer disabled:cursor-not-allowed disabled:opacity-50 inline-flex items-center justify-center gap-2 text-sm select-none ${TEXT_VARIANT_CLASSES[variant]} ${className}`}
+      className={`h-11 px-4 rounded-xl font-medium tracking-wide transition-colors cursor-pointer disabled:cursor-not-allowed disabled:opacity-50 inline-flex items-center justify-center gap-2 text-sm select-none ${TEXT_VARIANT_CLASSES[variant]} ${ALIGN_CLASSES[align]} ${className}`}
     >
       {children}
     </button>
