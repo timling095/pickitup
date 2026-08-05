@@ -256,7 +256,7 @@ export default function App() {
     const observer = new ResizeObserver(measure);
     observer.observe(activePanel);
     return () => observer.disconnect();
-  }, [activeMode, fcActive]);
+  }, [activeMode, fcActive, appState]);
 
   if (appState === 'terms') {
     return (

@@ -195,7 +195,7 @@ export function ModeSwitch({
       const rect = trackRef.current?.getBoundingClientRect();
       if (!rect || rect.width === 0) return;
       const rawFrac = (ev.clientX - rect.left) / rect.width;
-      lastFrac = Math.min(1, Math.max(0, anchorFrac + (rawFrac - startFrac)));
+      lastFrac = Math.min(1, Math.max(0, anchorFrac + (rawFrac - startFrac) * 2));
       setDragFrac(lastFrac);
 
       // Everything past this point is the "is this a real drag" bookkeeping —

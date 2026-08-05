@@ -122,7 +122,7 @@ export const AnnotatedTerm = ({ term, reading, pitch, affixType = 'none', compac
   const hasKanji = segments.some(s => s.isKanji);
   const morae = getMorae(reading);
   const isAccented = pitch > 0 && pitch <= morae.length;
-  const rubyGap = compact ? '0.05em' : '0.2em';
+  const rubyGap = compact ? '0.05em' : '0.1em';
 
   let content: ReactNode;
 
