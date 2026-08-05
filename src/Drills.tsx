@@ -1,4 +1,4 @@
-import { useState, useEffect, useMemo, type ReactNode } from 'react';
+import { useState, useEffect, useMemo, useRef, type ReactNode, type PointerEvent } from 'react';
 import { Check, X } from 'lucide-react';
 import type { AffixType, Vocabulary } from './dictionary';
 import { DrawingCanvas } from './Canvas';
@@ -344,10 +344,76 @@ export const RecognitionDrill = ({
 };
 
 // ==========================================
+// === PenButton ===
+// ==========================================
+
+// Palm-rejecting button for the Production drill's grading controls (Reveal Answer,
+// Proceed, Correct, Incorrect) — Apple Pencil only, or mouse in debug via `allowMouse`.
+// The lever and Glossary button don't need this: they're plain onClick, and a native
+// click already requires a real press-then-release on the same element before firing,
+// for any pointer type. These buttons used to fire straight from `onPointerDown` with a
+// manual `pointerType` check instead — which meant a hover-capable pen (Apple Pencil
+// 2/Pro fires real pointer events while merely hovering, before any contact) or even a
+// light graze from a resting palm could trigger the action immediately, with no
+// press-then-release gesture at all. Firing on `onPointerUp` instead (still gated by
+// pointerType, re-checked at that point) restores the same "must release to confirm"
+// behavior every other button gets for free from native `onClick`.
+// The press-scale animation is likewise driven by JS-tracked `pressed` state, not
+// Button's default CSS `:active` — `:active` reacts to ANY pointerdown regardless of
+// type, which would visibly "respond" (squash) to a rejected touch even though its
+// click was correctly ignored. `onPointerCancel`/`onPointerLeave` clear the pressed
+// state without firing, so dragging off the button (or the OS cancelling the gesture)
+// behaves like releasing outside a normal button — no accidental activation.
+function PenButton({
+  onActivate, allowMouse, disabled, variant, fullWidth, autoHeight, className = '', children
+}: {
+  onActivate: () => void,
+  allowMouse: boolean,
+  disabled?: boolean,
+  variant?: 'primary' | 'danger-outline' | 'success-outline' | 'outline' | 'correct' | 'incorrect',
+  fullWidth?: boolean,
+  autoHeight?: boolean,
+  className?: string,
+  children: ReactNode
+}) {
+  const [pressed, setPressed] = useState(false);
+  const validPressRef = useRef(false);
+
+  const cancelPress = () => {
+    validPressRef.current = false;
+    setPressed(false);
+  };
+
+  return (
+    <Button
+      variant={variant}
+      fullWidth={fullWidth}
+      autoHeight={autoHeight}
+      disabled={disabled}
+      pressed={pressed}
+      className={className}
+      onPointerDown={(e: PointerEvent<HTMLButtonElement>) => {
+        validPressRef.current = e.pointerType === 'pen' || allowMouse;
+        if (validPressRef.current) setPressed(true);
+      }}
+      onPointerUp={(e: PointerEvent<HTMLButtonElement>) => {
+        if (!validPressRef.current) return;
+        cancelPress();
+        if (e.pointerType === 'pen' || allowMouse) onActivate();
+      }}
+      onPointerCancel={cancelPress}
+      onPointerLeave={cancelPress}
+    >
+      {children}
+    </Button>
+  );
+}
+
+// ==========================================
 // === ProductionDrill ===
 // ==========================================
 
-export const ProductionDrill = ({ 
+export const ProductionDrill = ({
   vocab, 
   allowMouse,
   onComplete
@@ -420,55 +486,41 @@ export const ProductionDrill = ({
 
       <div className="w-[80%] pb-4">
         {!revealed ? (
-          <Button
-            onPointerDown={(e) => {
-              if (e.pointerType === 'pen' || allowMouse) {
-                setRevealed(true);
-              }
-            }}
-            fullWidth
-            className="touch-none"
-          >
+          <PenButton onActivate={() => setRevealed(true)} allowMouse={allowMouse} fullWidth className="touch-none">
             Reveal Answer
-          </Button>
+          </PenButton>
         ) : correcting ? (
-          <Button
-            onPointerDown={(e) => {
-              if (!canProceed) return;
-              if (e.pointerType === 'pen' || allowMouse) onComplete(false);
-            }}
+          <PenButton
+            onActivate={() => onComplete(false)}
+            allowMouse={allowMouse}
             disabled={!canProceed}
             fullWidth
             className="touch-none animate-fade-slide-up"
           >
             Proceed
-          </Button>
+          </PenButton>
         ) : (
           <div className="grid grid-cols-2 gap-4 animate-fade-slide-up">
-            <Button
-              onPointerDown={(e) => {
-                if (!canEvaluate) return;
-                if (e.pointerType === 'pen' || allowMouse) setCorrecting(true);
-              }}
+            <PenButton
+              onActivate={() => setCorrecting(true)}
+              allowMouse={allowMouse}
               disabled={!canEvaluate}
               variant="danger-outline"
               fullWidth
               className="touch-none"
             >
               <X size={20} /> Incorrect
-            </Button>
-            <Button
-              onPointerDown={(e) => {
-                if (!canEvaluate) return;
-                if (e.pointerType === 'pen' || allowMouse) onComplete(true);
-              }}
+            </PenButton>
+            <PenButton
+              onActivate={() => onComplete(true)}
+              allowMouse={allowMouse}
               disabled={!canEvaluate}
               variant="success-outline"
               fullWidth
               className="touch-none"
             >
               <Check size={20} /> Correct
-            </Button>
+            </PenButton>
           </div>
         )}
       </div>

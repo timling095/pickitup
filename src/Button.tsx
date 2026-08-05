@@ -21,10 +21,14 @@ const VARIANT_CLASSES: Record<ButtonVariant, string> = {
 };
 
 export function Button({
-  onClick, onPointerDown, disabled, variant = 'primary', fullWidth = false, autoHeight = false, children, className = ''
+  onClick, onPointerDown, onPointerUp, onPointerCancel, onPointerLeave,
+  disabled, variant = 'primary', fullWidth = false, autoHeight = false, pressed, children, className = ''
 }: {
   onClick?: () => void,
   onPointerDown?: (e: PointerEvent<HTMLButtonElement>) => void,
+  onPointerUp?: (e: PointerEvent<HTMLButtonElement>) => void,
+  onPointerCancel?: (e: PointerEvent<HTMLButtonElement>) => void,
+  onPointerLeave?: (e: PointerEvent<HTMLButtonElement>) => void,
   disabled?: boolean,
   variant?: ButtonVariant,
   fullWidth?: boolean,
@@ -32,15 +36,24 @@ export function Button({
   // (e.g. drill answer options with multi-line definitions) that need to grow
   // instead of clipping.
   autoHeight?: boolean,
+  // When provided, the press-scale animation is driven by this boolean instead of the
+  // CSS `:active` pseudo-class — for palm-rejection-gated buttons (see PenButton in
+  // Drills.tsx) where `:active` would otherwise visibly react to ANY pointer type,
+  // including a touch/palm contact whose click is being deliberately ignored.
+  pressed?: boolean,
   children: ReactNode,
   className?: string
 }) {
+  const pressClass = pressed === undefined ? 'active:scale-95' : (pressed ? 'scale-95' : '');
   return (
     <button
       onClick={onClick}
       onPointerDown={onPointerDown}
+      onPointerUp={onPointerUp}
+      onPointerCancel={onPointerCancel}
+      onPointerLeave={onPointerLeave}
       disabled={disabled}
-      className={`${autoHeight ? 'py-3 min-h-11' : 'h-11'} ${fullWidth ? 'w-full' : 'px-4'} rounded-xl font-medium tracking-wide transition shadow-md cursor-pointer active:scale-95 disabled:cursor-not-allowed disabled:opacity-50 inline-flex items-center justify-center gap-2 text-sm select-none ${VARIANT_CLASSES[variant]} ${className}`}
+      className={`${autoHeight ? 'py-3 min-h-11' : 'h-11'} ${fullWidth ? 'w-full' : 'px-4'} rounded-xl font-medium tracking-wide transition shadow-md cursor-pointer ${pressClass} disabled:cursor-not-allowed disabled:opacity-50 inline-flex items-center justify-center gap-2 text-sm select-none ${VARIANT_CLASSES[variant]} ${className}`}
     >
       {children}
     </button>

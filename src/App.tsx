@@ -125,11 +125,12 @@ function Chip({ selected, onClick, children }: { selected: boolean, onClick: () 
 // Choice chip: same shape/coloring as Chip, but for a single-select group where exactly
 // one option is always active — no checkmark, since "selected" here means "the current
 // choice", not "added to a set".
-function ChoiceChip({ selected, onClick, children }: { selected: boolean, onClick: () => void, children: ReactNode }) {
+function ChoiceChip({ selected, onClick, disabled, children }: { selected: boolean, onClick: () => void, disabled?: boolean, children: ReactNode }) {
   return (
     <button
       onClick={onClick}
-      className={`h-8 px-3 rounded-full text-xs font-medium border transition-colors cursor-pointer inline-flex items-center justify-center ${
+      disabled={disabled}
+      className={`h-8 px-3 rounded-full text-xs font-medium border transition-colors cursor-pointer disabled:cursor-not-allowed disabled:opacity-50 inline-flex items-center justify-center ${
         selected
           ? 'bg-slate-200 border-slate-200 text-slate-800'
           : 'bg-white border-slate-300 text-slate-600 hover:bg-slate-50'
@@ -312,7 +313,7 @@ export default function App() {
 
               <div className="border-t border-slate-100 -mx-5 my-5" />
 
-              <div className="font-medium text-slate-700 mb-3">Lessons</div>
+              <div className="font-normal text-slate-700 mb-3">Lessons</div>
               <div className="flex flex-wrap gap-2 mb-7">
                 {lessons.map(lessonId => (
                   <Chip
@@ -326,7 +327,7 @@ export default function App() {
               </div>
 
               <div>
-                <div className="font-medium text-slate-700 mb-3">Word Type</div>
+                <div className="font-normal text-slate-700 mb-3">Word Type</div>
                 <div className="flex flex-wrap gap-2">
                   {([
                     { key: 'verb',   label: 'Verbs' },
@@ -381,9 +382,7 @@ export default function App() {
                 />
               </div>
               <div className="text-xs text-slate-400 text-left mt-3">
-                {activeMode === 'production' && fcActive
-                  ? `${sessionMasteredCount} / ${sessionVocab.length} mastered`
-                  : 'Load terms from the glossary'}
+                {Object.values(selectedLessons).filter(Boolean).length} Lessons Selected • {displayVocab.length} terms loaded
               </div>
               <div className="border-t border-slate-100 -mx-5 my-5" />
               {/* Both panels stay mounted, stacked in the same grid cell, and slide
@@ -416,7 +415,8 @@ export default function App() {
                   }`}
                 >
                   {fcActive ? (
-                    <div className="flex items-center justify-end">
+                    <div className="flex items-center justify-between gap-3">
+                      <div className="text-sm text-slate-500 tabular-nums whitespace-nowrap">{sessionMasteredCount} / {sessionVocab.length} mastered</div>
                       <TextButton
                         variant="pink"
                         align="end"
@@ -431,7 +431,7 @@ export default function App() {
                     </div>
                   ) : (
                     <>
-                      <div className="font-medium text-slate-700 mb-1">Working Terms Range</div>
+                      <div className="font-normal text-slate-700 mb-1">Working Terms Range</div>
                       <div className="text-xs text-slate-400 mb-3">How many terms stay active in the rotation at once</div>
                       <div className="flex items-center gap-3">
                         <div className="flex-shrink-0 min-w-[2.5rem] text-center bg-slate-100 rounded-lg py-1.5 text-xs font-normal text-slate-800 tabular-nums">
@@ -462,7 +462,7 @@ export default function App() {
                   }`}
                 >
                   <div>
-                    <div className="font-medium text-slate-700 mb-1">Strict Pitch Accent</div>
+                    <div className="font-normal text-slate-700 mb-1">Strict Pitch Accent</div>
                     <div className="text-xs text-slate-400">Require pitch selection before next question</div>
                   </div>
                   <MdCheckbox checked={strictPitch} onChange={() => setStrictPitch(!strictPitch)} />
@@ -472,27 +472,24 @@ export default function App() {
                   `useDicForm`), so it lives here with the other drill-affecting
                   controls rather than in the Glossary card — and unlike the sliding
                   panel above, it applies to both modes equally, so it's not part of
-                  that slide transition, just a static section below it. Hidden
-                  whenever a session is active/paused (`fcActive`), regardless of which
-                  mode is currently selected: a paused Production session's vocab reads
-                  this setting live, so leaving it editable mid-session would silently
-                  change that session's content out from under it. */}
-              {!fcActive && (
-                <>
-                  <div className="border-t border-slate-100 -mx-5 my-5" />
-                  <div>
-                    <div className="font-medium text-slate-700 mb-3">Verb Form</div>
-                    <div className="flex flex-wrap gap-2">
-                      <ChoiceChip selected={!useDicForm} onClick={() => setUseDicForm(false)}>
-                        ます形
-                      </ChoiceChip>
-                      <ChoiceChip selected={useDicForm} onClick={() => setUseDicForm(true)}>
-                        辞書形
-                      </ChoiceChip>
-                    </div>
-                  </div>
-                </>
-              )}
+                  that slide transition, just a static section below it. Stays visible
+                  (not hidden) whenever a session is active/paused (`fcActive`) — the
+                  chips themselves are disabled instead, visually and functionally: a
+                  paused Production session's vocab reads this setting live, so it still
+                  can't be changed mid-session, but there's no reason to hide the control
+                  entirely to prevent that. */}
+              <div className="border-t border-slate-100 -mx-5 my-5" />
+              <div>
+                <div className="font-normal text-slate-700 mb-3">Verb Form</div>
+                <div className="flex flex-wrap gap-2">
+                  <ChoiceChip selected={!useDicForm} onClick={() => setUseDicForm(false)} disabled={fcActive}>
+                    ます形
+                  </ChoiceChip>
+                  <ChoiceChip selected={useDicForm} onClick={() => setUseDicForm(true)} disabled={fcActive}>
+                    辞書形
+                  </ChoiceChip>
+                </div>
+              </div>
             </div>
           </div>
 
