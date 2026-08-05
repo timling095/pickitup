@@ -5,28 +5,37 @@ import { ChevronRight } from 'lucide-react';
 // same height, shadow, and radius everywhere, only the color varies by
 // intent. `outline`/`correct`/`incorrect` cover the Recognition drill's
 // answer options (selection/feedback state expressed as a variant, same as
-// every other button, rather than a bespoke class string) — same solid,
-// saturated green/red (white text) as `success-outline`/`danger-outline`
-// (the Production drill's grading buttons), since both represent the same
-// "this is correct/incorrect" idea and read as inconsistent left half-lit.
-// The `-outline` names stuck around from an earlier bordered-pastel look;
-// left as-is since renaming would just be churn on every call site. Chip/
-// ChoiceChip stay bespoke in App.tsx since their styling is a selection
-// pill, not an action.
-type ButtonVariant = 'primary' | 'danger-outline' | 'success-outline' | 'outline' | 'correct' | 'incorrect';
+// every other button, rather than a bespoke class string). The Production
+// drill's grading buttons (Correct/Incorrect) use plain `primary` (black) —
+// they used to have their own solid green/red variants, but those were
+// removed once both buttons were unified to black; Chip/ChoiceChip stay
+// bespoke in App.tsx since their styling is a selection pill, not an action.
+type ButtonVariant = 'primary' | 'outline' | 'correct' | 'incorrect';
 
+// Hover is split out from the resting color so `hoverable={false}` (see
+// PenButton in Drills.tsx) can drop just the `hover:` classes — a
+// hover-capable Apple Pencil fires genuine CSS `:hover` while merely
+// hovering over the screen (unlike a finger, which never triggers `:hover`
+// on iOS at all), so without this split, pen-gated buttons would be the only
+// ones in the app that visibly react to a pointer that hasn't actually
+// pressed yet.
 const VARIANT_CLASSES: Record<ButtonVariant, string> = {
-  primary: 'bg-slate-800 text-white hover:bg-slate-700',
-  'danger-outline': 'bg-red-600 text-white hover:bg-red-700',
-  'success-outline': 'bg-green-600 text-white hover:bg-green-700',
-  outline: 'bg-white border border-slate-200 text-slate-700 hover:border-slate-400 hover:shadow-sm',
+  primary: 'bg-slate-800 text-white',
+  outline: 'bg-white border border-slate-200 text-slate-700',
   correct: 'bg-green-600 text-white',
   incorrect: 'bg-red-600 text-white',
 };
 
+const VARIANT_HOVER_CLASSES: Record<ButtonVariant, string> = {
+  primary: 'hover:bg-slate-700',
+  outline: 'hover:border-slate-400 hover:shadow-sm',
+  correct: '',
+  incorrect: '',
+};
+
 export function Button({
   onClick, onPointerDown, onPointerUp, onPointerCancel, onPointerLeave,
-  disabled, variant = 'primary', fullWidth = false, autoHeight = false, pressed, children, className = ''
+  disabled, variant = 'primary', fullWidth = false, autoHeight = false, pressed, hoverable = true, dimOnDisabled = true, children, className = ''
 }: {
   onClick?: () => void,
   onPointerDown?: (e: PointerEvent<HTMLButtonElement>) => void,
@@ -45,6 +54,14 @@ export function Button({
   // Drills.tsx) where `:active` would otherwise visibly react to ANY pointer type,
   // including a touch/palm contact whose click is being deliberately ignored.
   pressed?: boolean,
+  // See `VARIANT_HOVER_CLASSES` above — false drops the variant's `hover:` classes
+  // entirely (PenButton always passes false).
+  hoverable?: boolean,
+  // False drops the disabled-dimming below — for a `disabled` window that's a brief,
+  // deliberate grace period (PenButton's 400ms mis-tap guard) rather than a real "can't
+  // do this right now" state; the button should look identical to its ready state the
+  // whole time, since the only difference is that it doesn't register yet.
+  dimOnDisabled?: boolean,
   children: ReactNode,
   className?: string
 }) {
@@ -65,7 +82,7 @@ export function Button({
       // that faded state on their very first paint, not eased into it from a normal
       // color. 70% keeps enough of the true fill visible to still read as the same
       // button, just muted.
-      className={`${autoHeight ? 'py-3 min-h-11' : 'h-11'} ${fullWidth ? 'w-full' : 'px-4'} rounded-xl font-medium tracking-wide transition shadow-md cursor-pointer ${pressClass} disabled:cursor-not-allowed disabled:opacity-70 inline-flex items-center justify-center gap-2 text-sm select-none ${VARIANT_CLASSES[variant]} ${className}`}
+      className={`${autoHeight ? 'py-3 min-h-11' : 'h-11'} ${fullWidth ? 'w-full' : 'px-4'} rounded-xl font-medium tracking-wide transition shadow-md cursor-pointer ${pressClass} disabled:cursor-not-allowed ${dimOnDisabled ? 'disabled:opacity-70' : ''} inline-flex items-center justify-center gap-2 text-sm select-none ${VARIANT_CLASSES[variant]} ${hoverable ? VARIANT_HOVER_CLASSES[variant] : ''} ${className}`}
     >
       {children}
     </button>

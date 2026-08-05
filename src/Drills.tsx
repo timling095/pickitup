@@ -364,13 +364,22 @@ export const RecognitionDrill = ({
 // click was correctly ignored. `onPointerCancel`/`onPointerLeave` clear the pressed
 // state without firing, so dragging off the button (or the OS cancelling the gesture)
 // behaves like releasing outside a normal button — no accidental activation.
+// `hoverable={false}`: a hover-capable Apple Pencil fires genuine CSS `:hover` while
+// merely hovering over the screen, before any contact — unlike a finger, which never
+// triggers `:hover` on iOS at all. Left enabled, these would be the only buttons in the
+// app that visibly react to a pointer that hasn't actually pressed yet.
+// `dimOnDisabled={false}`: every `disabled` a PenButton ever receives is a brief,
+// deliberate mis-tap guard (`canEvaluate`/`canProceed`'s 400ms grace windows in
+// ProductionDrill below), not a real "can't do this" state — the button should look
+// exactly like its ready state throughout, since the only actual difference is that it
+// doesn't register yet.
 function PenButton({
   onActivate, allowMouse, disabled, variant, fullWidth, autoHeight, className = '', children
 }: {
   onActivate: () => void,
   allowMouse: boolean,
   disabled?: boolean,
-  variant?: 'primary' | 'danger-outline' | 'success-outline' | 'outline' | 'correct' | 'incorrect',
+  variant?: 'primary' | 'outline' | 'correct' | 'incorrect',
   fullWidth?: boolean,
   autoHeight?: boolean,
   className?: string,
@@ -391,6 +400,8 @@ function PenButton({
       autoHeight={autoHeight}
       disabled={disabled}
       pressed={pressed}
+      hoverable={false}
+      dimOnDisabled={false}
       className={className}
       onPointerDown={(e: PointerEvent<HTMLButtonElement>) => {
         validPressRef.current = e.pointerType === 'pen' || allowMouse;
@@ -511,7 +522,6 @@ export const ProductionDrill = ({
               onActivate={() => setCorrecting(true)}
               allowMouse={allowMouse}
               disabled={!canEvaluate}
-              variant="danger-outline"
               fullWidth
               className="touch-none"
             >
@@ -521,7 +531,6 @@ export const ProductionDrill = ({
               onActivate={() => onComplete(true)}
               allowMouse={allowMouse}
               disabled={!canEvaluate}
-              variant="success-outline"
               fullWidth
               className="touch-none"
             >
