@@ -305,9 +305,9 @@ export const RecognitionDrill = ({
               } else {
                 if (num === selectedPitch) {
                   if (num === vocab.pitch_accent) {
-                    btnClass += "bg-green-50 border border-green-500 text-green-700 shadow-sm scale-110";
+                    btnClass += "bg-green-50 text-green-700 shadow-sm scale-110";
                   } else {
-                    btnClass += "bg-red-50 border border-red-500 text-red-700 scale-110";
+                    btnClass += "bg-red-50 text-red-700 scale-110";
                   }
                 } else {
                   btnClass += "bg-slate-50 text-slate-300";
