@@ -468,7 +468,7 @@ export const ProductionDrill = ({
             <span style={{ fontFamily: '"Noto Serif TC", serif' }}>{prompt}</span>
             {revealed && (
               <div className="absolute left-full ml-12 top-1/2 -translate-y-1/2 text-5xl font-light text-slate-800 whitespace-nowrap animate-fade-in flex items-baseline gap-1">
-                <AnnotatedTerm term={vocab.term} reading={vocab.reading} pitch={vocab.pitch_accent} affixType={vocab.affix_type} />
+                <AnnotatedTerm term={vocab.term} reading={vocab.reading} pitch={vocab.pitch_accent} affixType={vocab.affix_type} compact />
               </div>
             )}
           </div>
