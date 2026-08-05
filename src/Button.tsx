@@ -5,20 +5,23 @@ import { ChevronRight } from 'lucide-react';
 // same height, shadow, and radius everywhere, only the color varies by
 // intent. `outline`/`correct`/`incorrect` cover the Recognition drill's
 // answer options (selection/feedback state expressed as a variant, same as
-// every other button, rather than a bespoke class string) — kept separate
-// from `success-outline`/`danger-outline` (the Production drill's grading
-// buttons) since those intentionally use a lighter, more inviting resting
-// look that a stronger drill-feedback color would clash with. Chip/ChoiceChip
-// stay bespoke in App.tsx since their styling is a selection pill, not an action.
+// every other button, rather than a bespoke class string) — same solid,
+// saturated green/red (white text) as `success-outline`/`danger-outline`
+// (the Production drill's grading buttons), since both represent the same
+// "this is correct/incorrect" idea and read as inconsistent left half-lit.
+// The `-outline` names stuck around from an earlier bordered-pastel look;
+// left as-is since renaming would just be churn on every call site. Chip/
+// ChoiceChip stay bespoke in App.tsx since their styling is a selection
+// pill, not an action.
 type ButtonVariant = 'primary' | 'danger-outline' | 'success-outline' | 'outline' | 'correct' | 'incorrect';
 
 const VARIANT_CLASSES: Record<ButtonVariant, string> = {
   primary: 'bg-slate-800 text-white hover:bg-slate-700',
-  'danger-outline': 'bg-red-50 text-red-600 hover:bg-red-100',
-  'success-outline': 'bg-green-50 text-green-600 hover:bg-green-100',
+  'danger-outline': 'bg-red-600 text-white hover:bg-red-700',
+  'success-outline': 'bg-green-600 text-white hover:bg-green-700',
   outline: 'bg-white border border-slate-200 text-slate-700 hover:border-slate-400 hover:shadow-sm',
-  correct: 'bg-green-50 text-green-700',
-  incorrect: 'bg-red-50 text-red-700',
+  correct: 'bg-green-600 text-white',
+  incorrect: 'bg-red-600 text-white',
 };
 
 export function Button({
@@ -54,7 +57,15 @@ export function Button({
       onPointerCancel={onPointerCancel}
       onPointerLeave={onPointerLeave}
       disabled={disabled}
-      className={`${autoHeight ? 'py-3 min-h-11' : 'h-11'} ${fullWidth ? 'w-full' : 'px-4'} rounded-xl font-medium tracking-wide transition shadow-md cursor-pointer ${pressClass} disabled:cursor-not-allowed disabled:opacity-50 inline-flex items-center justify-center gap-2 text-sm select-none ${VARIANT_CLASSES[variant]} ${className}`}
+      // disabled:opacity-70, not the more conventional -50: at 50% a solid, dark/
+      // saturated fill (e.g. Proceed's slate-800) blends with the page's near-white
+      // background into a flat, washed-out gray that reads as a blank/unstyled flash
+      // rather than "this button, dimmed" — most visible on buttons like Proceed that
+      // mount already disabled (PenButton's canProceed grace window) and so render
+      // that faded state on their very first paint, not eased into it from a normal
+      // color. 70% keeps enough of the true fill visible to still read as the same
+      // button, just muted.
+      className={`${autoHeight ? 'py-3 min-h-11' : 'h-11'} ${fullWidth ? 'w-full' : 'px-4'} rounded-xl font-medium tracking-wide transition shadow-md cursor-pointer ${pressClass} disabled:cursor-not-allowed disabled:opacity-70 inline-flex items-center justify-center gap-2 text-sm select-none ${VARIANT_CLASSES[variant]} ${className}`}
     >
       {children}
     </button>

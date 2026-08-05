@@ -122,7 +122,7 @@ export const AnnotatedTerm = ({ term, reading, pitch, affixType = 'none', compac
   const hasKanji = segments.some(s => s.isKanji);
   const morae = getMorae(reading);
   const isAccented = pitch > 0 && pitch <= morae.length;
-  const rubyGap = compact ? '0.05em' : '0.1em';
+  const rubyGap = compact ? '0em' : '0.05em';
 
   let content: ReactNode;
 
@@ -256,7 +256,7 @@ export const RecognitionDrill = ({
           // button in the app, instead of a bespoke class string. `pointer-events-none`
           // (rather than the `disabled` prop) once evaluated: clicks are already a
           // no-op via `handleSelect`'s own guard, and this avoids Button's
-          // disabled:opacity-50 washing out the correct/incorrect feedback colors —
+          // disabled:opacity-70 washing out the correct/incorrect feedback colors —
           // only the "neither correct nor selected" options get faded, via a plain
           // (non-pseudo-class) opacity-50 so it can't be fought by specificity.
           const variant: 'outline' | 'primary' | 'correct' | 'incorrect' =
