@@ -1,0 +1,1 @@
+The human is mostly in the loop. When doing aesthetic tweaks, hand it back to the human for testing as soon as you are 50% sure - it's more efficient that way.

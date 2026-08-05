@@ -1,5 +1,6 @@
 import { useRef, useState, type PointerEvent } from 'react';
-import { ChevronRight, PenLine, Eye } from 'lucide-react';
+import { PenLine, Eye } from 'lucide-react';
+import { Prompt } from './Button';
 
 // slate-500 (inactive label color) <-> white (active), blended by `t` (0-1).
 // A plain RGB lerp rather than `color-mix()` so this stays trivially
@@ -159,6 +160,7 @@ export function ModeSwitch({
     if (!e.isPrimary) return;
     cleanupRef.current?.();
     const startX = e.clientX;
+    const startRect = trackRef.current?.getBoundingClientRect();
     draggedRef.current = false;
     // Self-heals a prior gesture whose drag-release never triggered a
     // consuming click, instead of leaving the guard stuck and swallowing
@@ -171,6 +173,15 @@ export function ModeSwitch({
     // (`anchorFrac`, below) — the point the drag is measured "away from".
     let lastFrac = activeMode === 'production' ? 0 : 1;
     const anchorFrac = lastFrac;
+    // Raw pointer fraction across the track at the moment of pointerdown —
+    // NOT the same as anchorFrac, since a press can land anywhere within the
+    // lever's half rather than exactly on its edge. onMove below tracks the
+    // finger's MOVEMENT (delta from this) rather than its raw absolute
+    // position — using the raw position directly made the lever's edge jump
+    // to wherever the finger happened to be the instant a drag was recognized,
+    // a one-time snap sized to however far off-edge the initial grab point
+    // was, visible as an abrupt overshoot right as the drag began.
+    const startFrac = startRect && startRect.width > 0 ? (startX - startRect.left) / startRect.width : anchorFrac;
     // Gesture-local latch mirroring `pastAbstainThreshold` state, so onMove
     // only calls setState once per gesture instead of on every move past the
     // snap point (a plain closure variable, same pattern as `lastFrac` — not
@@ -183,7 +194,8 @@ export function ModeSwitch({
       // drag is later recognized below.
       const rect = trackRef.current?.getBoundingClientRect();
       if (!rect || rect.width === 0) return;
-      lastFrac = Math.min(1, Math.max(0, (ev.clientX - rect.left) / rect.width));
+      const rawFrac = (ev.clientX - rect.left) / rect.width;
+      lastFrac = Math.min(1, Math.max(0, anchorFrac + (rawFrac - startFrac)));
       setDragFrac(lastFrac);
 
       // Everything past this point is the "is this a real drag" bookkeeping —
@@ -285,9 +297,8 @@ export function ModeSwitch({
               overflow-hidden element wouldn't shrink away with it: padding is
               part of the box itself, not clippable "overflow", so it would leave
               a permanent sliver even at `grid-rows-[0fr]`. */}
-          <div className={`overflow-hidden flex items-center justify-center gap-0.5 text-[10px] font-normal ${launchDisabled ? 'text-white/40' : 'text-white/60'}`}>
-            {caption}
-            {!launchDisabled && <ChevronRight size={9} />}
+          <div className="overflow-hidden">
+            <Prompt dim={launchDisabled} showChevron={!launchDisabled}>{caption}</Prompt>
           </div>
         </div>
       </button>

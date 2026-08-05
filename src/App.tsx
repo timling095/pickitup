@@ -1,11 +1,11 @@
-import { useState, useMemo, type ReactNode } from 'react';
-import { Check, BookOpen, ChevronRight, Trash2 } from 'lucide-react';
+import { useState, useMemo, useRef, useLayoutEffect, type ReactNode } from 'react';
+import { Check, BookOpen, Trash2 } from 'lucide-react';
 import { DICTIONARY, useVocabulary, applyVerbForm, filterByWordType } from './dictionary';
 import type { WordType } from './dictionary';
 import { DrillEngine, FlashcardEngine, isMastered } from './Drills';
 import type { FcRecord } from './Drills';
 import { TermsList } from './TermsList';
-import { TextButton } from './Button';
+import { TextButton, Prompt } from './Button';
 import { ModeSwitch } from './ModeSwitch';
 import { MdCheckbox } from './MdCheckbox';
 import { useLocalStorage } from './useLocalStorage';
@@ -141,6 +141,38 @@ function ChoiceChip({ selected, onClick, disabled, children }: { selected: boole
   );
 }
 
+// The white rounded container both top-level cards (Glossary Card, Drill Card) share —
+// only used within this file, unlike Button/TextButton/Prompt (Button.tsx) or
+// MdCheckbox, which cross file boundaries.
+function Card({ className = '', children }: { className?: string, children: ReactNode }) {
+  return (
+    <div className={`bg-white rounded-3xl p-5 shadow-sm border border-slate-100 ${className}`}>
+      {children}
+    </div>
+  );
+}
+
+// A section's plain sentence-case heading (Lessons, Word Type, Verb Form, Working
+// Terms Range, Strict Pitch Accent). `tight` (mb-1 instead of mb-3) is for the two
+// sections that have Helper text directly beneath them, which supplies its own
+// bottom spacing instead.
+function SectionLabel({ tight = false, children }: { tight?: boolean, children: ReactNode }) {
+  return <div className={`font-normal text-slate-700 ${tight ? 'mb-1' : 'mb-3'}`}>{children}</div>;
+}
+
+// The one-line description under a Section label (e.g. "How many terms stay active…").
+// `className` carries the one thing that varies between its two call sites: whether
+// there's more content directly below it that needs the gap (`mb-3`) or not.
+function HelperText({ className = '', children }: { className?: string, children: ReactNode }) {
+  return <div className={`text-xs text-slate-400 ${className}`}>{children}</div>;
+}
+
+// The status line *outside* a title button, below it — identical at both call sites
+// (Glossary Card, Drill Card), unlike Section label/Helper text which vary slightly.
+function Subtitle({ children }: { children: ReactNode }) {
+  return <div className="text-xs text-slate-400 text-left mt-3">{children}</div>;
+}
+
 export default function App() {
   const [appState, setAppState] = useState<'menu' | 'drill' | 'terms'>('menu');
 
@@ -199,6 +231,32 @@ export default function App() {
   };
   const launchResuming = activeMode === 'production' && fcActive;
   const launchDisabled = launchResuming ? false : displayVocab.length === 0;
+
+  // The sliding panel's two sides (Working Terms Range/Discard Drill vs Strict Pitch
+  // Accent) are natural-height content, not a fixed size — Discard Drill's single row
+  // is shorter than Strict Pitch Accent's title+description+checkbox, which is in turn
+  // shorter than Working Terms Range's title+description+slider. Rather than forcing
+  // every panel to share one (visually-wrong) height, each is measured independently
+  // (both are `position: absolute`, so neither stretches to match the other or
+  // contributes to a shared auto-height) and the wrapper's own height animates to
+  // whichever is currently active, `overflow-hidden` clipping the rest of the
+  // transition so the taller, about-to-be-hidden panel doesn't flash full-height first.
+  const productionPanelRef = useRef<HTMLDivElement>(null);
+  const recognitionPanelRef = useRef<HTMLDivElement>(null);
+  const [panelHeight, setPanelHeight] = useState<number | null>(null);
+  // Matches the p-3 halo-overshoot padding below — included here since that padding is
+  // real box height (border-box), not just clip-boundary room.
+  const PANEL_PADDING = 12;
+
+  useLayoutEffect(() => {
+    const activePanel = activeMode === 'production' ? productionPanelRef.current : recognitionPanelRef.current;
+    if (!activePanel) return;
+    const measure = () => setPanelHeight(activePanel.offsetHeight);
+    measure();
+    const observer = new ResizeObserver(measure);
+    observer.observe(activePanel);
+    return () => observer.disconnect();
+  }, [activeMode, fcActive]);
 
   if (appState === 'terms') {
     return (
@@ -283,7 +341,7 @@ export default function App() {
 
           {/* Left Column: Lesson Select */}
           <div className="md:col-span-6 space-y-4">
-            <div className="bg-white rounded-3xl p-5 shadow-sm border border-slate-100 mb-4 relative overflow-hidden">
+            <Card className="mb-4 relative overflow-hidden">
               {/* Actionable title: a main title + a small action prompt underneath, both
                   inside one interactive slab — same treatment (and size) as a single
                   ModeSwitch lever SIDE, not the full track: bg-slate-800, rounded-xl,
@@ -302,18 +360,15 @@ export default function App() {
                   <BookOpen size={18} strokeWidth={2} />
                   Glossary
                 </span>
-                <span className="flex items-center gap-0.5 text-[10px] font-normal text-white/60 mt-0.5">
-                  View Terms
-                  <ChevronRight size={9} strokeWidth={2} />
-                </span>
+                <Prompt className="mt-0.5">View Terms</Prompt>
               </button>
-              <div className="text-xs text-slate-400 text-left mt-3">
+              <Subtitle>
                 {Object.values(selectedLessons).filter(Boolean).length} Lessons Selected • {displayVocab.length} terms loaded
-              </div>
+              </Subtitle>
 
               <div className="border-t border-slate-100 -mx-5 my-5" />
 
-              <div className="font-normal text-slate-700 mb-3">Lessons</div>
+              <SectionLabel>Lessons</SectionLabel>
               <div className="flex flex-wrap gap-2 mb-7">
                 {lessons.map(lessonId => (
                   <Chip
@@ -327,7 +382,7 @@ export default function App() {
               </div>
 
               <div>
-                <div className="font-normal text-slate-700 mb-3">Word Type</div>
+                <SectionLabel>Word Type</SectionLabel>
                 <div className="flex flex-wrap gap-2">
                   {([
                     { key: 'verb',   label: 'Verbs' },
@@ -347,7 +402,7 @@ export default function App() {
                 </div>
               </div>
 
-            </div>
+            </Card>
           </div>
 
           {/* Right Column: mode-switch card. Kept as ONE persistent card/ModeSwitch/
@@ -359,7 +414,7 @@ export default function App() {
               between disconnected DOM trees instead of sliding, unlike every other
               lever-driven transition in the app. */}
           <div className="md:col-span-6">
-            <div className="bg-white rounded-3xl p-5 shadow-sm border border-slate-100">
+            <Card>
               {/* No separate card title here, by design — ModeSwitch's own
                   Production/Recognition labels + captions already function as this
                   card's actionable title, mirroring the Glossary button. The subtitle
@@ -381,13 +436,37 @@ export default function App() {
                   resuming={launchResuming}
                 />
               </div>
-              <div className="text-xs text-slate-400 text-left mt-3">
-                {Object.values(selectedLessons).filter(Boolean).length} Lessons Selected • {displayVocab.length} terms loaded
+              <Subtitle>
+                {fcActive
+                  ? `${Object.values(fcSessionLessons).filter(Boolean).length} Lessons • ${Object.values(fcSessionWordTypes).filter(Boolean).length} Word Types Loaded`
+                  : 'Load terms from the Glossary'}
+              </Subtitle>
+              <div className="border-t border-slate-100 -mx-5 my-5" />
+              {/* Verb Form sits directly under the title button, ahead of the sliding
+                  panel — the sliding panel is the one piece of this card's content that
+                  changes shape/height as it cross-slides, so it stays pinned to the
+                  bottom of the card; everything else (title, subtitle, Verb Form) keeps
+                  a fixed position above it regardless of mode or session state. Stays
+                  visible (not hidden) whenever a session is active/paused (`fcActive`) —
+                  the chips themselves are disabled instead, visually and functionally: a
+                  paused Production session's vocab reads this setting live, so it still
+                  can't be changed mid-session, but there's no reason to hide the control
+                  entirely to prevent that. */}
+              <div>
+                <SectionLabel>Verb Form</SectionLabel>
+                <div className="flex flex-wrap gap-2">
+                  <ChoiceChip selected={!useDicForm} onClick={() => setUseDicForm(false)} disabled={fcActive}>
+                    ます形
+                  </ChoiceChip>
+                  <ChoiceChip selected={useDicForm} onClick={() => setUseDicForm(true)} disabled={fcActive}>
+                    辞書形
+                  </ChoiceChip>
+                </div>
               </div>
               <div className="border-t border-slate-100 -mx-5 my-5" />
-              {/* Both panels stay mounted, stacked in the same grid cell, and slide
-                  fully past each other, each one exiting in the direction the lever
-                  just moved while the other enters from the opposite edge, so the
+              {/* Both panels stay mounted, absolutely stacked on top of each other, and
+                  slide fully past each other, each one exiting in the direction the
+                  lever just moved while the other enters from the opposite edge, so the
                   bottom of the card visibly "follows" the switch instead of hard-
                   cutting between two unrelated pieces of content. Each panel gets an
                   opaque white background so the one sliding in front visibly occludes
@@ -396,19 +475,40 @@ export default function App() {
                   opacity snaps to 1 instantly (no fade-in) while it slides into place;
                   the exiting panel's class list adds `opacity` alongside `transform`,
                   so it fades out as it slides away. Same duration/easing either way —
-                  only which properties animate differs. */}
+                  only which properties animate differs.
+                  `position: absolute` (rather than the earlier CSS-grid overlap) is what
+                  lets the wrapper's own height track only the currently-ACTIVE panel —
+                  an absolutely positioned element doesn't stretch to match a sibling or
+                  feed into a shared auto-height the way overlapping grid items do, so
+                  Strict Pitch Accent no longer inherits Working Terms Range's taller
+                  box (or vice versa) and centers within its own true height instead. */}
               {/* p-3 -m-3: both the working-size slider's and the Strict Pitch Accent
                   checkbox's hover/focus halos (40px circles riding much smaller rows)
                   overshoot their own row by more than this panel's edges leave room
                   for, so `overflow-hidden` (needed below to clip the slide-in animation
-                  horizontally) was clipping the halos too — vertically for the slider,
-                  horizontally for the checkbox (it sits flush against the row's right
-                  edge). Padding pushes the clip boundary out past both halos on every
-                  side; the equal negative margin pulls the box back to its original
-                  footprint so surrounding spacing is unaffected. */}
-              <div className="grid overflow-hidden p-3 -m-3">
+                  horizontally, and now the height animation too) was clipping the halos
+                  too — vertically for the slider, horizontally for the checkbox (it
+                  sits flush against the row's right edge). Padding pushes the clip
+                  boundary out past both halos on every side; the equal negative margin
+                  pulls the box back to its original footprint so surrounding spacing is
+                  unaffected — `PANEL_PADDING` above is this same 12px (`p-3`), added
+                  back into the measured height since padding is real box height.
+                  `left-3 right-3 top-3` on each panel below, not `inset-x-0 top-0`: a
+                  positioned ancestor's padding does NOT inset its absolutely-positioned
+                  children (their containing block is the padding EDGE, i.e. flush with
+                  the inside of the border, same as the border box when there's no
+                  border) — `inset-x-0` here would land each panel 12px further out on
+                  every side than the wrapper's own padded content, ignoring `p-3`
+                  entirely. The explicit `-3` offsets (matching `p-3`'s 12px by value,
+                  not by inheritance) put them back where the padding was supposed to
+                  place them. */}
+              <div
+                className="relative overflow-hidden p-3 -m-3 transition-[height] duration-200 ease-out"
+                style={{ height: panelHeight !== null ? panelHeight + PANEL_PADDING * 2 : undefined }}
+              >
                 <div
-                  className={`col-start-1 row-start-1 bg-white duration-200 ease-out ${
+                  ref={productionPanelRef}
+                  className={`absolute left-3 right-3 top-3 bg-white duration-200 ease-out ${
                     activeMode === 'production'
                       ? 'transition-transform translate-x-0 opacity-100'
                       : 'transition-[transform,opacity] translate-x-full opacity-0 pointer-events-none'
@@ -431,8 +531,8 @@ export default function App() {
                     </div>
                   ) : (
                     <>
-                      <div className="font-normal text-slate-700 mb-1">Working Terms Range</div>
-                      <div className="text-xs text-slate-400 mb-3">How many terms stay active in the rotation at once</div>
+                      <SectionLabel tight>Working Terms Range</SectionLabel>
+                      <HelperText className="mb-3">How many terms stay active in the rotation at once</HelperText>
                       <div className="flex items-center gap-3">
                         <div className="flex-shrink-0 min-w-[2.5rem] text-center bg-slate-100 rounded-lg py-1.5 text-xs font-normal text-slate-800 tabular-nums">
                           {fcMinWorking}
@@ -455,42 +555,21 @@ export default function App() {
                   )}
                 </div>
                 <div
-                  className={`col-start-1 row-start-1 flex items-center justify-between bg-white duration-200 ease-out ${
+                  ref={recognitionPanelRef}
+                  className={`absolute left-3 right-3 top-3 flex items-center justify-between bg-white duration-200 ease-out ${
                     activeMode === 'recognition'
                       ? 'transition-transform translate-x-0 opacity-100'
                       : 'transition-[transform,opacity] -translate-x-full opacity-0 pointer-events-none'
                   }`}
                 >
                   <div>
-                    <div className="font-normal text-slate-700 mb-1">Strict Pitch Accent</div>
-                    <div className="text-xs text-slate-400">Require pitch selection before next question</div>
+                    <SectionLabel tight>Strict Pitch Accent</SectionLabel>
+                    <HelperText>Require pitch selection before next question</HelperText>
                   </div>
                   <MdCheckbox checked={strictPitch} onChange={() => setStrictPitch(!strictPitch)} />
                 </div>
               </div>
-              {/* Verb Form determines what actually gets drilled (both modes read
-                  `useDicForm`), so it lives here with the other drill-affecting
-                  controls rather than in the Glossary card — and unlike the sliding
-                  panel above, it applies to both modes equally, so it's not part of
-                  that slide transition, just a static section below it. Stays visible
-                  (not hidden) whenever a session is active/paused (`fcActive`) — the
-                  chips themselves are disabled instead, visually and functionally: a
-                  paused Production session's vocab reads this setting live, so it still
-                  can't be changed mid-session, but there's no reason to hide the control
-                  entirely to prevent that. */}
-              <div className="border-t border-slate-100 -mx-5 my-5" />
-              <div>
-                <div className="font-normal text-slate-700 mb-3">Verb Form</div>
-                <div className="flex flex-wrap gap-2">
-                  <ChoiceChip selected={!useDicForm} onClick={() => setUseDicForm(false)} disabled={fcActive}>
-                    ます形
-                  </ChoiceChip>
-                  <ChoiceChip selected={useDicForm} onClick={() => setUseDicForm(true)} disabled={fcActive}>
-                    辞書形
-                  </ChoiceChip>
-                </div>
-              </div>
-            </div>
+            </Card>
           </div>
 
         </div>

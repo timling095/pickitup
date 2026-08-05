@@ -17,6 +17,37 @@ A few principles recur across every UI decision in this codebase, worth stating 
 * **Borrowed authority, overridden on contact with reality.** Established design vocabularies (Material Design 2's chips, checkboxes, tab conventions) are a starting point, not a spec. A full MD2 reskin was tried app-wide, didn't hold up, and was rolled back to a near-monochrome slate-and-white system with one accent color — only the components that still worked in isolation were kept.
 * **Structure and behavior are treated as design, not separate from it.** Passes like relocating the Verb Form toggle from the Glossary card to the Drill card (it affects what gets drilled, not what gets browsed), or folding the "session active" state into the same sliding-panel mechanism as everything else instead of a separate hard-cut card, happen in the same breath as visual polish — where a setting lives and what a control actually does are considered alongside how it looks.
 
+## Component & Typography Glossary
+
+Shorthand used throughout this doc (and in conversation) for recurring pieces — most components in this app show up in more than one place, so a shared vocabulary is worth more than another `<h2>` per file.
+
+| Name | What it is |
+|---|---|
+| **Button** | the shared filled `<Button>` (`Button.tsx`) |
+| **Text button** | `<TextButton>` (`Button.tsx`) — unfilled, state-layer only |
+| **Pen button** | the `PenButton` wrapper (`Drills.tsx`) — pen-only press-then-release gating for the Production drill's grading buttons |
+| **Lever** / **Track** | ModeSwitch's sliding slab / the pill groove it rides in (`ModeSwitch.tsx`) |
+| **Halo** | the soft circular glow on hover/press — text buttons, `MdCheckbox`, the slider thumb |
+| **Chip** / **Choice chip** | the pill-shaped selection tokens (`App.tsx`) |
+| **Slider** / **thumb** | `DualRangeSlider` and its draggable dot |
+| **Pitch buttons** | the 0–6 circular keypad in the Recognition drill |
+| **Answer buttons** | the Recognition drill's 6 multiple-choice options |
+| **Card** | the white rounded containers (Glossary Card, Drill Card) |
+| **Sliding panel** | the cross-slide inside the Drill Card (Working Terms Range ↔ Discard Drill, Strict Pitch Accent) |
+| **Terms table** | the Terms Viewer's spreadsheet grid |
+| **Furigana** | `AnnotatedTerm`'s ruby-annotation renderer |
+| **Title button** | the "actionable title" pattern — a card's title that's itself a button (the Glossary button, each side of the Lever) |
+| **Prompt** | the small caption *inside* a title button (e.g. "Tap to start ›") |
+| **Subtitle** | the status line *outside* a title button, below it |
+
+Typography:
+
+| Name | Style | Used for |
+|---|---|---|
+| **Section label** | plain sentence-case, `font-normal text-slate-700` | Lessons, Word Type, Verb Form, Working Terms Range, Strict Pitch Accent |
+| **Helper text** | small gray, `text-xs text-slate-400` | the one-line description under a section label (e.g. "How many terms stay active...") |
+| **Eyebrow label** | small caps, `text-xs uppercase tracking-wider text-slate-400` | the Terms Table's column headers, "Select Pitch Accent", the footer credit |
+
 ## 1. File Architecture & Domain Model
 
 The codebase is structured into cohesive, domain-specific "fat files" to limit import fragmentation and optimize clarity — plus a handful of small, deliberately single-purpose files for controls that are genuinely shared across more than one fat file (a checkbox and a `localStorage` hook don't belong to any one domain, so they don't live in one).

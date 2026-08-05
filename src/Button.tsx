@@ -1,4 +1,5 @@
 import type { PointerEvent, ReactNode } from 'react';
+import { ChevronRight } from 'lucide-react';
 
 // The one shared shape for every non-specialized *filled* button in the app —
 // same height, shadow, and radius everywhere, only the color varies by
@@ -104,5 +105,28 @@ export function TextButton({
     >
       {children}
     </button>
+  );
+}
+
+// The small caption *inside* a title button (e.g. "View Terms ›", "Tap to start ›") —
+// shared between the Glossary card's title button (App.tsx) and each side of the Lever
+// (ModeSwitch.tsx), the two places this "actionable title" pattern shows up. `dim` is
+// the Lever's disabled ("No terms selected") state; `showChevron` hides the chevron
+// alongside it, since there's nothing to navigate to. Purely presentational — a
+// caller that needs the caption to collapse/expand (the Lever's grid-rows trick) wraps
+// this in its own animation plumbing rather than that logic living here.
+export function Prompt({
+  dim = false, showChevron = true, className = '', children
+}: {
+  dim?: boolean,
+  showChevron?: boolean,
+  className?: string,
+  children: ReactNode
+}) {
+  return (
+    <span className={`flex items-center justify-center gap-0.5 text-[10px] font-normal ${dim ? 'text-white/40' : 'text-white/60'} ${className}`}>
+      {children}
+      {showChevron && <ChevronRight size={9} strokeWidth={2} />}
+    </span>
   );
 }
