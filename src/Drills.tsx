@@ -398,8 +398,14 @@ function PenButton({
       }}
       onPointerUp={(e: PointerEvent<HTMLButtonElement>) => {
         if (!validPressRef.current) return;
+        const shouldActivate = e.pointerType === 'pen' || allowMouse;
         cancelPress();
-        if (e.pointerType === 'pen' || allowMouse) onActivate();
+        // Defer onActivate by one animation frame so the press-state clear
+        // (scale-95 → scale-100) is painted before the upstream state change
+        // swaps out the button — without the defer, both land in the same
+        // React render batch and the button flashes its un-pressed (white)
+        // resting style for a single frame before disappearing.
+        if (shouldActivate) requestAnimationFrame(() => onActivate());
       }}
       onPointerCancel={cancelPress}
       onPointerLeave={cancelPress}

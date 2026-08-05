@@ -146,7 +146,7 @@ function ChoiceChip({ selected, onClick, disabled, children }: { selected: boole
 // MdCheckbox, which cross file boundaries.
 function Card({ className = '', children }: { className?: string, children: ReactNode }) {
   return (
-    <div className={`bg-white rounded-3xl p-5 shadow-sm border border-slate-100 ${className}`}>
+    <div className={`bg-white rounded-3xl p-5 pb-6 shadow-sm border border-slate-100 ${className}`}>
       {children}
     </div>
   );
@@ -437,7 +437,7 @@ export default function App() {
                 />
               </div>
               <Subtitle>
-                {fcActive
+                {fcActive && activeMode === 'production'
                   ? `${Object.values(fcSessionLessons).filter(Boolean).length} Lessons • ${Object.values(fcSessionWordTypes).filter(Boolean).length} Word Types Loaded`
                   : 'Load terms from the Glossary'}
               </Subtitle>

@@ -17,8 +17,8 @@ const VARIANT_CLASSES: Record<ButtonVariant, string> = {
   'danger-outline': 'bg-white border-2 border-red-100 text-red-600 hover:bg-red-50',
   'success-outline': 'bg-white border-2 border-green-100 text-green-600 hover:bg-green-50',
   outline: 'bg-white border border-slate-200 text-slate-700 hover:border-slate-400 hover:shadow-sm',
-  correct: 'bg-green-50 border-2 border-green-500 text-green-700 shadow-sm',
-  incorrect: 'bg-red-50 border-2 border-red-500 text-red-700',
+  correct: 'bg-green-50 text-green-700',
+  incorrect: 'bg-red-50 text-red-700',
 };
 
 export function Button({
