@@ -1,12 +1,14 @@
 import { useState, useMemo, useRef, useLayoutEffect, type ReactNode } from 'react';
-import { Check, BookOpen, Trash2 } from 'lucide-react';
+import { Trash2 } from 'lucide-react';
 import { DICTIONARY, useVocabulary, applyVerbForm, filterByWordType } from './dictionary';
 import type { WordType } from './dictionary';
 import { DrillEngine, FlashcardEngine, isMastered } from './Drills';
 import type { FcRecord } from './Drills';
 import { TermsList } from './TermsList';
-import { TextButton, Prompt } from './Button';
+import { TextButton } from './Button';
 import { ModeSwitch } from './ModeSwitch';
+import { ScopeSwitch } from './ScopeSwitch';
+import { SearchSheet } from './SearchSheet';
 import { MdCheckbox } from './MdCheckbox';
 import { useLocalStorage } from './useLocalStorage';
 
@@ -103,20 +105,21 @@ function DualRangeSlider({
 
 // Material Design filter chip: fully-rounded, neutral grayscale in both states — MD2
 // filter chips don't need the primary/accent color at all, and selecting one never
-// inverts its text to white; the darker tonal fill + leading checkmark alone communicate
-// "selected". Used for every multi-select filter control (Lessons, Word Type) so they
+// inverts its text to white; the darker tonal fill alone communicates "selected".
+// No leading checkmark — its presence/absence caused the chip width to shift on toggle.
+// Used for every multi-select filter control (Lessons, Word Type) so they
 // all read as one consistent chip group.
-function Chip({ selected, onClick, children }: { selected: boolean, onClick: () => void, children: ReactNode }) {
+function Chip({ selected, onClick, disabled, children }: { selected: boolean, onClick: () => void, disabled?: boolean, children: ReactNode }) {
   return (
     <button
       onClick={onClick}
-      className={`h-8 px-3 rounded-full text-xs font-medium border transition-colors cursor-pointer inline-flex items-center justify-center gap-1 ${
+      disabled={disabled}
+      className={`h-8 px-3 rounded-full text-xs font-medium border transition-colors cursor-pointer disabled:cursor-not-allowed disabled:opacity-50 inline-flex items-center justify-center ${
         selected
           ? 'bg-slate-200 border-slate-200 text-slate-800'
           : 'bg-white border-slate-300 text-slate-600 hover:bg-slate-50'
       }`}
     >
-      {selected && <Check size={12} strokeWidth={3.5} />}
       {children}
     </button>
   );
@@ -175,6 +178,10 @@ function Subtitle({ children }: { children: ReactNode }) {
 
 export default function App() {
   const [appState, setAppState] = useState<'menu' | 'drill' | 'terms'>('menu');
+  // Global Search's bottom sheet — plain component state, not persisted, since it's a
+  // momentary overlay (pull-to-open on the ScopeSwitch, see below) rather than a real
+  // navigation destination.
+  const [searchSheetOpen, setSearchSheetOpen] = useState(false);
 
   const [activeMode, setActiveMode] = useLocalStorage<'production' | 'recognition'>('nd_activeMode', 'production');
 
@@ -193,11 +200,6 @@ export default function App() {
   const [fcMinWorking, setFcMinWorking] = useLocalStorage('nd_fcMinWorking', 5);
   const [fcMaxWorking, setFcMaxWorking] = useLocalStorage('nd_fcMaxWorking', 10);
   const [fcRecords, setFcRecords] = useLocalStorage<Record<string, FcRecord>>('nd_fcRecords', {});
-  // Snapshot of the filters in effect when the active session was started — kept separate
-  // from the live selectedLessons/selectedWordTypes so editing filters from the home
-  // screen mid-session only affects the Terms Viewer, never the in-progress session.
-  const [fcSessionLessons, setFcSessionLessons] = useLocalStorage<Record<string, boolean>>('nd_fcSessionLessons', selectedLessons);
-  const [fcSessionWordTypes, setFcSessionWordTypes] = useLocalStorage<Record<WordType, boolean>>('nd_fcSessionWordTypes_v2', selectedWordTypes);
 
   // Extract unique lesson IDs from DICTIONARY dynamically
   const lessons = useMemo(() => {
@@ -208,23 +210,20 @@ export default function App() {
   // Filter vocabulary by selected lesson + word type using the query hook (shared across both modes)
   const activeVocab = useVocabulary(selectedLessons);
   const scopedVocab = useMemo(() => filterByWordType(activeVocab, selectedWordTypes), [activeVocab, selectedWordTypes]);
+  // Also what an active/paused Production session drills — the Lessons/Word Type
+  // chips are disabled for the whole lifetime of a session (see the Chip usages
+  // below), so `selectedLessons`/`selectedWordTypes` can no longer drift from what
+  // the session started with. That used to require a separate snapshot
+  // (`fcSessionLessons`/`fcSessionWordTypes`) to protect against; freezing the chips
+  // makes the snapshot redundant, since the live scope IS the session's scope now.
   const displayVocab = useMemo(() => applyVerbForm(scopedVocab, useDicForm), [scopedVocab, useDicForm]);
+  const sessionMasteredCount = useMemo(() => displayVocab.filter(v => isMastered(fcRecords[v.id])).length, [displayVocab, fcRecords]);
 
-  // The active/paused Production session always uses the filters snapshotted at its
-  // start, regardless of what the live filters above are currently set to.
-  const sessionLessonVocab = useVocabulary(fcSessionLessons);
-  const sessionScopedVocab = useMemo(() => filterByWordType(sessionLessonVocab, fcSessionWordTypes), [sessionLessonVocab, fcSessionWordTypes]);
-  const sessionVocab = useMemo(() => applyVerbForm(sessionScopedVocab, useDicForm), [sessionScopedVocab, useDicForm]);
-  const sessionMasteredCount = useMemo(() => sessionVocab.filter(v => isMastered(fcRecords[v.id])).length, [sessionVocab, fcRecords]);
-
-  // Shared by both ModeSwitch instances (Session Status card and Settings card) —
-  // tapping the switch's active side now does what the old Start/Resume Session
+  // Tapping the Lever's active side now does what the old Start/Resume Session
   // button did.
   const handleLaunchSession = () => {
     if (activeMode === 'production' && !fcActive) {
       setFcActive(true);
-      setFcSessionLessons(selectedLessons);
-      setFcSessionWordTypes(selectedWordTypes);
       setFcRecords({});
     }
     setAppState('drill');
@@ -262,7 +261,7 @@ export default function App() {
     return (
       <TermsList
         vocabList={scopedVocab}
-        defaultUseDicForm={useDicForm}
+        defaultUseDicForm={true}
         mode={activeMode}
         sessionActive={fcActive}
         fcRecords={fcRecords}
@@ -278,7 +277,7 @@ export default function App() {
       return (
         <main className="h-[100dvh] overflow-hidden bg-slate-50 p-4 md:p-8 font-sans text-slate-900 flex flex-col w-full max-w-full">
           <FlashcardEngine
-            vocabList={sessionVocab}
+            vocabList={displayVocab}
             minWorking={fcMinWorking}
             maxWorking={fcMaxWorking}
             allowMouse={allowMouse}
@@ -342,32 +341,32 @@ export default function App() {
           {/* Left Column: Lesson Select */}
           <div className="md:col-span-6 space-y-4">
             <Card className="mb-4 relative overflow-hidden">
-              {/* Actionable title: a main title + a small action prompt underneath, both
-                  inside one interactive slab — same treatment (and size) as a single
-                  ModeSwitch lever SIDE, not the full track: bg-slate-800, rounded-xl,
-                  shadow-md, bold label + caption, both centered, at roughly half the
-                  card's width, sitting at the card's left edge — same object, same
-                  proportions, just one action instead of two. The subtitle below it —
-                  which briefly explains what's going on, not what tapping it does —
-                  lives outside the button, left-aligned under it, same mt-3 gap as the
-                  Drill card's subtitle below its lever. */}
-              <button
-                onClick={() => setAppState('terms')}
-                disabled={displayVocab.length === 0}
-                className="w-full h-[62px] rounded-xl bg-slate-800 text-white shadow-md flex flex-col items-center justify-center cursor-pointer active:scale-95 transition disabled:cursor-not-allowed disabled:opacity-70"
-              >
-                <span className="flex items-center gap-1.5 text-base font-medium">
-                  <BookOpen size={18} strokeWidth={2} />
-                  Glossary
-                </span>
-                <Prompt className="mt-0.5">View Terms</Prompt>
-              </button>
+              {/* ScopeSwitch replaces the old plain Glossary title button — same
+                  overshoot-safe py-[9px] wrapper as the Drill card's Lever, for the
+                  same reason (the lever visually overshoots its own track by 9px
+                  top/bottom, which a plain margin on the subtitle below would
+                  partially collapse away against). Subtitle below it is unchanged:
+                  it's about scope configuration, not about which side the lever is
+                  on. */}
+              <div className="py-[9px]">
+                <ScopeSwitch
+                  onOpenScope={() => setAppState('terms')}
+                  onTriggerSearch={() => setSearchSheetOpen(true)}
+                  scopeDisabled={displayVocab.length === 0}
+                />
+              </div>
               <Subtitle>
                 {Object.values(selectedLessons).filter(Boolean).length} Lessons Selected • {displayVocab.length} terms loaded
               </Subtitle>
 
               <div className="border-t border-slate-100 -mx-5 my-5" />
 
+              {/* Frozen (not hidden) while a session is active/paused — same treatment as
+                  Verb Form below. Now that search (Terms Viewer) spans the whole
+                  dictionary regardless of scope, there's no remaining reason to let
+                  Lessons/Word Type drift from what a running session actually locked in,
+                  so freezing them here doubles as the drilling scope's display: what
+                  you see is exactly what's being drilled, no separate summary needed. */}
               <SectionLabel>Lessons</SectionLabel>
               <div className="flex flex-wrap gap-2 mb-7">
                 {lessons.map(lessonId => (
@@ -375,6 +374,7 @@ export default function App() {
                     key={lessonId}
                     selected={!!selectedLessons[lessonId]}
                     onClick={() => setSelectedLessons(prev => ({ ...prev, [lessonId]: !prev[lessonId] }))}
+                    disabled={fcActive}
                   >
                     L{lessonId}
                   </Chip>
@@ -395,6 +395,7 @@ export default function App() {
                       key={key}
                       selected={selectedWordTypes[key]}
                       onClick={() => setSelectedWordTypes(prev => ({ ...prev, [key]: !prev[key] }))}
+                      disabled={fcActive}
                     >
                       {label}
                     </Chip>
@@ -436,11 +437,10 @@ export default function App() {
                   resuming={launchResuming}
                 />
               </div>
-              <Subtitle>
-                {fcActive && activeMode === 'production'
-                  ? `${Object.values(fcSessionLessons).filter(Boolean).length} Lessons • ${Object.values(fcSessionWordTypes).filter(Boolean).length} Word Types Loaded`
-                  : 'Load terms from the Glossary'}
-              </Subtitle>
+              {/* Static regardless of session state — the Lessons/Word Type chips
+                  themselves (frozen while `fcActive`, see below) are now the source of
+                  truth for what's being drilled, so this no longer needs to echo it. */}
+              <Subtitle>Load terms from the Glossary</Subtitle>
               <div className="border-t border-slate-100 -mx-5 my-5" />
               {/* Verb Form sits directly under the title button, ahead of the sliding
                   panel — the sliding panel is the one piece of this card's content that
@@ -516,7 +516,7 @@ export default function App() {
                 >
                   {fcActive ? (
                     <div className="flex items-center justify-between gap-3">
-                      <div className="text-sm text-slate-500 tabular-nums whitespace-nowrap">{sessionMasteredCount} / {sessionVocab.length} mastered</div>
+                      <div className="text-sm text-slate-500 tabular-nums whitespace-nowrap">{sessionMasteredCount} / {displayVocab.length} mastered</div>
                       <TextButton
                         variant="pink"
                         align="end"
@@ -579,6 +579,13 @@ export default function App() {
         </div>
 
       </div>
+
+      <SearchSheet
+        open={searchSheetOpen}
+        onClose={() => setSearchSheetOpen(false)}
+        markedTerms={markedTerms}
+        onToggleMark={(id) => setMarkedTerms(prev => ({ ...prev, [id]: !prev[id] }))}
+      />
     </main>
   );
 }
