@@ -138,12 +138,12 @@ export function SearchSheet({
           <div className="w-10 h-1.5 rounded-full bg-slate-300" />
         </div>
 
-        {/* No outer wrapper padding — the pill itself carries a px-4 inset (not the more
-            typical px-3), matching the table rows' own px-4 exactly, so the search icon
-            lines up directly above "Term" below rather than sitting further right
-            behind a second, nested layer of padding. */}
-        <div className="pb-3 flex-shrink-0">
-          <div className="flex items-center gap-2 bg-slate-100 rounded-xl px-4 h-11">
+        {/* The search box keeps its own fixed px-5 margin regardless of what's below
+            it — its width doesn't move to meet the table. TermsTable's own gutter
+            (px-4 → px-5 when `card={false}`, see TermsTable.tsx) is what adjusts to
+            line "Term" up under the search icon instead. */}
+        <div className="px-5 pb-3 flex-shrink-0">
+          <div className="flex items-center gap-2 bg-slate-100 rounded-xl px-3 h-11">
             <Search size={16} className="text-slate-400 flex-shrink-0" />
             <input
               ref={inputRef}
@@ -167,9 +167,9 @@ export function SearchSheet({
         {/* Word Type facet — a subset of the Home screen's own five, limited to
             whatever's actually present among the current hits. Hidden entirely when
             there's nothing to narrow (no query yet, or every hit is already the same
-            type). */}
+            type). Shares the search box's own px-5 margin, not the table's. */}
         {presentTypes.length > 1 && (
-          <div className="flex flex-wrap gap-2 px-4 pb-3 flex-shrink-0">
+          <div className="flex flex-wrap gap-2 px-5 pb-3 flex-shrink-0">
             {presentTypes.map((t) => (
               <Chip
                 key={t}

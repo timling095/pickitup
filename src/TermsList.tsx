@@ -130,34 +130,40 @@ export const TermsList = ({
           </div>
         </div>
 
-        {/* Phone-only: iPad-width screens show both forms as their own columns in the
-            table below, so there's nothing to toggle there. Hidden whenever a session
-            is active/paused — no changing forms mid-drill. */}
-        {!sessionActive && (
-          <div className="md:hidden mb-6 flex items-center justify-end gap-1">
-            <span className="text-sm font-medium text-slate-600">辞書形</span>
-            <MdCheckbox checked={showDicForm} onChange={() => setShowDicForm(v => !v)} />
+        {/* Search and tense selection encapsulated together — same rounded-2xl card
+            language as the results table below (not the Home screen's rounded-3xl
+            Card), so the two read as an aligned pair stacked on this page rather than
+            two visually unrelated blocks. The search pill reuses SearchSheet's own
+            bg-slate-100 fill (not a bordered white box) so both search entry points —
+            local and global — read as the same control. */}
+        <div className="bg-white rounded-2xl border border-slate-100 shadow-sm p-4 mb-6">
+          <div className="flex items-center gap-2 bg-slate-100 rounded-xl px-3 h-11">
+            <Search size={16} className="text-slate-400 flex-shrink-0" />
+            <input
+              type="text"
+              placeholder="Search within your scope..."
+              value={query}
+              onChange={(e) => setQuery(e.target.value)}
+              className="flex-1 min-w-0 bg-transparent outline-none text-sm text-slate-700 placeholder:text-slate-400"
+            />
+            {query && (
+              <button
+                onClick={() => setQuery('')}
+                className="flex-shrink-0 w-5 h-5 rounded-full bg-slate-300 text-white flex items-center justify-center cursor-pointer hover:bg-slate-400 transition-colors"
+              >
+                <X size={12} strokeWidth={2.5} />
+              </button>
+            )}
           </div>
-        )}
 
-        {/* px-4, matching the table rows' own px-4 exactly (no extra outer padding on
-            either) — that's what keeps "Term" below lined up with the search icon here. */}
-        <div className="bg-white rounded-2xl border border-slate-200 shadow-sm flex items-center px-4 py-3 mb-6 focus-within:border-slate-400 transition-colors">
-          <Search size={18} className="text-slate-400 mr-3 flex-shrink-0" />
-          <input
-            type="text"
-            placeholder="Search within your scope..."
-            value={query}
-            onChange={(e) => setQuery(e.target.value)}
-            className="w-full min-w-0 bg-transparent outline-none text-slate-700 placeholder:text-slate-400"
-          />
-          {query && (
-            <button
-              onClick={() => setQuery('')}
-              className="flex-shrink-0 w-5 h-5 rounded-full bg-slate-300 text-white flex items-center justify-center cursor-pointer hover:bg-slate-400 transition-colors"
-            >
-              <X size={12} strokeWidth={2.5} />
-            </button>
+          {/* Phone-only: iPad-width screens show both forms as their own columns in the
+              table below, so there's nothing to toggle there. Hidden whenever a session
+              is active/paused — no changing forms mid-drill. */}
+          {!sessionActive && (
+            <div className="md:hidden mt-4 flex items-center justify-end gap-1">
+              <span className="text-sm font-medium text-slate-600">辞書形</span>
+              <MdCheckbox checked={showDicForm} onChange={() => setShowDicForm(v => !v)} />
+            </div>
           )}
         </div>
 

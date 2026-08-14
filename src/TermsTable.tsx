@@ -21,13 +21,16 @@ export function TermsTable({
   emptyMessage: string,
   // False when the table's own container is already a surface (SearchSheet's bottom
   // sheet) — skips the card's own bg/border/shadow/rounding, which would otherwise
-  // nest a second, redundant surface inside the first. The header/row structure and
-  // padding are unchanged either way.
+  // nest a second, redundant surface inside the first. Row/header padding shifts along
+  // with it (px-4 → px-5): SearchSheet's search box keeps its own fixed px-5 margin
+  // regardless of what's below it, so it's the table's padding that adjusts to line up
+  // under it, not the other way around.
   card?: boolean
 }) {
+  const gutter = card ? 'px-4' : 'px-5';
   return (
     <div className={card ? 'bg-white rounded-2xl border border-slate-100 shadow-sm overflow-hidden' : ''}>
-      <div className="grid grid-cols-[1fr_1fr_6rem] md:grid-cols-[1fr_1fr_1fr_6rem] gap-4 px-4 py-2 text-[10px] font-bold uppercase tracking-wider text-slate-400 border-b border-slate-100">
+      <div className={`grid grid-cols-[1fr_1fr_6rem] md:grid-cols-[1fr_1fr_1fr_6rem] gap-4 ${gutter} py-2 text-[10px] font-bold uppercase tracking-wider text-slate-400 border-b border-slate-100`}>
         <div>Term</div>
         <div>Meaning</div>
         <div className="hidden md:block">ます形</div>
@@ -53,7 +56,7 @@ export function TermsTable({
             <div
               key={`${v.id}-${i}`}
               onClick={() => onToggleMark(v.id)}
-              className={`grid grid-cols-[1fr_1fr_6rem] md:grid-cols-[1fr_1fr_1fr_6rem] items-center gap-4 px-4 py-3 transition-colors cursor-pointer ${isMarked ? 'bg-md-accent-light' : 'hover:bg-md-accent-light/50'}`}
+              className={`grid grid-cols-[1fr_1fr_6rem] md:grid-cols-[1fr_1fr_1fr_6rem] items-center gap-4 ${gutter} py-3 transition-colors cursor-pointer ${isMarked ? 'bg-md-accent-light' : 'hover:bg-md-accent-light/50'}`}
             >
               {/* Production form (furigana + pitch-accent overline) via AnnotatedTerm
                   replaces the old plain Term + separate Reading columns — the ruby
