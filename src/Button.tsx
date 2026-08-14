@@ -1,5 +1,4 @@
 import type { PointerEvent, ReactNode } from 'react';
-import { ChevronRight } from 'lucide-react';
 
 // The one shared shape for every non-specialized *filled* button in the app —
 // same height, shadow, and radius everywhere, only the color varies by
@@ -82,7 +81,7 @@ export function Button({
       // that faded state on their very first paint, not eased into it from a normal
       // color. 70% keeps enough of the true fill visible to still read as the same
       // button, just muted.
-      className={`${autoHeight ? 'py-3 min-h-11' : 'h-11'} ${fullWidth ? 'w-full' : 'px-4'} rounded-xl font-medium tracking-wide transition shadow-md cursor-pointer ${pressClass} disabled:cursor-not-allowed ${dimOnDisabled ? 'disabled:opacity-70' : ''} inline-flex items-center justify-center gap-2 text-sm select-none ${VARIANT_CLASSES[variant]} ${hoverable ? VARIANT_HOVER_CLASSES[variant] : ''} ${className}`}
+      className={`${autoHeight ? 'py-3 min-h-11' : 'h-11'} ${fullWidth ? 'w-full' : 'px-4'} gap-2 text-sm rounded-xl font-medium tracking-wide transition shadow-md cursor-pointer ${pressClass} disabled:cursor-not-allowed ${dimOnDisabled ? 'disabled:opacity-70' : ''} inline-flex items-center justify-center select-none ${VARIANT_CLASSES[variant]} ${hoverable ? VARIANT_HOVER_CLASSES[variant] : ''} ${className}`}
     >
       {children}
     </button>
@@ -129,32 +128,9 @@ export function TextButton({
     <button
       onClick={onClick}
       disabled={disabled}
-      className={`h-11 px-4 rounded-xl font-medium tracking-wide transition-colors cursor-pointer disabled:cursor-not-allowed disabled:opacity-50 inline-flex items-center justify-center gap-2 text-sm select-none ${TEXT_VARIANT_CLASSES[variant]} ${ALIGN_CLASSES[align]} ${className}`}
+      className={`h-11 px-4 gap-2 text-sm rounded-xl font-medium tracking-wide transition-colors cursor-pointer disabled:cursor-not-allowed disabled:opacity-50 inline-flex items-center justify-center select-none ${TEXT_VARIANT_CLASSES[variant]} ${ALIGN_CLASSES[align]} ${className}`}
     >
       {children}
     </button>
-  );
-}
-
-// The small caption *inside* a title button (e.g. "View Terms ›", "Tap to start ›") —
-// shared between the Glossary card's title button (App.tsx) and each side of the Lever
-// (ModeSwitch.tsx), the two places this "actionable title" pattern shows up. `dim` is
-// the Lever's disabled ("No terms selected") state; `showChevron` hides the chevron
-// alongside it, since there's nothing to navigate to. Purely presentational — a
-// caller that needs the caption to collapse/expand (the Lever's grid-rows trick) wraps
-// this in its own animation plumbing rather than that logic living here.
-export function Prompt({
-  dim = false, showChevron = true, className = '', children
-}: {
-  dim?: boolean,
-  showChevron?: boolean,
-  className?: string,
-  children: ReactNode
-}) {
-  return (
-    <span className={`flex items-center justify-center gap-0.5 text-[10px] font-normal ${dim ? 'text-white/40' : 'text-white/60'} ${className}`}>
-      {children}
-      {showChevron && <ChevronRight size={9} strokeWidth={2} />}
-    </span>
   );
 }

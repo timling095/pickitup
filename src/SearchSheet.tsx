@@ -27,8 +27,8 @@ export function SearchSheet({
   const inputRef = useRef<HTMLInputElement>(null);
 
   // Each open starts from a blank query — a lingering result from three opens ago is
-  // more confusing than a fresh box, and the sheet is quick enough to reach (see
-  // ScopeSwitch's pull-to-search) that retyping a repeat search costs almost nothing.
+  // more confusing than a fresh box, and the sheet is quick enough to reach (a single
+  // tap on the header's Search icon) that retyping a repeat search costs almost nothing.
   // Reset during render (React's documented pattern for "adjust state when a prop
   // changes") rather than in an effect — an effect would set state a frame late,
   // visibly flashing the previous query before it clears.
@@ -56,17 +56,18 @@ export function SearchSheet({
     );
   }, [query]);
 
-  // Word Type facet — only ever shows the buckets actually present among the current
-  // hits (a chip for a type with nothing behind it isn't a filter, just clutter), and
-  // resets to "everything on" each time the query itself changes, same render-time
-  // adjustment pattern as the query reset above.
+  // Word Type facet — all five chips stay under the search bar permanently, same set
+  // the Home screen's own Word Type chips offer, rather than the row appearing or
+  // individual chips vanishing depending on the query. Once there's a query, whichever
+  // types have zero hits get disabled instead of removed — still visible, so the row's
+  // shape never shifts, just not tappable until a query brings that type back. Before
+  // any query is typed nothing is disabled: there's nothing to narrow yet. Selection
+  // persists across queries rather than resetting each time — a search narrowed to just
+  // Verbs stays narrowed to Verbs for the next query too, the same way a shopping filter
+  // stays applied until you change it yourself.
   const presentTypes = useMemo(() => presentWordTypes(allHits), [allHits]);
+  const presentTypeSet = useMemo(() => new Set(presentTypes), [presentTypes]);
   const [selectedTypes, setSelectedTypes] = useState<Record<WordType, boolean>>(ALL_TYPES_SELECTED);
-  const [prevQuery, setPrevQuery] = useState(query);
-  if (query !== prevQuery) {
-    setPrevQuery(query);
-    setSelectedTypes(ALL_TYPES_SELECTED);
-  }
 
   const results = useMemo(() => {
     const filtered = allHits.filter(v => selectedTypes[wordTypeOf(v)]);
@@ -117,17 +118,18 @@ export function SearchSheet({
         }`}
         onClick={onClose}
       />
-      {/* Sheet — full height from the moment it opens: with the on-screen keyboard up
-          for most of this screen's actual use, vertical room is the scarce resource,
-          so there's no reason to hold any of it back. The result list below is the
-          only flexible piece (`flex-1 min-h-0`), filling whatever's left under the
-          fixed handle/search/facet rows. */}
+      {/* Sheet — full height (minus a 16px top inset, so it never quite touches the
+          status bar) from the moment it opens: with the on-screen keyboard up for most
+          of this screen's actual use, vertical room is the scarce resource, so there's
+          no reason to hold any of it back. The result list below is the only flexible
+          piece (`flex-1 min-h-0`), filling whatever's left under the fixed handle/
+          search/facet rows. */}
       <div
         className={`fixed inset-x-0 bottom-0 z-50 bg-white rounded-t-3xl shadow-2xl flex flex-col ${
           isDraggingSheet ? '' : 'transition-transform duration-250 ease-out'
         } ${open ? '' : 'translate-y-full'}`}
         style={{
-          height: '100dvh',
+          height: 'calc(100dvh - 16px)',
           transform: open && dragY > 0 ? `translateY(${dragY}px)` : undefined
         }}
       >
@@ -164,25 +166,23 @@ export function SearchSheet({
           </div>
         </div>
 
-        {/* Word Type facet — a subset of the Home screen's own five, limited to
-            whatever's actually present among the current hits. Hidden entirely when
-            there's nothing to narrow (no query yet, or every hit is already the same
-            type). Shares the search box's own px-5 margin, not the table's. */}
-        {presentTypes.length > 1 && (
-          <div className="flex flex-wrap gap-2 px-5 pb-3 flex-shrink-0">
-            {presentTypes.map((t) => (
-              <Chip
-                key={t}
-                selected={selectedTypes[t]}
-                onClick={() => setSelectedTypes(prev => ({ ...prev, [t]: !prev[t] }))}
-              >
-                {WORD_TYPE_LABELS[t]}
-              </Chip>
-            ))}
-          </div>
-        )}
+        {/* Word Type facet — always all five, always here (see the comment above
+            `presentTypeSet`). Shares the search box's own px-5 margin, not the
+            table's. */}
+        <div className="flex flex-wrap gap-2 px-5 pb-3 flex-shrink-0">
+          {(Object.keys(WORD_TYPE_LABELS) as WordType[]).map((t) => (
+            <Chip
+              key={t}
+              selected={selectedTypes[t]}
+              onClick={() => setSelectedTypes(prev => ({ ...prev, [t]: !prev[t] }))}
+              disabled={query.trim() !== '' && !presentTypeSet.has(t)}
+            >
+              {WORD_TYPE_LABELS[t]}
+            </Chip>
+          ))}
+        </div>
 
-        <div className="flex-1 min-h-0 overflow-y-auto overscroll-contain pb-8">
+        <div className="flex-1 min-h-0 overflow-y-auto overscroll-contain pt-4 pb-8">
           <TermsTable
             vocab={results}
             showDicForm

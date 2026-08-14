@@ -67,12 +67,13 @@ export const TermsList = ({
     );
   }, [vocabList, query]);
 
-  // Word Type facet — a subset of whatever's actually present among the current
-  // search hits (or the full scope, with an empty query), same as SearchSheet's
-  // version, and reset to "everything on" each time the query changes for the same
-  // reason: a stale narrower selection from a previous query may not even apply to
-  // the new one's types.
+  // Word Type facet — all five chips stay put, same as SearchSheet's version; whichever
+  // types have nothing behind them in the current search hits (or the full scope, with
+  // an empty query) get disabled rather than removed. Selection resets to "everything
+  // on" each time the query changes — a stale narrower selection from a previous query
+  // may not even apply to the new one's types.
   const presentTypes = useMemo(() => presentWordTypes(searchedVocab), [searchedVocab]);
+  const presentTypeSet = useMemo(() => new Set(presentTypes), [presentTypes]);
   const [selectedTypes, setSelectedTypes] = useState<Record<WordType, boolean>>(ALL_TYPES_SELECTED);
   const [prevQuery, setPrevQuery] = useState(query);
   if (query !== prevQuery) {
@@ -130,12 +131,12 @@ export const TermsList = ({
           </div>
         </div>
 
-        {/* Search and tense selection encapsulated together — same rounded-2xl card
-            language as the results table below (not the Home screen's rounded-3xl
-            Card), so the two read as an aligned pair stacked on this page rather than
-            two visually unrelated blocks. The search pill reuses SearchSheet's own
-            bg-slate-100 fill (not a bordered white box) so both search entry points —
-            local and global — read as the same control. */}
+        {/* Search, the Word Type facet, and tense selection all encapsulated together —
+            same rounded-2xl card language as the results table below (not the Home
+            screen's rounded-3xl Card), so this reads as one aligned block stacked above
+            it rather than several unrelated pieces. The search pill reuses SearchSheet's
+            own bg-slate-100 fill (not a bordered white box) so both search entry points
+            — local and global — read as the same control. */}
         <div className="bg-white rounded-2xl border border-slate-100 shadow-sm p-4 mb-6">
           <div className="flex items-center gap-2 bg-slate-100 rounded-xl px-3 h-11">
             <Search size={16} className="text-slate-400 flex-shrink-0" />
@@ -156,6 +157,20 @@ export const TermsList = ({
             )}
           </div>
 
+          {/* Word Type facet — always all five, same as SearchSheet's version. */}
+          <div className="flex flex-wrap gap-2 mt-4">
+            {(Object.keys(WORD_TYPE_LABELS) as WordType[]).map((t) => (
+              <Chip
+                key={t}
+                selected={selectedTypes[t]}
+                onClick={() => setSelectedTypes(prev => ({ ...prev, [t]: !prev[t] }))}
+                disabled={!presentTypeSet.has(t)}
+              >
+                {WORD_TYPE_LABELS[t]}
+              </Chip>
+            ))}
+          </div>
+
           {/* Phone-only: iPad-width screens show both forms as their own columns in the
               table below, so there's nothing to toggle there. Hidden whenever a session
               is active/paused — no changing forms mid-drill. */}
@@ -166,22 +181,6 @@ export const TermsList = ({
             </div>
           )}
         </div>
-
-        {/* Word Type facet — hidden entirely when the current hits only ever
-            contain one type to begin with, same as SearchSheet's version. */}
-        {presentTypes.length > 1 && (
-          <div className="flex flex-wrap gap-2 mb-6">
-            {presentTypes.map((t) => (
-              <Chip
-                key={t}
-                selected={selectedTypes[t]}
-                onClick={() => setSelectedTypes(prev => ({ ...prev, [t]: !prev[t] }))}
-              >
-                {WORD_TYPE_LABELS[t]}
-              </Chip>
-            ))}
-          </div>
-        )}
 
         <div className="mb-12">
           <TermsTable
