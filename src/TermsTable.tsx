@@ -1,4 +1,3 @@
-import { ArrowUpDown } from 'lucide-react';
 import type { Vocabulary } from './dictionary';
 import { posLabel } from './dictionary';
 import { AnnotatedTerm } from './Drills';
@@ -13,29 +12,26 @@ import { AnnotatedTerm } from './Drills';
 // ます形 instead, and stays empty for anything without a distinct dictionary form
 // (non-verbs, or verbs missing the data), same as the secondary column always has.
 export function TermsTable({
-  vocab, showDicForm, sortByForm, onToggleSortByForm, markedTerms, onToggleMark, emptyMessage
+  vocab, showDicForm, markedTerms, onToggleMark, emptyMessage, card = true
 }: {
   vocab: Vocabulary[],
   showDicForm: boolean,
-  sortByForm: boolean,
-  onToggleSortByForm: () => void,
   markedTerms: Record<string, boolean>,
   onToggleMark: (id: string) => void,
-  emptyMessage: string
+  emptyMessage: string,
+  // False when the table's own container is already a surface (SearchSheet's bottom
+  // sheet) — skips the card's own bg/border/shadow/rounding, which would otherwise
+  // nest a second, redundant surface inside the first. The header/row structure and
+  // padding are unchanged either way.
+  card?: boolean
 }) {
   return (
-    <div className="bg-white rounded-2xl border border-slate-100 shadow-sm overflow-hidden">
+    <div className={card ? 'bg-white rounded-2xl border border-slate-100 shadow-sm overflow-hidden' : ''}>
       <div className="grid grid-cols-[1fr_1fr_6rem] md:grid-cols-[1fr_1fr_1fr_6rem] gap-4 px-4 py-2 text-[10px] font-bold uppercase tracking-wider text-slate-400 border-b border-slate-100">
         <div>Term</div>
         <div>Meaning</div>
         <div className="hidden md:block">ます形</div>
-        <button
-          onClick={onToggleSortByForm}
-          className={`flex items-center justify-end gap-1 transition-colors cursor-pointer ${sortByForm ? 'text-slate-600' : 'hover:text-slate-600'}`}
-        >
-          Form
-          <ArrowUpDown size={10} className={sortByForm ? 'opacity-100' : 'opacity-40'} />
-        </button>
+        <div className="text-right">Form</div>
       </div>
       <div className="divide-y divide-slate-100">
         {vocab.map((v, i) => {
@@ -68,10 +64,10 @@ export function TermsTable({
                   terms with no recorded dictionary form. */}
               <div className="min-w-0 text-2xl text-slate-800" title={v.term}>
                 <div className="md:hidden">
-                  <AnnotatedTerm term={phoneTerm} reading={phoneReading} pitch={phonePitch} affixType={v.affix_type} compact />
+                  <AnnotatedTerm term={phoneTerm} reading={phoneReading} pitch={phonePitch} affixType={v.affix_type} />
                 </div>
                 <div className="hidden md:block">
-                  <AnnotatedTerm term={primaryTerm.term} reading={primaryTerm.reading} pitch={primaryTerm.pitch_accent} affixType={v.affix_type} compact />
+                  <AnnotatedTerm term={primaryTerm.term} reading={primaryTerm.reading} pitch={primaryTerm.pitch_accent} affixType={v.affix_type} />
                 </div>
               </div>
               {/* text-base: matches Term's actual *rendered* glyph size — AnnotatedTerm
@@ -82,7 +78,7 @@ export function TermsTable({
               </div>
               <div className="hidden md:block min-w-0 text-2xl text-slate-800">
                 {dicForm && (
-                  <AnnotatedTerm term={v.term} reading={v.reading} pitch={v.pitch_accent} affixType={v.affix_type} compact />
+                  <AnnotatedTerm term={v.term} reading={v.reading} pitch={v.pitch_accent} affixType={v.affix_type} />
                 )}
               </div>
               <div className="text-xs text-slate-400 text-right truncate" title={posLabel(v)}>

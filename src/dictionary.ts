@@ -80,21 +80,30 @@ export function posLabel(v: Vocabulary): string {
   return POS_LABELS[v.pos];
 }
 
-// Fixed display/sort order for the Terms Viewer's form-sort toggle — the five
-// filter-chip categories first (in the same order the Word Type chips use),
-// then the remaining pos values that only ever show up in the "Others" bucket.
-const POS_ORDER: PosType[] = [
-  'verb', 'na_adj', 'i_adj', 'noun',
-  'adverb', 'pronoun', 'interjection', 'conjunction',
-  'pre_noun', 'counter', 'prefix', 'suffix', 'phrase', 'other'
-];
-
-export function posRank(v: Vocabulary): number {
-  return POS_ORDER.indexOf(v.pos);
-}
-
 export function filterByWordType(vocabList: Vocabulary[], selectedWordTypes: Record<WordType, boolean>): Vocabulary[] {
   return vocabList.filter(v => selectedWordTypes[wordTypeOf(v)]);
+}
+
+// Same short English labels the Home screen's Word Type chips use, shared so every
+// word-type chip in the app (Home's own scope chips, and the per-screen Word Type
+// facets in TermsList.tsx/SearchSheet.tsx) reads identically.
+export const WORD_TYPE_LABELS: Record<WordType, string> = {
+  verb: 'Verbs',
+  na_adj: 'な-adj',
+  i_adj: 'い-adj',
+  noun: 'Nouns',
+  other: 'Others',
+};
+
+const WORD_TYPE_ORDER: WordType[] = ['verb', 'na_adj', 'i_adj', 'noun', 'other'];
+
+// Which of the five word-type buckets actually appear in a list — the facet chips in
+// TermsList/SearchSheet only ever show options relevant to what's currently in view
+// (the current scope, or the current search hits) rather than always all five, since
+// an option with nothing behind it isn't a filter, just clutter.
+export function presentWordTypes(vocabList: Vocabulary[]): WordType[] {
+  const present = new Set(vocabList.map(wordTypeOf));
+  return WORD_TYPE_ORDER.filter(t => present.has(t));
 }
 
 // For verbs with a recorded dictionary (辞書形) form, swaps term/reading/pitch_accent

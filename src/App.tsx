@@ -1,11 +1,12 @@
 import { useState, useMemo, useRef, useLayoutEffect, type ReactNode } from 'react';
 import { Trash2 } from 'lucide-react';
-import { DICTIONARY, useVocabulary, applyVerbForm, filterByWordType } from './dictionary';
+import { DICTIONARY, useVocabulary, applyVerbForm, filterByWordType, WORD_TYPE_LABELS } from './dictionary';
 import type { WordType } from './dictionary';
 import { DrillEngine, FlashcardEngine, isMastered } from './Drills';
 import type { FcRecord } from './Drills';
 import { TermsList } from './TermsList';
 import { TextButton } from './Button';
+import { Chip } from './Chip';
 import { ModeSwitch } from './ModeSwitch';
 import { ScopeSwitch } from './ScopeSwitch';
 import { SearchSheet } from './SearchSheet';
@@ -100,28 +101,6 @@ function DualRangeSlider({
         style={{ left: `${fracMax * 100}%`, top: '50%', transform: 'translate(-50%, -50%)', zIndex: maxZ }}
       />
     </div>
-  );
-}
-
-// Material Design filter chip: fully-rounded, neutral grayscale in both states — MD2
-// filter chips don't need the primary/accent color at all, and selecting one never
-// inverts its text to white; the darker tonal fill alone communicates "selected".
-// No leading checkmark — its presence/absence caused the chip width to shift on toggle.
-// Used for every multi-select filter control (Lessons, Word Type) so they
-// all read as one consistent chip group.
-function Chip({ selected, onClick, disabled, children }: { selected: boolean, onClick: () => void, disabled?: boolean, children: ReactNode }) {
-  return (
-    <button
-      onClick={onClick}
-      disabled={disabled}
-      className={`h-8 px-3 rounded-full text-xs font-medium border transition-colors cursor-pointer disabled:cursor-not-allowed disabled:opacity-50 inline-flex items-center justify-center ${
-        selected
-          ? 'bg-slate-200 border-slate-200 text-slate-800'
-          : 'bg-white border-slate-300 text-slate-600 hover:bg-slate-50'
-      }`}
-    >
-      {children}
-    </button>
   );
 }
 
@@ -384,20 +363,14 @@ export default function App() {
               <div>
                 <SectionLabel>Word Type</SectionLabel>
                 <div className="flex flex-wrap gap-2">
-                  {([
-                    { key: 'verb',   label: 'Verbs' },
-                    { key: 'na_adj', label: 'な-adj' },
-                    { key: 'i_adj',  label: 'い-adj' },
-                    { key: 'noun',   label: 'Nouns' },
-                    { key: 'other',  label: 'Others' },
-                  ] as const).map(({ key, label }) => (
+                  {(Object.keys(WORD_TYPE_LABELS) as WordType[]).map((key) => (
                     <Chip
                       key={key}
                       selected={selectedWordTypes[key]}
                       onClick={() => setSelectedWordTypes(prev => ({ ...prev, [key]: !prev[key] }))}
                       disabled={fcActive}
                     >
-                      {label}
+                      {WORD_TYPE_LABELS[key]}
                     </Chip>
                   ))}
                 </div>

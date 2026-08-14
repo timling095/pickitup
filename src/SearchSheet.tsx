@@ -1,14 +1,20 @@
 import { useEffect, useMemo, useRef, useState, type PointerEvent as ReactPointerEvent } from 'react';
 import { Search, X } from 'lucide-react';
-import { DICTIONARY } from './dictionary';
+import { DICTIONARY, wordTypeOf, presentWordTypes, WORD_TYPE_LABELS } from './dictionary';
+import type { WordType } from './dictionary';
 import { TermsTable } from './TermsTable';
+import { Chip } from './Chip';
+
+const ALL_TYPES_SELECTED: Record<WordType, boolean> = { verb: true, na_adj: true, i_adj: true, noun: true, other: true };
 
 // Material Design 2 bottom sheet — the Global Search surface. Search here spans the
 // whole dictionary regardless of the Lessons/Word Type scope — the Filter screen
 // (TermsList.tsx) is the counterpart that keeps the chips/tabs and stays scoped. Both
 // share the exact same result-table column style (TermsTable.tsx): 辞書形/ます形/
 // Meaning/Form, both forms shown side by side — there's no separate tense toggle here
-// anymore, since showing both makes picking one pointless.
+// anymore, since showing both makes picking one pointless. `card={false}` on
+// TermsTable below drops its own bg/border/shadow — the sheet itself is already the
+// surface, so a card nested inside it would just be a redundant second one.
 export function SearchSheet({
   open, onClose, markedTerms, onToggleMark
 }: {
@@ -18,7 +24,6 @@ export function SearchSheet({
   onToggleMark: (id: string) => void
 }) {
   const [query, setQuery] = useState('');
-  const [sortByForm, setSortByForm] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
 
   // Each open starts from a blank query — a lingering result from three opens ago is
@@ -39,7 +44,7 @@ export function SearchSheet({
     return () => clearTimeout(t);
   }, [open]);
 
-  const results = useMemo(() => {
+  const allHits = useMemo(() => {
     const q = query.trim().toLowerCase();
     if (!q) return [];
     return DICTIONARY.filter(v =>
@@ -48,11 +53,28 @@ export function SearchSheet({
       v.definition.toLowerCase().includes(q) ||
       (v.dic_form?.toLowerCase().includes(q) ?? false) ||
       (v.dic_form_reading?.toLowerCase().includes(q) ?? false)
-      // Capped — a one- or two-character query against the whole dictionary can
-      // match hundreds of entries, and nobody scrolls past the first screenful
-      // of a lookup anyway.
-    ).slice(0, 80);
+    );
   }, [query]);
+
+  // Word Type facet — only ever shows the buckets actually present among the current
+  // hits (a chip for a type with nothing behind it isn't a filter, just clutter), and
+  // resets to "everything on" each time the query itself changes, same render-time
+  // adjustment pattern as the query reset above.
+  const presentTypes = useMemo(() => presentWordTypes(allHits), [allHits]);
+  const [selectedTypes, setSelectedTypes] = useState<Record<WordType, boolean>>(ALL_TYPES_SELECTED);
+  const [prevQuery, setPrevQuery] = useState(query);
+  if (query !== prevQuery) {
+    setPrevQuery(query);
+    setSelectedTypes(ALL_TYPES_SELECTED);
+  }
+
+  const results = useMemo(() => {
+    const filtered = allHits.filter(v => selectedTypes[wordTypeOf(v)]);
+    // Capped after filtering, not before — a broad query narrowed down to one word
+    // type should still fill the screen with matches of that type, not just whatever
+    // happened to be in the first 80 raw hits.
+    return filtered.slice(0, 80);
+  }, [allHits, selectedTypes]);
 
   // Swipe-down-to-dismiss on the handle, standard MD2 bottom sheet behavior.
   // `dragY` is the live pixel offset while dragging; released past
@@ -95,17 +117,17 @@ export function SearchSheet({
         }`}
         onClick={onClose}
       />
-      {/* Sheet — a fixed height from the moment it opens, not a max-height that shrinks
-          to fit however many results there are: a sheet that grows/shrinks as you type
-          reads as unstable, and the empty space for a short result list is a smaller
-          cost than that jitter. The result list below is the only flexible piece
-          (`flex-1 min-h-0`), filling whatever's left under the fixed handle+search row. */}
+      {/* Sheet — full height from the moment it opens: with the on-screen keyboard up
+          for most of this screen's actual use, vertical room is the scarce resource,
+          so there's no reason to hold any of it back. The result list below is the
+          only flexible piece (`flex-1 min-h-0`), filling whatever's left under the
+          fixed handle/search/facet rows. */}
       <div
         className={`fixed inset-x-0 bottom-0 z-50 bg-white rounded-t-3xl shadow-2xl flex flex-col ${
           isDraggingSheet ? '' : 'transition-transform duration-250 ease-out'
         } ${open ? '' : 'translate-y-full'}`}
         style={{
-          height: '85dvh',
+          height: '100dvh',
           transform: open && dragY > 0 ? `translateY(${dragY}px)` : undefined
         }}
       >
@@ -116,8 +138,12 @@ export function SearchSheet({
           <div className="w-10 h-1.5 rounded-full bg-slate-300" />
         </div>
 
-        <div className="px-5 pb-3 flex-shrink-0">
-          <div className="flex items-center gap-2 bg-slate-100 rounded-xl px-3 h-11">
+        {/* No outer wrapper padding — the pill itself carries a px-4 inset (not the more
+            typical px-3), matching the table rows' own px-4 exactly, so the search icon
+            lines up directly above "Term" below rather than sitting further right
+            behind a second, nested layer of padding. */}
+        <div className="pb-3 flex-shrink-0">
+          <div className="flex items-center gap-2 bg-slate-100 rounded-xl px-4 h-11">
             <Search size={16} className="text-slate-400 flex-shrink-0" />
             <input
               ref={inputRef}
@@ -138,15 +164,32 @@ export function SearchSheet({
           </div>
         </div>
 
-        <div className="flex-1 min-h-0 overflow-y-auto overscroll-contain px-5 pb-8">
+        {/* Word Type facet — a subset of the Home screen's own five, limited to
+            whatever's actually present among the current hits. Hidden entirely when
+            there's nothing to narrow (no query yet, or every hit is already the same
+            type). */}
+        {presentTypes.length > 1 && (
+          <div className="flex flex-wrap gap-2 px-4 pb-3 flex-shrink-0">
+            {presentTypes.map((t) => (
+              <Chip
+                key={t}
+                selected={selectedTypes[t]}
+                onClick={() => setSelectedTypes(prev => ({ ...prev, [t]: !prev[t] }))}
+              >
+                {WORD_TYPE_LABELS[t]}
+              </Chip>
+            ))}
+          </div>
+        )}
+
+        <div className="flex-1 min-h-0 overflow-y-auto overscroll-contain pb-8">
           <TermsTable
             vocab={results}
             showDicForm
-            sortByForm={sortByForm}
-            onToggleSortByForm={() => setSortByForm(s => !s)}
             markedTerms={markedTerms}
             onToggleMark={onToggleMark}
             emptyMessage={query.trim() === '' ? 'Search across every lesson, not just your current scope.' : 'No terms match your search.'}
+            card={false}
           />
         </div>
       </div>

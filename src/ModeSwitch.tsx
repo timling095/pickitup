@@ -1,17 +1,7 @@
 import { useRef, useState, type PointerEvent } from 'react';
 import { PenLine, Eye } from 'lucide-react';
 import { Prompt } from './Button';
-
-// slate-500 (inactive label color) <-> white (active), blended by `t` (0-1).
-// A plain RGB lerp rather than `color-mix()` so this stays trivially
-// predictable — no interpolation-space surprises — for a value that's
-// recomputed on every pointermove during a drag.
-const INACTIVE_RGB: [number, number, number] = [100, 116, 139];
-function lerpLabelColor(t: number): string {
-  const clamped = Math.min(1, Math.max(0, t));
-  const [r, g, b] = INACTIVE_RGB.map(c => Math.round(c + clamped * (255 - c)));
-  return `rgb(${r}, ${g}, ${b})`;
-}
+import { lerpLabelColor } from './leverColor';
 
 // Mode switch: DualRangeSlider's overshoot trick pushed into an actual hardware
 // toggle that now also *launches*. The lever is `bg-slate-800` — this app's one
@@ -314,8 +304,12 @@ export function ModeSwitch({
       {renderSide('production', PenLine, 'Production')}
       {renderSide('recognition', Eye, 'Recognition')}
       <div
+        // duration-150 + a "back" cubic-bezier (overshoots past the target before
+        // settling) reads as a much more forceful snap than a plain ease-out — the
+        // lever visibly punches past its resting spot by a hair and rebounds, instead
+        // of gliding smoothly to a stop.
         className={`absolute rounded-xl bg-slate-800 shadow-md pointer-events-none ${
-          dragFrac === null ? 'transition-all duration-200 ease-out' : ''
+          dragFrac === null ? 'transition-all duration-150 ease-[cubic-bezier(0.34,1.56,0.64,1)]' : ''
         } ${
           activeMode === 'production' ? 'peer-active/production:scale-95' : 'peer-active/recognition:scale-95'
         } ${launchDisabled ? 'opacity-70' : ''}`}

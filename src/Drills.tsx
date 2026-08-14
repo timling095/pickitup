@@ -113,16 +113,16 @@ export const AnnotatedReading = ({ reading, pitch, affixType = 'none' }: { readi
 // === AnnotatedTerm (furigana) ===
 // ==========================================
 
-// `compact`: tightens the furigana-to-kanji gap (used by the Terms List's dense table
-// rows) — the default 0.2em gap was tuned for the Drills' large-scale prompt display,
-// where more breathing room reads fine; in a compact table row the same gap reads as
-// oddly floating.
-export const AnnotatedTerm = ({ term, reading, pitch, affixType = 'none', compact = false }: { term: string, reading: string, pitch: number, affixType?: AffixType, compact?: boolean }) => {
+// Furigana sits tight against the kanji it annotates — a negative margin pulls the
+// <rt> reading down into (near-)contact with the term's own glyphs rather than
+// floating above with a visible gap.
+const RUBY_GAP = '-0.8em';
+
+export const AnnotatedTerm = ({ term, reading, pitch, affixType = 'none' }: { term: string, reading: string, pitch: number, affixType?: AffixType }) => {
   const segments = segmentTerm(term);
   const hasKanji = segments.some(s => s.isKanji);
   const morae = getMorae(reading);
   const isAccented = pitch > 0 && pitch <= morae.length;
-  const rubyGap = compact ? '0em' : '0.05em';
 
   let content: ReactNode;
 
@@ -147,7 +147,7 @@ export const AnnotatedTerm = ({ term, reading, pitch, affixType = 'none', compac
       content = (
         <ruby>
           <span style={termScaleStyle}>{term}</span>
-          <rt className="text-[0.4em] leading-none" style={{ marginBottom: rubyGap }}>{renderMoraeSlice(morae, 0, pitch, isAccented)}</rt>
+          <rt className="text-[0.4em] leading-none" style={{ marginBottom: RUBY_GAP }}>{renderMoraeSlice(morae, 0, pitch, isAccented)}</rt>
         </ruby>
       );
     } else {
@@ -161,7 +161,7 @@ export const AnnotatedTerm = ({ term, reading, pitch, affixType = 'none', compac
           return (
             <ruby key={i}>
               <span style={termScaleStyle}>{seg.text}</span>
-              <rt className="text-[0.4em] leading-none" style={{ marginBottom: rubyGap }}>{renderMoraeSlice(segMorae, startIdx, pitch, isAccented)}</rt>
+              <rt className="text-[0.4em] leading-none" style={{ marginBottom: RUBY_GAP }}>{renderMoraeSlice(segMorae, startIdx, pitch, isAccented)}</rt>
             </ruby>
           );
         }
@@ -479,7 +479,7 @@ export const ProductionDrill = ({
             <span style={{ fontFamily: '"Noto Serif TC", serif' }}>{prompt}</span>
             {revealed && (
               <div className="absolute left-full ml-12 top-1/2 -translate-y-1/2 text-5xl font-light text-slate-800 whitespace-nowrap animate-fade-in flex items-baseline gap-1">
-                <AnnotatedTerm term={vocab.term} reading={vocab.reading} pitch={vocab.pitch_accent} affixType={vocab.affix_type} compact />
+                <AnnotatedTerm term={vocab.term} reading={vocab.reading} pitch={vocab.pitch_accent} affixType={vocab.affix_type} />
               </div>
             )}
           </div>
